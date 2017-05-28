@@ -304,9 +304,11 @@ killgpga()
 
 printersetup()
 {
-    a=$(avahi-browse -tr "_http._tcp" -p | \
+    a=$(avahi-browse -tkr "_http._tcp" -p | \
         grep '^=' --color=never | \
         cut -d \; -f 7)
-    xdg-open "http://$a"
+    echo $a | while read i; do
+        xdg-open "http://$i"
+    done
 }
 
