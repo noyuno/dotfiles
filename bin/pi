@@ -44,6 +44,20 @@ server_tokens off;
 
 server {
     listen 80;
+    server_name $domain;
+    charset UTF-8;
+
+    location / {
+        root /var/www/html;
+    }
+
+    location ~ /\.git {
+      deny all;
+    }
+}
+
+server {
+    listen 80;
     #listen 443 ssl;
     server_name git.$domain;
     
@@ -109,14 +123,15 @@ ExecStart=$target/run.sh
 WantedBy=multi-user.target
 EOF
 
-    cat << EOF | sudo tee $target/run.sh
-#!/bin/sh -e
-(
-/usr/bin/java -jar $target/gitbucket.war --port=8080 \\
-    --gitbucket.home=$target/repo
-) >>/var/log/gitbucket.log 2>&1
-EOF
-    dfx sudo chmod +x $target/run.sh
+# hooks does not work...
+#    cat << EOF | sudo tee $target/run.sh
+##!/bin/sh -e
+#(
+#/usr/bin/java -jar $target/gitbucket.war --port=8080 \\
+#    --gitbucket.home=$target/repo
+#) >>/var/log/gitbucket.log 2>&1
+#EOF
+#    dfx sudo chmod +x $target/run.sh
 
     cat << EOF | sudo tee /etc/logrotate.d/gitbucket
 /var/log/gitbucket.log {
@@ -187,6 +202,41 @@ gitbucket_plugins()
     dfx sudo chown -R $user:$user $plugins
     dfx sudo systemctl restart gitbucket.service
 }
+
+# hooks does not work
+#gitsite()
+#{
+#    siteroot=/var/www/html
+#    bare=$target/repo/repositories/noyuno/site.git
+#    dfx sudo mkdir -p /var/log/git
+#    dfx sudo chown git:git /var/log/git
+#    if [ -e $bare ]; then
+#        if [ -e $siteroot ]; then
+#            dfx pushd $siteroot
+#                dfx sudo git pull origin master
+#            dfx popd
+#        else
+#            dfx sudo git clone $bare $siteroot
+#        fi
+#
+#        dfx sudo chown -R git:git $siteroot
+#
+#        cat << EOF | sudo -u git tee $bare/hooks/post-receive
+##!/bin/bash -e
+#
+#(
+#cd /var/www/html
+#git pull origin master
+#)>/var/log/git/site-post-receive 2>&1
+#EOF
+#        dfx sudo -u git chmod +x $bare/hooks/post-receive
+#
+#        com="$siteroot/bin/anime-refresh-local"
+#        job="5 20 * * * $com"
+#        cat <(fgrep -i -v "$com" <(sudo crontab -u git -l)) <(echo "$job") | \
+#            sudo crontab -u git -
+#    fi
+#}
 
 ssl()
 {
