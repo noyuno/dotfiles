@@ -63,3 +63,5 @@
 	fsckObjects = yes
 [fetch]
 	fsckobjects = false
+[credential]
+	helper = cache --timeout=3600000
