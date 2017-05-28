@@ -191,5 +191,8 @@ PERL_MB_OPT="--install_base \"/home/noyuno/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/noyuno/perl5"; export PERL_MM_OPT;
 
 #ruby
-eval "$(rbenv init -)"
+which rbenv 1>/dev/null 2>&1 &&:
+if [ $? -eq 0 ]; then
+    eval "$(rbenv init -)"
+fi
 
