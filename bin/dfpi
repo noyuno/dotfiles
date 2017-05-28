@@ -1,0 +1,201 @@
+#!/bin/bash -e
+
+. $HOME/dotfiles/bin/dffunc
+
+target=/var/git
+user=git
+domain=noyuno.mydns.jp
+mail=noyuno@$domain
+pdata=/var/postgresql/data
+
+init()
+{
+    dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
+    dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
+    aptinstall oracle-java8-jdk nginx postgresql
+
+}
+
+motd()
+{
+    if [ -e /etc/motd ]; then
+        dfx sudo mv /etc/motd /etc/motd.old
+    fi
+}
+
+httpd()
+{
+
+    sudo domainname $domain
+
+    cat << EOF | sudo tee /etc/nginx/sites-available/gitbucket.conf
+proxy_cache_path /var/lib/nginx/cache levels=1:2 keys_zone=cache:512m inactive=1d  max_size=60g;
+
+server {
+    listen 80;
+    #listen 443 ssl;
+    server_name git.$domain;
+    
+    #ssl_certificate /etc/letsencrypt/live/git.$domain/fullchain.pem;
+    #ssl_certificate_key /etc/letsencrypt/live/git.$domain/privkey.pem;
+
+    proxy_set_header Host \$http_host;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    proxy_redirect off;
+    proxy_max_temp_file_size 0;
+
+    location /.well-known {
+        alias /var/www/html/.well-known;
+    }
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_connect_timeout   150;
+        proxy_send_timeout      100;
+        proxy_read_timeout      100;
+        proxy_buffers           4 32k;
+        client_max_body_size    500m; # Big number is we can post big commits.
+        client_body_buffer_size 128k;
+
+    }
+
+    location /assets/ {
+        proxy_pass              http://localhost:8080/assets/;
+        proxy_cache             cache;
+        proxy_cache_key         \$host\$uri\$is_args\$args;
+        proxy_cache_valid       200 301 302 1d;
+        expires                 1d;
+    }
+}
+EOF
+    dfx sudo ln -sfnv /etc/nginx/sites-available/gitbucket.conf \
+        /etc/nginx/sites-enabled/gitbucket.conf
+    dfx sudo systemctl reload nginx.service
+
+    dfx sudo chown -R noyuno:noyuno /var/www/html
+}
+
+gitbucket()
+{
+    dfx sudo mkdir -p $target/repo
+    cd $target
+    if [ ! -e $target/gitbucket.war ]; then
+        dfx sudo wget -qO gitbucket.war \
+            'https://github.com/gitbucket/gitbucket/releases/download/4.12.1/gitbucket.war'
+    fi
+
+    cat << EOF | sudo tee /etc/systemd/system/gitbucket.service
+[Unit]
+Description=Git hosting service
+
+[Service]
+User=git
+ExecStart=$target/run.sh
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+    cat << EOF | sudo tee $target/run.sh
+#!/bin/sh -e
+(
+/usr/bin/java -jar $target/gitbucket.war --port=8080 \\
+    --gitbucket.home=$target/repo
+) >>/var/log/gitbucket.log 2>&1
+EOF
+    dfx sudo chmod +x $target/run.sh
+
+    cat << EOF | sudo tee /etc/logrotate.d/gitbucket
+/var/log/gitbucket.log {
+    weekly
+    coppytruncate
+    rotate 52
+    ocmpress
+    delaycompress
+    notifempty
+}
+EOF
+
+    if [ ! -e $target/repo/gitbucket.conf ]; then
+        cat << EOF | sudo tee $target/repo/gitbucket.conf
+gravatar=false
+notification=false
+useSMTP=false
+is_create_repository_option_public=false
+ldap_authentication=false
+ssh=true
+allow_account_registration=false
+ssh.host=noyuno.mydns.jp
+allow_anonymous_access=true
+ssh.port=4023
+base_url=http\://git.noyuno.mydns.jp
+EOF
+    fi
+    if [ ! -e $target/repo/database.conf ]; then
+        cat << EOF | sudo tee $target/repo/database.conf
+db {
+  url = "jdbc:postgresql://localhost/gitbucket"
+  user = "git"
+  password = "database"
+#  connectionTimeout = 30000
+#  idleTimeout = 600000
+#  maxLifetime = 1800000
+#  minimumIdle = 10
+#  maximumPoolSize = 10
+}
+EOF
+    fi
+
+    id $user 1>/dev/null 2>&1 &&:
+    if [ $? -ne 0 ]; then
+        dfx sudo useradd -d $target -s /bin/zsh $user
+    fi
+    dfx sudo chown -R $user:$user $target
+    
+    dfx sudo touch /var/log/gitbucket.log
+    dfx sudo chown $user:$user /var/log/gitbucket.log
+
+    dfx sudo systemctl daemon-reload
+    dfx sudo systemctl restart gitbucket.service
+}
+
+ssl()
+{
+    erepo=certbot
+    if [ ! -d ~/$erepo ]; then
+        dfx git clone "https://github.com/$erepo/$erepo.git" ~/$erepo --depth 1
+    fi
+    dfx pushd ~/$erepo
+        dfx sudo ./letsencrypt-auto certonly --webroot -w /var/www/html \
+            -d git.$domain -m $mail --agree-tos
+    dfx popd
+
+}
+
+psql()
+{
+    if [ ! -d $pdata ]; then
+        dfx sudo mkdir -p $pdata
+        dfx sudo chown postgres:postgres $pdata
+        dfx sudo -u postgres /usr/lib/postgresql/9.4/bin/initdb -D $pdata -E UTF8 --no-locale
+        cat << EOF | dfx sudo -u postgres psql
+create database gitbucket WITH template template0 encoding 'utf8';
+EOF
+        # dfx sudo pg_createcluster --start 9.4 main &&:
+        dfx sudo -u postgres createuser --pwprompt --interactive git
+    fi
+
+    sudo systemctl restart postgresql.service
+}
+
+if [ $# -eq 0 ]; then
+    motd
+    ssl
+    httpd
+    gitbucket
+else
+    eval $*
+fi
+
