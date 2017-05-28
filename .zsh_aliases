@@ -1,9 +1,9 @@
 # ls, the common ones I use a lot shortened for rapid fire usage
 case ${OSTYPE} in
     linux*) 
-        alias ls='ls --color'
+        alias ls='ls --color -h'
         tstyle='--time-style=iso';; #I like color
-    darwin*) alias ls='ls -G' ;;
+    darwin*) alias ls='ls -Gh' ;;
 esac
 alias l='ls -Fh'     #size,show type,human readable
 alias la='ls -AFh'   #long list,show almost all,show type,human readable
