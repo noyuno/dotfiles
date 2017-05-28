@@ -12,7 +12,7 @@ init()
 {
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
-    aptinstall oracle-java8-jdk nginx postgresql 
+    aptinstall oracle-java8-jdk nginx postgresql samba
 }
 
 network()
@@ -201,11 +201,39 @@ EOF
 
 anime()
 {
-    if [ -e ~/noyuno.github.io ]; then
+    if [ ! -e ~/noyuno.github.io ]; then
         git clone \
             "https://noyuno:$(cat ~/.ghpass)@github.com/noyuno/noyuno.github.io.git" \
             ~/noyuno.github.io
     fi
+    command="/home/noyuno/noyuno.github.io/bin/anime-refresh"
+    job="0 20 * * * $command"
+    cat <(fgrep -i -v "$command" <(crontab -l)) <(echo "$job") | crontab -
+}
+
+samba()
+{
+    dfx sudo ufw allow 137
+    dfx sudo ufw allow 138
+    dfx sudo ufw allow 139
+    dfx sudo ufw allow 445
+    cat << EOF | sudo tee /etc/avahi/services/samba.service
+<?xml version="1.0" standalone='no'?><!--*-nxml-*-->
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+    <name replace-wildcards="yes">%h filer</name>
+    <service>
+        <type>_smb._tcp</type>
+        <port>139</port>
+    </service>
+</service-group>
+EOF
+
+    dfx sudo mkdir -p /var/samba/share
+
+    dfx sudo systemctl restart avahi-daemon.service
+    dfx sudo service smbd restart
+    dfx sudo service nmbd restart
 }
 
 if [ $# -eq 0 ]; then
