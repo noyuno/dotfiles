@@ -1,0 +1,46 @@
+#!/bin/bash -e
+
+cache="$HOME/.cache/menu"
+dir="/usr/share/applications"
+nocat="Uncategorized"
+
+build()
+{
+    if [ ! "$cache" ]; then
+        return
+    fi
+    if [ -d "$cache" ]; then
+        rm -rf "$cache"
+    fi
+    for f in $(find "$dir" -type f -name "*.desktop"); do
+        echo $f
+        name=$(grep -e "^Name=" < "$f" | awk -F= '{gsub("/", "_", $2); print $2}')
+        ex="#!/bin/sh -e
+"$(grep -e "^Exec=" < "$f" |
+            awk -F= '{gsub("%u", "$*", $2); gsub("%U", "$*", $2); print $2}')
+        cat=($(grep -e "^Categories=" < "$f" |
+                awk -F= '{print $2}' |
+                awk -F\; 'BEGIN {FS=";"; OFS=" "} {for(i=1;i<=NF;i++){print $i}}'))
+        if [ "$cat" ]; then
+            for e in ${cat[@]}; do
+                if [ ! -d "$cache/$e" ]; then
+                    mkdir -p "$cache/$e"
+                fi
+                echo "$ex" > "$cache/$e/$name"
+                chmod +x "$cache/$e/$name"
+            done
+        else
+            if [ ! -d "$cache/$nocat" ]; then
+                mkdir -p "$cache/$nocat"
+            fi
+            echo "$ex" > "$cache/$nocat/$name"
+            chmod +x "$cache/$nocat/$name"
+        fi
+    done
+}
+
+if [ "$1" = "-b" -o ! -d "$cache" ]; then
+    build
+fi
+ranger "$cache"
+

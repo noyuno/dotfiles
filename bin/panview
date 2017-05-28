@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+base=/tmp/panview
+mkdir -p "$base"
+while [ $# -gt 0 ]; do
+    target=$(readlink -f "$1")
+    dir="$base/$(dirname $target)"
+    mkdir -p "$dir"
+    name="$dir/$(basename $target)"
+    pandoc -o "$name.html" "$1"
+    xdg-open "$name.html"
+    shift
+done
+

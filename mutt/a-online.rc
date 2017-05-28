@@ -1,0 +1,16 @@
+
+source "gpg2 -d ~/.mutt/a-passwd.gpg |"
+
+set spoolfile         =  "+INBOX"
+set record="+Outbox"
+set postponed         =  "+Drafts"
+mailboxes "+INBOX" \
+          "+Archives" \
+          "+Archives.2016" \
+          "+Drafts" \
+          "+Inbox" \
+          "+Junk" \
+          "+Outbox" \
+          "+Sent" \
+          "+Trash"
+

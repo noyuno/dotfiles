@@ -1,0 +1,7 @@
+bind status P !git push origin
+set main-view = id date author commit-title:graph=yes,refs=yes
+set split-view-height = 80%
+set blame-view = date:default author:full file-name:auto id:yes,color \
+                 line-number:yes,interval=1 text
+set pager-view = line-number:yes,interval=1 text
+

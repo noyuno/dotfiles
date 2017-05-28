@@ -1,0 +1,374 @@
+#!/usr/bin/env python3
+
+from datetime import *
+from icalendar import Calendar, Event
+import argparse
+import arrow
+import curses
+import locale
+import os
+import pytz
+import subprocess
+import sys
+import time
+import unicodedata
+import urllib.parse
+import urllib.request
+
+sleep_time = 1800
+notify_time = 1800
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    
+    colorlist = [ OKBLUE, OKGREEN, WARNING, FAIL, HEADER ]
+    
+    @staticmethod
+    def nocolor():
+        bcolors.HEADER = ""
+        bcolors.OKBLUE = ""
+        bcolors.OKGREEN = ""
+        bcolors.WARNING = ""
+        bcolors.FAIL = ""
+        bcolors.ENDC = ""
+        bcolors.BOLD = ""
+        bcolors.UNDERLINE = ""
+
+    @staticmethod
+    def list(n):
+        return bcolors.colorlist[n % len(bcolors.colorlist)]
+
+    @staticmethod
+    def get(n):
+        if n == "b":
+            return bcolors.OKBLUE
+        elif n == "g":
+            return bcolors.OKGREEN
+        elif n == "y":
+            return bcolors.WARNING
+        elif n == "r":
+            return bcolors.FAIL
+        elif n == "p":
+            return bcolors.HEADER
+        else:
+            return ""
+
+def jastr(string, size):
+    ret = ""
+    s = 0
+    if string is None or size is None:
+        return ret
+    for ch in string:
+        if s + 1 == size:
+            ret += " "
+            return ret
+        elif s + 0 >= size:
+            ret+=""
+            return ret
+        if ch == "\n":
+            s += 1
+            ret += ' '
+            continue
+        try:
+            name = unicodedata.name(ch)
+        except ValueError:
+            continue
+        if "CJK UNIFIED" in name \
+            or "HIRAGANA" in name \
+            or "KATAKANA" in name \
+            or "FULLWIDTH" in name \
+            or "IDEOGRAPHIC" in name \
+            or "ANGLE BRACKET" in name \
+            or "WAVE DASH" in name \
+            or "CORNER" in name:
+            s += 2
+            ret += ch
+        else:
+            s += 1
+            ret += ch
+
+    ret += " " * (size - s)
+    return ret
+
+def get(args, url):
+    text = ""
+    cacheisold = False
+    cachename = args.cache_dir + "/" + url.replace("/", "%").replace("\n", "")
+    if os.path.exists(cachename):
+        ts = arrow.get(os.stat(cachename).st_mtime)
+        if ts.replace(hours=+6).timestamp < arrow.now().timestamp:
+            cacheisold = True
+        else:
+            cacheisold = False
+    else:
+        cacheisold = True
+    
+    if args.refresh or cacheisold:
+        text = urllib.request.urlopen(url).read().decode('utf-8')
+        if os.path.exists(args.cache_dir) == False:
+            os.mkdir(args.cache_dir)
+        f = open(cachename, 'w')
+        f.write(text)
+        f.close()
+    else:
+        f = open(cachename, 'r')
+        text = f.read()
+        f.close()
+    return text
+
+def openkeywordfile(keywordfilename):
+    keywords = []
+    keywordfile = None
+    try:
+        keywordfile = open(keywordfilename, 'r')
+        for row in keywordfile:
+            t = row.replace("\n", "").replace("\r", "").strip()
+            if t != "":
+                keywords.append(t)
+    except:
+        raise
+    finally:
+        if keywordfile is not None:
+            keywordfile.close()
+    return keywords
+
+notifysent = []
+def notifysend(id, text):
+    if id not in notifysent:
+        subprocess.check_output(["notify-send", text])
+        notifysent.append(id)
+
+quiet = False
+def output(text, end="\n"):
+    if not quiet:
+        sys.stdout.write(text + end)
+
+def getdt(ev, name, google_calendar):
+    jst = pytz.timezone('Asia/Tokyo')
+    dt = ev.get(name).dt
+    if name == "dtend":
+        h = 23
+        m = 59
+    else:
+        h = 0
+        m = 0
+    if type(dt) == date:
+        dt = datetime(dt.year, dt.month, dt.day, h, m, 0).replace(tzinfo=jst)
+        if google_calendar and name == "dtend":
+            dt = dt - timedelta(days=1)
+    else:
+        if google_calendar:
+            dt = dt.astimezone(timezone(timedelta(hours=9)))
+    return dt
+
+def parse(args):
+    name = ""
+    cals = []
+    jst = pytz.timezone('Asia/Tokyo')
+    nowts = datetime.now().replace(tzinfo=jst)
+
+    for line in open(args.url_file, 'r'):
+        if line == "\n" or line.startswith("#"):
+            continue
+        lines = line.split(" ")
+        if len(lines) == 2:
+            color = bcolors.get(lines[0])
+            url = lines[1]
+        else:
+            color = ""
+            url = line
+        text = get(args, url)
+
+        changedname = False
+        for line in text.split("\n"):
+            if line.startswith("X-WR-CALNAME"):
+                name = line.split(":")[1]
+                changedname = True
+                break
+        if changedname == False:
+            name = ""
+        c = Calendar.from_ical(text)
+        args.google_calendar = "calendar.google.com" in url
+        for ev in c.walk():
+            if ev.name != "VEVENT":
+                continue
+            dtend = getdt(ev, "dtend", args.google_calendar)
+            if nowts > dtend:
+                #print(str(args.google_calendar) + str(dtend) + ev.get("summary"))
+                continue
+            title = ev.get("summary")
+            loc = ev.get("location")
+            desc = ev.get("description")
+
+            det = True
+            if args.search != "":
+                det = args.search in title or args.search in desc or \
+                    args.search in loc
+
+            if not(det) :
+                continue
+
+            #all ok
+            ev.name = name
+            ev.color = color
+            cals.append(ev)
+    return cals
+
+def main(args):
+    ret = 0
+    count = 0
+    jst = pytz.timezone('Asia/Tokyo')
+    nowts = datetime.now().replace(tzinfo=jst)
+    curses.setupterm()
+    cols = curses.tigetnum("cols")
+    lendate = 11 + 11 + 2
+    lentitle = int(max(31, cols / 6))
+    lenloc = 10
+    lendesc = cols - (lendate+1+lentitle+1+lenloc+1)
+    
+    # parse
+    cals = parse(args)
+    cals = sorted(cals, key=lambda x: x.get('summary'))
+    cals = sorted(cals, key=lambda x: str(x.get('dtstart').dt))[:args.count]
+
+    #clear terminal
+    if args.keep == True:
+        output(chr(27) + "[2J" + chr(27) + "[H", end="")
+        sys.stdout.flush()
+    
+    # print
+    names = []
+    for ev in cals:
+        #print(ev.get("dtend").dt.astimezone(timezone('Asiz/Tokyo')))
+        dtstart = getdt(ev, "dtstart", args.google_calendar)
+        dtend = getdt(ev, "dtend", args.google_calendar)
+        if dtend - dtstart == timedelta(hours=23, minutes=59):
+            evdate = dtstart.strftime("%m/%d (%a)  終日")
+        elif dtstart.hour == 0 and dtstart.minute == 0 and dtend.hour == 23 \
+            and dtend.minute == 59:
+            evdate = dtstart.strftime("%m/%d (%a) ") + "-" + \
+                dtend.strftime("%m/%d (%a)")
+        elif dtstart.year == dtend.year and \
+             dtstart.month == dtend.month and \
+             dtstart.day == dtend.day:
+             evdate = dtstart.strftime("%m/%d (%a)  %H:%M") + "-" + \
+                dtend.strftime("%H:%M")
+        else:
+            evdate = dtstart.strftime("%m/%d %H:%M") + "-" + \
+                dtend.strftime("%m/%d %H:%M")
+        name = ev.name
+        if not(name in names):
+            names.append(name)
+        namelen = names.index(name)
+        title = ev.get("summary")
+        loc = ev.get("location")
+        desc = ev.get("description")
+
+        jadate = jastr(evdate, lendate)
+        jatitle = jastr(title, lentitle)
+        jaloc = jastr(loc, lenloc)
+        jadesc = jastr(desc, lendesc)
+
+        if count == 0:
+            if dtstart > nowts:
+                output("次のイベント:" + arrow.get(dtstart).humanize(locale="ja_jp"))
+            elif args.keep:
+                output("")
+        if dtstart > nowts and dtstart - nowts < timedelta(seconds=notify_time):
+            if args.notify_send:
+                if loc == "":
+                    nloc = ""
+                else:
+                    nloc = loc + "で"
+                notifysend(ev.get("url"),
+                    "まもなく，" + nloc + "「" + title + "」が始まります")
+            output(bcolors.HEADER + jadate + bcolors.ENDC, end = "")
+        elif nowts > dtstart and nowts < dtend:
+            output(bcolors.WARNING + jadate + bcolors.ENDC, end = "")
+        else:
+            output(jadate, end = "")
+        if ret == 0:
+            ret = dtstart.timestamp()
+
+        output(ev.color + jatitle + bcolors.ENDC + " " + jaloc + " " + \
+            jadesc, end="")
+        if len(cals) - 1 == count:
+            if args.keep and args.verbose == False:
+                sys.stdout.flush()
+            else:
+                output("")
+        else:
+            output("")
+        count += 1
+    return ret
+    
+if __name__ == '__main__':
+    try:
+        parser = argparse.ArgumentParser(
+            description = "display ical calendar.", 
+            epilog = "ical -ok to daemon and display mode. " + \
+                "ICAL URL must be in URL_FILE(~/.ical).")
+        parser.add_argument("--count", "-n", type=int)
+        parser.add_argument("--all", "-a", action = "store_true")
+        parser.add_argument("--keep", "-k", action = "store_true")
+        parser.add_argument("--days", "-d", type=int)
+        parser.add_argument("--search", "-s")
+        parser.add_argument("--url-file", "-u")
+        parser.add_argument("--refresh", "-r", action = "store_true")
+        parser.add_argument("--cache-dir")
+        parser.add_argument("--notify-send", "-o", action = "store_true")
+        parser.add_argument("--quiet", "-q", action = "store_true")
+        parser.add_argument("--no-color", action = "store_true")
+        parser.add_argument("--verbose", action = "store_true")
+        args = parser.parse_args()
+
+        if args.count is None: args.count = 20
+        if args.days is None:args.days = str(28) 
+        if args.search is None:args.search = "" 
+        if args.url_file is None:
+            args.url_file = os.environ['XDG_CONFIG_HOME'] + '/ical'
+        if args.cache_dir is None:
+            args.cache_dir = os.environ['HOME'] + '/.cache/ical'
+        quiet = args.quiet
+        if args.no_color: bcolors.nocolor()
+
+        locale.setlocale(locale.LC_ALL, os.environ['LANG'])
+
+        if args.keep == True:
+            while True:
+                try:
+                    n = main(args)
+                    if n != 0:
+                        a = arrow.get(n).humanize()
+                        if a.find("day") >= 0:
+                            sleep_time_long = 3600 * 6
+                        elif a.find("hour") >= 0:
+                            sleep_time_long = 1800
+                        else:
+                            sleep_time_long = 60
+
+                        if args.verbose:
+                            print(max(sleep_time, min(
+                                sleep_time_long, n-datetime.now().timestamp()-60)))
+                        time.sleep(max(sleep_time, min(
+                            sleep_time_long, n-datetime.now().timestamp()-60)))
+                    else:
+                        time.sleep(sleep_time)
+                except KeyboardInterrupt:
+                    raise
+                except Exception as e:
+                    sys.stderr.writelines(str(e) + "\n")
+                    sys.stderr.flush()
+                    time.sleep(sleep_time)
+        else:
+            main(args)
+    except KeyboardInterrupt:
+        pass
+

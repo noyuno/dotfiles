@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import argparse
+import mimetypes
+import sys
+import os.path
+import subprocess
+
+def main(args):
+    (f, ext) = os.path.splitext(args.name)
+    if not ext:
+        ret = subprocess.check_output(["file", "-ib", args.name])
+        ft = ret.decode("utf-8").split(";")[0]
+        if not ft:
+            ft = mimetypes.guess_type(args.name)[0]
+            if ft is None:
+                sys.exit(1)
+        ext = mimetypes.guess_extension(ft)
+        if ext is None:
+            if "shellscript" in ft:
+                ext = ".sh"
+            elif "lisp" in ft:
+                ext = ".lisp"
+            else:
+                sys.exit(2)
+    if args.no_period:
+        ext = ext.replace(".", "")
+    print(ext)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--no-period", "-n", action="store_true")
+    parser.add_argument("name")
+    args = parser.parse_args()
+    main(args)

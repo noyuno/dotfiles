@@ -1,0 +1,10 @@
+--- ZenzaWatch.user.js	2017-03-15 20:50:19.330438184 +0900
++++ ZenzaWatchFix.user.js	2017-03-15 20:50:21.078490341 +0900
+@@ -6126,7 +6126,6 @@
+       border: 1px outset #333;
+       opacity: 0.8;
+       box-shadow: 2px 2px 4px #000;
+-      transition: opacity 0.3s ease;
+       z-index: 150000;
+       user-select: none;
+       -webkit-user-select: none;

@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+while [ $# -gt 0 ]; do
+    command rm "$HOME/.local/share/nvim/swap/$1"
+    shift
+done
+

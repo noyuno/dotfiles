@@ -1,0 +1,40 @@
+#!/bin/bash -e
+help()
+{
+    {
+        name=${0##*/}
+        cat << EOF
+Usage: $name [-mMdt]
+
+-m: 1/100 seconds
+-M: 1/1000 seconds
+-d: only date
+-t: only time
+EOF
+    } 1>&2
+    exit 1
+}
+
+s="+%Y%m%d-%H%M%S"
+unit=
+
+args=$(getopt -o mMdth --long help -- $*)
+set -- $args
+while [ $# -gt 0 ]; do 
+    case $1 in 
+    --) shift; break ;;
+    -m) unit=1000000 ;;
+    -M) unit=10000000 ;;
+    -d) s="+%Y%m%d" ;;
+    -t) s="+%H%M%S" ;;
+    -h|--help) help ;;
+    esac
+    shift
+done
+
+if [ "$unit" ]; then
+    echo $(date $s)-$(expr $(date +%N) / $unit)
+else
+    echo $(date $s)
+fi
+

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=xbindkeys
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name[ja_JP]=xbindkeys
+Name=xbindkeys
+Comment[ja_JP]=
+Comment=

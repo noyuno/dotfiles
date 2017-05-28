@@ -1,0 +1,25 @@
+#!/bin/bash -e
+
+inmin=10
+help()
+{
+    echo "Available value is between $inmin and 100." 1>&2
+    exit 1
+}
+
+if [ $# -ne 1 ]; then
+    echo "1 argument required" 1>&2
+    help
+fi
+
+b=$1
+max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+if [ "$b" -le 100 -a "$b" -ge "$inmin" ]; then
+    val=$(echo "scale=2; ($b/100.0)*$max" | bc)
+    val=${val%.*}
+    sudo sh -c "echo $val > /sys/class/backlight/intel_backlight/brightness"
+else
+    echo "Value is out of range. " 1>&2
+    help
+fi
+

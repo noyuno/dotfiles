@@ -1,0 +1,24 @@
+#!/bin/bash -e
+
+. "$HOME/dotfiles/bin/dffunc"
+
+find "$HOME" -type d 2>/dev/null | grep '\.git$' | while read line; do
+    i=$(dirname "$line")
+    cd "$i"
+    status=$(git status -s)
+    if [ "$status" ]; then
+        echo -e "\e[33m[ dirty  ] $i\e[m"
+        git status -s
+    else
+        ret=$(git pull)
+        if [ "$ret" = "Already up-to-date." ]; then
+            echo "[ latest ] $i"
+        else
+            echo -e "\e[32m[ pull   ] $i\e[m"
+            echo "$ret"
+        fi
+    fi
+done
+
+finalize
+

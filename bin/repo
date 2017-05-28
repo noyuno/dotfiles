@@ -1,0 +1,82 @@
+#!/bin/bash -e
+
+. "$HOME/dotfiles/bin/dffunc"
+
+name=$(git config --global user.name)
+
+_check_repo()
+{
+    cd "$HOME"
+    if [ -d "$3/.git" ]; then
+        cd "$HOME/$3"
+        status=$(git status -s)
+        if [ "$status" ]; then
+            echo -e "\e[33m[ dirty   ] $1:$3\e[m"
+            git -c color.status=always status -s | \
+                awk '{print "  "$1"         '$1:$3/'"$2}' 
+            ret=$(git fetch)
+            if [ ! "$ret" = "" ]; then
+                echo -e "\e[32m[ fetch   ] $1:$3\e[m"
+                echo "$ret"
+            fi
+        else
+            ret=$(git pull)
+            if [ "$ret" = "Already up-to-date." ]; then
+                # did local branch update?
+                localhead=$(git branch -va --no-color | awk '/^*/{print $3}')
+                remotehead=$(git branch -va --no-color | awk '/remotes\/origin\/master/{print $2}')
+                if [ "$localhead" = "$remotehead" ]; then
+                    echo "[ latest  ] $1:$3"
+                else
+                    echo -e "\e[33m[ forward ] $1:$3\e[m"
+                fi
+            else
+                echo -e "\e[32m[ pull    ] $1:$3\e[m"
+                echo "$ret"
+            fi
+        fi
+    else
+        echo -e "\e[32m[ clone   ] $1:$3\e[m"
+        git clone "$2/$3.git"
+    fi
+}
+
+check_repo()
+{
+    while read i; do
+        _check_repo "$1" "$2" "$i" &
+    done < "$DFTMP/$1"
+}
+
+# GitHub
+curl -s "https://api.github.com/users/$name/repos" | \
+    jq -r '.[].name' > "$DFTMP/GitHub"
+check_repo GitHub "git@github.com:$name" &
+
+# Bitbucket
+which pass 1>/dev/null 2>&1 &&:
+if [ $? -ne 0 ]; then
+    echo 'pass has not installed' >&2
+else
+    pass=$(pass bitbucket) &&:
+    if [ $? -ne 0 ]; then
+        # fallback to `read` decrypting gpg2
+        echo -n 'gpg passphrase: '
+        read -s pp
+        pass=$(echo "$pp" | gpg -qd --passphrase-fd 0 "$HOME/pass/bitbucket.gpg") &&:
+        if [ $? -ne 0 ]; then
+            # I cannot do anything...
+            echo 'gpg decrypting error!' >&2
+            exit 1
+        fi
+    fi
+    curl -s --user "$name:$pass" \
+        "https://api.bitbucket.org/2.0/repositories/$name?pagelen=100" | \
+        jq -r '.values[].name' > "$DFTMP/Bitbucket"
+    check_repo Bitbucket "git@bitbucket.org:$name"
+fi
+
+wait
+
+finalize
+

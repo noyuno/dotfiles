@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+
+from icalendar import Calendar, Event
+from datetime import *
+import pytz
+import urllib.parse
+import urllib.request
+import arrow
+import unicodedata
+import sys
+import os
+import argparse
+import curses
+import subprocess
+import time
+import xml.etree.ElementTree as etree
+import json
+from collections import OrderedDict
+import progressbar
+import feedparser
+
+quoted_delimiter = "%01"
+delimiter = urllib.parse.unquote(quoted_delimiter)
+sleep_time = 3600*2
+notify_time = 2
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    
+    @staticmethod
+    def nocolor():
+        bcolors.HEADER = ""
+        bcolors.OKBLUE = ""
+        bcolors.OKGREEN = ""
+        bcolors.WARNING = ""
+        bcolors.FAIL = ""
+        bcolors.ENDC = ""
+        bcolors.BOLD = ""
+        bcolors.UNDERLINE = ""
+
+def jpstr(string, size):
+    ret = ""
+    s = 0
+    for ch in string:
+        if s + 1 == size:
+            ret += " "
+            return ret
+        elif s + 0 >= size:
+            ret+=""
+            return ret
+        try:
+            name = unicodedata.name(ch)
+        except:
+            pass
+        if "CJK UNIFIED" in name \
+            or "HIRAGANA" in name \
+            or "KATAKANA" in name \
+            or "FULLWIDTH" in name \
+            or "IDEOGRAPHIC" in name \
+            or "ANGLE BRACKET" in name \
+            or "WAVE DASH" in name \
+            or "CORNER" in name:
+            s += 2
+            ret += ch
+        else:
+            s += 1
+            ret += ch
+
+    ret += " " * (size - s)
+    return ret
+
+quiet = False
+def output(text, end="\n"):
+    if not quiet:
+        sys.stdout.write(text + end)
+
+journals = []
+def outputjournal(entry, dateformat):
+    cols = curses.tigetnum("cols")
+
+    for i in journals:
+        if entry.title == i.title:
+            return False
+    journals.append(entry)
+    output(jpstr(entry.title, cols-2))
+
+def main(args):
+    curses.setupterm()
+    if args.yahoo:
+        url = "http://news.yahoo.co.jp/pickup/rss.xml"
+        dateformat = "%a, %d %b %Y %H:%M:%S %z"
+    else:
+        url = "http://news.google.com/news?hl=ja&ned=us&ie=UTF-8&oe=UTF-8&output=rss"
+        dateformat = "%a, %d %b %Y %H:%M:%S %Z"
+    if args.keep == True:
+        output(chr(27) + "[2J" + chr(27) + "[H", end="")
+
+    f = feedparser.parse(url)
+    count = 0
+    for i in f['entries']:
+        if args.goto is None:
+            outputjournal(i, dateformat)
+        else:
+            if args.goto == count:
+                output(i.link)
+                subprocess.check_output(["xdg-open", i.link])
+        count += 1
+
+if __name__ == '__main__':
+    try:
+        parser = argparse.ArgumentParser(
+            description = "display anime program list.", 
+            epilog = "anime -qok to daemon mode, jma -k to daemon and display mode.")
+        parser.add_argument("--goto", "-g", type=int)
+        parser.add_argument("--count", "-n", type=int)
+        parser.add_argument("--all", "-a", action = "store_true")
+        parser.add_argument("--keep", "-k", action = "store_true")
+        parser.add_argument("--quiet", "-q", action = "store_true")
+        parser.add_argument("--google", "-o", action = "store_true")
+        parser.add_argument("--yahoo", "-y", action = "store_true")
+        parser.add_argument("--no-color", action = "store_true")
+        args = parser.parse_args()
+
+        if args.count is None: args.count = 20
+        quiet = args.quiet
+        if args.no_color: bcolors.nocolor()
+
+        if args.google == False and args.yahoo == False:
+            args.google = True
+
+        if args.keep == True:
+            while True:
+                try:
+                    main(args)
+                    time.sleep(sleep_time)
+                except KeyboardInterrupt:
+                    raise
+                except Exception as e:
+                    sys.stderr.writelines(str(e) + "\n")
+                    sys.stderr.flush()
+                    time.sleep(sleep_time)
+        else:
+            main(args)
+    except KeyboardInterrupt:
+        pass
+

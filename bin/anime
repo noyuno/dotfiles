@@ -1,0 +1,317 @@
+#!/usr/bin/env python3
+
+from datetime import *
+from icalendar import Calendar, Event
+import argparse
+import arrow
+import curses
+import os
+import pytz
+import subprocess
+import sys
+import time
+import unicodedata
+import urllib.parse
+import urllib.request
+
+quoted_delimiter = "%01"
+delimiter = urllib.parse.unquote(quoted_delimiter)
+sleep_time = 60
+notify_time = 2
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+    @staticmethod
+    def nocolor():
+        bcolors.HEADER = ""
+        bcolors.OKBLUE = ""
+        bcolors.OKGREEN = ""
+        bcolors.WARNING = ""
+        bcolors.FAIL = ""
+        bcolors.ENDC = ""
+        bcolors.BOLD = ""
+        bcolors.UNDERLINE = ""
+
+def jastr(string, size):
+    ret = ""
+    s = 0
+    for ch in string:
+        if s + 1 == size:
+            ret += " "
+            return ret
+        elif s + 0 >= size:
+            ret+=""
+            return ret
+        name = unicodedata.name(ch)
+        if "CJK UNIFIED" in name \
+            or "HIRAGANA" in name \
+            or "KATAKANA" in name \
+            or "FULLWIDTH" in name \
+            or "IDEOGRAPHIC" in name \
+            or "ANGLE BRACKET" in name \
+            or "WAVE DASH" in name \
+            or "CORNER" in name:
+            s += 2
+            ret += ch
+        else:
+            s += 1
+            ret += ch
+
+    ret += " " * (size - s)
+    return ret
+
+def get(args):
+    text = ""
+    cacheisold = False
+
+    cachebase = os.path.dirname(args.cache_file)
+    # for old version
+    if os.path.isfile(cachebase):
+        os.rename(cachebase, cachebase + "_old")
+    # make cache directory
+    if not os.path.isdir(cachebase):
+        os.makedirs(cachebase)
+
+    if os.path.exists(args.cache_file):
+        ts = arrow.get(os.stat(args.cache_file).st_mtime)
+        if ts.replace(hours=+6).timestamp < arrow.now().timestamp:
+            cacheisold = True
+        else:
+            cacheisold = False
+    else:
+        cacheisold = True
+
+    if args.refresh or cacheisold:
+        url = "http://cal.syoboi.jp/rss.php?usr=" + args.user + "&" + \
+            "filter=0&count=1000&days=14&" + \
+            "titlefmt=%24(StTime)" + quoted_delimiter + \
+            "%24(Mark)%24(MarkW)" + quoted_delimiter + \
+            "%24(ShortTitle)" + quoted_delimiter + \
+            "%24(SubTitleB)" + quoted_delimiter + \
+            "%24(ChName)&alt=ical"
+        text = urllib.request.urlopen(url).read().decode('utf-8')
+        f = open(args.cache_file, 'w')
+        f.write(text)
+        f.close()
+    else:
+        f = open(args.cache_file, 'r')
+        text = f.read()
+        f.close()
+    return text
+
+def openkeywordfile(keywordfilename):
+    keywords = []
+    keywordfile = None
+    try:
+        keywordfile = open(keywordfilename, 'r')
+        for row in keywordfile:
+            t = row.replace("\n", "").replace("\r", "").strip()
+            if t != "":
+                keywords.append(t)
+    except:
+        raise
+    finally:
+        if keywordfile is not None:
+            keywordfile.close()
+    return keywords
+
+notifysent = []
+def notifysend(id, text):
+    if id not in notifysent:
+        subprocess.check_output(["notify-send", text])
+        notifysent.append(id)
+
+quiet = False
+def output(text, end="\n"):
+    if not quiet:
+        sys.stdout.write(text + end)
+
+nexttime = 0
+def main(args):
+    ret = 0
+    count = 0
+
+    c = Calendar.from_ical(get(args))
+
+    keywords_failure = None
+    keywords = []
+    try:
+        keywords = openkeywordfile(args.keyword_file)
+    except Exception as e:
+        keywords_failure = e
+
+    def containskeyword(evname):
+        for keyword in keywords:
+            if evname.find(keyword) != -1:
+                return True
+        return False
+
+    jst = pytz.timezone('Asia/Tokyo')
+    nowts = datetime.now().replace(tzinfo=jst)
+    limit = nowts + timedelta(days=int(args.days))
+
+    curses.setupterm()
+    cols = curses.tigetnum("cols")
+    lendate = 11
+    lench = 12
+    lentitle = min(30, int(cols / 3))
+    lensubtitle = cols - (lendate+1+lench+lentitle+2)
+    #clear terminal
+    if args.keep == True:
+        output(chr(27) + "[2J" + chr(27) + "[H", end="")
+
+    if keywords_failure is not None:
+        sys.stderr.writelines(str(keywords_failure) + "\n")
+        sys.stderr.flush()
+
+    for ev in c.walk():
+        if ev.name != "VEVENT":
+            continue
+        if count >= args.count:
+            break
+
+        dtstart = ev.get("dtstart").dt
+        dtend = ev.get("dtend").dt
+        if dtstart > limit or not(nowts > dtstart and nowts < dtend or \
+            nowts < dtend):
+            continue
+        t = ev.get("summary").split(delimiter)
+        evbegin = t[0]
+        evalert = t[1]
+        evtitle = t[2]
+        evsubtitle = t[3]
+        evch = jastr(t[4], lench)
+
+        contains = containskeyword(evtitle) or containskeyword(evsubtitle)
+        det = True
+        if args.search != "":
+            det = args.search in evtitle or args.search in evsubtitle
+        det = det and args.channel in evch and (args.all or contains)
+        det = det and not(evalert == "" and args.warning)
+
+        if not(det) :
+            continue
+
+        evshow = jastr(evtitle, lentitle)
+        titlestart = ""
+        titleend = ""
+        if contains:
+            titlestart = bcolors.OKBLUE
+            titleend = bcolors.ENDC
+        evshowsub = jastr(evsubtitle, lensubtitle)
+
+        if args.goto is None:
+            if count == 0:
+                if dtstart > nowts:
+                    output("次の番組:" + arrow.get(dtstart).humanize(locale="ja_jp"))
+                else:
+                    output("放送中")
+            if dtstart > nowts and dtstart - nowts - timedelta(minutes=notify_time) < timedelta():
+                if args.notify_send:
+                    notifysend(ev.get("url"),
+                        "まもなく，" + t[4] + "で「" + evtitle + "」が始まります")
+                output(bcolors.HEADER + "SOON  " + \
+                    evbegin.split(" ")[1] + bcolors.ENDC, end = "")
+            elif nowts > dtstart and nowts < dtend:
+                output(bcolors.WARNING + "ONAIR " + \
+                    evbegin.split(" ")[1] + bcolors.ENDC, end = "")
+            else:
+                if evalert == "":
+                    output(evbegin, end = "")
+                else:
+                    output(bcolors.FAIL + evbegin + bcolors.ENDC, end = "")
+            if ret == 0:
+                ret = dtstart.timestamp()
+
+            output(" " + evch + \
+                " " + titlestart + evshow + titleend + " " + evshowsub, end="")
+            if args.count - 1 == count:
+                if args.keep and args.verbose == False:
+                    sys.stdout.flush()
+                else:
+                    output("")
+            else:
+                output("")
+        elif args.goto == count:
+            output(ev.get("url"))
+            subprocess.check_output(["xdg-open", ev.get("url")])
+            sys.exit(0)
+        count += 1
+    nexttime = ret
+    return count
+
+if __name__ == '__main__':
+    try:
+        parser = argparse.ArgumentParser(
+            description = "display anime program list.", 
+            epilog = "anime -qok to daemon mode, anime -ok to daemon and display mode. Powered by しょぼいカレンダー")
+        parser.add_argument("--goto", "-g", type=int)
+        parser.add_argument("--count", "-n", type=int)
+        parser.add_argument("--all", "-a", action = "store_true")
+        parser.add_argument("--keep", "-k", action = "store_true")
+        parser.add_argument("--user", "-u")
+        parser.add_argument("--days", "-d", type=int)
+        parser.add_argument("--keyword-file")
+        parser.add_argument("--search", "-s")
+        parser.add_argument("--channel", "-c")
+        parser.add_argument("--warning", "-w", action = "store_true")
+        parser.add_argument("--refresh", "-r", action = "store_true")
+        parser.add_argument("--cache-file")
+        parser.add_argument("--notify-send", "-o", action = "store_true")
+        parser.add_argument("--quiet", "-q", action = "store_true")
+        parser.add_argument("--no-color", action = "store_true")
+        parser.add_argument("--verbose", action = "store_true")
+        args = parser.parse_args()
+
+        if args.count is None: args.count = 20
+        if args.user is None: args.user = "shiro51" 
+        if args.days is None:args.days = str(14) 
+        if args.keyword_file is None:
+            args.keyword_file = os.environ['HOME'] + '/dotfiles/list/anime-keyword'
+        if args.search is None:args.search = "" 
+        if args.channel is None:args.channel = "" 
+        if args.cache_file is None:
+            args.cache_file = os.environ['HOME'] + '/.cache/anime/' + args.user
+        quiet = args.quiet
+        if args.no_color: bcolors.nocolor()
+
+        if args.keep == True:
+            while True:
+                try:
+                    main(args)
+                    if nexttime != 0:
+                        a = arrow.get(n).humanize()
+                        if a.find("day") >= 0:
+                            sleep_time_long = 3600 * 6
+                        elif a.find("hour") >= 0:
+                            sleep_time_long = 1800
+                        else:
+                            sleep_time_long = 60
+
+                        if args.verbose:
+                            print(max(sleep_time, min(
+                                sleep_time_long, n-datetime.now().timestamp()-60)))
+                        time.sleep(max(sleep_time, min(
+                            sleep_time_long, n-datetime.now().timestamp()-60)))
+                    else:
+                        time.sleep(sleep_time)
+                except KeyboardInterrupt:
+                    raise
+                except Exception as e:
+                    sys.stderr.writelines(str(e) + "\n")
+                    sys.stderr.flush()
+                    time.sleep(sleep_time)
+        else:
+            n = main(args)
+            sys.exit(int(n == 0))
+    except KeyboardInterrupt:
+        pass
+

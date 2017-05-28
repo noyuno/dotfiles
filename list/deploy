@@ -1,0 +1,72 @@
+# zsh 
+.zshrc
+.zsh_aliases
+.zprofile
+# bash
+.bashrc
+.zsh_aliases .bash_aliases
+.zprofile .profile
+# vim
+vim .config/vim
+vim .config/nvim
+vim .vim
+vim/vimrc .vimrc
+# tmux
+.tmux.conf
+.tmuxinator
+# X
+.Xmodmap
+.Xresources
+# mutt
+mutt/mutt.rc .muttrc
+# offlineimap
+mutt/.offlineimaprc .offlineimaprc  
+# emacs 
+.emacs.el
+# sc
+.scrc
+# git 
+.gitconfig
+.gitattributes
+.tigrc
+# user-dirs
+user-dirs.dirs .config/user-dirs.dirs
+#w3m
+w3mconfig .w3m/config
+# tex
+.latexmkrc
+# htop
+htoprc .config/htop/htoprc
+#ipython
+ipython_config.py .ipython/profile_default/ipython_config.py
+# pylint
+.pylintrc
+# gem
+.gemrc
+# ag
+.agignore
+# fontconfig
+fonts.conf .config/fontconfig/fonts.conf
+# npm
+.npmrc
+# imwheel
+.imwheelrc
+# ranger
+ranger/highlight.css .config/ranger/highlight.css
+ranger/rc.conf .config/ranger/rc.conf
+ranger/rifle.conf .config/ranger/rifle.conf
+ranger/scope.sh .config/ranger/scope.sh
+# rainbowstream
+.rainbow_config.json
+# fcitx
+fcitx/profile .config/fcitx/profile
+fcitx/config .config/fcitx/config
+fcitx/conf .config/fcitx/conf
+# mouse
+.xbindkeysrc
+# autostart
+autostart .config/autostart
+# gpg
+.gnupg/gpg.conf
+.gnupg/gpg-agent.conf
+

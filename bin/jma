@@ -1,0 +1,286 @@
+#!/usr/bin/env python3
+
+from collections import OrderedDict
+from datetime import *
+from icalendar import Calendar, Event
+import argparse
+import arrow
+import curses
+import json
+import os
+import progressbar
+import pytz
+import subprocess
+import sys
+import time
+import unicodedata
+import urllib.parse
+import urllib.request
+import xml.etree.ElementTree as etree
+
+quoted_delimiter = "%01"
+delimiter = urllib.parse.unquote(quoted_delimiter)
+sleep_time = 3600
+notify_time = 2
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    
+    @staticmethod
+    def nocolor():
+        bcolors.HEADER = ""
+        bcolors.OKBLUE = ""
+        bcolors.OKGREEN = ""
+        bcolors.WARNING = ""
+        bcolors.FAIL = ""
+        bcolors.ENDC = ""
+        bcolors.BOLD = ""
+        bcolors.UNDERLINE = ""
+
+def jastr(string, size):
+    ret = ""
+    s = 0
+    for ch in string:
+        if s + 1 == size:
+            ret += " "
+            return ret
+        elif s + 0 >= size:
+            ret+=""
+            return ret
+        try:
+            name = unicodedata.name(ch)
+        except:
+            continue
+        if "CJK UNIFIED" in name \
+            or "HIRAGANA" in name \
+            or "KATAKANA" in name \
+            or "FULLWIDTH" in name \
+            or "IDEOGRAPHIC" in name \
+            or "ANGLE BRACKET" in name \
+            or "WAVE DASH" in name \
+            or "CORNER" in name:
+            s += 2
+            ret += ch
+        else:
+            s += 1
+            ret += ch
+
+    ret += " " * (size - s)
+    return ret
+
+def onmessage(message):
+    outstr = ""
+    cols = curses.tigetnum("cols")
+    datecol = 6
+    titlecol = 9
+    disccol = cols - datecol - titlecol - 1
+    if isinstance(message, str):
+        raw = message
+    else:
+        raw = message.decode('utf-8')
+    t = etree.fromstring(str(raw))
+    namespaces = {'jmx': 'http://xml.kishou.go.jp/jmaxml1/', 
+        'jmx_ib': 'http://xml.kishou.go.jp/jmaxml1/informationBasis1/', 
+        'jmx_mete': 'http://xml.kishou.go.jp/jmaxml1/body/meteorology1/', 
+        'jmx_seis': 'http://xml.kishou.go.jp/jmaxml1/body/seismology1/', 
+        'jmx_eb': 'http://xml.kishou.go.jp/jmaxml1/elementBasis1/' }
+
+    for i in t.findall(".", namespaces):
+        title = str(i.find("./jmx_ib:Head/jmx_ib:InfoKind", namespaces).text)
+        if False == args.all and title == "気象警報・注意報":
+            continue
+
+        showtitle = jastr(title, titlecol)
+        showtitle = bcolors.WARNING + showtitle + bcolors.ENDC \
+            if title.find("津波") >= 0 or \
+                title.find("特別") >= 0 else showtitle
+
+        adate = arrow.get(str(i.find("./jmx_ib:Head/jmx_ib:TargetDateTime", 
+            namespaces).text))
+        outstr += (jastr("{0:0>2}".format(adate.hour) + \
+            ":" + "{0:0>2}".format(adate.minute), datecol))
+        outstr += (showtitle)
+
+        if i.find("./jmx_seis:Body/jmx_seis:Earthquake", namespaces) is not None:
+            outstr2 = ""
+            area = str(i.find(
+                "./jmx_seis:Body/jmx_seis:Earthquake/jmx_seis:Hypocenter/jmx_seis:Area/jmx_seis:Name", 
+                namespaces).text)
+            outstr2 += area + ", "
+            mg = str(i.find(
+                "./jmx_seis:Body/jmx_seis:Earthquake/jmx_eb:Magnitude", 
+                namespaces).text)
+            outstr2 += "M"+mg + ", "
+            commenttext = i.find("./jmx_seis:Body/jmx_seis:Comments/jmx_seis:ForecastComment/jmx_seis:Text", namespaces)
+            if commenttext is None:
+                comment = ""
+            else:
+                comment = str(commenttext.text)
+            outstr2 += comment
+            outstr += (jastr(outstr2+"("+str(i.find(
+                "./jmx_ib:Head/jmx_ib:Headline/jmx_ib:Text", 
+                namespaces).text)+")".replace("\r", "").replace("\n", ""),
+                disccol))
+        else:
+            text = i.find(
+                "./jmx_ib:Head/jmx_ib:Headline/jmx_ib:Text", namespaces).text
+            if text is None:
+                text = "("+str("".join(i.find("./jmx:Control/jmx:Title", 
+                    namespaces).text))+")"
+            outstr += (jastr(text.replace("\r", "").replace("\n", ""), disccol))
+    return outstr
+
+notifysent = []
+def notifysend(id, text):
+    if id not in notifysent:
+        subprocess.check_output(["notify-send", text])
+        notifysent.append(id)
+
+quiet = False
+def output(text, end="\n"):
+    sys.stdout.write(text + end)
+
+class jsonitem:
+    key = ""
+    value = ""
+
+    def __init__(self, k, v):
+        self.key = k
+        self.value = v
+
+def processjson(data, subarray):
+    title = data["title"]
+    if args.all == False and ( \
+        title.find("予報") >= 0 or \
+        title.find("平文情報") >= 0 or \
+        title == "府県気象情報" or \
+        title == "府県天気概況" or \
+        title == "紫外線観測データ" or \
+        title == "季節観測" or \
+        title.find("定時") >= 0 or \
+        title == "特殊気象報" or \
+        title == "環境気象情報" or \
+        title == "地方海上警報" or \
+        title == "全般海上警報" or \
+        title == "地方気象情報" or \
+        title == "気象警報・注意報" or \
+        title == "異常天候早期警戒情報" or \
+        title.find("竜巻注意情報") >= 0 or \
+        title == "生物季節観測"):
+        return
+    #print(title)
+
+    for i in jsonarray:
+        if i.key == data["link"]:
+            return False
+
+    with urllib.request.urlopen(data["link"]) as page:
+        a = onmessage(page.read())
+        subarray.insert(0, jsonitem(data["link"], a))
+        if a != "":
+            return True
+        else:
+            return False
+
+def lenjson():
+    e = 0
+    for i in jsonarray:
+        if i.value != "":
+            e += 1
+    return e
+
+def outputjson(jsonarray):
+    i = len(jsonarray) - 1
+    e = 0
+    while i >= 0 and e < args.count:
+        if jsonarray[i].value != "":
+            e += 1
+        i -= 1
+
+    if i < 0:
+        i = 0
+    while i < len(jsonarray):
+        if jsonarray[i].value != "":
+            if i + 1 == len(jsonarray):
+                output(jsonarray[i].value, end="")
+                sys.stdout.flush()
+            else:
+                output(jsonarray[i].value)
+        i += 1
+
+cols = 0
+def main(args, jsonarray):
+    curses.setupterm()
+    cols = curses.tigetnum("cols")
+    subarray = []
+
+    urlnormal = "通常"
+    begin = arrow.now().replace(days=-1).format("YYYY-MM-DD HH:mm")
+    end = arrow.now().format("YYYY-MM-DD HH:mm")
+    url = "http://api.aitc.jp/jmardb-api/search?&" + \
+        "datetime=" + urllib.parse.quote(begin, "/:") + \
+        "&datetime=" + urllib.parse.quote(end, "/:") + \
+        "&order=new&limit=100"
+    
+    with urllib.request.urlopen(url) as page:
+        data = json.loads(page.read().decode("utf-8"))
+        if not(args.quiet):
+            progress = progressbar.ProgressBar(
+               widgets=[progressbar.SimpleProgress()], maxval=args.count).start()
+        ecnt = 0
+        for i in data["data"]:
+            if ecnt >= args.count:
+                break
+            if processjson(i, subarray):
+                ecnt += 1
+                if not(args.quiet):
+                    progress.update(ecnt)
+
+    #clear terminal
+    output("")
+    if args.keep == True:
+        output(chr(27) + "[2J" + chr(27) + "[H", end="")
+        sys.stdout.flush()
+    jsonarray += subarray
+    outputjson(jsonarray)
+
+if __name__ == '__main__':
+    try:
+        parser = argparse.ArgumentParser(
+            description = "Display JMA disaster report.", 
+            epilog = "Powered by 先端IT活用推進コンソーシアム, 気象庁")
+        parser.add_argument("--count", "-n", type=int)
+        parser.add_argument("--all", "-a", action = "store_true")
+        parser.add_argument("--keep", "-k", action = "store_true")
+        parser.add_argument("--quiet", "-q", action = "store_true")
+        parser.add_argument("--no-color", action = "store_true")
+        args = parser.parse_args()
+
+        if args.count is None: args.count = 20
+        quiet = args.quiet
+        if args.no_color: bcolors.nocolor()
+        
+        jsonarray = []
+        if args.keep == True:
+            while True:
+                try:
+                    main(args, jsonarray)
+                    time.sleep(sleep_time)
+                except KeyboardInterrupt:
+                    raise
+                except Exception as e:
+                    sys.stderr.writelines(str(e) + "\n")
+                    sys.stderr.flush()
+                    time.sleep(sleep_time)
+        else:
+            main(args, jsonarray)
+    except KeyboardInterrupt:
+        pass
+

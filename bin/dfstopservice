@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. ~/dotfiles/bin/dffunc
+
+# disable ssh server
+dfx sudo systemctl stop ssh
+dfx sudo systemctl disable ssh
+
+# disable bluetooth service
+dfx sudo systemctl stop bluetooth
+dfx sudo systemctl disable bluetooth
+
+finalize dfstopservice
+

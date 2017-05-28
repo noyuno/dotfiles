@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import unicodedata
+import sys
+
+def main(argv):
+    for arg in argv:
+        for ch in arg:
+            print(unicodedata.name(ch))
+
+if __name__ == '__main__':
+    try:
+        if len(sys.argv) == 1:
+            while True:
+                main(input())
+        else:
+            main(sys.argv[1:])
+    except KeyboardInterrupt:
+        pass
+    except Exception as e:
+        sys.stderr.write(str(e))
+        sys.stderr.flush()
+

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "get" ]; then
+    git clone --depth 1 \
+        git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+elif [ "$1" = "make" ]; then
+    fakeroot make-kpkg --initrd --revision=0.1 \
+        custom kernel_image kernel_headers -j 4
+else
+    echo 'kernel [get|make]' >&2
+fi
+

@@ -1,0 +1,22 @@
+#!/bin/bash -e
+
+file="$(date +%Y%m%d).md"
+new=0
+if [ ! -f "$file" ]; then
+    new=1
+    echo "# $(date +%Y/%m/%d)" > "$file"
+    echo "" >> "$file"
+    echo "" >> "$file"
+    echo "" >> "$file"
+fi
+
+if [ "$new" -eq 1 ]; then
+    if [[ "$EDITOR" =~ ^(vi|emacs).* ]]; then
+        $EDITOR +3 "$file"
+    else
+        $EDITOR "$file"
+    fi
+else
+    $EDITOR "$file"
+fi
+

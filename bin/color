@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo 'front: \x1b[38;05;${color}m or \e[3${color}m
+back:  \x1b[48;05;${color}m'
+
+segment()
+{
+    for i in {0..255} ; do
+        printf "\x1b[$1;05;${i}m %3d" "${i}"
+        [ $(( (i + 1) % 16 )) -eq 0 ] && printf "\n"
+    done
+}
+segment 38
+segment 48

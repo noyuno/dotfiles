@@ -1,0 +1,82 @@
+#!/bin/bash -e
+
+height=600
+height_manual=0
+tmp_base=/tmp/image
+tmp_dist="$tmp_base/image.html"
+
+help()
+{
+    {
+        name=${0##*/}
+        cat << EOF
+Usage: $name [-h|--height] file...
+
+Options
+-h, --height  image height
+
+Support format
+    general image format, PDF
+EOF
+    } 1>&2
+    exit 1
+}
+
+args=$(getopt -o h: --long height: --long help -- $*)
+set -- $args
+while [ $# -gt 0 ]; do 
+    case $1 in 
+    --) shift; break ;;
+    -e|--height) 
+        height=$(echo "$2" | sed "s/'//g")
+        height_manual=1
+        shift ;;
+    -h|--help) help ;; 
+    esac
+    shift
+done
+
+
+conv()
+{
+    target=$(readlink -f "$1")
+    dir="$tmp_base/$target"
+    mkdir -p "$dir"
+    name="$dir/$(basename $target)"
+    nameext="${name##*.}"
+    if [ $height_manual -eq 0 -a "$nameext" = "pdf" ]; then
+        convheight="100%"
+    else
+        convheight="$height"
+    fi
+    conv_args_pdf='-density 300 -filter Point -scale x'$convheight' 
+        -background white -alpha remove'
+    conv_args='-scale x'$convheight' -background white -alpha remove'
+
+    if [ "$nameext" = "pdf" ]; then 
+        nameext=png
+        convert "$target" $conv_args_pdf "${name%.*}.$nameext"
+    else 
+        convert "$target" $conv_args "$name"
+    fi
+    for i in $(find "$dir" -type f | grep '.'"$nameext"'$' | sort -V); do
+        echo "<img src=\"$i\" height=\"$convheight\"></img>" >>"$tmp_dist"
+    done
+}
+
+if [ $# -eq 0 ]; then
+    help
+fi
+[ -f "$tmp_dist" ] && rm "$tmp_dist"
+for n in "$@"; do
+    name=$(echo "$n" | sed -e "s/^'//g" -e "s/'$//g")
+    if [ -f "$name" ]; then
+        conv "$name"
+    else
+        echo "file not found: $name" >&2
+    fi
+    shift
+done
+w3m "$tmp_dist"
+rm -rf "$tmp_base"
+

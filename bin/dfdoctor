@@ -1,0 +1,124 @@
+#!/bin/bash -e
+
+. "$HOME/dotfiles/bin/dffunc"
+
+total=0
+check_ret=0
+
+checkapt()
+{
+    check_ret=0
+    grep "$HOME/dotfiles/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        need_install "$i"
+        if [ "$need_install_ret" -eq 1 ]; then
+            echo "[ not installed ] $1: $i"
+            check_ret=$((check_ret + 1))
+        fi
+    done < "$DFTMP/data"
+    total=$((total + check_ret))
+}
+
+checkpip()
+{
+    check_ret=0
+    grep "$HOME/dotfiles/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        pip3 show "$1" 1>/dev/null 2>&1 &&:
+        if [ $? -eq 1 ]; then
+            echo "[ not installed ] $1: $i"
+            check_ret=$((check_ret + 1))
+        fi
+    done < "$DFTMP/data"
+    total=$((total + check_ret))
+}
+
+cdf_ret=0
+cdf()
+{
+    cdf_ret=0
+    if [ "$1" ]; then
+        source="$HOME/dotfiles/$1"
+        if [ ! "$2" ]; then
+            dest="$HOME/$1"
+        else
+            dest="$HOME/$2"
+        fi
+        if [ -e "$dest" ]; then
+            if [ -L "$dest" ]; then
+                a=$(readlink -f "$dest")
+                if [ ! "$a" = "$source" ]; then
+                    echo "[ bad ] dfdeploy: $1: $source $a"
+                    cdf_ret=1
+                fi
+            else
+                echo "[ not symlink ] dfdeploy: $1: $dest"
+                cdf_ret=1
+            fi
+        else
+            echo "[ not exists ] dfdeploy: $1: $dest"
+            cdf_ret=1
+        fi
+    else
+        dfout2 'cdf: arguments missing'
+        cdf_ret=1
+    fi
+}
+
+checklink()
+{
+    check_ret=0
+    grep "$HOME/dotfiles/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        cdf "$(echo $i | cut -d ' ' -f 1)" "$(echo $i | cut -d ' ' -f 2)"
+        check_ret=$((check_ret + cdf_ret))
+    done < "$DFTMP/data"
+    total=$((total + check_ret))
+}
+
+checkdein()
+{
+    check_ret=0
+    grep "$HOME/dotfiles/vim/rc/$1" -e '^repo\s=\s' | \
+        sed -e "s/#.*//g" -e "s/repo\s=\s//g" -e "s/'//g" > "$DFTMP/data"
+    while read i; do
+        if [ ! -d "$HOME/.cache/dein/repos/github.com/$i" ]; then
+            echo "[ not exists ] dein: $1: $i"
+            check_ret=$((check_ret + 1))
+        fi
+    done < "$DFTMP/data"
+    total=$((total + check_ret))
+}
+
+checkrepo()
+{
+    check_ret=0
+    name=$(git config --global user.name)
+    curl -s "https://api.github.com/users/$name/repos" | \
+        jq -r '.[].name' > "$DFTMP/data"
+    while read i; do
+        cd "$HOME"
+        if [ ! -d "$i/.git" ]; then
+            echo "[ not exists ] repo: $i"
+            check_ret=$((check_ret + 1))
+        fi
+    done < "$DFTMP/data"
+    total=$((total + check_ret))
+}
+
+checkapt dfinstall
+checkapt dfguiinstall
+checkpip pip
+checklink deploy
+checkdein dein.toml
+checkdein deineo.toml
+checkdein deinfile.toml
+checkdein deinlazy.toml
+checkrepo
+
+if [ "$total" -eq 0 ]; then
+    echo -e  "\e[32mAll ok\e[m"
+else
+    echo -e "\e[33m$total incidents reported.\e[m"
+fi
+exit $total

@@ -1,0 +1,22 @@
+#!/bin/bash -e
+
+base="$HOME/blog"
+title="$1"
+if [ ! "$title" ]; then
+    echo "required title" 1>&2
+    exit 1
+fi
+if [ ! -d "$HOME/blog" ]; then
+    echo "clone blog repo" 1>&2
+    exit  1
+fi
+
+ybase="$base/_posts/$(date +%Y)"
+mkdir -p "$ybase"
+f="$ybase/$(date +%Y-%m-%d)-$title.md"
+if [ ! -f "$f" ]; then
+    cp "$HOME/dotfiles/templates/blog.md" "$f"
+    sed -i 's|title:|title: '"$title"'|' "$f"
+fi
+vim "$f"
+

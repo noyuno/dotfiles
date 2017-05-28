@@ -1,0 +1,119 @@
+#!/bin/bash -e
+help()
+{
+    {
+        name=${0##*/}
+        cat << EOF
+Usage: $name [-i|--interval <float>] [-s|--times <float>] [-e|--keep] 
+    [-c|--scale <integer>] [-bBkKmMgG] [-tra] [iface]
+
+Options
+iface           Set network interface. When this option is not specified, 
+                treat dev is default routing interface.
+
+-i, --interval <float greater than 0>
+                Set output interval. Unit is second. Default is 1.
+-s, --times <integer greater than 0>
+                Set output times. Default is 1.
+-e, --keep      Keep output. C-C to kill program. This overwrites --times.
+                Default is not set.
+-c, --scale <unsigned integer>
+                Set output decimal scale. When set 2, output will be (1.23).
+                Default is 0 (1).
+-t              Output transmitter speed.  
+-r              Output receiver speed. 
+-a              Output all speed. When -t nor -r is not specified, treat -a is
+                set.
+-q              Quiet unit colomn. Default is not set.
+
+Units
+-b              bps (1[bit/s] = 1[bps])
+-B              Bps (Byte per second) default
+-k              Kbps
+-K              KBps (1[KBps] = 1024[Bps]) 
+-m              Mbps
+-M              MBps
+-g              Gbps
+-G              GBps
+
+Examples
+Print only receiver speed each second on eth0 by Mib/s unit by 2 scale, and
+keep printing.
+    $name -eqmrc 2 eth0
+
+Print format is based on ethtool
+EOF
+    } 1>&2
+    exit 1
+}
+
+out()
+{
+    calc=$(echo "scale=$scale; ($2-$3)/$unit/$interval" | bc | sed -e 's/^\./0./g')
+    [ ! "$quiet" ] && printf '%s_%s: ' "$1" "$units"     
+    printf '%s\n' "$calc" 
+}
+
+args=$(getopt -o i:s:ec:bBkKmMgGtraq --long interval: --long times: \
+    --long keep --long scale: --long help -- $*)
+set -- $args
+while [ $# -gt 0 ]; do 
+    case $1 in 
+    --) shift; break ;;
+    -i|--interval) 
+        interval2=$(echo "$2" | sed "s/'//g")
+        interval=$(printf "%f" "$interval2")
+        shift ;;
+    -s|--times) 
+        times2=$(echo "$2" | sed "s/'//g")
+        times=$(printf "%d" "$times2")
+        shift ;; 
+    -e|--keep) keep=1 ;;
+    --help) help ;; 
+    -c|--scale) 
+        scale2=$(echo "$2" | sed "s/'//g")
+        scale=$(printf "%d" "$scale2")
+        shift ;;
+    -b) unit=0.125; units="bps" ;;
+    -B) unit=1; units="Bps" ;;
+    -k) unit=$((1024/8)); units="Kbps" ;;
+    -K) unit=1024; units="KBps" ;;
+    -m) unit=$((1024*1024/8)); units="Mbps" ;;
+    -M) unit=$((1024*1024)); units="MBps" ;;
+    -g) unit=$((1024*1024*1024/8)); units="Gbps" ;;
+    -G) unit=$((1024*1024*1024)); units="GBps" ;;
+    -t) tx=1 ;;
+    -r) rx=1 ;;
+    -a) tx=1; rx=1 ;;
+    -q) quiet=1
+    esac
+    shift
+done
+dev=`echo $* | sed "s/'//g"`
+[ ! "$dev" ] && dev=$(route | awk '/^default/ { print $8 }')
+[ ! "$dev" ] && \
+    echo "dev is not specified, and unable to find default routing interface." 1>&2 && \
+    exit 1
+[ ! "$interval" ] && interval=1
+[ ! "$times" ] && times=1
+[ ! "$scale" ] && scale=0
+[ ! "$unit" ] && unit=0.125 && units="bps"
+[ ! "$tx" -a ! "$rx" ] && tx=1 && rx=1
+
+i=0
+#rx1=`ethtool -S $dev | awk '/rx_bytes/ { print $2 }'` 
+#tx1=`ethtool -S $dev | awk '/tx_bytes/ { print $2 }'`
+rx1=$(($(ethtool -S $dev | awk '/rx_packets/ { print $2 }') * 128))
+tx1=$(($(ethtool -S $dev | awk '/tx_packets/ { print $2 }') * 128))
+while [ "$keep" -o $i -lt $times ]; do 
+    rx0=$rx1
+    tx0=$tx1
+    sleep $interval
+    rx1=$(($(ethtool -S $dev | awk '/rx_packets/ { print $2 }') * 128))
+    tx1=$(($(ethtool -S $dev | awk '/tx_packets/ { print $2 }') * 128))
+    [ "$rx" ] && out "rx" $rx1 $rx0
+    [ "$tx" ] && out "tx" $tx1 $tx0
+    i=$((i+1))
+done 
+
+

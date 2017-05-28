@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+base=$HOME/pass
+
+for i in $(find $base -type f -name '*.gpg'); do
+    name=${i##$base/}
+    echo -n $name': '
+    gpg2 -qd $i
+done
+

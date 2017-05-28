@@ -1,0 +1,80 @@
+#!/bin/bash -e
+
+help()
+{
+    {
+        name=${0##*/}
+        cat << EOF
+Usage: $name [-gmpq] [filename]
+-g: Gothic (san-serif) style (default)
+-m: Mincho (serif) style
+-p: preview
+-q: quiet
+filename: filename. Read from stdin if not given.
+EOF
+    } 1>&2
+    exit 1
+}
+
+gothic=
+mincho=
+dryrun=
+quiet=
+
+while getopts gmpqh opt; do
+    case $opt in
+    h) help ;;
+    g) gothic=1 ;;
+    m) mincho=1 ;;
+    p) dryrun=1 ;;
+    q) quiet=1 ;;
+    esac
+done
+
+shift $((OPTIND - 1))
+if [ $# -gt 1 ]; then
+    echo "too many filename" 1>&2
+fi
+file=$1
+
+if [ "$file" ]; then
+    text=$(cat $file)
+    file=$(readlink -f $file | sed -e 's|'$HOME'|〜|')
+else
+    text=$(cat)
+    file=stdin
+fi
+
+tmp=$(mktemp -d)
+
+cp -R ~/dotfiles/report/*.sty ~/dotfiles/report/*.tex ~/dotfiles/report/Makefile $tmp
+cp -R ~/dotfiles/plain/*.tex $tmp
+cd $tmp
+echo "$text" |
+sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/$/<br>/' |
+pandoc -f html -t latex -o plain.tex
+sed -i 's|\[2\\baselineskip\]|\[1\\baselineskip\]|' plain.tex
+
+# replace variables
+sed -i 's|FILENAME|'$file'|' report.tex
+if [ "$mincho" ]; then
+    sed -i 's/.*SANS-SERIF/%&/' report.tex
+fi
+
+run()
+{
+    if [ "$dryrun" ]; then
+        make show LATEXMKOPTION=-quiet
+    else
+        make LATEXMKOPTION=-quiet
+        lpr report.pdf
+    fi
+    make clean
+}
+
+if [ "$quiet" ]; then
+    run 1>/dev/null 2>&1
+else
+    run 1>/dev/null
+fi
+

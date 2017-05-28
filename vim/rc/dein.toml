@@ -1,0 +1,164 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
+repo = 'thinca/vim-unite-history'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'osyo-manga/unite-filetype'
+
+[[plugins]]
+repo = 'Shougo/unite-sudo'
+
+[[plugins]]
+repo = 'vim-jp/autofmt'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+# Operators
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'sorah/unite-ghq'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'osyo-manga/unite-vimpatches'
+
+[[plugins]]
+repo = 'Shougo/unite-build'
+
+[[plugins]]
+repo = 'Shougo/unite-help'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+[[plugins]]
+repo = 'machakann/vim-vimhelplint'
+hook_add = '''
+  autocmd MyAutoCmd FileType
+  \ help nnoremap <silent><buffer> ,r  :<C-u>VimhelpLint!<CR>
+'''
+
+[[plugins]]
+repo = 'Kocha/vim-unite-tig'
+
+[[plugins]]
+repo = 'thinca/vim-themis'
+
+[[plugins]]
+repo = 'vim-jp/syntax-vim-ex'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+  set laststatus=2
+  let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'readonly', 'absolutepath', 'modified' ] ],
+      \   'right': [ [ 'lineinfo',  'syntastic' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \ },
+      \ 'mode_map': {
+      \   '__' : '-',
+      \   'n'  : 'N',
+      \   'i'  : 'I',
+      \   'R'  : 'R',
+      \   'c'  : 'C',
+      \   'v'  : 'V',
+      \   'V'  : 'V',
+      \   '' : 'V',
+      \   's'  : 'S',
+      \   'S'  : 'S',
+      \   '' : 'S',
+      \   'p'  : 'P'
+      \ },
+      \ 'component': {
+      \   'paste': '%{&paste?"P":""}',
+      \   'readonly': '%{&readonly?"":""}',
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype!="help"&& &readonly)',
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ },
+      \ 'component_function': {
+      \   'syntastic': 'SyntasticStatuslineFlag',
+      \   'absolutepath': 'AbsolutePath'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
+      \ 'tabline': {
+      \ 'left': [ [ 'tabs' ] ]
+      \ }
+      \ }
+
+  function! AbsolutePath()
+    let a = substitute(expand('%:p'), $HOME, '~', '')
+    if a == ""
+      return '🗒'
+    elseif strlen(a) > 40
+      return a[strlen(a)-40:]
+    else
+      return a
+    endif
+  endfunction
+'''
+
+[[plugins]]
+repo = 'mattn/gist-vim'
+depends = ['webapi-vim']
+hook_add = '''
+let g:gist_clip_command = 'xclip -selection clipboard'
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+let g:gist_browser_command = 'xdg-open %URL%'
+'''
+
+
+[[plugins]]
+repo = 'vim-scripts/gnupg.vim'
+
+[[plugins]]
+repo = 'kana/vim-submode'
+hook_add  = '''
+"call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
+"call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
+"call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
+"call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
+"call submode#map('bufmove', 'n', '', '>', '<C-w>>')
+"call submode#map('bufmove', 'n', '', '<', '<C-w><')
+"call submode#map('bufmove', 'n', '', '+', '<C-w>+')
+"call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'noyuno/unite-uri'
+
+[[plugins]]
+repo = 'itchyny/calendar.vim'
+hook_add = '''
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
+'''
+

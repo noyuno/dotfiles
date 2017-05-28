@@ -1,0 +1,312 @@
+# ls, the common ones I use a lot shortened for rapid fire usage
+case ${OSTYPE} in
+    linux*) 
+        alias ls='ls --color'
+        tstyle='--time-style=iso';; #I like color
+    darwin*) alias ls='ls -G' ;;
+esac
+alias l='ls -Fh'     #size,show type,human readable
+alias la='ls -AFh'   #long list,show almost all,show type,human readable
+alias lr='ls -tRFh'   #sorted by date,recursive,show type,human readable
+alias lt='ls -ltFh '"$tstyle"   #long list,sorted by date,show type,human readable
+alias ll='ls -lFh '"$tstyle" # show with long
+alias lla='ls -halF '"$tstyle" # show all with long
+alias ldot='ls -ld '"$tstyle"' .*' # show only dotfiles
+alias lS='ls -1FSsh' # show size
+alias lrt='ls -1Fcrt' # show order by ctime
+alias lart='ls -1Fcart' # show all order by ctime
+# show all recursively order by size
+alias fs='ls -lah --time-style=iso $(find . -type f) | sort -h -k5 | grep -v "./.git"'
+
+# less
+alias less='less -asRix8'
+# find/grep/ag
+alias grep='grep --color=always'
+alias grepc='find . -type f | xargs grep --color'
+alias grepn='find . -type f | grep --color'
+alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
+
+alias ag='ag -S'
+alias agl='ag -S --stats --pager "less -R"'
+alias agh='ag --hidden'
+alias aglh='ag --hidden -S --stats --pager "less -R"'
+
+alias t='tail -F'
+alias mt='multitail'
+
+# because typing 'cd' is A LOT of work!!
+alias ..='cd ../'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+alias .1='cd ../'
+alias .2='cd ../../'
+alias .3='cd ../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../../'
+alias .6='cd ../../../../../../'
+alias cdr='cd $(git rev-parse --show-toplevel)'
+
+# Command line head / tail shortcuts
+if [ "$ZSH_VERSION" ]; then
+    alias -g H='| head'
+    alias -g T='| tail'
+    alias -g G='| grep'
+    alias -g L="| less"
+    alias -g M="| most"
+    alias -g LL="2>&1 | less"
+    alias -g CA="2>&1 | cat -A"
+    alias -g NE="2> /dev/null"
+    alias -g NUL="> /dev/null 2>&1"
+    alias -g P="2>&1| pygmentize -l pytb"
+fi
+lessr() { unbuffer $* | less -R; }
+
+alias dud='du --max-depth 1 -h | sort -h'
+alias duf='du -sh *'
+alias duc='du -b | sort -n | numfmt --to=iec --suffix=B --padding=5'
+alias dus='du --max-depth 1 -m | sort -n'
+
+alias fd='find . -type d -name'
+alias ff='find . -type f -name'
+
+alias h='history'
+alias hr='history 1 | awk "{print \$2}" | sort | uniq -c | sort -nr | head | sort'
+alias hgrep="fc -El 0 | grep"
+alias help='man'
+alias js='jobs'
+alias p='ps -f'
+alias sortnr='sort -n -r'
+alias unexport='unset'
+
+case ${OSTYPE} in
+    linux*)
+        alias rm='rm -I'
+        alias cp='cp -i'
+        alias mv='mv -i' ;;
+    darwin*)
+        alias rm='rm -i'
+        alias cp='cp -i'
+        alias mv='mv -i' ;;
+esac
+alias ar='trash'
+
+# zsh is able to auto-do some kungfoo
+# depends on the SUFFIX :)
+if [ "${ZSH_VERSION}" ]; then
+    # open browser on urls
+    _browser_fts=(htm html de org net com at cx nl se dk dk php)
+    for ft in $_browser_fts ; do alias -s $ft=$BROWSER ; done
+
+    _editor_fts=(cpp cxx cc c hh h inl asc txt TXT tex)
+    for ft in $_editor_fts ; do alias -s $ft=$EDITOR ; done
+
+    _image_fts=(jpg jpeg png gif mng tiff tif xpm)
+    for ft in $_image_fts ; do alias -s $ft=$XIVIEWER; done
+
+    _media_fts=(ape avi flv mkv mov mp3 mpeg mpg ogg ogm rm wav webm)
+    for ft in $_media_fts ; do alias -s $ft=mplayer ; done
+
+    #read documents
+    alias -s pdf=acroread
+    alias -s ps=gv
+    alias -s dvi=xdvi
+    alias -s chm=xchm
+    alias -s djvu=djview
+
+    #list whats inside packed file
+    alias -s zip="unzip -l"
+    alias -s rar="unrar l"
+    alias -s tar="tar tf"
+    alias -s tar.gz="echo "
+    alias -s ace="unace l"
+fi
+
+# Make zsh know about hosts already accessed by SSH
+if [ "$ZSH_VERSION" ]; then
+    zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts \
+    'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+fi
+
+# tmux
+alias tmux='TERM=xterm-256color tmux'
+alias c='tmux save-buffer - | xsel -ib'
+alias tmain='tmuxinator start main'
+alias tlap='tmuxinator start laptop'
+
+#mount
+alias mountiso='mount -t iso9660 -o loop'
+
+#git
+which hub 1>/dev/null 2>&1
+[ $? -eq 0 ] && eval "$(hub alias -s)"
+
+alias g='git'
+alias gu='git pull'
+which tig 1>/dev/null 2>&1 &&:
+[ $? -eq 0 ] && alias gs='tig status' || alias gs='git status'
+gpush()
+{
+    [ -z "$@" ] && text="Update" || text="$@"
+    git add .
+    git commit -m "$text"
+    git push
+}
+ginit()
+{
+    [ ! -d ".git" ] && git init
+    command cp "$HOME/dotfiles/.gitattributes" .
+}
+
+gilfs()
+{
+    [ ! -d ".git" ] && git init
+    command cp "$HOME/dotfiles/.gitattributes.lfs" .gitattributes
+}
+
+alias pinst='pip3 install --user'
+
+if [[ -x `which colordiff 2>/dev/null` ]]; then
+    alias diff='colordiff -u'
+else
+    alias diff='diff -u'
+fi
+
+# urxvt
+alias urxvt='xrdb ~/.Xresources; urxvt -e tmux'
+alias rxvt='urxvt'
+# xterm
+alias uxterm='TERM=xterm-256color uxterm -e tmux -2'
+alias xterm='uxterm'
+
+# cron
+if [ -f ~/.crontab ]; then
+    crontabrc=~/.crontab
+    if test -z $CRONTABCMD; then
+        # allows to source zshrc twice
+        export CRONTABCMD=$(which crontab)
+        crontab()
+        {
+            if [[ $@ == "-e" ]]; then
+                vim $crontabrc && $CRONTABCMD $crontabrc
+            else
+                $CRONTABCMD $@
+            fi
+        }
+        $CRONTABCMD $crontabrc
+    fi
+fi
+
+gcalcli() { [ $# -eq 0 ] && command gcalcli calw 4 || command gcalcli $@; }
+
+# trans
+alias trej='trans en:ja'
+alias trje='trans ja:en'
+
+alias restart-keyring='gnome-keyring-daemon -r -d'
+alias susp='mate-screensaver-command -l && sudo pm-suspend'
+alias sourceall='exec $SHELL -l'
+
+# clipboard
+alias ci='xsel -ib'
+alias co='xsel -ob'
+
+# clang
+alias clang='clang -fcolor-diagnostics'
+alias clang++='clang++ -fcolor-diagnostics'
+
+# help
+alias dfhelp="lessr markdown-cli $HOME/dotfiles/readme.md"
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i \
+    "$([ $? = 0 ] && echo terminal || echo error)" \
+    "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# my ip
+alias gip='curl -s ipinfo.io | jq ".ip" -r'
+alias lip='hostname -I | cut -d " " -f 1'
+
+# cdev fix
+alias cdevfix='ssh cdev rm ".zsh_history*"'
+
+# SHELLCHECK_OPTS does not work
+alias shellcheck='command shellcheck -e 2002 -e 2016'
+
+# multibyte wc
+alias wcm='wc -lm'
+
+# watch 'leap seconds'
+alias leap='ntpq -c "lassoc" -c "mrv &1 &999 leap,srcadr,stratum"'
+
+function ranger() {
+    if [ -z "$RANGER_LEVEL" ]; then
+        command ranger $@
+    else
+        exit
+    fi
+}
+alias rr='ranger'
+
+# RPROMPT
+alias enrprompt='RPROMPT=$RPROMPT_ORIG'
+alias disrprompt='RPROMPT='
+
+#ipython
+alias ipython='ipython --profile=default'
+
+alias rs='rainbowstream -iot'
+
+alias animea='anime -a -n $((LINES-2))'
+alias icala='ical -a -n $((LINES-2))'
+
+alias mozc-config='/usr/lib/mozc/mozc_tool --mode=config_dialog'
+
+# for logitech keyboard
+alias logicool='sudo localectl set-x11-keymap jp logicda'
+
+# wiki
+alias wiki='wiki -s'
+
+# IntelliJ IDEA
+alias ideainit='cp "$HOME/dotfiles/templates/intellij-idea.iml" "$(basename $PWD).iml"'
+
+# sudo
+alias sudo='sudo '
+
+# open
+alias xo='xdg-open'
+
+# bc
+bb()
+{
+    echo "scale=2; $*" | bc -ql | sed -e 's/^\./0./'
+}
+
+alias lock='mate-screensaver-command -l'
+
+alias bc='bc -q'
+
+alias mc="gpg2 --list-secret-keys|grep \< --color=no | sed -e 's/^.* <//' -e 's/>$//'|head -n 1 | xsel -ib"
+
+gpgdfix()
+{
+    echo -n "Passphrase for $*: "
+    read -s pass
+    echo "$pass" | gpg -qd --passphrase-fd 0 $*
+}
+
+killgpga()
+{
+    gpgconf --kill gpg-agent
+}
+
+printersetup()
+{
+    a=$(avahi-browse -tr "_http._tcp" -p | \
+        grep '^=' --color=never | \
+        cut -d \; -f 7)
+    xdg-open "http://$a"
+}
+

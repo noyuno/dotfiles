@@ -1,0 +1,11 @@
+linux/* linguist-documentation 
+vim/dict/* linguist-documentation 
+vim/colors/* linguist-documentation 
+vim/tags/* linguist-documentation 
+*.docx diff=pandoc
+*.xlsx diff=xlsx
+*.pdf diff=pdf
+*.sqlite diff=sqlite
+*.sqlite3 diff=sqlite
+*.gz diff=gzip
+

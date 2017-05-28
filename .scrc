@@ -1,0 +1,5 @@
+set craction=1
+set numeric
+set tblstyle=latex
+latexext "tex"
+

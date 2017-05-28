@@ -1,0 +1,30 @@
+#!/bin/bash -e
+
+if [ $# -ne 1 ]; then
+    exit 1
+fi
+
+recursive() {
+    echo recursive: $1
+    (
+    path=$1
+    path2="${path%/*}"
+    parent="${path2%/*}"
+    for i in $(dconf list "$path"); do
+        echo list: $i
+        if [[ "$i" =~ /$ ]]; then
+            recursive "$path$i"
+        else
+            echo dump $path2
+            if [ ! -e ".$parent" ]; then
+                echo "mkdir .$parent"
+                mkdir -p ".$parent"
+            fi
+            dconf dump "$path" > ".$path2.conf"
+        fi
+    done
+    )
+}
+
+recursive "$1"
+

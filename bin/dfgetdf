@@ -1,0 +1,37 @@
+#!/bin/bash
+# dotfiles
+
+sshgit="git@github.com:noyuno/dotfiles.git"
+httpsgit="https://github.com/noyuno/dotfiles.git"
+clone()
+{
+    cd ~
+    if [ "$1" = "ssh" ]; then
+        git clone "$sshgit" ~/dotfiles --depth 1
+    else
+        git clone "$httpsgit" ~/dotfiles --depth 1
+        cd ~/dotfiles 
+        git remote set-url origin "$sshgit"
+    fi
+}
+
+[ -z "$(git config --global user.email)" ] && \
+    git config --global user.name "noyuno"
+[ -z "$(git config --global user.name)" ] && \
+    git config --global user.email "noyuno@users.noreply.github.com"
+
+if [ -d ~/dotfiles ]; then
+    cd ~/dotfiles
+    git pull --depth 1 &&:
+    ret=$?
+    cd ~
+    if [ "$ret" -ne 0 ]; then
+        echo 'Remote access denied: dotfiles' >&2
+        DFTIME=$(date +%Y%m%d-%H%M%S)
+        mv "~/dotfiles" "~/dotfiles_$DFTIME" &&:
+        clone
+    fi
+else
+    clone
+fi
+

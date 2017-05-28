@@ -1,0 +1,240 @@
+#!/bin/bash -e
+. ~/dotfiles/bin/dffunc
+
+iinit()
+{
+    dfout2 "Getting package management environment"
+
+    sedapt 's|http://archive\.ubuntu\.com|http://jp.archive.ubuntu.com|g'
+
+    aptupdate
+    aptinstall \
+        apt-transport-https apt-utils bash wget curl git openssh-client \
+        lsb-release software-properties-common \
+        python-software-properties
+
+    distribution="$(lsb_release -is | awk '{ print tolower($1) }')"
+    release="$(lsb_release -sc)"
+
+    if [ "$release" = "xenial" ]; then
+        addapt ppa:ubuntu-lxc/lxd-stable
+    fi
+
+    packages=()
+    if [ "$distribution" = "ubuntu" ]; then
+        dfx sudo cp -v /etc/apt/sources.list "$DFBACKUP/sources.list"
+        dfx sudo cp -v ~/dotfiles/list/sources.list /etc/apt/sources.list
+        sedapt 's/xenial/'"$release"'/g'
+        if [ "$(curl -s ipinfo.io/country)" != "JP" ]; then
+            sedapt 's|http://jp.archive.ubuntu.com|http://archive.ubuntu.com|g'
+        fi
+        packages=(${packages[@]} language-pack-ja)
+    fi
+}
+
+igitlfs()
+{
+    which git-lfs 1>/dev/null 2>&1 &&:
+    if [ $? -ne 0 ]; then
+        if [ "$distribution" = "raspbian" ]; then
+            dfout2 "Building git-lfs"
+            # https://gist.github.com/show0k/388bf364da9347d7cfedcddd322eb8f4
+            dfx mkdir -p $HOME/.go
+            dfx pushd "$HOME/.go"
+                dfx wget -qO go.tar.gz \
+                    'https://storage.googleapis.com/golang/go1.8.linux-armv6l.tar.gz'
+                dfx sudo tar -C /usr/local -xzf go.tar.gz
+                dfx rm -f go.tar.gz
+                set -x
+                export PATH=$PATH:$HOME/.go/bin:/usr/local/go/bin
+                export GOPATH=$PWD
+                echo "PATH=$PATH:/usr/local/go/bin" >> $HOME/.bashrc
+                echo "GOPATH=$PWD" >> $HOME/.bashrc
+                set +x
+                dfx mkdir -p src/github.com/git-lfs
+                dfx pushd src/github.com/git-lfs
+                    dfx git clone https://github.com/git-lfs/git-lfs --depth 1
+                    dfx pushd git-lfs
+                    dfx script/bootstrap
+                    dfx popd
+                dfx popd
+                dfx mkdir -p bin
+                dfx ln -sfnv $HOME/.go/src/github.com/git-lfs/git-lfs/bin/git-lfs bin/git-lfs
+            dfx popd
+        else
+            dfx curl -sL https://packagecloud.io/github/git-lfs/gpgkey '|' sudo apt-key add -
+            addapt "deb https://packagecloud.io/github/git-lfs/$distribution/ $release main"
+            packages=(${packages[@]} "git-lfs" "golang" "golang-go")
+        fi
+    else
+        dfout3 "git-lfs has already installed"
+    fi
+}
+
+ipostfix()
+{
+    dfx sudo debconf-set-selections '<<<' 'postfix postfix/mailname string localhost'
+    dfx sudo debconf-set-selections '<<<' 'postfix postfix/main_mailer_type string '"'"'Internet Site'"'"
+}
+
+idkmsheaders()
+{
+# Install linux-headers-`uname -r`{,-generic} packages.
+# There use to virtualbox-dkms' .ko compilation process's
+# (but don't install these now).
+    if [ "$distribution" != "raspbian" ]; then
+        apt show "linux-headers-$(uname -r)" 1>/dev/null 2>&1 &&:
+        if [ $? -eq 0 ]; then 
+            ver=$(uname -r | sed 's/-generic//g')
+            packages=(${packages[@]} "linux-headers-$ver" "linux-headers-$ver-generic")
+        fi
+    fi
+}
+
+imutt()
+{
+    if [ "$release" = "xenial" ]; then
+        packages=(${packages[@]} "mutt-patched")
+    else
+        packages=(${packages[@]} "mutt")
+    fi
+}
+
+ipackage()
+{
+    dfout2 "Installing packages"
+    aptupdate
+    aptupgrade
+
+    grep "$HOME/dotfiles/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        packages=(${packages[@]} $i)
+    done < "$DFTMP/data"
+    aptinstall ${packages[@]}
+}
+
+ipip()
+{
+    dfx sudo -H pip3 install --upgrade pip
+    dfx sudo -H pip3 freeze --local '|' grep -v '^\-e' '|' cut -d = -f 1 '|' xargs sudo -H pip3 install -U &&:
+    dfx sudo -H pip3 install ipython pip-review ansi2html
+    set +e
+    packages=()
+    grep "$HOME/dotfiles/list/pip" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        packages=(${packages[@]} $i)
+    done < "$DFTMP/data"
+    dfx pip3 install --user ${packages[@]}
+    [ -f "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" ] && \
+        dfx patch -u "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" \
+            < "$HOME/dotfiles/patch/freetype-py/__init__.py.patch"
+}
+
+igo()
+{
+    [ ! "$GOPATH" ] && dfx export GOPATH="$HOME/.go"
+    dfx go get github.com/github/hub \
+            github.com/atsaki/termeter/cmd/termeter \
+            github.com/walle/wiki/cmd/wiki 
+    set -e
+}
+
+igem()
+{
+    gv=$(gem --version | sed 's/\(.*\..*\)\..*/\1/')
+    export PATH=$PATH:$HOME/.gem/ruby/$gv/bin
+    dfx gem install --user-install rubygems-update
+    dfx sudo $HOME/.gem/ruby/$gv/bin/update_rubygems
+}
+
+irbenv()
+{
+    dfx mkdir -p $HOME/.rbenv
+    [ ! -e ~/.rbenv ] && \
+    dfx git clone https://github.com/sstephenson/rbenv.git ~/.rbenv --depth 1
+    dfx mkdir -p $HOME/.rbenv/plugins
+    [ ! -e ~/.rbenv/plugins/ruby-build ] && \
+        dfx git clone https://github.com/sstephenson/ruby-build.git \
+        ~/.rbenv/plugins/ruby-build --depth 1
+    export PATH="$PATH:$HOME/.rbenv/bin"
+    rv=$(rbenv install -l | grep -v - | tail -1)
+    dfx rbenv install $rv
+    dfx rbenv global $rv
+}
+
+itpm()
+{
+    gv=$(gem --version | sed 's/^\([^\.]\)\..*$/\1/')
+    [ ! -d "$HOME/.tmux/plugins/tpm" ] && \
+        dfx git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    if [ $gv -eq 1 ]; then
+        nr="--no-rdoc"
+    else
+        nr="--no-document"
+    fi
+    dfx gem install --user-install "$nr" tmuxinator github-pages
+}
+
+inodejs()
+{
+    dfx sudo ln -sfnv /usr/bin/nodejs /usr/bin/node
+    dfx ln -sfnv "$HOME/dotfiles/.npmrc" "$HOME/.npmrc"
+    dfx npm install -g npm-check-updates markdown-cli ansimd
+}
+
+igitsecrets()
+{
+    dfx git clone --depth 1 https://github.com/awslabs/git-secrets.git
+    dfx pushd git-secrets
+        make install PREFIX=$HOME
+    dfx popd
+}
+
+ifzf()
+{
+    if [ -d ~/.fzf ]; then
+        dfx pushd ~/.fzf 
+            dfx git pull origin master '&&:'
+        dfx popd
+    else
+        dfx git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 
+    fi
+    dfx ~/.fzf/install --all
+}
+
+itrans()
+{
+# trans
+    dfx mkdir -p "$HOME/bin"
+    dfx curl -sL git.io/trans -o "$HOME/bin/trans"
+    dfx chmod +x "$HOME/bin/trans"
+}
+
+iufw()
+{
+    dfx sudo service ufw start '&&:'
+    dfx sudo sysv-rc-conf ufw on
+}
+
+if [ $# -eq 0 ]; then
+    iinit
+    igitlfs
+    ipostfix
+    idkmsheaders
+    imutt
+    ipackage
+    ipip
+    igo
+    irbenv
+    itpm
+    inodejs
+    igitsecrets
+    ifzf
+    itrans
+    iufw
+else
+    eval $*
+fi
+
+finalize dfinstall
+

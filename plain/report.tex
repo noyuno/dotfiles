@@ -1,0 +1,39 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass[uplatex,a4paper,10pt]{jsarticle}
+
+\usepackage{docmute}
+\input{style}
+\input{style-pandoc}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% Inconsolata
+\usepackage[T1]{fontenc}
+\usepackage{upquote}
+%\usepackage{zi4}
+%\usepackage{bxinconsolata}
+
+% Source Han Sans
+\usepackage{tcsourcehans}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\renewcommand{\familydefault}{\ttdefault} % SANS-SERIF
+\setstretch{1.0}
+
+\usepackage{lineno}
+\pagewiselinenumbers
+
+\begin{document}
+
+\kanjifamily{sourcehans}\selectfont % SANS-SERIF
+
+\lhead{FILENAME}
+\rhead{\today}
+
+\input{plain}
+
+\end{document}
+

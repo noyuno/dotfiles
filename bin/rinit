@@ -1,0 +1,42 @@
+#!/bin/bash -e
+
+help()
+{
+    {
+        name=${0##*/}
+        cat << EOF
+Usage: $name [-m|--markdown] name
+EOF
+    } 1>&2
+    exit 1
+}
+
+args=$(getopt -o mh -l markdown -l help -- $*)
+set -- $args
+
+md=0
+
+while [ $# -gt 0 ]; do
+    case $1 in
+    --) shift; break ;;
+    -m|--markdown) md=1 ;;
+    -h|--help) help ;;
+    esac
+    shift
+done
+
+dir=$(echo $* | sed "s/'//g")
+
+if [ $# -eq 0 ]; then
+    dir=.
+else
+    mkdir -p "$dir"
+fi
+
+cp -R ~/dotfiles/report/*.sty ~/dotfiles/report/*.tex ~/dotfiles/report/Makefile "$dir"
+
+if [ "$md" -eq 1 ]; then
+    cp -R ~/dotfiles/report/report.md "$dir"
+    sed -i 's/%\\input{reportc}/\\input{reportc}/' "$dir/report.tex"
+fi
+

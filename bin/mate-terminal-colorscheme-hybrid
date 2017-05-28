@@ -1,0 +1,27 @@
+#!/bin/bash -e
+
+#black  :red         :green         :yellow         :blue        :magenta         :cyan        :base2-white:
+#brblack:orange-brred:base01-brgreen:base00-bryerrow:base0-brblue:violet-brmagenta:base1-brcyan:base3-brwhite
+    
+  P="#2D3C46:#A54242:#8C9440:#DE935F:#5F819D:#85678F:#5E8D87:#C3C9CC:"
+P=$P"#425059:#CC6666:#B5BD68:#F0C674:#81A2BE:#B294BB:#8ABEB7:#DEDEDE"
+for i in `seq 1 16`; do
+    PALETTE="$PALETTE:#"
+    PALETTE=$PALETTE`echo $P | cut -d ':' -f $i -s | cut -c 2-3`
+    PALETTE=$PALETTE`echo $P | cut -d ':' -f $i -s | cut -c 2-3`
+    PALETTE=$PALETTE`echo $P | cut -d ':' -f $i -s | cut -c 4-5`
+    PALETTE=$PALETTE`echo $P | cut -d ':' -f $i -s | cut -c 4-5`
+    PALETTE=$PALETTE`echo $P | cut -d ':' -f $i -s | cut -c 6-7`
+    PALETTE=$PALETTE`echo $P | cut -d ':' -f $i -s | cut -c 6-7`
+done
+PALETTE=`echo $PALETTE|cut -c 2-`
+BG_COLOR="#1c1c1c1c1c1c"
+FG_COLOR="#c5c5c8c8c6c6"
+
+gsettings set org.mate.terminal.profile:/org/mate/terminal/profiles/default/ background-color $BG_COLOR
+gsettings set org.mate.terminal.profile:/org/mate/terminal/profiles/default/ foreground-color $FG_COLOR
+gsettings set org.mate.terminal.profile:/org/mate/terminal/profiles/default/ palette $PALETTE
+
+gsettings set org.mate.terminal.profile:/org/mate/terminal/profiles/default/ use-theme-colors false
+gsettings set org.mate.terminal.profile:/org/mate/terminal/profiles/default/ bold-color-same-as-fg true
+

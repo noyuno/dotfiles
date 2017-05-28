@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+which googler 1>/dev/null 2>&1 &&:
+if [ $? -eq 0 ]; then
+    googler -n 5 $*
+else
+    query=$(echo "$@" | sed -e 's/ /\+/g')
+    xdg-open https://www.google.co.jp/search?q="$query" 1>/dev/null 2>&1
+fi
+

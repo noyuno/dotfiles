@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+path=~/Applications/idea/bin/idea.sh
+if [ -e "$path" ]; then 
+    sh "$path" $*
+else 
+    echo "$path does not exists." >&2
+fi 
+

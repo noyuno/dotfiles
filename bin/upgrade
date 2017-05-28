@@ -1,0 +1,20 @@
+#!/bin/bash -e
+
+. "$HOME/dotfiles/bin/dffunc"
+
+aptupdate
+aptupgrade
+sudo apt -y autoremove
+sudo apt clean
+
+if [ $# -eq 1 ]; then
+    sudo -H pip3 install --upgrade pip && sudo -H pip-review --auto
+
+    npm-check-updates -g
+
+    sudo -H gem update --system --no-document
+    gem update bundler --user-install --no-document
+fi
+
+finalize
+

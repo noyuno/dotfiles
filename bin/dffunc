@@ -1,0 +1,206 @@
+#!/bin/bash -e
+
+dfout1()
+{
+    printf "\e[1;37m\e[44m%s\e[0m\n" "$*"
+}
+export -f dfout1
+
+dfout2()
+{
+    printf "\e[34m%s\e[0m\n" "$*"
+}
+export -f dfout2 
+
+dfout3()
+{
+    printf "\e[32m%s\e[0m\n" "$*"
+}
+export -f dfout3
+
+dfx()
+{
+    if [ "$HOME" = "" ]; then
+        dfout2 'Unable to find $HOME'
+        exit 1
+    fi 
+    a=""
+    c=""
+    while [ $# -gt 0 ]; do
+        b="$1"
+        case "$b" in
+        '|'|'||'|'&'|'&&'|'>'|'>>'|'>>>'|'<'|'<<'|'<<<'|'&&:')
+            a="$a$b "
+            c="$c$b "
+            ;;
+        *)
+            b=$(printf "%s" "$b" | sed -e "s|~|$HOME|g" \
+                -e "s/^'//g" -e "s/'$//g" -e "s/'/'\"'\"'/g")
+            a="$a'$b' "
+            c="$c$b "
+            ;;
+        esac
+        shift
+    done 
+    dfout3 "$c"
+    if [ ! "$DRYRUN" ]; then
+        if [ "$QUIET" ]; then
+            eval command $a 1>/dev/null
+        else
+            eval command $a
+        fi
+    fi
+}
+export -f dfx
+
+need_install_ret=0
+need_install()
+{
+    need_install_ret=0
+    while [ $# -gt 0 ] ; do
+        dpkg -s "$1" 2>/dev/null | grep -e 'Status.*installed' >/dev/null &&:
+        if [ $? -ne 0 ]; then
+            need_install_ret=1
+            break
+        fi
+        shift
+    done
+}
+export -f need_install
+
+aptinstall()
+{
+    need_install $* &&:
+    if [ $need_install_ret -eq 1 ]; then
+        dfx sudo DEBIAN_FRONTEND=noninteractive apt $DRYRUNFLAG \
+        -o DPkg::options::="--force-confdef" \
+        -o DPkg::options::="--force-confold" -y install $@ 
+    else
+        dfout3 'All packages has been installed: '"$*"
+    fi
+}
+export -f aptinstall 
+
+aptupgrade()
+{
+    dfx sudo DEBIAN_FRONTEND=noninteractive apt $DRYRUNFLAG \
+    -o DPkg::options::="--force-confdef" \
+    -o DPkg::options::="--force-confold" -y full-upgrade
+}
+export -f aptupgrade
+
+clean_list=0
+aptupdate()
+{
+    if [ $clean_list -eq 0 ]; then
+        dfx sudo apt update
+        clean_list=1
+    fi
+}
+export -f aptupdate
+
+aptremove()
+{
+    dfx sudo DEBIAN_FRONTEND=noninteractive apt $DRYRUNFLAG \
+        -o DPkg::options::="--force-confdef" \
+        -o DPkg::options::="--force-confold" -y --purge remove $*
+}
+
+sedapt()
+{
+    if [ -z "$DRYRUN" ]; then
+        dfx cp /etc/apt/sources.list "$DFBACKUP/sources.list.sed"
+        dfx sed -i.old "$1" "$DFBACKUP/sources.list.sed"
+        dfx sudo mv "$DFBACKUP/sources.list.sed" /etc/apt/sources.list
+        clean_list=0
+    fi
+}
+export -f sedapt
+
+addapt()
+{
+    if [ "$1" ]; then
+        apt-cache policy | grep "$1" >/dev/null &&:
+        if [ $? -ne 0 ]; then 
+            dfx sudo add-apt-repository -y "$1"
+            clean_list=0
+        fi 
+    fi
+}
+export -f addapt
+
+_require_error()
+{
+    if [ -x "$HOME/dotfiles/bin/dfdoctor" ]; then
+        dfout3 ". $HOME/dotfiles/bin/dfdoctor | grep $1:"
+        set +e
+        gr=$(. "$HOME/dotfiles/bin/dfdoctor" | grep "$1:")
+        set -e
+    fi
+    if [ "$gr" != "" ]; then
+        tput setaf 1
+        cat << EOF
+Invalid operation. $1 has not been executed and dfdoctor found incidents.
+Please run $1 first. Otherwise, you can 'echo $1 >> ~/dotfiles/result' to 
+ignore this message.
+EOF
+        tput setaf 7
+        echo -e "dfdoctor result: \n$gr"
+        exit 1
+    else
+        echo "$1" >> "$HOME/dotfiles/result"
+        tput setaf 3
+        cat << EOF
+$1 was not found in ~/dotfiles/result, but dfdoctor seem to be no
+incidents. Added $1 to ~/dotfiles/result. Continue $1.
+EOF
+        tput setaf 7
+    fi
+}
+
+require()
+{
+    if [ ! -f "$HOME/dotfiles/result" ]; then
+        _require_error dfinstall
+    else
+        while [ $# -gt 0 ]; do
+            if [ "$(grep "$HOME/dotfiles/result" -e "^$1$")" = "" ]; then
+                _require_error "$1"
+                break
+            fi
+            shift
+        done
+    fi
+}
+export -f require
+
+finalize()
+{
+    if [ "$DFTIME" -a "$DFBACKUP" -a ! "$(find "$DFBACKUP" -type f)" ]; then
+        rmdir "$DFBACKUP"
+    fi
+    if [ "$1" ]; then
+        [ ! -f "$HOME/dotfiles/result" ] || \
+            [ "$(grep "$HOME/dotfiles/result" -e "^$1$")" = "" ] && \
+                echo "$1" >> "$HOME/dotfiles/result"
+        dfout2 "Finished $1"
+    fi
+}
+export -f finalize
+
+if [ -z "$DFTIME" ]; then
+    DFTIME=$(date +%Y%m%d-%H%M%S)
+fi
+if [ -z "$DFTMP" ]; then
+    export DFTMP="/tmp/dotfiles/$DFTIME"
+    mkdir -p "$DFTMP"
+fi
+if [ -z "$DFBACKUP" ]; then
+    DFBACKUP="$HOME/dotfiles/backup/$DFTIME"
+    mkdir -p "$DFBACKUP"
+fi
+if [ "$DRYRUN" != "" ]; then
+    DRYRUNFLAG="--dry-run"
+    dfout2 "DRYRUN=$DRYRUN"
+fi
+

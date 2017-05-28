@@ -1,0 +1,2 @@
+#*/30 * * * * bash ~/dotfiles/bin/start-offlineimap -q
+

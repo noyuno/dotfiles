@@ -1,0 +1,84 @@
+#!/bin/bash -e
+# mount /home from luks encrypted /dev/vg0/lv1
+exec 2>/tmp/rc.local.log
+exec 1>&2
+set -x
+runningfile=/tmp/luks.lock
+endfile=/tmp/luks.end
+cryptoname=crypto-vg0-lv1
+keyfile=/cryptokey/$(cat /etc/hostname)
+luksusbfile=/etc/luksusb
+
+end()
+{
+    if [ -e "$runningfile" ]; then
+        rm -f "$runningfile"
+    fi
+    if [ $# -eq 0 ]; then
+        exit
+    else
+        exit $1
+    fi
+}
+
+error()
+{
+    echo "$1" >"$endfile"
+    end 1
+}
+
+if [ -e "$runningfile" ]; then
+    exit 2
+fi
+touch "$runningfile"
+
+cryptsetup status "$cryptoname" &&:
+if [ $? -eq 0 ]; then
+    #error "$cryotoname has already unlocked"
+    touch "$endfile"
+    end 3
+fi
+rm -f "$endfile"
+if [ $# -eq 1 ]; then
+    sleep $1
+fi
+if [ ! -e "$luksusbfile" ]; then
+    error "unable to open $luksusbfile"
+fi
+mkdir -p /mnt/luksusb
+
+usbloop()
+{
+    usbd=$1
+    if [ -e "$usbd" ]; then
+        mount | grep "^$(realpath $usbd)\ " &&:
+        if [ $? -eq 0 ]; then
+            umount "$usbd" || return 1
+        fi
+        mount $usbd /mnt/luksusb || return 1
+        cryptsetup open --type luks /dev/vg0/lv1 $cryptoname \
+            --key-file /mnt/luksusb$keyfile || return 1
+        mount /dev/mapper/$cryptoname /home || \
+            error "failed to mount: /dev/mapper/$cryptoname on /home"
+        umount $usbd || \
+            error "failed to umount: $usbd"
+        touch "$endfile"
+        return 0
+    fi
+}
+
+#usbloop /dev/luksusb
+while read usbuuid; do
+    usbloop /dev/disk/by-uuid/$usbuuid &&
+    if [ $? -eq 0 ]; then
+        break
+    fi
+done < /etc/luksusb
+ 
+if [ ! -e "$endfile" ]; then
+    error "unable to find luks usb: $(cat /etc/luksusb)"
+fi
+ 
+sync
+end 0
+

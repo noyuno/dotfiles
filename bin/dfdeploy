@@ -1,0 +1,146 @@
+#!/bin/bash
+
+cd ~
+. ~/dotfiles/bin/dffunc
+require dfinstall
+
+which trash 1>/dev/null 2>&1 &&:
+if [ $? -eq 0 ]; then
+    trash_command=1
+else
+    trash_command=0
+fi
+junk()
+{
+    if [ "$trash_command" -eq 1 ]; then
+        dfx trash "$1"
+    else
+        dfx mv "$1" "$DFBACKUP/"
+    fi
+}
+
+cdf()
+{
+    if [ "$1" ]; then
+        source="$HOME/dotfiles/$1"
+        if [ ! "$2" ]; then
+            dest="$HOME/$1"
+        else
+            dest="$HOME/$2"
+        fi
+        if [ ! -d "$(dirname $dest)" ]; then
+            dfx mkdir -p "$(dirname $dest)"
+        fi
+        if [ -e "$dest" -a ! -L "$dest" ]; then
+            junk "$dest"
+        fi
+        dfx ln -sfnv "$source" "$dest"
+    else
+        dfout2 'cdf: arguments missing'
+    fi
+}
+
+xmv()
+{
+    if [ "$1" = "" -o "$2" = "" ]; then
+        dfout2 'xmv: arguments missing'
+    fi
+    if [ ! -d "$2" ] ; then
+        dfx mkdir -p "$HOME/$2"
+    fi
+    if [ "$1" -a "$2" -a -d "$HOME/$1" ]; then
+        if [ -d "$2" ]; then
+            : #dfx cp -Rvn "$HOME/$1" "$HOME/$2_$DFTIME" '&&:'
+        else
+            dfx cp -Rvn "$HOME/$1" "$HOME/$2" '&&:'
+        fi
+        dfx rm -rf "$HOME/$1" '&&:'
+    fi
+}
+
+grep "$HOME/dotfiles/list/deploy" -v -e '^#' -e '^$' > "$DFTMP/data"
+while read i; do
+    cdf "$(echo $i | awk '{print $1}')" "$(echo $i | awk '{print $2}')"
+done < "$DFTMP/data"
+
+vboxln()
+{
+    if [ -d "$1" ]; then
+        dfx ln -sfnv "$1" "$HOME/${i,,}"
+        if [ -d "$1/Users/$WINUSER" ]; then
+            dfx ln -sfnv "$1/Users/$WINUSER" "$HOME/${i,,}u"
+        fi
+    fi
+}
+
+[ "$WINUSER" = "" ] && WINUSER=$USER
+dmesg | grep VirtualBox 1>/dev/null 2>&1 &&:
+vbox=$?
+dmesg | grep VMware 1>/dev/null 2>&1 &&:
+vmware=$?
+
+if [ $vbox -eq 0 -o $vmware -eq 0 ]; then
+    for i in {a..z}; do
+        vboxln "/media/sf_${i,,}_DRIVE"
+        vboxln "/media/sf_${i^^}_DRIVE"
+        vboxln "/media/${i,,}"
+        vboxln "/media/${i^^}"
+    done
+    [ -d /media/sf_VBoxShare ] && dfx ln -sfnv /media/sf_VBoxShare "$HOME/vs"
+    [ -d /media/Share ] &&        dfx ln -sfnv /media/Share "$HOME/vs"
+fi
+
+xmv デスクトップ Desktop
+xmv ダウンロード Downloads
+xmv テンプレート Templates
+xmv 公開 Public
+xmv ドキュメント Documents
+xmv ミュージック Music
+xmv 音楽 Music
+xmv ピクチャ Pictures
+xmv 画像 Pictures
+xmv ビデオ Videos
+dfx mkdir -p ~/Mail/Gmail
+dfx mkdir -p ~/Mail/a
+dfx mkdir -p ~/Applications
+dfx mkdir -p ~/bin
+
+which zsh &&:
+[ $? -eq 0 ] && existszsh=1
+
+[ "$existszsh" ] && dfx sudo chsh "$(whoami)" -s /bin/zsh
+
+[ "$existszsh" ] && dfx zsh -c 'zcompile ~/.zshrc'
+dfx . ~/dotfiles/.zprofile
+dfx . ~/dotfiles/.zsh_aliases '&&:'
+dfx rm -rf ~/.zcompdump
+[ "$existszsh" ] && dfx zsh -c 'source ~/.zshrc'
+
+# ssh
+sshstr()
+{
+    sshconf()
+    {
+        dfx mkdir -p "$HOME/.ssh"
+        dfx echo -e "Host $1\n\tStrictHostKeyChecking no\n" '>>' "$HOME/.ssh/config"
+    }
+    if [ -f "$HOME/.ssh/config" ]; then
+        cat "$HOME/.ssh/config" | tr '\n' ' ' | \
+            grep -i 'Host '"$1"'\s*StrictHostKeyChecking no' >/dev/null &&:
+        if [ $? -ne 0 ]; then
+            sshconf "$1"
+        fi
+    else
+        sshconf "$1"
+    fi
+    dfx chmod 700 "$HOME/.ssh"
+    dfx chmod 600 "$HOME/.ssh/config"
+    dfx chmod go-w "$HOME"
+}
+
+sshstr 'github.com'
+sshstr 'bitbucket.org'
+
+dfout2 "Deployed dotfiles. You need to restart tmux, zsh, vim."
+
+finalize dfdeploy

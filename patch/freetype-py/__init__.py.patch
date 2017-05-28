@@ -1,0 +1,11 @@
+--- /home/noyuno/.local/lib/python3.5/site-packages/freetype/__init__.py	2016-12-30 22:21:01.119467496 +0900
++++ patch/freetype-py/__init__.py	2017-01-01 02:38:14.741471739 +0900
+@@ -985,7 +985,7 @@ class Face( object ):
+         '''
+         Discard  face object, as well as all of its child slots and sizes.
+         '''
+-        if self._FT_Face is not None:
++        if self._FT_Face is not None and FT_Done_Face is not None:
+             FT_Done_Face( self._FT_Face )
+ 
+ 

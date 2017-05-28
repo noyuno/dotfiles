@@ -1,0 +1,112 @@
+! XTerm
+XTerm*termName:            xterm-256color
+XTerm*locale:              true
+XTerm*selectToClipboard:   true
+XTerm*saveLines:           2000
+xterm*faceName: Inconsolata for Powerline
+xterm*faceSize: 14
+xterm*faceNameDoublesize: Noto Sans CJK JP
+xterm*ximFont: -misc-fixed-medium-r-normal--14-130-75-75-c-140-jisx0208.1983-0
+
+XTerm*cjkWidth: true 
+XTerm*geometry: 100x30+300+100
+xterm*locale: UTF-8
+XTerm*cursorBlink: false
+xterm*font: fixed
+xterm*boldFont: fixed
+XTerm*allowBoldFonts: false
+
+!-------------------------------------------------------------------------------
+! Xft settings
+!-------------------------------------------------------------------------------
+
+Xft.dpi:                    96
+Xft.antialias:              false
+Xft.rgba:                   rgb
+Xft.hinting:                true
+Xft.hintstyle:              hintslight
+
+!-------------------------------------------------------------------------------
+! URxvt settings
+! More info at:
+! http://pod.tst.eu/http://cvs.schmorp.de/rxvt-unicode/doc/rxvt.1.pod
+!-------------------------------------------------------------------------------
+urxvt*termName: rxvt-256color
+URxvt.depth:                24
+URxvt.geometry:             80x24
+URxvt.transparent:          false
+!URxvt.fading:               70
+! URxvt.urgentOnBell:         true
+! URxvt.visualBell:           true
+URxvt.loginShell:           true
+URxvt.saveLines:            50
+URxvt.internalBorder:       3
+URxvt.lineSpace:            -1
+
+! Fonts
+URxvt.inputMethod: fcitx
+URxvt*preeditType: OnTheSpot
+urxvt*perl-ext: xim-onthespot
+URxvt.allow_bold:           false
+/* URxvt.font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
+URxvt*font: xft:Inconsolata for Powerline:size=14, \
+    xft:Noto Sans CJK JP Kai:size=14
+URxvt*boldFont: xft:Inconsolata for Powerline:size=14, \
+    xft:Noto Sans CJK JP Kai:size=14
+!urxvt*font: xft:Noto Sans CJK JP DemiLight:size=14
+!urxvt*boldfont: xft:Noto Sans CJK JP DemiLight:size=14
+URxvt*kanji_encoding: UTF-8
+
+! Fix font space
+URxvt*letterSpace: -2
+
+! Scrollbar
+URxvt.scrollStyle:          rxvt
+URxvt.scrollBar:            false
+
+! Perl extensions
+URxvt.perl-ext-common:      default,matcher,xim-onthespot
+URxvt.matcher.button:       1
+URxvt.urlLauncher:          xdg-open
+
+! Cursor
+URxvt.cursorBlink:          false
+URxvt.cursorColor:          #657b83
+URxvt.cursorUnderline:      false
+
+! Pointer
+URxvt.pointerBlank:         true
+*cursorColor: #93a1a1
+*pointerColorBackground: #586e75
+*pointerColorForeground: #93a1a1
+
+!! colorscheme:hybrid
+! https://gist.github.com/w0ng/16e33902508b4a0350ae
+
+*background: #1C1C1C
+*foreground: #C5C8C6
+! black
+*color0: #2D3C46
+*color8: #425059
+! red
+*color1: #A54242
+*color9: #CC6666
+! green
+*color2: #8C9440
+*color10: #B5BD68
+! yellow
+*color3: #DE935F
+*color11: #F0C674
+! blue
+*color4: #5F819D
+*color12: #81A2BE
+! magenta
+*color5: #85678F
+*color13: #B294BB
+! cyan
+*color6: #5E8D87
+*color14: #8ABEB7
+! white
+*color7: #6C7A80
+*color15: #C5C8C6
+

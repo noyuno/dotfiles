@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+which wiki 1>/dev/null 2>&1 &&:
+if [ $? -ne 0 ]; then
+    echo 'run: go get github.com/walle/wiki/cmd/wiki' >&2
+    exit 1
+fi
+
+title=$(curl -s 'https://ja.wikipedia.org/w/api.php?format=json&action=query&list=random&rnnamespace=0&rnlimit=1' | \
+    jq -r '.query.random[].title')
+content=$(command wiki -s "$title" | grep -v '^\s*$')
+
+echo "$title" >> "$HOME/.cache/today_history"
+
+echo -e "\e[32m$title\e[m" | xargs board -- 
+echo "$content"
+

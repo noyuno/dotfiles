@@ -1,0 +1,65 @@
+[user]
+	email = noyuno@users.noreply.github.com
+	name = noyuno
+[push]
+	default = simple
+[core]
+	quotepath = false
+	editor = vim
+	autocrlf = false
+	excludesfile = $HOME/dotfiles/.gitignore
+    attributesFile = $HOME/dotfiles/.gitattributes
+[color]
+	ui = true
+	diff = true
+	status = true
+	branch = true
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	func = blue bold
+	old = red bold
+	new = green bold
+	commit = cyan
+[color "grep"]
+	filename = magenta
+	linenumber = green
+[alias]
+    g = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
+    s = status
+    cl = clone
+    a = add
+    c = commit
+    p = push 
+    po = push -u origin master
+    u = pull
+    st = status -uno
+    d = diff
+    wd = diff --word-diff=color --unified=1
+    ch = checkout
+    b = branch
+    f = fetch
+    i = init 
+    l = log -p
+    r = remote
+[github]
+	user = noyuno
+[diff "pandoc"]
+    textconv = pandoc --to=markdown
+    prompt = false
+[diff "xlsx"]
+    textconv = xlsx2csv
+    prompt = false
+[diff "pdf"]
+	textconv = sh -c 'exec pdftotext "$@" -' -
+[diff "sqlite"]
+	textconv = sh -c 'exec sqlite3 "$@" .dump' -
+[diff "gzip"]
+	textconv = gzip -d -c
+[merge]
+	tool = vimdiff
+	defaultToUpstream = yes
+[transfer]
+	fsckObjects = yes
+[fetch]
+	fsckobjects = false

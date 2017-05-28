@@ -1,0 +1,5 @@
+#compdef rmswap
+
+_files -W ~/.local/share/nvim/swap/ -g "*.swp" && return 0;
+return 1;
+

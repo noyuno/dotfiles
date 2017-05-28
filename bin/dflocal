@@ -1,0 +1,64 @@
+#!/bin/bash -e
+
+. ~/dotfiles/bin/dffunc
+
+if [ $# -eq 0 ]; then
+    dfout3 "required least 1 argument."
+    exit 1
+fi 
+
+array=()
+while [ $# -gt 0 ] ; do 
+    case "$1" in
+        all)
+            array=(${array[@]} "dfinstall" "dfguiinstall" "dfsysconf" \
+            "dfdeploy" "dfguiconf" "dfnvim" "dfjava" "dftex")
+            ;;
+        cli)    
+            array=(${array[@]} "dfinstall" "dfsysconf" \
+            "dfdeploy" "dfnvim")
+            ;;
+        *)
+            if [ -e "$HOME/dotfiles/bin/$1" ]; then 
+                array=(${array[@]} $1)
+            else
+                dfout3 "Arguments item/set '$1' not found."
+                exit 1
+            fi 
+            ;;
+    esac
+    shift    
+done 
+# uniquly unless sort
+array=($(echo "${array[@]}" | sed 's/\s/\n/g' | awk '!a[$0]++' | sed 's/\n/\s/g'))
+outarray=$(echo -n "${array[@]}")
+dfout1 "dflocal ($outarray)"
+dfx cd ~/dotfiles
+npwt="$(whoami) ALL = NOPASSWD: ALL"
+sudo -E grep "$npwt" /etc/sudoers >/dev/null &&:
+if [ $? -ne 0 ]; then
+    dfx sudo bash -c "echo '$npwt' >> /etc/sudoers"
+    sudoers_add_nopasswd=1
+fi
+
+i=1
+for e in "${array[@]}"; do
+    cd ~
+    file="dotfiles/bin/$e"
+    dfout1 "Step $i: $file"
+        . "$file"
+    i=$((i + 1))
+done
+cd "$DF_CURRENT_DIR"
+dfx fc-cache -f
+dfx sudo apt -y autoremove
+dfx sudo apt clean
+if [ -d "$DFTMP" ]; then
+    dfx sudo rm -rf "$DFTMP"
+fi
+
+if [ "$sudoers_add_nopasswd" ]; then
+    dfx sudo sed -i "'s|$npwt||g'" /etc/sudoers
+fi
+dfout1 "Finished"
+

@@ -1,0 +1,13 @@
+#!/bin/bash
+log=/tmp/offlineimap-cron.log
+PID=$(pgrep offlineimap)
+[[ -n "$PID" ]] && kill "$PID"
+date >> "$log"
+if [ "$1" = "-q" ]; then
+    exec offlineimap -o -u Noninteractive.Quiet $* \
+        </dev/null 1>/dev/null 2>>"$log" &
+else
+    exec offlineimap $* </dev/null 1>/dev/null 2>>"$log" &
+fi 
+exit 0
+

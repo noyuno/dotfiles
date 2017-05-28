@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+. ~/dotfiles/bin/dffunc
+
+aptinstall libperl-dev
+dfx git clone --depth 1 https://github.com/emonkak/rxvt-unicode.git
+dfx cd rxvt-unicode
+dfx git clone --depth 1 https://github.com/enki/libev.git
+dfx git clone --depth 1 https://github.com/yusiwen/libptytty.git
+dfx ./autogen.sh
+dfx ./configure --prefix=/usr/local --enable-everything
+dfx make
+dfx sudo make install
+

@@ -1,0 +1,51 @@
+[general]
+pythonfile = ~/dotfiles/mutt/offlineimap.py
+ui  =  TTY.TTYUI
+accounts  =  Gmail,a
+maxsyncaccounts = 1
+
+[Account Gmail]
+localrepository  =  Gmail-Local
+remoterepository  =  Gmail-Remote
+autorefresh = 30
+status_backend = sqlite
+
+[Repository Gmail-Local]
+type  =  Maildir
+localfolders  =  ~/Mail/Gmail/
+quick = 10
+folderfilter = lambda folder: folder in [ 'INBOX', 'Sent Mail', 'Starred' ]
+
+[Repository Gmail-Remote]
+type  =  Gmail
+remoteusereval  =  get_user()
+remotepasseval = get_pass()
+realdelete  =  yes
+ssl  =  yes
+sslcacertfile  =  /etc/ssl/certs/ca-certificates.crt
+keepalive = 60
+holdconnectionopen = yes
+
+[Account a]
+localrepository = a-local 
+remoterepository = a-remote 
+autorefresh = 30
+status_backend = sqlite
+
+[Repository a-local]
+type = Maildir
+localfolders = ~/Mail/a/
+quick = 10
+folderfilter = lambda folder: folder in [ 'INBOX', 'Sent' ]
+
+[Repository a-remote]
+type = IMAP
+remotehosteval = a_get_host()
+remoteusereval = a_get_user()
+remotepasseval = a_get_pass()
+realdelete = yes
+ssl = yes
+sslcacertfile  =  /etc/ssl/certs/ca-certificates.crt
+keepalive = 60
+holdconnectionopen = yes
+

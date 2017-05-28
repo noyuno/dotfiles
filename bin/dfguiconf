@@ -1,0 +1,25 @@
+#!/bin/bash -e
+. ~/dotfiles/bin/dffunc
+require dfdeploy
+
+set +e
+dconfload()
+{
+    dfx dconf load $1/ '<' "$HOME/dotfiles/dconf$1"
+}
+dconfload /org/mate/desktop
+dconfload /org/mate/marco
+dconfload /org/mate/terminal
+dconfload /org/compiz
+set -e
+
+dfx . ~/dotfiles/bin/mate-terminal-colorscheme-hybrid
+
+[ "$DISPLAY" ] && dfx xrdb ~/.Xresources 
+dfx im-config '-n' fcitx
+
+dfx sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser \
+    /usr/bin/google-chrome-stable 20
+
+finalize dfguiconf
+

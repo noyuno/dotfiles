@@ -1,0 +1,40 @@
+#!/bin/bash -e
+. ~/dotfiles/bin/dffunc
+require dfinstall
+
+guest=/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+if [ -e "$(dirname $guest)" ]; then 
+    dfout2 "disable guest session"
+    dfx sudo bash -c "echo '[SeatDefaults]\nuser-session = ubuntu\nallow-guest = false' >> \
+    $guest"
+fi 
+
+dfout2 "set ntp server to nict" 
+dfx sudo sed -i "s/#NTP = /NTP = ntp.nict.jp/g" \
+/etc/systemd/timesyncd.conf
+
+hibernate=/etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla
+if [ -e "$(dirname $hibernate)" ]; then
+    dfout2 "enable hibernate" 
+    dfx sudo cp -f ~/dotfiles/$hibernate $hibernate 
+fi 
+
+npwt='%sudo ALL=NOPASSWD: /usr/sbin/pm-hibernate'
+sudo -E grep "$npwt" /etc/sudoers >/dev/null &&:
+if [ $? -ne 0 ]; then
+    dfx sudo bash -c "echo '$npwt' >> /etc/sudoers"
+fi
+
+npwt='%sudo ALL=NOPASSWD: /usr/sbin/pm-suspend'
+sudo -E grep "$npwt" /etc/sudoers >/dev/null &&:
+if [ $? -ne 0 ]; then
+    dfx sudo bash -c "echo '$npwt' >> /etc/sudoers"
+fi
+
+if [ -e "/dev/hidraw0" ]; then
+    dfout2 "change device permission"
+    dfx sudo chmod o+rw /dev/hidraw*
+fi
+
+finalize dfsysconf
+
