@@ -190,10 +190,20 @@ EOF
     sudo systemctl restart postgresql.service
 }
 
+anime()
+{
+    if [ -e ~/noyuno.github.io ]; then
+        git clone \
+            "https://noyuno:$(cat ~/.ghpass)@github.com/noyuno/noyuno.github.io.git" \
+            ~/noyuno.github.io
+    fi
+}
+
 if [ $# -eq 0 ]; then
     motd
     ssl
     httpd
+    psql
     gitbucket
 else
     eval $*
