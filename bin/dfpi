@@ -12,8 +12,17 @@ init()
 {
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
-    aptinstall oracle-java8-jdk nginx postgresql
+    aptinstall oracle-java8-jdk nginx postgresql 
+}
 
+network()
+{
+    dfx sudo sed -i 's/^127\.0\.1\.1.*/127.0.1.1\tpi.'$domain' pi/' '/etc/hosts'
+}
+
+timezone()
+{
+    sudo timedatectl set-timezone Asia/Tokyo
 }
 
 motd()
@@ -92,7 +101,6 @@ Description=Git hosting service
 [Service]
 User=git
 ExecStart=$target/run.sh
-AmbientCapabilities=CAP_NET_BIND_SERVICE
 
 [Install]
 WantedBy=multi-user.target
@@ -158,6 +166,7 @@ EOF
     dfx sudo chown $user:$user /var/log/gitbucket.log
 
     dfx sudo systemctl daemon-reload
+    dfx sudo systemctl enable gitbucket.service
     dfx sudo systemctl restart gitbucket.service
 }
 
@@ -200,7 +209,9 @@ anime()
 }
 
 if [ $# -eq 0 ]; then
+    init
     motd
+    timezone
     ssl
     httpd
     psql
