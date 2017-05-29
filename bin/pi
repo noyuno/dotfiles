@@ -45,6 +45,7 @@ nginx()
 proxy_cache_path /var/lib/nginx/cache levels=1:2 keys_zone=cache:512m inactive=1d  max_size=60g;
 
 server_tokens off;
+server_names_hash_bucket_size 64;
 
 server {
     listen 80;
@@ -70,28 +71,6 @@ server {
 
     location ~ \.cgi$ {
         root /var/www/html;
-        try_files \$uri =404;
-        fastcgi_pass unix:/var/run/fcgiwrap.socket;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-server {
-    listen 80;
-    server_name status.$domain;
-    charset UTF-8;
-
-    location / {
-        root /var/lib/monitorix/www;
-    }
-
-    location ~ /\.git {
-      deny all;
-    }
-
-    location ~ \.cgi$ {
-        root /var/lib/monitorix/www;
         try_files \$uri =404;
         fastcgi_pass unix:/var/run/fcgiwrap.socket;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
@@ -158,6 +137,31 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         include fastcgi_params;
+    }
+}
+
+upstream backend {
+    # the netdata server
+    server 127.0.0.1:19999;
+    keepalive 64;
+}
+
+server {
+    # nginx listens to this
+    listen 80;
+
+    # the virtual host name of this
+    server_name status.$domain;
+
+    location / {
+        proxy_set_header X-Forwarded-Host \$host;
+        proxy_set_header X-Forwarded-Server \$host;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_pass http://backend;
+        proxy_http_version 1.1;
+        proxy_pass_request_headers on;
+        proxy_set_header Connection "keep-alive";
+        proxy_store off;
     }
 }
 EOF
@@ -455,90 +459,9 @@ kanboard()
     dfx sudo chown -R www-data:www-data $kp
 }
 
-monitorix()
+netdata()
 {
-    if [ ! -e /tmp/monitorix.deb ]; then
-        dfx wget -qO /tmp/monitorix.deb \
-            http://www.monitorix.org/monitorix_3.9.0-izzy1_all.deb
-        dfx sudo dpkg -i /tmp/monitorix.deb
-    fi
-
-    pushd /
-        cat << "EOF" | sudo patch -N /etc/monitorix/monitorix.conf
---- /etc/monitorix/monitorix.conf	2016-10-16 23:10:41.000000000 +0900
-+++ /home/noyuno/monitorix.conf	2017-05-29 15:36:59.940696881 +0900
-@@ -3,8 +3,8 @@
- # See monitorix.conf(5) manpage for a detailed description of each option.
- #
- 
--title = Place a title here
--hostname =
-+title = Status
-+hostname = pi.noyuno.mydns.jp
- theme_color = black
- refresh_rate = 150
- iface_mode = graph
-@@ -21,8 +21,8 @@
- 
- base_dir = /var/lib/monitorix/www/
- base_lib = /var/lib/monitorix/
--base_url = /monitorix
--base_cgi = /monitorix-cgi
-+base_url = /
-+base_cgi = /cgi
- 
- <httpd_builtin>
- 	enabled = y
-@@ -73,8 +73,8 @@
- # -----------------------------------------------------------------------------
- <graph_enable>
- 	system		= y
--	kern		= y
--	proc		= y
-+	kern		= n
-+	proc		= n
- 	hptemp		= n
- 	lmsens		= n
- 	gensens		= n
-@@ -84,14 +84,14 @@
- 	zfs		= n
- 	du		= n
- 	net		= y
--	netstat		= y
-+	netstat		= n
- 	tc		= n
- 	libvirt		= n
- 	process		= n
--	serv		= y
-+	serv		= n
- 	mail		= n
--	port		= y
--	user		= y
-+	port		= n
-+	user		= n
- 	ftp		= n
- 	apache		= n
- 	nginx		= n
-@@ -107,13 +107,13 @@
- 	chrony		= n
- 	fail2ban	= n
- 	icecast		= n
--	raspberrypi	= n
-+	raspberrypi	= y
- 	phpapc		= n
- 	memcached	= n
- 	apcupsd		= n
- 	nut		= n
- 	wowza		= n
--	int		= y
-+	int		= n
- 	verlihub	= n
- </graph_enable>
- 
-EOF
-    popd
-    
-    dfx sudo service monitorix restart
+    bash <(curl -Ss https://my-netdata.io/kickstart.sh)
 }
 
 if [ "$(hostname)" != "pi" ]; then
@@ -557,7 +480,7 @@ if [ $# -eq 0 ]; then
     kanboard_psql
     gitbucket
     kanboard
-    monitorix
+    netdata
     zeroconf
 else
     eval $*
