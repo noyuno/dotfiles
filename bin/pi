@@ -414,7 +414,7 @@ kanboard()
 }
 
 if [ "$(hostname)" != "pi" ]; then
-    echo "pi only" 1>&2
+    echo "this command is pi only" 1>&2
     exit 1
 fi
 
