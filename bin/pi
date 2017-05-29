@@ -454,7 +454,6 @@ monitorix()
             http://www.monitorix.org/monitorix_3.9.0-izzy1_all.deb
         dfx sudo dpkg -i /tmp/monitorix.deb
     fi
-    dfx ln -sfnv /var/lib/monitorix/www /var/www/html/monitorix
 
     pushd /
         cat << "EOF" | sudo patch -N /etc/monitorix/monitorix.conf
