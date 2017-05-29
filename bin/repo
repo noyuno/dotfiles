@@ -70,10 +70,13 @@ else
             exit 1
         fi
     fi
-    curl -s --user "$name:$pass" \
-        "https://api.bitbucket.org/2.0/repositories/$name?pagelen=100" | \
-        jq -r '.values[].name' > "$DFTMP/Bitbucket"
-    check_repo Bitbucket "git@bitbucket.org:$name"
+    #curl -s --user "$name:$pass" \
+    #    "https://api.bitbucket.org/2.0/repositories/$name?pagelen=100" | \
+    #    jq -r '.values[].name' > "$DFTMP/Bitbucket"
+    #check_repo Bitbucket "git@bitbucket.org:$name"
+    curl -sL https://noyuno.mydns.jp/repos.cgi | \
+        jq -r '.[]' > "$DFTMP/pi"
+    check_repo pi "git@noyuno.mydns.jp/$name"
 fi
 
 wait
