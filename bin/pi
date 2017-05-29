@@ -12,7 +12,7 @@ init()
 {
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
-    aptinstall oracle-java8-jdk nginx postgresql samba
+    aptinstall oracle-java8-jdk nginx postgresql samba php5 php5-pgsql php5-gd php5-fpm
 }
 
 network()
@@ -92,6 +92,29 @@ server {
         proxy_cache_key         \$host\$uri\$is_args\$args;
         proxy_cache_valid       200 301 302 1d;
         expires                 1d;
+    }
+}
+
+server {
+    listen 80;
+    server_name kanban.$domain;
+    charset UTF-8;
+    root   /var/www/kanban;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+
+    location ~ \.php$ {
+        root /var/www/kanban;
+        try_files \$uri =404;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
     }
 }
 EOF
@@ -257,14 +280,25 @@ psql()
         dfx sudo mkdir -p $pdata
         dfx sudo chown postgres:postgres $pdata
         dfx sudo -u postgres /usr/lib/postgresql/9.4/bin/initdb -D $pdata -E UTF8 --no-locale
-        cat << EOF | dfx sudo -u postgres psql
-create database gitbucket WITH template template0 encoding 'utf8';
-EOF
-        # dfx sudo pg_createcluster --start 9.4 main &&:
-        dfx sudo -u postgres createuser --pwprompt --interactive git
     fi
 
     sudo systemctl restart postgresql.service
+}
+
+gitbucket_psql()
+{
+    cat << EOF | dfx sudo -u postgres psql
+create database gitbucket WITH template template0 encoding 'utf8';
+EOF
+    dfx sudo -u postgres createuser --pwprompt --interactive git
+}
+
+kanboard_psql()
+{
+    cat << EOF | dfx sudo -u postgres psql
+create database kanboard;
+EOF
+    dfx sudo -u postgres createuser --pwprompt --interactive kanban
 }
 
 anime()
@@ -359,6 +393,22 @@ EOF
     dfx sudo systemctl restart avahi-daemon.service
 }
 
+kanboard()
+{
+    kp=/var/www/kanban
+    dfx sudo wget -qO /tmp/kanboard.zip https://kanboard.net/kanboard-latest.zip
+    dfx sudo unzip -od /var/www /tmp/kanboard.zip
+    dfx sudo rm /tmp/kanboard.zip
+    dfx sudo mv /var/www/kanboard $kp
+    dfx sudo cp $kp/config.default.php $kp/config.php
+    dfx sudo chown -R www-data:www-data $kp
+}
+
+if [ "$(hostname)" != "pi" ]; then
+    echo "pi only" 1>&2
+    exit 1
+fi
+
 if [ $# -eq 0 ]; then
     init
     motd
@@ -366,7 +416,10 @@ if [ $# -eq 0 ]; then
     ssl
     nginx
     psql
+    gitbucket_psql
+    kanboard_psql
     gitbucket
+    kanboard
     zeroconf
 else
     eval $*
