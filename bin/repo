@@ -53,31 +53,10 @@ curl -s "https://api.github.com/users/$name/repos" | \
     jq -r '.[].name' > "$DFTMP/GitHub"
 check_repo GitHub "git@github.com:$name" &
 
-# Bitbucket
-which pass 1>/dev/null 2>&1 &&:
-if [ $? -ne 0 ]; then
-    echo 'pass has not installed' >&2
-else
-    pass=$(pass bitbucket) &&:
-    if [ $? -ne 0 ]; then
-        # fallback to `read` decrypting gpg2
-        echo -n 'gpg passphrase: '
-        read -s pp
-        pass=$(echo "$pp" | gpg -qd --passphrase-fd 0 "$HOME/pass/bitbucket.gpg") &&:
-        if [ $? -ne 0 ]; then
-            # I cannot do anything...
-            echo 'gpg decrypting error!' >&2
-            exit 1
-        fi
-    fi
-    #curl -s --user "$name:$pass" \
-    #    "https://api.bitbucket.org/2.0/repositories/$name?pagelen=100" | \
-    #    jq -r '.values[].name' > "$DFTMP/Bitbucket"
-    #check_repo Bitbucket "git@bitbucket.org:$name"
-    curl -sL https://noyuno.mydns.jp/repos.cgi | \
-        jq -r '.[]' > "$DFTMP/pi"
-    check_repo pi "git@noyuno.mydns.jp/$name"
-fi
+# pi
+curl -sL http://noyuno.mydns.jp/repos.cgi | \
+    jq -r '.[]' > "$DFTMP/pi"
+check_repo pi "http://git.noyuno.mydns.jp/git/$name"
 
 wait
 
