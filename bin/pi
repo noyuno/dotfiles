@@ -8,11 +8,15 @@ domain=noyuno.mydns.jp
 mail=noyuno@$domain
 pdata=/var/postgresql/data
 
-init()
+install()
 {
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
-    aptinstall oracle-java8-jdk nginx postgresql samba php5 php5-pgsql php5-gd php5-fpm
+    aptinstall oracle-java8-jdk nginx postgresql samba \
+        php5 php5-pgsql php5-gd php5-fpm \ # kanbord
+        rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl \ #monitorix
+        librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
+        libconfig-general-perl libio-socket-ssl-perl
 }
 
 network()
@@ -413,13 +417,20 @@ kanboard()
     dfx sudo chown -R www-data:www-data $kp
 }
 
+monitorix()
+{
+    dfx wget -qO /tmp/monitorix.deb \
+        http://www.monitorix.org/monitorix_3.9.0-izzy1_all.deb
+    dfx sudo dpkg -i /tmp/monitorix.deb
+}
+
 if [ "$(hostname)" != "pi" ]; then
     echo "pi only" 1>&2
     exit 1
 fi
 
 if [ $# -eq 0 ]; then
-    init
+    install
     motd
     timezone
     ssl
