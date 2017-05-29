@@ -76,6 +76,7 @@ Depending items have to put before install item.
 - `note`: Take a note.
 - `now` : Show current time.
 - `panview`: View as HTML using Pandoc.
+- `pi`: Raspberry Pi 3 command.
 - `printout`: Print out plain text file or stdin.
 - `pull`: Pull under all $HOME repository.
 - `rate`: Show JPY/USD rate.
