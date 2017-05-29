@@ -439,11 +439,19 @@ EOF
 kanboard()
 {
     kp=/var/www/kanban
-    dfx sudo wget -qO /tmp/kanboard.zip https://kanboard.net/kanboard-latest.zip
-    dfx sudo unzip -od /var/www /tmp/kanboard.zip
-    dfx sudo rm /tmp/kanboard.zip
-    dfx sudo mv /var/www/kanboard $kp
-    dfx sudo cp $kp/config.default.php $kp/config.php
+    if [ ! -e $kp ]; then
+        dfx sudo wget -qO /tmp/kanboard.zip https://kanboard.net/kanboard-latest.zip
+        dfx sudo unzip -od /var/www /tmp/kanboard.zip
+        dfx sudo mv /var/www/kanboard $kp
+        dfx sudo cp $kp/config.default.php $kp/config.php
+    fi
+
+    if [ ! -e $kp/plugins/Gantt ]; then
+        dfx sudo wget -qO /tmp/kanboard-gantt.zip \
+            https://github.com/kanboard/plugin-gantt/releases/download/v1.0.1/Gantt-1.0.1.zip
+        dfx sudo mkdir -p $kp/plugins
+        dfx sudo unzip -od $kp/plugins /tmp/kanboard-gantt.zip
+    fi
     dfx sudo chown -R www-data:www-data $kp
 }
 
