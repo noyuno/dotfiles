@@ -167,11 +167,12 @@ def processjson(data, subarray):
         title.find("定時") >= 0 or \
         title == "特殊気象報" or \
         title == "環境気象情報" or \
-        title == "地方海上警報" or \
+        title.find("地方海上警報") >= 0 or \
         title == "全般海上警報" or \
         title == "地方気象情報" or \
         title == "気象警報・注意報" or \
         title == "異常天候早期警戒情報" or \
+        title.find("警報級の可能性") >= 0 or \
         title.find("竜巻注意情報") >= 0 or \
         title == "生物季節観測"):
         return
