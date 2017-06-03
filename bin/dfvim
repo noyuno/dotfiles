@@ -12,16 +12,26 @@ link()
 }
 
 dfout2 "Getting package for Vim"
-aptinstall git build-essential make lua5.3 liblua5.3-dev \
-libluajit-5.1 libluajit-5.1-dev python3-dev libpython3-dev libgtk-3-dev
+if [ "$(lsb_release -ds | grep Raspbian)" != "" ]; then
+    aptinstall git build-essential make lua5.2 liblua5.2-dev \
+        libluajit-5.1 libluajit-5.1-dev python3-dev libpython3-dev
+else
+    aptinstall git build-essential make lua5.3 liblua5.3-dev \
+        libluajit-5.1 libluajit-5.1-dev python3-dev libpython3-dev libgtk-3-dev
+fi
 
 link /usr/include/lua5.3/lauxlib.h /usr/include/lauxlib.h
 link /usr/include/lua5.3/lua.h /usr/include/lua.h
 link /usr/include/lua5.3/lua.hpp /usr/include/lua.hpp
 link /usr/include/lua5.3/luaconf.h /usr/include/luaconf.h
 link /usr/include/lua5.3/lualib.h /usr/include/lualib.h
-link /usr/lib/x86_64-linux-gnu/libluajit-5.1.so /usr/lib/x86_64-linux-gnu/libluajit.so
-link /usr/lib/x86_64-linux-gnu/libluajit-5.1.a /usr/lib/x86_64-linux-gnu/libluajit.a
+if [ "$(lsb_release -ds | grep Raspbian)" != "" ]; then
+    kernel=arm-linux-gnueabihf
+else
+    kernel=x86_64-linux-gnu
+fi
+link /usr/lib/$kernel/libluajit-5.1.so /usr/lib/$kernel/libluajit.so
+link /usr/lib/$kernel/libluajit-5.1.a /usr/lib/$kernel/libluajit.a
 
 dfout2 "Getting Vim source"
 dfx cd ~
@@ -50,21 +60,38 @@ fi
 #git checkout "$LATESTTAG"
 
 dfout2 "Configuring Vim"
-dfx ./configure \
---with-features=huge \
---with-compiledby="noyuno" \
---enable-multibyte \
---enable-gui=gtk3 \
---enable-rubyinterp \
---enable-python3interp \
---with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
---enable-luainterp=dynamic \
---with-lua-prefix=/usr --with-luajit \
---enable-gpm \
---enable-cscope \
---enable-fontset \
---enable-termtruecolor \
---enable-fail-if-missing
+if [ "$(lsb_release -ds | grep Raspbian)" != "" ]; then
+    dfx ./configure \
+        --with-features=huge \
+        --with-compiledby="noyuno" \
+        --enable-multibyte \
+        --enable-rubyinterp \
+        --enable-python3interp \
+        --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
+        --enable-luainterp=dynamic \
+        --with-lua-prefix=/usr --with-luajit \
+        --enable-gpm \
+        --enable-cscope \
+        --enable-fontset \
+        --enable-termtruecolor \
+        --enable-fail-if-missing
+else
+    dfx ./configure \
+        --with-features=huge \
+        --with-compiledby="noyuno" \
+        --enable-multibyte \
+        --enable-gui=gtk3 \
+        --enable-rubyinterp \
+        --enable-python3interp \
+        --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
+        --enable-luainterp=dynamic \
+        --with-lua-prefix=/usr --with-luajit \
+        --enable-gpm \
+        --enable-cscope \
+        --enable-fontset \
+        --enable-termtruecolor \
+        --enable-fail-if-missing
+fi
 
 dfout2 "Making Vim"
 dfx make -j4
