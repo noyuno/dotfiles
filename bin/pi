@@ -40,16 +40,22 @@ nginx()
 {
 
     sudo domainname $domain
-
-    cat << EOF | sudo tee /etc/nginx/sites-available/gitbucket.conf
+    cat << EOF | sudo tee /etc/nginx/sites-available/00-root.conf
 proxy_cache_path /var/lib/nginx/cache levels=1:2 keys_zone=cache:512m inactive=1d  max_size=60g;
 
 server_tokens off;
+server_names_hash_bucket_size 64;
 
 server {
     listen 80;
     server_name $domain;
+    include /etc/nginx/mime.types;
     charset UTF-8;
+    charset_types text/css application/json text/plain;
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
+    add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';
 
     location / {
         root /var/www/html;
@@ -72,99 +78,14 @@ server {
         root /var/www/html;
         try_files \$uri =404;
         fastcgi_pass unix:/var/run/fcgiwrap.socket;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-server {
-    listen 80;
-    server_name status.$domain;
-    charset UTF-8;
-
-    location / {
-        root /var/lib/monitorix/www;
-    }
-
-    location ~ /\.git {
-      deny all;
-    }
-
-    location ~ \.cgi$ {
-        root /var/lib/monitorix/www;
-        try_files \$uri =404;
-        fastcgi_pass unix:/var/run/fcgiwrap.socket;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-server {
-    listen 80;
-    #listen 443 ssl;
-    server_name git.$domain;
-    
-    #ssl_certificate /etc/letsencrypt/live/git.$domain/fullchain.pem;
-    #ssl_certificate_key /etc/letsencrypt/live/git.$domain/privkey.pem;
-    
-    charset UTF-8;
-    proxy_set_header Host \$http_host;
-    proxy_set_header X-Real-IP \$remote_addr;
-    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-    proxy_redirect off;
-    proxy_max_temp_file_size 0;
-
-    location /.well-known {
-        alias /var/www/html/.well-known;
-    }
-
-    location / {
-        proxy_pass http://localhost:8080;
-        proxy_connect_timeout   150;
-        proxy_send_timeout      100;
-        proxy_read_timeout      100;
-        proxy_buffers           4 32k;
-        client_max_body_size    500m; # Big number is we can post big commits.
-        client_body_buffer_size 128k;
-
-    }
-
-    location /assets/ {
-        proxy_pass              http://localhost:8080/assets/;
-        proxy_cache             cache;
-        proxy_cache_key         \$host\$uri\$is_args\$args;
-        proxy_cache_valid       200 301 302 1d;
-        expires                 1d;
-    }
-}
-
-server {
-    listen 80;
-    server_name kanban.$domain;
-    charset UTF-8;
-    root   /var/www/kanban;
-    index index.php index.html index.htm;
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-    error_page 404 /404.html;
-    error_page 500 502 503 504 /50x.html;
-
-    location ~ \.php$ {
-        root /var/www/kanban;
-        try_files \$uri =404;
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         include fastcgi_params;
     }
 }
 EOF
-    dfx sudo ln -sfnv /etc/nginx/sites-available/gitbucket.conf \
-        /etc/nginx/sites-enabled/gitbucket.conf
+    dfx sudo ln -sfnv /etc/nginx/sites-available/00-root.conf \
+        /etc/nginx/sites-enabled/00-root.conf
     dfx sudo systemctl reload nginx.service
-
     dfx sudo chown -R noyuno:noyuno /var/www/html
 }
 
@@ -252,6 +173,53 @@ EOF
     dfx sudo systemctl daemon-reload
     dfx sudo systemctl enable gitbucket.service
     dfx sudo systemctl restart gitbucket.service
+}
+
+gitbucket_nginx()
+{
+    cat << EOF | sudo tee /etc/nginx/sites-available/gitbucket.conf
+server {
+    listen 80;
+    #listen 443 ssl;
+    server_name git.$domain;
+    
+    #ssl_certificate /etc/letsencrypt/live/git.$domain/fullchain.pem;
+    #ssl_certificate_key /etc/letsencrypt/live/git.$domain/privkey.pem;
+    
+    charset UTF-8;
+    proxy_set_header Host \$http_host;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    proxy_redirect off;
+    proxy_max_temp_file_size 0;
+
+    location /.well-known {
+        alias /var/www/html/.well-known;
+    }
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_connect_timeout   150;
+        proxy_send_timeout      100;
+        proxy_read_timeout      100;
+        proxy_buffers           4 32k;
+        client_max_body_size    500m; # Big number is we can post big commits.
+        client_body_buffer_size 128k;
+
+    }
+
+    location /assets/ {
+        proxy_pass              http://localhost:8080/assets/;
+        proxy_cache             cache;
+        proxy_cache_key         \$host\$uri\$is_args\$args;
+        proxy_cache_valid       200 301 302 1d;
+        expires                 1d;
+    }
+}
+EOF
+    dfx sudo ln -sfnv /etc/nginx/sites-available/gitbucket.conf \
+        /etc/nginx/sites-enabled/gitbucket.conf
+    dfx sudo systemctl reload nginx.service
 }
 
 gitbucket_plugins()
@@ -455,90 +423,82 @@ kanboard()
     dfx sudo chown -R www-data:www-data $kp
 }
 
-monitorix()
+kanboard_nginx()
 {
-    if [ ! -e /tmp/monitorix.deb ]; then
-        dfx wget -qO /tmp/monitorix.deb \
-            http://www.monitorix.org/monitorix_3.9.0-izzy1_all.deb
-        dfx sudo dpkg -i /tmp/monitorix.deb
-    fi
+    cat << EOF | sudo tee /etc/nginx/sites-available/kanboard.conf
+server {
+    listen 80;
+    server_name kanban.$domain;
+    charset UTF-8;
+    root   /var/www/kanban;
+    index index.php index.html index.htm;
 
-    pushd /
-        cat << "EOF" | sudo patch -N /etc/monitorix/monitorix.conf
---- /etc/monitorix/monitorix.conf	2016-10-16 23:10:41.000000000 +0900
-+++ /home/noyuno/monitorix.conf	2017-05-29 15:36:59.940696881 +0900
-@@ -3,8 +3,8 @@
- # See monitorix.conf(5) manpage for a detailed description of each option.
- #
- 
--title = Place a title here
--hostname =
-+title = Status
-+hostname = pi.noyuno.mydns.jp
- theme_color = black
- refresh_rate = 150
- iface_mode = graph
-@@ -21,8 +21,8 @@
- 
- base_dir = /var/lib/monitorix/www/
- base_lib = /var/lib/monitorix/
--base_url = /monitorix
--base_cgi = /monitorix-cgi
-+base_url = /
-+base_cgi = /cgi
- 
- <httpd_builtin>
- 	enabled = y
-@@ -73,8 +73,8 @@
- # -----------------------------------------------------------------------------
- <graph_enable>
- 	system		= y
--	kern		= y
--	proc		= y
-+	kern		= n
-+	proc		= n
- 	hptemp		= n
- 	lmsens		= n
- 	gensens		= n
-@@ -84,14 +84,14 @@
- 	zfs		= n
- 	du		= n
- 	net		= y
--	netstat		= y
-+	netstat		= n
- 	tc		= n
- 	libvirt		= n
- 	process		= n
--	serv		= y
-+	serv		= n
- 	mail		= n
--	port		= y
--	user		= y
-+	port		= n
-+	user		= n
- 	ftp		= n
- 	apache		= n
- 	nginx		= n
-@@ -107,13 +107,13 @@
- 	chrony		= n
- 	fail2ban	= n
- 	icecast		= n
--	raspberrypi	= n
-+	raspberrypi	= y
- 	phpapc		= n
- 	memcached	= n
- 	apcupsd		= n
- 	nut		= n
- 	wowza		= n
--	int		= y
-+	int		= n
- 	verlihub	= n
- </graph_enable>
- 
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+
+    location ~ \.php$ {
+        root /var/www/kanban;
+        try_files \$uri =404;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
 EOF
-    popd
-    
-    dfx sudo service monitorix restart
+    dfx sudo ln -sfnv /etc/nginx/sites-available/kanboard.conf \
+        /etc/nginx/sites-enabled/kanboard.conf
+    dfx sudo systemctl reload nginx.service
+
+}
+
+netdata()
+{
+    bash <(curl -Ss https://my-netdata.io/kickstart.sh)
+}
+
+netdata_nginx()
+{
+    cat << EOF | sudo tee /etc/nginx/sites-available/netdata.conf
+upstream backend {
+    # the netdata server
+    server 127.0.0.1:19999;
+    keepalive 64;
+}
+
+server {
+    # nginx listens to this
+    listen 80;
+
+    # the virtual host name of this
+    server_name status.$domain;
+
+    location / {
+        proxy_set_header X-Forwarded-Host \$host;
+        proxy_set_header X-Forwarded-Server \$host;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_pass http://backend;
+        proxy_http_version 1.1;
+        proxy_pass_request_headers on;
+        proxy_set_header Connection "keep-alive";
+        proxy_store off;
+    }
+}
+EOF
+    dfx sudo ln -sfnv /etc/nginx/sites-available/netdata.conf \
+        /etc/nginx/sites-enabled/netdata.conf
+    dfx sudo systemctl reload nginx.service
+
+}
+
+
+pychromecast()
+{
+    sudo pip3 install pychromecast
+
 }
 
 if [ "$(hostname)" != "pi" ]; then
@@ -556,9 +516,13 @@ if [ $# -eq 0 ]; then
     gitbucket_psql
     kanboard_psql
     gitbucket
+    gitbucket_nginx
     kanboard
-    monitorix
+    kanboard_nginx
+    netdata
+    netdata_nginx
     zeroconf
+    pychromecast
 else
     eval $*
 fi
