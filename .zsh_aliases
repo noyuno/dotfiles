@@ -302,13 +302,18 @@ killgpga()
     gpgconf --kill gpg-agent
 }
 
-printersetup()
+browsezero()
 {
     a=$(avahi-browse -tkr "_http._tcp" -p | \
         grep '^=' --color=never | \
-        cut -d \; -f 7)
-    echo $a | while read i; do
-        xdg-open "http://$i"
+        grep 'IPv4' --color=never)
+    i=$(echo $a | cut -d \; -f 7)
+    p=$(echo $a | cut -d \; -f 9)
+    
+    for ((c=$(echo $i | grep . | wc -l); c > 0; c--)); do
+        addr=$(echo $i | tail -n $c | head -n 1)
+        port=$(echo $p | tail -n $c | head -n 1)
+        xdg-open "http://$addr:$port/"
     done
 }
 
