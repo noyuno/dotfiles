@@ -62,7 +62,11 @@ server {
     }
 
     location ~ /\.git {
-      deny all;
+        deny all;
+    }
+
+    location /log {
+        deny all;
     }
 
     location ~ \.php$ {
