@@ -48,7 +48,7 @@ server_names_hash_bucket_size 64;
 
 server {
     listen 80;
-    server_name $domain;
+    server_name $domain localhost;
     include /etc/nginx/mime.types;
     charset UTF-8;
     charset_types text/css application/json text/plain;
@@ -79,6 +79,14 @@ server {
     }
 
     location ~ \.cgi$ {
+        root /var/www/html;
+        try_files \$uri =404;
+        fastcgi_pass unix:/var/run/fcgiwrap.socket;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+    
+    location /cgi {
         root /var/www/html;
         try_files \$uri =404;
         fastcgi_pass unix:/var/run/fcgiwrap.socket;
