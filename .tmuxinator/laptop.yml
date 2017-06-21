@@ -7,7 +7,7 @@ windows:
   - board:
       layout: 15b1,149x35,0,0[149x12,0,0,15,149x14,0,13,18,149x7,0,28{75x7,0,28,19,73x7,76,28,20}]
       panes: 
-        - anime -ok -n 11
+        - screenfetch -t; anime -ok -n 11
         - ical -k -n 13
         - jma -k
         - weather -k -n 6

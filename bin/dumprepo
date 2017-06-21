@@ -1,0 +1,47 @@
+#!/bin/bash -e
+
+out="[]"
+
+remoteloop()
+{
+    out=$(echo "$out" | jq '.|=.+[{"name":"'$name'", "remote":[]}]')
+    while read line; do
+        tag=$(echo $line | cut -d ' ' -f 1)
+        path=$(echo $line | cut -d ' ' -f 2)
+        mode=$(echo $line | cut -d ' ' -f 3)
+        if [ "$mode" = "(fetch)" ]; then
+            out=$(echo "$out" | jq '.[] | select(.name=="'$name'").remote |=.+[{"name":"'$tag'", "url":"'$path'"}]' | jq -s .)
+        fi
+    done
+    echo $out
+    return 0
+}
+
+dirloop()
+{
+    while read dir; do
+        name=${dir##*/}
+
+        # ignore /home/user top level
+        if [ $(basename $HOME) = "$name" ]; then
+            continue
+        fi
+        pushd "$HOME/$name" >/dev/null
+
+            set +e
+            rv=$(git remote -v 2>/dev/null)
+            set -e
+            
+            if [ "$rv" ]; then
+                out=$(echo "$rv" | remoteloop)
+            fi
+        popd >/dev/null
+    done
+    echo $out
+    return 0
+}
+
+out1=$(find ~ -maxdepth 1 -type d | dirloop)
+
+echo $out1 | jq '. | sort_by(.name)'
+
