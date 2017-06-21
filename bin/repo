@@ -16,13 +16,13 @@ _check_url()
         if [ "$rname" = "$remote_name" ]; then
             matched=1
             if [ "$rurl" != "$remote_url" ]; then
-                echo -e "\e[33m[ change remote ]\e[m $name/$remote_name to $remote_url"
+                echo -e "\e[33m[ change remote ]\e[m $name($remote_name) to $remote_url"
                 git remote set-url "$remote_name" "$remote_url"
             fi
         fi
     done
     if [ ! "$matched" ]; then
-        echo -e "\e[33m[ add remote ]\e[m $name/$remote_name to $remote_url"
+        echo -e "\e[33m[ add remote ]\e[m $name($remote_name) to $remote_url"
         git remote add "$remote_name" "$remote_url"
     fi
 }
@@ -45,27 +45,28 @@ _check_repo()
         _check_remote  "$name" "$remote_name" "$remote_url"
         status=$(git status -s)
         if [ "$status" ]; then
-            echo -e "\e[33m[ dirty   ] $name\e[m"
+            echo -e "\e[33m[ dirty   ] $name\e[m ($(echo $status | wc -l) files)"
             git -c color.status=always status -s | \
                 awk '{print "  "$1"         '$name/'"$2}' 
             ret=$(git fetch $remote_name)
             if [ ! "$ret" = "" ]; then
-                echo -e "\e[32m[ fetch   ] $name\e[m"
+                echo -e "\e[32m[ fetch   ] $name ($remote_name)\e[m"
                 echo "$ret"
             fi
         else
-            ret=$(git pull $remote_name master)
+            ret=$(git pull $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name)
             if [ "$ret" = "Already up-to-date." ]; then
                 # did update local branch?
                 localhead=$(git branch -va --no-color | awk '/^*/{print $3}')
                 remotehead=$(git branch -va --no-color | awk '/remotes\/origin\/master/{print $2}')
                 if [ "$localhead" = "$remotehead" ]; then
-                    echo "[ latest  ] $name"
+                    echo "[ latest  ] $name ($remote_name)"
                 else
-                    echo -e "\e[33m[ forward ] $name\e[m"
+                    echo -e "\e[33m[ forward ] $name ($remote_name)\e[m"
                 fi
             else
-                echo -e "\e[32m[ pull    ] $name\e[m"
+                echo -e "\e[32m[ pull    ] $name ($remote_name)\e[m"
+                cat $DFTMP/git-pull-stderr-$name-$remote_name
                 echo "$ret"
             fi
         fi
