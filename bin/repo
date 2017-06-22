@@ -151,7 +151,7 @@ update_repo
 wait
 
 echo -ne "\e[2K\e[1G"
-cat $outtmp
+cat $outtmp | sort
 
 finalize
 

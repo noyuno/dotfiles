@@ -1,0 +1,5 @@
+#!/bin/bash
+
+wget -qO ~/Pictures/background.png noyuno.mydns.jp/data/background.png
+gsettings set org.mate.background picture-filename $HOME/Pictures/background.png
+
