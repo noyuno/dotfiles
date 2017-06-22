@@ -3,62 +3,155 @@
 . "$HOME/dotfiles/bin/dffunc"
 
 name=$(git config --global user.name)
+outtmp=$DFTMP/out
 
-_check_repo()
+_check_url()
 {
-    cd "$HOME"
-    if [ -d "$3/.git" ]; then
-        cd "$HOME/$3"
-        status=$(git status -s)
-        if [ "$status" ]; then
-            echo -e "\e[33m[ dirty   ] $1:$3\e[m"
-            git -c color.status=always status -s | \
-                awk '{print "  "$1"         '$1:$3/'"$2}' 
-            ret=$(git fetch)
-            if [ ! "$ret" = "" ]; then
-                echo -e "\e[32m[ fetch   ] $1:$3\e[m"
-                echo "$ret"
-            fi
-        else
-            ret=$(git pull)
-            if [ "$ret" = "Already up-to-date." ]; then
-                # did local branch update?
-                localhead=$(git branch -va --no-color | awk '/^*/{print $3}')
-                remotehead=$(git branch -va --no-color | awk '/remotes\/origin\/master/{print $2}')
-                if [ "$localhead" = "$remotehead" ]; then
-                    echo "[ latest  ] $1:$3"
-                else
-                    echo -e "\e[33m[ forward ] $1:$3\e[m"
-                fi
-            else
-                echo -e "\e[32m[ pull    ] $1:$3\e[m"
-                echo "$ret"
+    name=$1
+    remote_name=$2
+    remote_url=$3
+    matched=
+    while read line; do
+        rname=$(echo $line | cut -d ' ' -f 1)
+        rurl=$(echo $line | cut -d ' ' -f 2)
+        if [ "$rname" = "$remote_name" ]; then
+            matched=1
+            if [ "$rurl" != "$remote_url" ]; then
+                echo -e "\e[33m[ change remote ]\e[m $name($remote_name) to $remote_url"
+                git remote set-url "$remote_name" "$remote_url"
             fi
         fi
-    else
-        echo -e "\e[32m[ clone   ] $1:$3\e[m"
-        git clone "$2/$3.git"
+    done
+    if [ ! "$matched" ]; then
+        echo -e "\e[33m[ add remote ]\e[m $name($remote_name) to $remote_url"
+        git remote add "$remote_name" "$remote_url"
     fi
 }
 
-check_repo()
+_check_remote()
 {
-    while read i; do
-        _check_repo "$1" "$2" "$i" &
-    done < "$DFTMP/$1"
+    name=$1
+    remote_name=$2
+    remote_url=$3
+    git remote -v | _check_url $name $remote_name $remote_url
 }
 
-# GitHub
-curl -s "https://api.github.com/users/$name/repos" | \
-    jq -r '.[].name' > "$DFTMP/GitHub"
-check_repo GitHub "git@github.com:$name" &
+_update_repo()
+{
+    name=$1
+    remote_name=$2
+    remote_url=$3
+    dirty=$4
+    if [ -d "$HOME/$name/.git" ]; then
+        pushd "$HOME/$name" >/dev/null
+        _check_remote  "$name" "$remote_name" "$remote_url"
+        if [ "$dirty" ]; then
+            ret=$(git fetch --quiet $remote_name)
+            if [ ! "$ret" = "" ]; then
+                echo "$ret"
+                return 3
+            fi
+        else
+            ret=$(git pull --quiet $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name)
+            if [ ! "$ret" ]; then
+                # did update local branch?
+                localhead=$(git branch -va --no-color | awk '/^*/{print $3}')
+                remotehead=$(git branch -va --no-color | awk '/remotes\/'$remote_name'\/master/{print $2}')
+                if [ "$localhead" = "$remotehead" ]; then
+                    return 0
+                else
+                    return 4
+                fi
+            else
+                cat $DFTMP/git-pull-stderr-$name-$remote_name
+                echo "$ret"
+                return 2
+            fi
+        fi
+        popd >/dev/null
+    else
+        git clone "$remote_url" "$HOME/$name"
+        return 1
+    fi
+}
+
+_check_dirty()
+{
+    name=$1
+    if [ -d "$HOME/$name/.git" ]; then
+        pushd "$HOME/$name" >/dev/null
+        status=$(git status -s)
+        if [ "$status" ]; then
+            echo -e "\e[33m[ dirty ] $name\e[m ($(echo "$status" | wc -l) files)"
+            git -c color.status=always status -s | \
+                awk '{print "  "$1"       '$name/'"$2}' 
+            return 0
+        fi
+        popd >/dev/null
+    fi
+    return 1
+}
+
+update_repo()
+{
+    len=$(jq -r length "$json")
+    for i in $(seq 0 $((len - 1))); do
+        (
+        name=$(jq -r '.['$i'].name' "$json")
+        remotelen=$(jq -r '.['$i'].remote | length' "$json")
+        dirty=
+        if _check_dirty $name ; then
+            dirty=1
+        fi
+        latest=
+        declare -A remote_status
+        for j in $(seq 0 $((remotelen - 1))); do
+            remote_name=$(jq -r '.['$i'].remote['$j'].name' $json)
+            remote_url=$(jq -r '.['$i'].remote['$j'].url' $json)
+            _update_repo "$name" "$remote_name" "$remote_url" "$dirty" &&:
+            case "$?" in
+                0) # latest
+                    remote_status[$remote_name]="latest "
+                    ;;
+                1) # clone
+                    remote_status[$remote_name]="\e[32mclone  \e[m"
+                    ;;
+                2) # pull
+                    remote_status[$remote_name]="\e[34mpull   \e[m"
+                    ;;
+                3) # fetch
+                    remote_status[$remote_name]="\e[35mfetch  \e[m"
+                    ;;
+                4) # forward
+                    remote_status[$remote_name]="\e[33mforward\e[m"
+                    ;;
+            esac
+        done
+        if [ "$dirty" ]; then
+            dirty_message="\e[31mdirty\e[m"
+        else
+            dirty_message="     "
+        fi
+        printf "%-20s " "$name" >> $outtmp
+        echo -ne "$dirty_message " >> $outtmp
+        for k in "${!remote_status[@]}"; do
+            echo -ne "$k:${remote_status[$k]} " >> $outtmp
+        done
+        echo "" >> $outtmp
+        echo -ne "\e[2K\e[1Gprocessed $name ($((i+1)) of $len)"
+        ) &
+    done
+}
 
 # pi
-curl -sL http://noyuno.mydns.jp/repos.cgi | \
-    jq -r '.[]' > "$DFTMP/pi"
-check_repo pi "http://git.noyuno.mydns.jp/git/$name"
+json="$DFTMP/repo.json"
+curl -sL http://noyuno.mydns.jp/data/repo.json > "$DFTMP/repo.json"
+update_repo
 
 wait
+
+echo -ne "\e[2K\e[1G"
+cat $outtmp
 
 finalize
 

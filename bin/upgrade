@@ -1,19 +1,37 @@
 #!/bin/bash -e
 
+APTFLAG="-qq"
 . "$HOME/dotfiles/bin/dffunc"
 
-aptupdate
-aptupgrade
-sudo apt -y autoremove
-sudo apt clean
 
 if [ $# -eq 1 ]; then
-    sudo -H pip3 install --upgrade pip && sudo -H pip-review --auto
+    case "$1" in
+        pip)
+            dfx sudo -H pip3 -q install --upgrade pip # && dfx sudo -H pip-review --auto
+            dfx pip3 list --outdated | awk '{ print $1 }' | xargs pip3 install -U
+            ;;
+        npm)
+            dfx npm update --save -g
+            ;;
+        gem)
+            dfx sudo -H gem update --system --no-document --silent
+            dfx gem update bundler --user-install --no-document --silent
+            ;;
+        *)
+            echo "Arguments missing"
+            exit 1
+    esac
 
-    npm-check-updates -g
 
-    sudo -H gem update --system --no-document
-    gem update bundler --user-install --no-document
+else
+    aptupdate
+    aptupgrade
+    if [ "$(lsb_release -is)" = "Raspbian" ]; then
+        dfx sudo apt-get -y $APTFLAG autoremove
+    else
+        dfx sudo apt -y $APTFLAG autoremove
+    fi
+    dfx sudo apt $APTFLAG clean
 fi
 
 finalize
