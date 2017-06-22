@@ -48,7 +48,6 @@ _update_repo()
         if [ "$dirty" ]; then
             ret=$(git fetch --quiet $remote_name)
             if [ ! "$ret" = "" ]; then
-                echo -e "\e[32m[ fetch   ] $name ($remote_name)\e[m"
                 echo "$ret"
                 return 3
             fi
@@ -83,9 +82,9 @@ _check_dirty()
         pushd "$HOME/$name" >/dev/null
         status=$(git status -s)
         if [ "$status" ]; then
-            echo -e "\e[33m[ dirty   ] $name\e[m ($(echo "$status" | wc -l) files)"
+            echo -e "\e[33m[ dirty ] $name\e[m ($(echo "$status" | wc -l) files)"
             git -c color.status=always status -s | \
-                awk '{print "  "$1"         '$name/'"$2}' 
+                awk '{print "  "$1"       '$name/'"$2}' 
             return 0
         fi
         popd >/dev/null
@@ -139,6 +138,7 @@ update_repo()
             echo -ne "$k:${remote_status[$k]} " >> $outtmp
         done
         echo "" >> $outtmp
+        echo -ne "\e[2K\e[1Gprocessed $name ($((i+1)) of $len)"
         ) &
     done
 }
@@ -150,6 +150,7 @@ update_repo
 
 wait
 
+echo -ne "\e[2K\e[1G"
 cat $outtmp
 
 finalize
