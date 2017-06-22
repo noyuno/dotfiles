@@ -117,7 +117,7 @@ ipip()
 {
     dfx sudo -H pip3 install --upgrade pip
     dfx sudo -H pip3 freeze --local '|' grep -v '^\-e' '|' cut -d = -f 1 '|' xargs sudo -H pip3 install -U &&:
-    dfx sudo -H pip3 install ipython pip-review ansi2html
+    dfx sudo -H pip3 install ipython pip-review ansi2html gitpython
     set +e
     packages=()
     grep "$HOME/dotfiles/list/pip" -v -e '^#' -e '^$' > "$DFTMP/data"

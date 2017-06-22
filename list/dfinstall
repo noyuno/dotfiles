@@ -54,6 +54,7 @@ sqlite3
 ssh
 sysv-rc-conf
 tar
+tcpdump
 texinfo
 tig
 tmux
