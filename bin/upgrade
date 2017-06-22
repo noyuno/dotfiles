@@ -28,10 +28,11 @@ else
     aptupgrade
     if [ "$(lsb_release -is)" = "Raspbian" ]; then
         dfx sudo apt-get -y $APTFLAG autoremove
+        dfx sudo apt-get $APTFLAG clean
     else
         dfx sudo apt -y $APTFLAG autoremove
+        dfx sudo apt $APTFLAG clean
     fi
-    dfx sudo apt $APTFLAG clean
 fi
 
 finalize
