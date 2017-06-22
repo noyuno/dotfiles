@@ -72,7 +72,7 @@ aptinstall()
 {
     need_install $* &&:
     if [ $need_install_ret -eq 1 ]; then
-        dfx sudo DEBIAN_FRONTEND=noninteractive apt $DRYRUNFLAG \
+        dfx sudo DEBIAN_FRONTEND=noninteractive apt $APTFLAG \
         -o DPkg::options::="--force-confdef" \
         -o DPkg::options::="--force-confold" -y install $@ 
     else
@@ -83,7 +83,7 @@ export -f aptinstall
 
 aptupgrade()
 {
-    dfx sudo DEBIAN_FRONTEND=noninteractive apt $DRYRUNFLAG \
+    dfx sudo DEBIAN_FRONTEND=noninteractive apt $APTFLAG \
     -o DPkg::options::="--force-confdef" \
     -o DPkg::options::="--force-confold" -y full-upgrade
 }
@@ -93,7 +93,7 @@ clean_list=0
 aptupdate()
 {
     if [ $clean_list -eq 0 ]; then
-        dfx sudo apt update
+        dfx sudo apt $APTFLAG update
         clean_list=1
     fi
 }
@@ -101,7 +101,7 @@ export -f aptupdate
 
 aptremove()
 {
-    dfx sudo DEBIAN_FRONTEND=noninteractive apt $DRYRUNFLAG \
+    dfx sudo DEBIAN_FRONTEND=noninteractive apt $APTFLAG \
         -o DPkg::options::="--force-confdef" \
         -o DPkg::options::="--force-confold" -y --purge remove $*
 }
@@ -200,7 +200,7 @@ if [ -z "$DFBACKUP" ]; then
     mkdir -p "$DFBACKUP"
 fi
 if [ "$DRYRUN" != "" ]; then
-    DRYRUNFLAG="--dry-run"
+    APTFLAG="$APTFLAG --dry-run"
     dfout2 "DRYRUN=$DRYRUN"
 fi
 

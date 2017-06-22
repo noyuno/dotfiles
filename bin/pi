@@ -513,8 +513,8 @@ pychromecast()
 
 }
 
-if [ "$(hostname)" != "pi" ]; then
-    echo "this command is pi only" 1>&2
+if [ "$(lsb_release -is)" != "Raspbian" ]; then
+    echo "this command is Raspbian only" 1>&2
     exit 1
 fi
 

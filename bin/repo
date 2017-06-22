@@ -35,60 +35,103 @@ _check_remote()
     git remote -v | _check_url $name $remote_name $remote_url
 }
 
-_check_repo()
+_update_repo()
 {
     name=$1
     remote_name=$2
     remote_url=$3
+    dirty=$4
     if [ -d "$HOME/$name/.git" ]; then
         pushd "$HOME/$name" >/dev/null
         _check_remote  "$name" "$remote_name" "$remote_url"
-        status=$(git status -s)
-        if [ "$status" ]; then
-            echo -e "\e[33m[ dirty   ] $name\e[m ($(echo $status | wc -l) files)"
-            git -c color.status=always status -s | \
-                awk '{print "  "$1"         '$name/'"$2}' 
+        if [ "$dirty" ]; then
             ret=$(git fetch $remote_name)
             if [ ! "$ret" = "" ]; then
                 echo -e "\e[32m[ fetch   ] $name ($remote_name)\e[m"
                 echo "$ret"
+                return 3
             fi
         else
             ret=$(git pull $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name)
             if [ "$ret" = "Already up-to-date." ]; then
                 # did update local branch?
                 localhead=$(git branch -va --no-color | awk '/^*/{print $3}')
-                remotehead=$(git branch -va --no-color | awk '/remotes\/origin\/master/{print $2}')
+                remotehead=$(git branch -va --no-color | awk '/remotes\/'$remote_name'\/master/{print $2}')
                 if [ "$localhead" = "$remotehead" ]; then
-                    echo "[ latest  ] $name ($remote_name)"
+                    return 0
                 else
-                    echo -e "\e[33m[ forward ] $name ($remote_name)\e[m"
+                    return 4
                 fi
             else
-                echo -e "\e[32m[ pull    ] $name ($remote_name)\e[m"
                 cat $DFTMP/git-pull-stderr-$name-$remote_name
                 echo "$ret"
+                return 2
             fi
         fi
         popd >/dev/null
     else
-        echo -e "\e[32m[ clone   ] $name\e[m"
         git clone "$remote_url" "$HOME/$name"
+        return 1
     fi
 }
 
-check_repo()
+_check_dirty()
+{
+    name=$1
+    if [ -d "$HOME/$name/.git" ]; then
+        pushd "$HOME/$name" >/dev/null
+        status=$(git status -s)
+        if [ "$status" ]; then
+            echo -e "\e[33m[ dirty   ] $name\e[m ($(echo $status | wc -l) files)"
+            git -c color.status=always status -s | \
+                awk '{print "  "$1"         '$name/'"$2}' 
+            return 0
+        fi
+        popd >/dev/null
+    fi
+    return 1
+}
+
+update_repo()
 {
     len=$(jq -r length "$json")
     for i in $(seq 0 $((len - 1))); do
+        (
         name=$(jq -r '.['$i'].name' "$json")
         remotelen=$(jq -r '.['$i'].remote | length' "$json")
-        (
+        if _check_dirty $name ; then
+            continue
+        fi
+        latest=
+        declare -A remote_status
         for j in $(seq 0 $((remotelen - 1))); do
             remote_name=$(jq -r '.['$i'].remote['$j'].name' $json)
             remote_url=$(jq -r '.['$i'].remote['$j'].url' $json)
-            _check_repo "$name" "$remote_name" "$remote_url"
+            _update_repo "$name" "$remote_name" "$remote_url" &&:
+            case "$?" in
+                0) # latest
+                    remote_status[$remote_name]="latest "
+                    ;;
+                1) # clone
+                    remote_status[$remote_name]="\e[32mclone  \e[m"
+                    ;;
+                2) # pull
+                    remote_status[$remote_name]="\e[32mpull   \e[m"
+                    ;;
+                3) # fetch
+                    remote_status[$remote_name]="\e[32mfetch  \e[m"
+                    ;;
+                4) # forward
+                    remote_status[$remote_name]="\e[33mforward\e[m"
+                    ;;
+            esac
         done
+        
+        printf "%-20s" "$name"
+        for k in "${!remote_status[@]}"; do
+            echo -ne "$k:${remote_status[$k]} "
+        done
+        echo ""
         ) &
     done
 }
@@ -96,7 +139,7 @@ check_repo()
 # pi
 json="$DFTMP/repo.json"
 curl -sL http://noyuno.mydns.jp/data/repo.json > "$DFTMP/repo.json"
-check_repo
+update_repo
 
 wait
 
