@@ -106,8 +106,10 @@ gitbucket()
     dfx sudo mkdir -p $target/repo
     cd $target
     if [ ! -e $target/gitbucket.war ]; then
-        dfx sudo wget -qO gitbucket.war \
-            'https://github.com/gitbucket/gitbucket/releases/download/4.12.1/gitbucket.war'
+        curl -sL $(curl -s \
+                   $(curl -s https://api.github.com/repos/gitbucket/gitbucket/releases/latest | \
+                     jq -r '.assets[] |select(.name=="gitbucket.war")|.url') | \
+                   jq -r .browser_download_url) >gitbucket.war
     fi
 
     cat << EOF | sudo tee /etc/systemd/system/gitbucket.service
@@ -122,15 +124,14 @@ ExecStart=$target/run.sh
 WantedBy=multi-user.target
 EOF
 
-# hooks does not work...
-#    cat << EOF | sudo tee $target/run.sh
-##!/bin/sh -e
-#(
-#/usr/bin/java -jar $target/gitbucket.war --port=8080 \\
-#    --gitbucket.home=$target/repo
-#) >>/var/log/gitbucket.log 2>&1
-#EOF
-#    dfx sudo chmod +x $target/run.sh
+    cat << EOF | sudo tee $target/run.sh
+#!/bin/sh -e
+(
+/usr/bin/java -jar /var/git/gitbucket.war --port=8080 \
+    --gitbucket.home=/var/git/repo
+) >>/var/log/gitbucket.log 2>&1
+EOF
+    dfx sudo chmod +x $target/run.sh
 
     cat << EOF | sudo tee /etc/logrotate.d/gitbucket
 /var/log/gitbucket.log {
@@ -226,6 +227,10 @@ server {
         proxy_cache_key         \$host\$uri\$is_args\$args;
         proxy_cache_valid       200 301 302 1d;
         expires                 1d;
+    }
+
+    location /console/ {
+        deny all;
     }
 }
 EOF
