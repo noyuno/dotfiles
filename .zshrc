@@ -85,7 +85,20 @@ zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 preexec()
 {
-    [ "$(pgrep tmux)" != "" ] && tmux rename-window "$1"
+    if [ "$(pgrep tmux)" != "" ]; then
+        a=$(echo "$1" | awk '{
+            if ($2 == "") {
+                printf $1
+            } else {
+                if (length($0) > 14) {
+                    printf $1" ..."substr($2, (length($2)+1)-12, 12)
+                } else {
+                    printf $1" "$2
+                }
+            }
+        }')
+        tmux rename-window "$a"
+    fi
 }
 precmd(){
     [ "$?" -eq 0 ] && ret= || ret="$?"
