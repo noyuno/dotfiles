@@ -38,56 +38,26 @@ Depending items have to put before install item.
 | `dfvim       ` |       |       | `dfdeploy    ` | Install Vim               |
 | `dfjava      ` | v     |       | `dfguiinstall` | Install Eclipse           |
 | `dftex       ` | v     |       | `dfguiinstall` | Install TeX Live.         |
+| `dfdns       ` |       |       | `dfinstall   ` | Install unbound.          |
+| `dfgcp       ` |       |       | `dfinstall   ` | Set up Google Cloud Platform. |
 
-### Environment variables
+## Extra configuration tool
 
-- `DRYRUN`
-- `QUIET`
-
-### Extra commands
-
-- `anime`: Display anime program list.
-- `args`: Arguments checker.
-- `backlight`: Change intel backlght brightness.
-- `blog`: Create blog post.
-- `board`: Show as electric bulletin board.
-- `color`: 256-color terminal tester.
 - `dfchuri`: Change dotfiles hosting URI
 - `dfdocker`: dotfiles docker tool.
 - `dfdoctor`: Packages and deployments checker.
 - `dffunc`: Base function.
 - `dfgetdf`: An Internal function cloning dotfiles.
+- `dfgetpackage`: Print packages that installed by apt.
 - `dfnvim-alternatives`, `dfvim-alternatives`: `update-alternatives` set up alternatives of Vim/Neovim.
 - `dfpassword`: Set up RSA and GPG keys.
+- `dfreadme-bin`: Print not discribed command in `readme.md`.
 - `dfstopservice`: Stop unnecessary service.
-- `extension`: Get file extension using MIME.
-- `gitignore`: Remove git-watching files registered in `.gitignore`.
-- `gitsnapshot`: Take an snapshot of this git repository.
-- `google`: Search web.
-- `holiday`: Show holiday.
-- `ical`: Print ical calendar.
-- `image`: Show image via terminal
-- `jma`: Show JMA disaster report.
-- `kernel`: Get and build kernel.
-- `mate-terminal-colorscheme-hybrid`: Make mate-terminal colorscheme to hybrid. Called by `dfguiconf`.
-- `menu`: Program menu.
-- `netload`: Measure network interface load.
-- `news`: Show news.
-- `note`: Take a note.
-- `now` : Show current time.
-- `panview`: View as HTML using Pandoc.
-- `pi`: Raspberry Pi 3 command.
-- `printout`: Print out plain text file or stdin.
-- `pull`: Pull under all $HOME repository.
-- `rate`: Show JPY/USD rate.
-- `repo`: Synchronize my GitHub/Bitbucket repositories.
-- `rinit`: Initialize report directory.
-- `rmdocker`: Remove unnamed containers and images.
-- `rmswap`: Remove Vim/Neovim swap file using zsh completion candidates.
-- `today`: Today's word and its meaning.
-- `unicode`: Show unicode name.
-- `upgrade`: Upgrade installed packages.
-- `weather`: Show weather forecast.
+
+### Environment variables
+
+- `DRYRUN`
+- `QUIET`
 
 ### After installation
 
@@ -111,6 +81,50 @@ restart it.
 | Zsh           |             |            |      |            | v           |
 | Bash          |             |            |      |            |             |
 | Emacs         | Wombat      |            |      |            |             |
+
+## Useful commands
+
+- `anime-check`: Check whether onair the anime this season.
+- `anime`: Display anime program list.
+- `args`: Arguments checker.
+- `background`: Synchronize background wallpaper.
+- `backlight`: Change intel backlght brightness.
+- `blog`: Create blog post.
+- `board`: Show as electric bulletin board.
+- `color`: 256-color terminal tester.
+- `dconf-dump`: Dump dconf.
+- `dumppass`: Dump password from `password-store`.
+- `dumprepo`: Dump home repositories as json.
+- `extension`: Get file extension using MIME.
+- `gitignore`: Remove git-watching files registered in `.gitignore`.
+- `gitsnapshot`: Take an snapshot of this git repository.
+- `google`: Search web.
+- `holiday`: Show holiday.
+- `ical`: Print ical calendar.
+- `idea`: Launch IntelliJ IDEA.
+- `image`: Show image via terminal
+- `jma`: Show JMA disaster report.
+- `kernel`: Get and build kernel.
+- `mate-terminal-colorscheme-hybrid`: Make mate-terminal colorscheme to hybrid. Called by `dfguiconf`.
+- `menu`: Program menu.
+- `netload`: Measure network interface load.
+- `news`: Show news.
+- `note`: Take a note.
+- `now` : Show current time.
+- `panview`: View as HTML using Pandoc.
+- `pi`: Raspberry Pi 3 command.
+- `printout`: Print out plain text file or stdin.
+- `pull`: Pull under all $HOME repository.
+- `rate`: Show JPY/USD rate.
+- `repo`: Synchronize my repositories.
+- `rinit`: Initialize report directory.
+- `rmdocker`: Remove unnamed containers and images.
+- `rmswap`: Remove Vim/Neovim swap file using zsh completion candidates.
+- `start-offlineimap`: Start `offlineimap` daemon.
+- `today`: Today's word and its meaning.
+- `unicode`: Show unicode name.
+- `upgrade`: Upgrade installed packages.
+- `weather`: Show weather forecast.
 
 ## Automatic partition tool
 

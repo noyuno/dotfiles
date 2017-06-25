@@ -3,7 +3,13 @@
 . "$HOME/dotfiles/bin/dffunc"
 
 name=$(git config --global user.name)
+jsonurl=http://noyuno.mydns.jp/data/repo.json
 outtmp=$DFTMP/out
+if [ "$1" ]; then
+    base="$1"
+else
+    base="$HOME"
+fi
 
 _check_url()
 {
@@ -42,8 +48,8 @@ _update_repo()
     remote_name=$2
     remote_url=$3
     dirty=$4
-    if [ -d "$HOME/$name/.git" ]; then
-        pushd "$HOME/$name" >/dev/null
+    if [ -d "$base/$name/.git" ]; then
+        pushd "$base/$name" >/dev/null
         _check_remote  "$name" "$remote_name" "$remote_url"
         if [ "$dirty" ]; then
             ret=$(git fetch --quiet $remote_name)
@@ -70,7 +76,7 @@ _update_repo()
         fi
         popd >/dev/null
     else
-        git clone "$remote_url" "$HOME/$name"
+        git clone "$remote_url" "$base/$name"
         return 1
     fi
 }
@@ -78,8 +84,8 @@ _update_repo()
 _check_dirty()
 {
     name=$1
-    if [ -d "$HOME/$name/.git" ]; then
-        pushd "$HOME/$name" >/dev/null
+    if [ -d "$base/$name/.git" ]; then
+        pushd "$base/$name" >/dev/null
         status=$(git status -s)
         if [ "$status" ]; then
             echo -e "\e[33m[ dirty ] $name\e[m ($(echo "$status" | wc -l) files)"
@@ -145,7 +151,7 @@ update_repo()
 
 # pi
 json="$DFTMP/repo.json"
-curl -sL http://noyuno.mydns.jp/data/repo.json > "$DFTMP/repo.json"
+curl -sL "$jsonurl" > "$DFTMP/repo.json"
 update_repo
 
 wait

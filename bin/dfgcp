@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 . $HOME/dotfiles/bin/dffunc
+require dfinstall
 
 export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 if [ ! -e /etc/apt/sources.list.d/google-cloud-sdk.list ]; then

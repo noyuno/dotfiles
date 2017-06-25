@@ -1,5 +1,9 @@
 #!/bin/bash
 
-wget -qO ~/Pictures/background.png noyuno.mydns.jp/data/background.png
+if [ "$1" = "push" ]; then
+    scp ~/Pictures/background.png pi:/var/www/html/data/background.png
+else
+    wget -qO ~/Pictures/background.png noyuno.mydns.jp/data/background.png
+fi
 gsettings set org.mate.background picture-filename $HOME/Pictures/background.png
 
