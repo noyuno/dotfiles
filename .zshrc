@@ -83,10 +83,16 @@ zstyle ':vcs_info:git:*' stagedstr "%F{green}s"
 zstyle ':vcs_info:git:*' unstagedstr "%F{green}u"
 zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
+preexec()
+{
+    [ "$(pgrep tmux)" != "" ] && tmux rename-window "$1"
+}
 precmd(){
     [ "$?" -eq 0 ] && ret= || ret="$?"
     vcs_info
-    [ "$(pgrep tmux)" != "" ] && tmux refresh-client -S
+    [ "$(pgrep tmux)" != "" ] && \
+        tmux refresh-client -S && \
+        tmux rename-window "$1"
 }
 PROMPT="[%F{green}${USER}@${HOST%%.*} %F{blue}%~%f] %(!.#.$) "
 PROMPT2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
@@ -184,11 +190,11 @@ if [ ! -n "${REMOTEHOST}${SSH_CONNECTION}" ]; then
     fi
 fi
 
-PATH="/home/noyuno/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/noyuno/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/noyuno/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/noyuno/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/noyuno/perl5"; export PERL_MM_OPT;
+PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 
 #ruby
 which rbenv 1>/dev/null 2>&1 &&:
