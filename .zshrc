@@ -198,5 +198,3 @@ if [ $? -eq 0 ]; then
     eval "$(rbenv init -)"
 fi
 
-export WINDOW_WIDTH=$(xdpyinfo|grep dimensions|awk '{print $2}'| awk -Fx '{print $1}')
-

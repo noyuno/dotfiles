@@ -13,8 +13,8 @@ upower -i /org/freedesktop/UPower/devices/battery_BAT0 | \
     tr '\n' ' '
 
 # date
-if [ "$WINDOW_WIDTH" -lt 1600 ]; then
-    # laptop
+cols=$(tmux list-windows|grep active|awk '{print $5}'|awk -Fx '{print $1}'|sed 's/\[//')
+if [ "$cols" -gt 110 ]; then
     echo -n '['$(date '+%Y-%m-%d %H:%M')']'
 fi
 
