@@ -75,6 +75,7 @@ export CLICOLOR=true
 zstyle ':completion:*:default' menu select=1
 
 ### Prompt ###
+export DISABLE_AUTO_TITLE="false"
 autoload -U colors; colors
 autoload -Uz vcs_info; setopt prompt_subst
 
@@ -83,29 +84,11 @@ zstyle ':vcs_info:git:*' stagedstr "%F{green}s"
 zstyle ':vcs_info:git:*' unstagedstr "%F{green}u"
 zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
-preexec()
-{
-    if [ "$(pgrep tmux)" != "" ]; then
-        a=$(echo "$1" | awk '{
-            if ($2 == "") {
-                printf $1
-            } else {
-                if (length($0) > 14) {
-                    printf $1" ..."substr($2, (length($2)+1)-12, 12)
-                } else {
-                    printf $1" "$2
-                }
-            }
-        }')
-        tmux rename-window "$a"
-    fi
-}
 precmd(){
     [ "$?" -eq 0 ] && ret= || ret="$?"
     vcs_info
     [ "$(pgrep tmux)" != "" ] && \
-        tmux refresh-client -S && \
-        tmux rename-window "$1"
+        tmux refresh-client -S
 }
 PROMPT="[%F{green}${USER}@${HOST%%.*} %F{blue}%~%f] %(!.#.$) "
 PROMPT2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
@@ -214,4 +197,6 @@ which rbenv 1>/dev/null 2>&1 &&:
 if [ $? -eq 0 ]; then
     eval "$(rbenv init -)"
 fi
+
+export WINDOW_WIDTH=$(xdpyinfo|grep dimensions|awk '{print $2}'| awk -Fx '{print $1}')
 
