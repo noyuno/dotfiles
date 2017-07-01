@@ -90,12 +90,13 @@ def get(args):
         cacheisold = True
 
     if args.refresh or cacheisold:
-        url = "http://cal.syoboi.jp/rss.php?usr=" + args.user + "&" + \
+        url = "http://cal.syoboi.jp/rss2.php?usr=" + args.user + "&" + \
             "filter=0&count=1000&days=14&" + \
             "titlefmt=%24(StTime)" + quoted_delimiter + \
             "%24(Mark)%24(MarkW)" + quoted_delimiter + \
             "%24(ShortTitle)" + quoted_delimiter + \
-            "%24(SubTitleB)" + quoted_delimiter + \
+            "%24(Count)" + quoted_delimiter + \
+            "%24(SubTitleA)" + quoted_delimiter + \
             "%24(ChName)&alt=ical"
         text = urllib.request.urlopen(url).read().decode('utf-8')
         f = open(args.cache_file, 'w')
@@ -187,8 +188,8 @@ def main(args):
         evbegin = t[0]
         evalert = t[1]
         evtitle = t[2]
-        evsubtitle = t[3]
-        evch = jastr(t[4], lench)
+        evsubtitle = t[3].rjust(2, " ") + " " + t[4]
+        evch = jastr(t[5], lench)
 
         contains = containskeyword(evtitle) or containskeyword(evsubtitle)
         det = True
