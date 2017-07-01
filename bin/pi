@@ -69,6 +69,10 @@ server {
         deny all;
     }
 
+    location ~ /secret {
+        deny all;
+    }
+
     location ~ \.php$ {
         root /var/www/html;
         try_files \$uri =404;
