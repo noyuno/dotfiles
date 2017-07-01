@@ -218,7 +218,7 @@ def main(args):
             if dtstart > nowts and dtstart - nowts - timedelta(minutes=notify_time) < timedelta():
                 if args.notify_send:
                     notifysend(ev.get("url"),
-                        "まもなく，" + t[4] + "で「" + evtitle + "」が始まります")
+                        "まもなく，" + t[5] + "で「" + evtitle + "」" + t[3] + "話が始まります")
                 output(bcolors.HEADER + "SOON  " + \
                     evbegin.split(" ")[1] + bcolors.ENDC, end = "")
             elif nowts > dtstart and nowts < dtend:

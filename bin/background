@@ -5,5 +5,8 @@ if [ "$1" = "push" ]; then
 else
     wget -qO ~/Pictures/background.png noyuno.mydns.jp/data/background.png
 fi
-gsettings set org.mate.background picture-filename $HOME/Pictures/background.png
+which gsettings >/dev/null 2>&1
+if [ $? -eq 0 -a "$DESKTOP_SESSION" ]; then
+    gsettings set org.mate.background picture-filename $HOME/Pictures/background.png
+fi
 

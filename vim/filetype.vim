@@ -27,5 +27,7 @@ augroup filetypedetect
         \ setlocal filetype=mkd autoindent formatoptions=tcroqn2 comments=n:>
   " nginx
   autocmd BufRead,BufNewFile /etc/nginx/* setf nginx
+  
+  autocmd BufRead,BufNewFile *.coffee setf coffee
 augroup END
 
