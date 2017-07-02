@@ -69,4 +69,6 @@ autostart .config/autostart
 # gpg
 .gnupg/gpg.conf
 .gnupg/gpg-agent.conf
+# sqlite
+.sqliterc
 
