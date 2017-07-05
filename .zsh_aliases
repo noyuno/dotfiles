@@ -317,3 +317,13 @@ browsezero()
     done
 }
 
+repo()
+{
+    pushd $HOME/pass >/dev/null
+        command git pull
+        command repo
+    popd >/dev/null
+}
+
+alias rotate='mogrify -rotate 90'
+

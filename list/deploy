@@ -71,4 +71,6 @@ autostart .config/autostart
 .gnupg/gpg-agent.conf
 # sqlite
 .sqliterc
+# mecab
+.mecabrc
 
