@@ -1,0 +1,22 @@
+--- netdata.conf.orig	2017-07-05 22:32:51.777010508 +0900
++++ netdata.conf	2017-07-05 22:37:02.207095419 +0900
+@@ -17,7 +17,7 @@
+ 	# glibc malloc arena max for netdata = 1
+ 	# hostname = pi
+ 	# history = 4036
+-	# update every = 1
++	update every = 10
+ 	# config directory = /etc/netdata
+ 	# log directory = /var/log/netdata
+ 	# plugins directory = /usr/libexec/netdata/plugins.d
+@@ -69,8 +69,8 @@
+ 	# checks = no
+ 	# enable running new plugins = yes
+ 	# check for new plugins every = 60
+-	# apps = yes
+-	# charts.d = yes
++	apps = no
++	charts.d = no
+ 	# fping = yes
+ 	# node.d = yes
+ 	# python.d = yes

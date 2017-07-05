@@ -19,6 +19,7 @@ git
 highlight
 host
 htop
+imagemagick
 jq
 keychain
 libacl1-dev
