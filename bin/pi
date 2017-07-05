@@ -481,6 +481,13 @@ netdata()
     bash <(curl -Ss https://my-netdata.io/kickstart.sh)
 }
 
+netdata_conf()
+{
+    pushd /etc/netdata
+        sudo patch -bN < $HOME/dotfiles/patch/netdata/netdata.conf.patch
+    popd
+}
+
 netdata_nginx()
 {
     cat << EOF | sudo tee /etc/nginx/sites-available/netdata.conf
@@ -522,6 +529,13 @@ pychromecast()
 
 }
 
+ddns()
+{
+    cat << EOF | sudo tee /etc/cron.d/ddnsauth
+17 */6 * * * noyuno /home/noyuno/bin/ddnsauth
+EOF
+}
+
 if [ "$(lsb_release -is)" != "Raspbian" ]; then
     echo "this command is Raspbian only" 1>&2
     exit 1
@@ -541,9 +555,11 @@ if [ $# -eq 0 ]; then
     kanboard
     kanboard_nginx
     netdata
+    netdata_conf
     netdata_nginx
     zeroconf
     pychromecast
+    ddns
 else
     eval $*
 fi
