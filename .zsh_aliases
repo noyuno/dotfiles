@@ -327,3 +327,8 @@ repo()
 
 alias rotate='mogrify -rotate 90'
 
+csview()
+{
+    column -s, -t | less -\#4 -S
+}
+

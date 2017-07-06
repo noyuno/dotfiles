@@ -29,5 +29,6 @@ augroup filetypedetect
   autocmd BufRead,BufNewFile /etc/nginx/* setf nginx
   
   autocmd BufRead,BufNewFile *.coffee setf coffee
+  autocmd BufRead,BufNewFile *.csv setf csv
 augroup END
 

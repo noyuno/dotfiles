@@ -157,26 +157,32 @@ class jsonitem:
 
 def processjson(data, subarray):
     title = data["title"]
-    if args.all == False and ( \
-        title.find("予報") >= 0 or \
-        title.find("平文情報") >= 0 or \
-        title == "府県気象情報" or \
-        title == "府県天気概況" or \
-        title == "紫外線観測データ" or \
-        title == "季節観測" or \
-        title.find("定時") >= 0 or \
-        title == "特殊気象報" or \
-        title == "環境気象情報" or \
-        title.find("地方海上警報") >= 0 or \
-        title == "全般海上警報" or \
-        title == "地方気象情報" or \
-        title == "気象警報・注意報" or \
-        title == "異常天候早期警戒情報" or \
-        title.find("警報級の可能性") >= 0 or \
-        title.find("竜巻注意情報") >= 0 or \
-        title == "生物季節観測"):
+    blacklist = [
+        "全般海上警報",
+        "全般海上警報（定時）", 
+        "地方気象情報",
+        "地方海上予報", 
+        "地方海上予報（Ｈ２８）", 
+        "地方海上警報",
+        "地方海上警報（Ｈ２８）", 
+        "季節観測", 
+        "府県天気予報",
+        "府県天気概況", 
+        "府県気象情報", 
+        "気象警報・注意報",
+        "特殊気象報",
+        "環境気象情報",
+        "生物季節観測"
+        "異常天候早期警戒情報",
+        "竜巻注意情報", 
+        "竜巻注意情報（目撃情報付き）", 
+        "紫外線観測データ", 
+        "警報級の可能性（明後日以降）",
+        "警報級の可能性（明日まで）",
+        "降灰予報（定時）",
+        ]
+    if args.all == False and title in blacklist:
         return
-    #print(title)
 
     for i in jsonarray:
         if i.key == data["link"]:
