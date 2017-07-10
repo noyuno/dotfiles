@@ -193,6 +193,20 @@ autocmd ColorScheme * highlight StatusLine ctermbg=none
 autocmd ColorScheme * highlight StatusLineNC ctermbg=none
 autocmd ColorScheme * highlight Folded ctermbg=none
 autocmd ColorScheme * highlight FoldColumn ctermbg=none
+autocmd ColorScheme * highlight Cursor ctermbg=blue cterm=bold
+autocmd ColorScheme * highlight Comment ctermfg=246
+autocmd ColorScheme * highlight Specialkey ctermfg=blue
+autocmd ColorScheme * highlight NonText ctermfg=243
+"autocmd CursorMoved * :call s:variable_highlighting()
+"let g:variable_highlighting=1
+"function! s:variable_highlighting()
+"  if g:variable_highlighting==1
+"    exec 'match IncSearch /\V\<'. escape(expand('<cword>'), '/\') . '\>/'
+"  else
+"    match
+"  endif
+"endfunction
+
 if !has("gui_running")
   let g:hybrid_reduced_contrast = 1
 endif
