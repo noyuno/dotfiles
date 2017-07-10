@@ -4,6 +4,7 @@ autoconf
 automake
 build-essential
 clang
+clang-format
 cmake
 cmake
 colordiff
