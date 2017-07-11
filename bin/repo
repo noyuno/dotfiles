@@ -52,13 +52,13 @@ _update_repo()
         pushd "$base/$name" >/dev/null
         _check_remote  "$name" "$remote_name" "$remote_url"
         if [ "$dirty" ]; then
-            ret=$(git fetch -c color.status=always $remote_name)
+            ret=$(git -c color.status=always fetch $remote_name)
             if [ ! "$ret" = "" ]; then
                 echo "$ret"
                 return 3
             fi
         else
-            ret=$(git pull -c color.status=always $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name)
+            ret=$(git -c color.status=always pull $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name)
             echo "$ret" | grep '^Already up-to-date.$' >/dev/null 2>&1 &&:
             if [ $? -eq 0 ]; then
                 # did update local branch?
