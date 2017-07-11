@@ -1,0 +1,65 @@
+#!/bin/bash -e
+
+. "$HOME/dotfiles/bin/dffunc"
+
+idein()
+{
+    check_ret=0
+    cache="$HOME/.cache/dein/repos/github.com"
+    grep "$HOME/dotfiles/vim/rc/$1" -e '^repo\s=\s' | \
+        sed -e "s/#.*//g" -e "s/repo\s=\s//g" -e "s/'//g" > "$DFTMP/data"
+    while read i; do
+        if [ ! -d "$cache/$i" ]; then
+            dfout3 "clone $i"
+            mkdir -p "$cache/$(dirname $i)"
+            git clone -q --depth 1 "https://github.com/$i" "$cache/$i"
+            check_ret=$((check_ret + 1))
+        else
+            dfout3 "pull $i"
+            pushd "$cache/$i" >/dev/null
+                git pull -q --depth 1
+            popd >/dev/null
+        fi
+    done < "$DFTMP/data"
+    total=$((total + check_ret))
+}
+
+declare -A users
+total=0
+overview()
+{
+    cache="$HOME/.cache/dein/repos/github.com"
+    grep "$HOME/dotfiles/vim/rc/$1" -e '^repo\s=\s' | \
+        sed -e "s/#.*//g" -e "s/repo\s=\s//g" -e "s/'//g" > "$DFTMP/data"
+    while read i; do
+        user=$(dirname $i)
+        users[$user]=$((${users[$user]}+1))
+        total=$((total + 1))
+    done < "$DFTMP/data"
+}
+
+if [ $# -eq 1 ]; then
+    case "$1" in
+        overview)
+            overview dein.toml
+            overview deineo.toml
+            overview deinfile.toml
+            overview deinlazy.toml
+            dfout3 "$total plugins registred"
+            (
+            for i in ${!users[@]}; do
+                echo "${users[$i]} ${i}"
+            done
+            ) | sort -fk2 | sort -snrk1 | grep -v '^1\s' | column -t
+            ;;
+        *)
+            echo "$1 Didn't match anything" >&2
+            exit 1
+    esac
+else
+    idein dein.toml
+    idein deineo.toml
+    idein deinfile.toml
+    idein deinlazy.toml
+fi
+
