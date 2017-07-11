@@ -536,6 +536,14 @@ ddns()
 EOF
 }
 
+anime()
+{
+    cat << EOF | sudo tee /etc/cron.d/anime
+19 */12 * * * noyuno /var/www/html/bin/get-anime
+EOF
+
+}
+
 if [ "$(lsb_release -is)" != "Raspbian" ]; then
     echo "this command is Raspbian only" 1>&2
     exit 1
@@ -560,6 +568,7 @@ if [ $# -eq 0 ]; then
     zeroconf
     pychromecast
     ddns
+    anime
 else
     eval $*
 fi
