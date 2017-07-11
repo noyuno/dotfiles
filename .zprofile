@@ -32,6 +32,7 @@ addpath "$HOME/.gem/ruby/2.3.0/bin"
 addpath "$HOME/.password-store/bin"
 addpath "$HOME/.cargo/bin"
 addpath "$HOME/.rbenv/bin"
+addpath "$HOME/.fzf/bin"
 if [ -d "$HOME/.go" ]; then
     export GOPATH="$HOME/.go"
     addpath "$GOPATH/bin"

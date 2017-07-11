@@ -100,7 +100,6 @@ restart it.
 - `dumprepo`: Dump home repositories as json.
 - `extension`: Get file extension using MIME.
 - `gitignore`: Remove git-watching files registered in `.gitignore`.
-- `gitsnapshot`: Take an snapshot of this git repository.
 - `google`: Search web.
 - `holiday`: Show holiday.
 - `ical`: Print ical calendar.

@@ -216,6 +216,12 @@ iufw()
     dfx sudo sysv-rc-conf ufw on
 }
 
+izsh()
+{
+    dfx wget -qO $HOME/bin/z.sh 'https://raw.githubusercontent.com/rupa/z/master/z.sh'
+    zcompile $HOME/bin/z.sh
+}
+
 if [ $# -eq 0 ]; then
     iinit
     igitlfs
@@ -232,6 +238,7 @@ if [ $# -eq 0 ]; then
     ifzf
     itrans
     iufw
+    izsh
 else
     eval $*
 fi
