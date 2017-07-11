@@ -31,15 +31,18 @@ Depending items have to put before install item.
 | `dfinstall   ` | v     | v     |                | Install CLI base package. |
 | `dfguiinstall` | v     |       | `dfinstall   ` | Install MATE GUI package. |
 | `dfsysconf   ` | v     | v     | `dfinstall   ` | Configure system.         |
-| `dfdeploy    ` | v     | v     | `dfinstall   ` | Deploy dotfiles using ln. |
+| `dfdeploy    ` | v     | v     | `dfinstall   ` | Deploy dotfiles using `ln`.|
 | `dfguiconf   ` | v     |       | `dfdeploy    ` | Configure user GUI.       |
-| `dfnvim-apt  ` | v     | v     | `dfdeploy    ` | Install Neovim.           |
+| `dfnvim-apt  ` | v     | v     | `dfdeploy    ` | Install Neovim from apt.  |
+| `dfnvim-build` |       |       | `dfdeploy    ` | Install Neovim from source.|
+| `dfvim       ` |       |       | `dfdeploy    ` | Install Vim from source.  |
 | `dfemacs     ` |       |       | `dfdeploy    ` | Install Emacs.            |
-| `dfvim       ` |       |       | `dfdeploy    ` | Install Vim               |
 | `dfjava      ` | v     |       | `dfguiinstall` | Install Eclipse           |
 | `dftex       ` | v     |       | `dfguiinstall` | Install TeX Live.         |
 | `dfdns       ` |       |       | `dfinstall   ` | Install unbound.          |
+| `dfurxvt     ` |       |       | `dfinstall   ` | Install urxvt terminal.   |
 | `dfgcp       ` |       |       | `dfinstall   ` | Set up Google Cloud Platform. |
+| `dfdein      ` | v     | v     | `dfdeploy    ` | Get dein.vim plugins.     |
 
 ## Extra configuration tool
 
@@ -49,7 +52,7 @@ Depending items have to put before install item.
 - `dffunc`: Base function.
 - `dfgetdf`: An Internal function cloning dotfiles.
 - `dfgetpackage`: Print packages that installed by apt.
-- `dfnvim-alternatives`, `dfvim-alternatives`: `update-alternatives` set up alternatives of Vim/Neovim.
+- `dfvim-alternatives`: Set up alternatives of Vim/Neovim.
 - `dfpassword`: Set up RSA and GPG keys.
 - `dfreadme-bin`: Print not discribed command in `readme.md`.
 - `dfstopservice`: Stop unnecessary service.

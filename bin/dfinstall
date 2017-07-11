@@ -100,7 +100,7 @@ imutt()
     fi
 }
 
-ipackage()
+iapt()
 {
     dfout2 "Installing packages"
     aptupdate
@@ -222,7 +222,7 @@ if [ $# -eq 0 ]; then
     ipostfix
     idkmsheaders
     imutt
-    ipackage
+    iapt
     ipip
     igo
     irbenv

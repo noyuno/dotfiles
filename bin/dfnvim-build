@@ -21,3 +21,5 @@ sudo make install
 sudo pip install neovim
 sudo pip3 install neovim
 
+. $HOME/dotfiles/bin/dfvim-alternatives /usr/local/bin/nvim
+
