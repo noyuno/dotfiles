@@ -265,7 +265,3 @@ on_ft = 'go'
 repo = 'vim-jp/vimdoc-ja'
 on_ft = 'help'
 
-[[plugins]]
-repo = 'kchimck/vim-coffee-script'
-on_ft = 'coffee'
-

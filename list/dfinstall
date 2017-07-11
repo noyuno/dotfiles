@@ -4,6 +4,7 @@ autoconf
 automake
 build-essential
 clang
+clang-format
 cmake
 cmake
 colordiff
@@ -23,7 +24,7 @@ imagemagick
 jq
 keychain
 libacl1-dev
-libboost-dev
+libboost-all-dev
 libncurses5-dev
 libpython3-dev
 libssl-dev
@@ -47,7 +48,6 @@ python3-pip
 ranger
 rbenv
 ruby-dev
-rubygems
 sc
 screenfetch
 shellcheck

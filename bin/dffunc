@@ -132,9 +132,9 @@ export -f addapt
 _require_error()
 {
     if [ -x "$HOME/dotfiles/bin/dfdoctor" ]; then
-        dfout3 ". $HOME/dotfiles/bin/dfdoctor | grep $1:"
+        dfout3 ". $HOME/dotfiles/bin/dfdoctor $1"
         set +e
-        gr=$(. "$HOME/dotfiles/bin/dfdoctor" | grep "$1:")
+        gr=$(. "$HOME/dotfiles/bin/dfdoctor" "$1")
         set -e
     fi
     if [ "$gr" != "" ]; then

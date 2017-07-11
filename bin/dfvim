@@ -14,10 +14,10 @@ link()
 dfout2 "Getting package for Vim"
 if [ "$(lsb_release -ds | grep Raspbian)" != "" ]; then
     aptinstall git build-essential make lua5.2 liblua5.2-dev \
-        libluajit-5.1 libluajit-5.1-dev python3-dev libpython3-dev
+        luajit libluajit-5.1 libluajit-5.1-dev python3-dev libpython3-dev
 else
     aptinstall git build-essential make lua5.3 liblua5.3-dev \
-        libluajit-5.1 libluajit-5.1-dev python3-dev libpython3-dev libgtk-3-dev
+        luajit libluajit-5.1 libluajit-5.1-dev python3-dev libpython3-dev libgtk-3-dev
 fi
 
 link /usr/include/lua5.3/lauxlib.h /usr/include/lauxlib.h
@@ -40,11 +40,12 @@ if [ -e vim ]; then
     if [ -d vim ]; then
         dfx cd vim
         dfx git pull origin master --depth 1 &&:
-        if [ $? -ne 0 ]; then
+        if [ $? -eq 0 ]; then
+            pulled=1
+        else
             dfx cd ~
             dfx mv vim "$DFTMP"
         fi
-        pulled=1
     else
         dfx mv vim "$DFTMP"
     fi

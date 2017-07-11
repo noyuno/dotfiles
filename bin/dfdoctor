@@ -106,15 +106,30 @@ checkrepo()
     total=$((total + check_ret))
 }
 
-checkapt dfinstall
-checkapt dfguiinstall
-checkpip pip
-checklink deploy
-checkdein dein.toml
-checkdein deineo.toml
-checkdein deinfile.toml
-checkdein deinlazy.toml
-checkrepo
+if [ "$1" ]; then
+    a="$1"
+    case "$a" in
+    dfinstall|dfguiinstall) checkapt $a ;;
+    pip) checkpip pip ;;
+    dfdeploy) checklink deploy ;;
+    dein)
+        checkdein dein.toml
+        checkdein deineo.toml
+        checkdein deinfile.toml
+        checkdein deinlazy.toml ;;
+    *) echo "$a Didn't match anything" >&2; exit 1 ;;
+    esac
+else
+    checkapt dfinstall
+    checkapt dfguiinstall
+    checkpip pip
+    checklink deploy
+    checkdein dein.toml
+    checkdein deineo.toml
+    checkdein deinfile.toml
+    checkdein deinlazy.toml
+    checkrepo
+fi
 
 if [ "$total" -eq 0 ]; then
     echo -e  "\e[32mAll ok\e[m"
