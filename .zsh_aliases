@@ -332,3 +332,8 @@ csview()
     column -s, -t | less -\#4 -S
 }
 
+ej()
+{
+    awk 'NR%2{sl=$0;next} {print sl":"$0}' $HOME/.cache/gene/gene.txt | grep '^'$1
+}
+

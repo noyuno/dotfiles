@@ -3,7 +3,7 @@
 . "$HOME/dotfiles/bin/dffunc"
 
 name=$(git config --global user.name)
-jsonurl=http://noyuno.mydns.jp/data/repo.json
+jsonurl=http://noyuno.mydns.jp/static/repo.json
 outtmp=$DFTMP/out
 if [ "$1" ]; then
     base="$1"
