@@ -194,9 +194,9 @@ autocmd ColorScheme * highlight StatusLineNC ctermbg=none
 autocmd ColorScheme * highlight Folded ctermbg=none
 autocmd ColorScheme * highlight FoldColumn ctermbg=none
 autocmd ColorScheme * highlight Cursor ctermbg=blue cterm=bold
-autocmd ColorScheme * highlight Comment ctermfg=248
+autocmd ColorScheme * highlight Comment ctermfg=247
 autocmd ColorScheme * highlight Specialkey ctermfg=blue
-autocmd ColorScheme * highlight NonText ctermfg=244
+autocmd ColorScheme * highlight NonText ctermfg=245
 "autocmd InsertEnter * exec "!$HOME/dotfiles/bin/cursor-insert" | redraw
 "autocmd InsertLeave * exec "!$HOME/dotfiles/bin/cursor-reset" |redraw
 "autocmd VimLeave * exec "!$HOME/dotfiles/bin/cursor-reset"|redraw
