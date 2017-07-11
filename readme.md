@@ -33,7 +33,7 @@ Depending items have to put before install item.
 | `dfsysconf   ` | v     | v     | `dfinstall   ` | Configure system.         |
 | `dfdeploy    ` | v     | v     | `dfinstall   ` | Deploy dotfiles using ln. |
 | `dfguiconf   ` | v     |       | `dfdeploy    ` | Configure user GUI.       |
-| `dfnvim      ` | v     | v     | `dfdeploy    ` | Install Neovim.           |
+| `dfnvim-apt  ` | v     | v     | `dfdeploy    ` | Install Neovim.           |
 | `dfemacs     ` |       |       | `dfdeploy    ` | Install Emacs.            |
 | `dfvim       ` |       |       | `dfdeploy    ` | Install Vim               |
 | `dfjava      ` | v     |       | `dfguiinstall` | Install Eclipse           |

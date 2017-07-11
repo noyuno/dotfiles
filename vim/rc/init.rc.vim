@@ -58,7 +58,7 @@ if s:dein_dir != '' || &runtimepath !~ '/dein.vim'
         execute ':silent !git clone  https://github.com/Shougo/dein.vim ' s:dein_dir | execute ':redraw!'
     endif
   endif
-  execute ' set runtimepath^=' . substitute(
+  execute ' set runtimepath+=' . substitute(
         \ fnamemodify(s:dein_dir, ':p') , '/$', '', '')
 endif
 
