@@ -18,6 +18,12 @@ dfout3()
 }
 export -f dfout3
 
+dfwarn()
+{
+    printf "\e[33m%s\e[0m\n" "$*"
+}
+export -f dfwarn
+
 dfx()
 {
     if [ "$HOME" = "" ]; then
