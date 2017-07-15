@@ -89,7 +89,6 @@ case ${OSTYPE} in
         alias cp='cp -i'
         alias mv='mv -i' ;;
 esac
-alias ar='trash'
 
 # zsh is able to auto-do some kungfoo
 # depends on the SUFFIX :)
@@ -130,7 +129,7 @@ fi
 
 # tmux
 alias tmux='TERM=xterm-256color tmux'
-alias c='tmux save-buffer - | xsel -ib'
+#alias c='tmux save-buffer - | xsel -ib'
 alias tmain='tmuxinator start main'
 alias tlap='tmuxinator start laptop'
 
@@ -279,10 +278,11 @@ alias sudo='sudo '
 alias xo='xdg-open'
 
 # bc
-bb()
+_bb()
 {
     echo "scale=2; $*" | bc -ql | sed -e 's/^\./0./'
 }
+alias bb='noglob _bb'
 
 alias lock='mate-screensaver-command -l'
 
@@ -340,7 +340,7 @@ ej()
 
 # https://github.com/junegunn/dotfiles/blob/c6959cd4f/bashrc
 viw() {
-    vim `which "$1"`
+    vim `command which "$1"`
 }
 
 gd() {
@@ -373,11 +373,6 @@ gitdiffb() {
 
 alias gitv='git log --graph --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
-miniprompt() {
-    unset PROMPT_COMMAND
-    PS1="\[\e[38;5;168m\]> \[\e[0m\]"
-}
-
 re() {
     while [ -n "$2" ]; do
         eval "$2"
@@ -389,13 +384,13 @@ re() {
 # --------------------------------------------------------------------
 
 # fd - cd to selected directory
-fdd() {
-    DIR=`find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf-tmux` && cd "$DIR"
-}
+#fdd() {
+#    DIR=`find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf-tmux` && cd "$DIR"
+#}
 
 # fda - including hidden directories
 fda() {
-    DIR=`find ${1:-.} -type d 2> /dev/null | fzf-tmux` && cd "$DIR"
+    DIR=`find . -type d -name ".*" 2> /dev/null | sed 's|^./||' | fzf-tmux $*` && cd "$DIR"
 }
 
 # Figlet font selector
@@ -512,10 +507,10 @@ if [ -n "$TMUX_PANE" ]; then
         target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
 
         if [[ $current_window -eq $target_window ]]; then
-        tmux select-pane -t ${target_window}.${target_pane}
+            tmux select-pane -t ${target_window}.${target_pane}
         else
-        tmux select-pane -t ${target_window}.${target_pane} &&
-        tmux select-window -t $target_window
+            tmux select-pane -t ${target_window}.${target_pane} &&
+            tmux select-window -t $target_window
         fi
     }
 
@@ -573,13 +568,13 @@ c() {
     cols=$(( COLUMNS / 3 ))
     sep='{::}'
 
-        command rm -f "/tmp/chrome-history"
-        command cp -f "$HOME/.config/google-chrome/Profile 1/History" /tmp/chrome-history
+    command rm -f "/tmp/chrome-history"
+    command cp -f "$HOME/.config/google-chrome/Profile 1/History" /tmp/chrome-history
 
-    sqlite3 -separator $sep /tmp/chrome-history \
+    sqlite3 -init /dev/null -separator $sep /tmp/chrome-history \
         "select substr(title, 1, $cols), url
-        from urls order by last_visit_time desc" | \
-    awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' | \
+        from urls order by last_visit_time desc" 2>/dev/null | \
+    awk -F $sep 'NR!=1{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' | \
     fzf --ansi --multi --no-hscroll --tiebreak=begin >/tmp/chrome-history-select
     [ $? -eq 0 ] && sed 's#.*\(https*://\)#\1#' </tmp/chrome-history-select | xargs xdg-open
 }
