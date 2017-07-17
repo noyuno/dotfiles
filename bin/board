@@ -396,7 +396,7 @@ def normal(args, cols, stream, width):
         out += "\033[0m" + substrb(i, 0, min(cols, strlenb(i))) + "\n"
     print(out[:-1], end="")
 
-def marquee(args, cols, stream, width):
+def marquee_play(args, cols, stream, width):
     a = base(args, cols, stream, width)
     b = []
     length = 0
@@ -456,8 +456,13 @@ if __name__ == '__main__':
     cols = curses.tigetnum("cols")
     # Be sure to place 'helvetica.ttf' (or any other ttf / otf font file) in the working directory.
     fnt = None
-    args.font = os.environ["HOME"] + \
-        "/.local/share/fonts/dot/JF-Dot-Ayu18.ttf" if args.font is None else args.font
+    if args.font is None:
+        noto = os.environ["HOME"] + "/usr/share/fonts/opentype/noto/NotoSansCJK-Thin.ttc"
+        ayu = os.environ["HOME"] + "/.local/share/fonts/dot/JF-Dot-Ayu18.ttf"
+        if os.path.exists(noto):
+            args.font = noto
+        elif os.path.exists(ayu):
+            args.font = ayu
     args.height = 18 if args.height is None else args.height
     try:
         fnt = Font(args.font, args.height) # 24
@@ -469,7 +474,7 @@ if __name__ == '__main__':
         args.text = "\033[93m電車\033[0mがまいります．"
     else:
         args.text = str(" ".join(args.text))
-    args.text = re.sub(r'\\(033|x1b)\[([0-9][0-9]?)([m|;])', r'\033[\2\3', args.text)
+    args.text = re.sub(r'\\(033|x1b|e)\[([0-9][0-9]?)([m|;])', r'\033[\2\3', args.text)
     (data, width) = fnt.render_text(args.text)
     b = repr(data)
 
@@ -478,7 +483,7 @@ if __name__ == '__main__':
     elif args.num != None:
         marquee(args, cols, b, width, args.num)
     elif args.marquee == True:
-        marquee(args, cols, b, width)
+        marquee_play(args, cols, b, width)
     else:
         normal(args, cols, b, width)
 
