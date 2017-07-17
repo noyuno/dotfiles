@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+find . -maxdepth 10 -type d -name .git -follow 2>/dev/null | while read line; do
+    work=$(dirname $line)
+    echo -n $work': '
+    pushd $work >/dev/null
+        du --max-depth 0 -h | awk '{printf $1}' 
+        git gc 2>/dev/null || echo -n 'error'
+        echo -n '->'
+        du --max-depth 0 -h | awk '{print $1}' 
+    popd >/dev/null
+done
+

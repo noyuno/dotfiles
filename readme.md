@@ -100,6 +100,7 @@ restart it.
 - `dumprepo`: Dump home repositories as json.
 - `extension`: Get file extension using MIME.
 - `gitignore`: Remove git-watching files registered in `.gitignore`.
+- `git-gc-all`: Collect Git garbage objects in all repositories.
 - `google`: Search web.
 - `holiday`: Show holiday.
 - `ical`: Print ical calendar.
