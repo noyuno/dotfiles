@@ -130,8 +130,13 @@ fi
 # tmux
 alias tmux='TERM=xterm-256color tmux'
 #alias c='tmux save-buffer - | xsel -ib'
-alias tmain='tmuxinator start main'
-alias tlap='tmuxinator start laptop'
+tmain()
+{
+    case "$(hostname)" in
+        lap*) tmuxinator start laptop ;;
+        *)    tmuxinator start main
+    esac
+}
 
 #mount
 alias mountiso='mount -t iso9660 -o loop'
