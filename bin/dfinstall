@@ -157,7 +157,7 @@ iruby()
         ~/.rbenv/plugins/ruby-build --depth 1
     export PATH="$PATH:$HOME/.rbenv/bin"
     rv=$(rbenv install -l | grep -v - | tail -1)
-    dfx rbenv install $rv
+    CONFIGURE_OPTS="--disable-install-rdoc" dfx rbenv install $rv
     dfx rbenv global $rv
 }
 
