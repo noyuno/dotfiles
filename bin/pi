@@ -568,6 +568,7 @@ export PATH="$HOME/.gem/ruby/2.2.0/bin:$PATH"
 EOF
         export PATH="$HOME/.gem/ruby/2.2.0/bin:$PATH"
         dfx bundle install
+        dfx patch -bNp0 '<' $HOME/dotfiles/patch/showterm/application.html.erb.patch
         dfx bundle exec rake db:create db:migrate db:seed
         dfx bundle exec rake assets:precompile
     popd
