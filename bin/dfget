@@ -47,8 +47,9 @@ postclone()
 {
     sudo apt update
     sudo apt -y install \
-        apt-utils bash wget curl git openssh-client lsb-release \
-        software-properties-common python-software-properties
+        apt-transport-https apt-utils bash wget curl git openssh-client \
+        lsb-release software-properties-common \
+        python-software-properties
 }
 
 clone()
