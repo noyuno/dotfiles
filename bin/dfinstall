@@ -218,7 +218,7 @@ iufw()
 izsh()
 {
     dfx wget -qO $HOME/bin/z.sh 'https://raw.githubusercontent.com/rupa/z/master/z.sh'
-    zcompile $HOME/bin/z.sh
+    zsh -c "zcompile $HOME/bin/z.sh"
 }
 
 help()

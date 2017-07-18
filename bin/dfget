@@ -9,6 +9,7 @@ httpsgit="https://github.com/noyuno/dotfiles.git"
 
 sshconf()
 {
+    mkdir -p $HOME/.ssh
     echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 }
 
@@ -82,7 +83,7 @@ gitclone()
         if [ "$ret" -ne 0 ]; then
             echo 'Remote access denied: dotfiles' >&2
             DFTIME=$(date +%Y%m%d-%H%M%S)
-            mv "~/dotfiles" "~/dotfiles_$DFTIME" &&:
+            mv "$HOME/dotfiles" "$HOME/dotfiles_$DFTIME" &&:
             clone
         fi
     else
