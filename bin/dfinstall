@@ -139,16 +139,15 @@ igo()
     set -e
 }
 
-igem()
+iruby()
 {
+    # gem
     gv=$(gem --version | sed 's/\(.*\..*\)\..*/\1/')
     export PATH=$PATH:$HOME/.gem/ruby/$gv/bin
-    dfx gem install --user-install rubygems-update
+    dfx gem install --user-install --no-doc rubygems-update showterm
     dfx sudo $HOME/.gem/ruby/$gv/bin/update_rubygems
-}
-
-irbenv()
-{
+    
+    # rbenv
     dfx mkdir -p $HOME/.rbenv
     [ ! -e ~/.rbenv ] && \
     dfx git clone https://github.com/sstephenson/rbenv.git ~/.rbenv --depth 1
@@ -222,25 +221,63 @@ izsh()
     zcompile $HOME/bin/z.sh
 }
 
+help()
+{
+    (
+    cat << EOF
+dfinstall [commands...]
+commands:
+    init
+    gitlfs
+    postfix
+    dkmsheaders
+    mutt
+    apt
+    pip
+    go
+    ruby
+    tpm
+    nodejs
+    gitsecrets
+    fzf
+    trans
+    ufw
+    zsh
+EOF
+    ) >&2
+    exit 1
+}
+
+run()
+{
+    dfout2 "dfinstall: $1"
+    eval $1
+}
+
 if [ $# -eq 0 ]; then
-    iinit
-    igitlfs
-    ipostfix
-    idkmsheaders
-    imutt
-    iapt
-    ipip
-    igo
-    irbenv
-    itpm
-    inodejs
-    igitsecrets
-    ifzf
-    itrans
-    iufw
-    izsh
+    run iinit
+    run igitlfs
+    run ipostfix
+    run idkmsheaders
+    run imutt
+    run iapt
+    run ipip
+    run igo
+    run iruby
+    run itpm
+    run inodejs
+    run igitsecrets
+    run ifzf
+    run itrans
+    run iufw
+    run izsh
+elif [ $1 = help ]; then
+    help
 else
-    eval $*
+    while [ $# -gt 0 ]; do
+        run "i$1"
+        shift
+    done
 fi
 
 finalize dfinstall

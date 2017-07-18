@@ -103,12 +103,14 @@ def onmessage(message):
         showtitle = bcolors.WARNING + showtitle + bcolors.ENDC \
             if title.find("津波") >= 0 or \
                 title.find("特別") >= 0 else showtitle
-
-        adate = arrow.get(str(i.find("./jmx_ib:Head/jmx_ib:TargetDateTime", 
-            namespaces).text))
-        outstr += (jastr("{0:0>2}".format(adate.hour) + \
-            ":" + "{0:0>2}".format(adate.minute), datecol))
-        outstr += (showtitle)
+        # ignore "one"
+        try:
+            adate = arrow.get(str(i.find("./jmx_ib:Head/jmx_ib:TargetDateTime", namespaces).text))
+            outstr += (jastr("{0:0>2}".format(adate.hour) + \
+                ":" + "{0:0>2}".format(adate.minute), datecol))
+            outstr += (showtitle)
+        except arrow.parser.ParserError:
+            outstr += str(i.find("./jmx_ib:Head/jmx_ib:TargetDateTime", namespaces).text)
 
         if i.find("./jmx_seis:Body/jmx_seis:Earthquake", namespaces) is not None:
             outstr2 = ""
@@ -182,7 +184,8 @@ def processjson(data, subarray):
         "警報級の可能性（明後日以降）",
         "警報級の可能性（明日まで）",
         "降灰予報（定時）",
-        "生物季節観測報告気象報"
+        "生物季節観測",
+        "異常天候早期警戒情報"
         ]
     if args.all == False and title in blacklist:
         return
