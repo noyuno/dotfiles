@@ -27,6 +27,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Copyright (c) 2017 noyuno
+
 import sys
 try:
     import freetype
@@ -267,15 +269,17 @@ class Font(object):
 
         return (outbuffer, outwidth)
 
+# plus: foreground
+# minus: background
 def iscolor(text, i):
     if text[i] == '\033':
         if len(text) > i + 2 and text[i:i+3] == '\033[m':
             return 3
         if len(text) > i + 3:
-            if text[i:i+2] == '\033[':
-                if text[i+2].isdigit() and text[i+3] == "m":
+            if text[i:i+3] == '\033[3' or text[i:i+3] == '\033[0':
+                if text[i+3] == "m":
                     return 4
-                if text[i+2:i+3].isdigit():
+                if text[i+3].isdigit():
                     if len(text) > i + 4 and text[i+4] == "m":
                         return 5
                     if len(text) > i + 9 and text[i+4] == ";" and \
@@ -286,22 +290,35 @@ def iscolor(text, i):
                             if len(text) > i + 10 and text[i+9].isdigit() and \
                                 text[i+10] == "m":
                                     return 11
+            elif text[i:i+3] == '\033[4':
+                if text[i+3] == "m":
+                    return -4
+                if text[i+3].isdigit():
+                    if len(text) > i + 4 and text[i+4] == "m":
+                        return -5
+                    if len(text) > i + 9 and text[i+4] == ";" and \
+                        text[i+5:i+6].isdigit() and text[i+7] == ";":
+                        if text[i+8].isdigit():
+                            if text[i+9] == "m":
+                                return -10
+                            if len(text) > i + 10 and text[i+9].isdigit() and \
+                                text[i+10] == "m":
+                                    return -11
     return 0
 
 def substrb(text, start, end, color=True):
     continue_count = 0
     i = 0
     j = 0
-    if color:
-        text = "\033[0m"+text
     a = ""
     realstart = 0
     detstart = False
     realend = 0
     detend = False
     currentcolor = ""
+    currentbackcolor = ""
     firstcolor = ""
-    currentcolorpos = 0
+    firstbackcolor = ""
     for t in text:
         if continue_count != 0:
             continue_count -= 1
@@ -311,21 +328,29 @@ def substrb(text, start, end, color=True):
             realstart = i
             detstart = True
             firstcolor = currentcolor
+            firstbackcolor = currentbackcolor
         if detend == False and j == end:
             realend = i
             detend = True
         if detstart and detend:
             if color:
-                return firstcolor + a[realstart:realend]
+                return chr(27) + "[37m" + chr(27) + "[49m" \
+                    + firstcolor + firstbackcolor + a[realstart:realend]
             else:
                 return a[realstart:realend]
         isc = iscolor(text, i)
-        if isc != 0:
+        if isc > 0:
             if color:
                 currentcolor = text[i:i+isc]
-                currentcolorpos = i
                 a+=currentcolor
             continue_count = isc-1
+            i+=1
+            continue
+        elif isc < 0:
+            if color:
+                currentbackcolor = text[i:i+abs(isc)]
+                a+=currentbackcolor
+            continue_count = abs(isc)-1
             i+=1
             continue
         a += t
@@ -337,7 +362,7 @@ def substrb(text, start, end, color=True):
         detend = True
     if detstart and detend:
         if color:
-            return firstcolor + a[realstart:realend]
+            return firstcolor + firstbackcolor + a[realstart:realend]
         else:
             return a[realstart:realend]
     return a[realstart:realend]
@@ -351,7 +376,7 @@ def strlenb(text):
             continue_count -= 1
             i += 1
             continue
-        isc = iscolor(text, i)
+        isc = abs(iscolor(text, i))
         if isc != 0:
             continue_count = isc-1
             i+=1
@@ -375,7 +400,7 @@ def base(args, cols, stream, width):
                 continue_count -= 1
                 i += 1
                 continue
-            isc = iscolor(text, i)
+            isc = abs(iscolor(text, i))
             if isc != 0:
                 a += text[i:i+isc]
                 continue_count = isc-1
@@ -471,7 +496,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     if args.text == []:
-        args.text = "\033[93m電車\033[0mがまいります．"
+        args.text = "\033[33m電車\033[0mがまいります．"
     else:
         args.text = str(" ".join(args.text))
     args.text = re.sub(r'\\(033|x1b|e)\[([0-9][0-9]?)([m|;])', r'\033[\2\3', args.text)
