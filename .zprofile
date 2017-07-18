@@ -69,3 +69,6 @@ if [ -e "$HOME/.keychain/$(hostname)-sh" ]; then
 fi
 ) 1>/dev/null 2>&1
 
+# showterm
+export SHOWTERM_SERVER='http://record.noyuno.mydns.jp'
+

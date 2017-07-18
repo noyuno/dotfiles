@@ -80,6 +80,8 @@ def onmessage(message):
     cols = curses.tigetnum("cols")
     datecol = 6
     titlecol = 9
+    if args.debug:
+        titlecol = 33
     disccol = cols - datecol - titlecol - 1
     if isinstance(message, str):
         raw = message
@@ -180,6 +182,7 @@ def processjson(data, subarray):
         "警報級の可能性（明後日以降）",
         "警報級の可能性（明日まで）",
         "降灰予報（定時）",
+        "生物季節観測報告気象報"
         ]
     if args.all == False and title in blacklist:
         return
@@ -268,9 +271,10 @@ if __name__ == '__main__':
         parser.add_argument("--keep", "-k", action = "store_true")
         parser.add_argument("--quiet", "-q", action = "store_true")
         parser.add_argument("--no-color", action = "store_true")
+        parser.add_argument("--debug", action = "store_true")
         args = parser.parse_args()
 
-        if args.count is None: args.count = 20
+        if args.count is None: args.count = 30
         quiet = args.quiet
         if args.no_color: bcolors.nocolor()
         
