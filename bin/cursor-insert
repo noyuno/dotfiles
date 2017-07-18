@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+echo -ne '\e]12;lightgreen\a' >/dev/tty
+

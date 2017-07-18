@@ -3,7 +3,7 @@
 . "$HOME/dotfiles/bin/dffunc"
 
 name=$(git config --global user.name)
-jsonurl=http://noyuno.mydns.jp/data/repo.json
+jsonurl=http://noyuno.mydns.jp/static/repo.json
 outtmp=$DFTMP/out
 if [ "$1" ]; then
     base="$1"
@@ -90,8 +90,7 @@ _check_dirty()
         status=$(git status -s)
         if [ "$status" ]; then
             echo -e "\e[33m[ dirty ] $name\e[m ($(echo "$status" | wc -l) files)"
-            git -c color.status=always status -s | \
-                awk '{print "  "$1"       '$name/'"$2}' 
+            git -c color.status=always status -s
             return 0
         fi
         popd >/dev/null

@@ -2,11 +2,21 @@
 
 . ~/dotfiles/bin/dffunc
 
+sync()
+{
+    if [ -d $2 ]; then
+        dfx git pull
+    else
+        dfx git clone --depth 1 https://github.com/$1 $2
+    fi
+}
+
 aptinstall libperl-dev
-dfx git clone --depth 1 https://github.com/emonkak/rxvt-unicode.git
-dfx cd rxvt-unicode
-dfx git clone --depth 1 https://github.com/enki/libev.git
-dfx git clone --depth 1 https://github.com/yusiwen/libptytty.git
+
+sync exg/rxvt-unicode $HOME/rxvt-unicode
+dfx cd $HOME/rxvt-unicode
+sync enki/libev libev
+sync yusiwen/libptytty.git libptytty
 dfx ./autogen.sh
 dfx ./configure --prefix=/usr/local --enable-everything
 dfx make

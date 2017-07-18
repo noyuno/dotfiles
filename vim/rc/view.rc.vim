@@ -194,9 +194,17 @@ autocmd ColorScheme * highlight StatusLineNC ctermbg=none
 autocmd ColorScheme * highlight Folded ctermbg=none
 autocmd ColorScheme * highlight FoldColumn ctermbg=none
 autocmd ColorScheme * highlight Cursor ctermbg=blue cterm=bold
-autocmd ColorScheme * highlight Comment ctermfg=248
+autocmd ColorScheme * highlight Comment ctermfg=247
 autocmd ColorScheme * highlight Specialkey ctermfg=blue
-autocmd ColorScheme * highlight NonText ctermfg=244
+autocmd ColorScheme * highlight NonText ctermfg=245
+"autocmd InsertEnter * exec "!$HOME/dotfiles/bin/cursor-insert" | redraw
+"autocmd InsertLeave * exec "!$HOME/dotfiles/bin/cursor-reset" |redraw
+"autocmd VimLeave * exec "!$HOME/dotfiles/bin/cursor-reset"|redraw
+"autocmd InsertEnter * exec "!echo" "-ne" '\\e]12\;blue\\a'
+"autocmd InsertLeave * exec "!echo" "-ne" '\\e]12\;green\\a'
+" reset cursor when vim exits
+" use \003]12;gray\007 for gnome-terminal
+
 "autocmd CursorMoved * :call s:variable_highlighting()
 "let g:variable_highlighting=1
 "function! s:variable_highlighting()

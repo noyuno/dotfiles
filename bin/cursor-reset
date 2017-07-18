@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+#echo -ne "\033" >/dev/tty
+echo -ne '\e]12;white\a' >/dev/tty
+
