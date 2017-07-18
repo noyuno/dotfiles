@@ -92,11 +92,11 @@ gitclone()
 
 postclone
 
+checksshconf
 ssh=
 if [ "$1" = "ssh" ]; then
     ssh=1
     shift
-    checksshconf
     sshkeygen
 fi
 

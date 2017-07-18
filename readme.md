@@ -7,7 +7,7 @@
 - `sudo`
 - `bash`
 - `git` or `curl` or `wget`
-- This repo (`dfchuri` to change owner (hosting uri, user name and so on))
+- This repo (`dfchuri` to change owner (hosting URI, user name and so on))
 
 ## Commands
 
@@ -53,7 +53,7 @@ Depending items have to put before install item.
 
 ## Extra configuration tool
 
-- `dfchuri`: Change dotfiles hosting URI
+- `dfchuri`: Change dotfiles' owner (hosting URI, user name and so on).
 - `dfdocker`: dotfiles docker tool.
 - `dfdoctor`: Packages and deployments checker.
 - `dffunc`: Base function.
