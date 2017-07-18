@@ -7,13 +7,20 @@
 - `sudo`
 - `bash`
 - `git` or `curl` or `wget`
-- This repo (`dfchuri` to change hosting uri, and user name and so on)
+- This repo (`dfchuri` to change owner (hosting uri, user name and so on))
 
 ## Commands
 
+Paste on terminal:
+
+    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s all
+
+Or, paste one of the following commands.
+
     git clone git@github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/bin/dflocal all
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfhttps | bash -s all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfhttps | bash -s all
+    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s all
+    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
+    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
 
 - `dflocal`: Install from local Git directory.
 - `dfssh`: Clone remote Git repository via SSH. (Requires adding public key to
@@ -23,7 +30,7 @@ id and password.)
 
 ### Arguments
 
-`dflocal`, `dfssh`, `dfhttps` require least 1 argument of below set/item.
+`dflocal`, `dfget` require least 1 argument of below set/item.
 Depending items have to put before install item.
 
 | item   \ set   | `all` | `cli` | depends        | description               |
@@ -50,7 +57,6 @@ Depending items have to put before install item.
 - `dfdocker`: dotfiles docker tool.
 - `dfdoctor`: Packages and deployments checker.
 - `dffunc`: Base function.
-- `dfgetdf`: An Internal function cloning dotfiles.
 - `dfgetpackage`: Print packages that installed by apt.
 - `dfvim-alternatives`: Set up alternatives of Vim/Neovim.
 - `dfpassword`: Set up RSA and GPG keys.
