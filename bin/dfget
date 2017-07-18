@@ -1,0 +1,107 @@
+#!/bin/bash -e
+
+REPO="https://raw.githubusercontent.com/noyuno/dotfiles/master"
+getdf="$REPO/bin/dfgetdf"
+
+sshgit="git@github.com:noyuno/dotfiles.git"
+httpsgit="https://github.com/noyuno/dotfiles.git"
+
+
+sshconf()
+{
+    echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+}
+
+checksshconf()
+{
+    if [ -f ~/.ssh/config ]; then
+        cat ~/.ssh/config | tr '\n' ' ' | grep -i 'Host github.com[\s]*?StrictHostKeyChecking no' &&:
+        if [ $? -ne 0 ]; then 
+            sshconf
+        fi
+    else
+        sshconf
+    fi
+    chmod 700 ~/.ssh
+    chmod 600 ~/.ssh/config
+    chmod go-w ~
+}
+
+sshkeygen()
+{
+    cd ~
+    if [ ! -e ~/.ssh/id_rsa ]; then
+        ssh-keygen -t rsa -f ~/.ssh/id_rsa
+        cat << EOF
+    Please register id_rsa.pub to CVS. Then restart script.
+    GitHub: https://github.com/settings/keys"
+
+EOF
+
+        cat ~/.ssh/id_rsa.pub
+        exit 1
+    fi
+}
+
+postclone()
+{
+    sudo apt update
+    sudo apt -y install \
+        apt-transport-https apt-utils bash wget curl git openssh-client \
+        lsb-release software-properties-common \
+        python-software-properties
+}
+
+clone()
+{
+    cd ~
+    if [ $ssh ]; then
+        git clone "$sshgit" ~/dotfiles --depth 1
+    else
+        git clone "$httpsgit" ~/dotfiles --depth 1
+        cd ~/dotfiles
+        git remote set-url origin "$sshgit"
+    fi
+}
+
+gitconf()
+{
+    [ -z "$(git config --global user.email)" ] && \
+        git config --global user.name "noyuno"
+    [ -z "$(git config --global user.name)" ] && \
+        git config --global user.email "noyuno@users.noreply.github.com"
+}
+
+gitclone()
+{
+    if [ -d ~/dotfiles ]; then
+        cd ~/dotfiles
+        git pull --depth 1 &&:
+        ret=$?
+        cd ~
+        if [ "$ret" -ne 0 ]; then
+            echo 'Remote access denied: dotfiles' >&2
+            DFTIME=$(date +%Y%m%d-%H%M%S)
+            mv "~/dotfiles" "~/dotfiles_$DFTIME" &&:
+            clone
+        fi
+    else
+        clone
+    fi
+}
+
+postclone
+
+checksshconf
+ssh=
+if [ "$1" = "ssh" ]; then
+    ssh=1
+    shift
+    sshkeygen
+fi
+
+gitconf
+gitclone
+
+. ~/dotfiles/bin/dflocal $*
+

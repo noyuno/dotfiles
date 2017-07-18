@@ -4,44 +4,87 @@
 
 require dfinstall
 
-# Ubuntu Japanese Remix packages
-dfx curl -sL https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg '|' sudo apt-key add -
-dfx curl -sL https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg '|' sudo apt-key add -
-dfx sudo bash -c 'curl -sL https://www.ubuntulinux.jp/sources.list.d/'"$(lsb_release -sc)"'.list > /etc/apt/sources.list.d/ubuntu-ja.list'
-dfx echo 'ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true' '|' sudo debconf-set-selections
-dfx echo 'resolvconf resolvconf/linkify-resolvconf boolean false' '|' sudo debconf-set-selections
-dfx sudo bash -c 'echo oracle-java8-installer hold | dpkg --set-selections'
-dfx curl -sSL https://dl.google.com/linux/linux_signing_key.pub '|' sudo apt-key add -
-dfx sudo cp "$HOME/dotfiles/list/google-chrome.list" \
-    "/etc/apt/sources.list.d/google-chrome.list"
-addapt ppa:alessandro-strada/ppa
-aptupdate
+postinstall()
+{
+    # Ubuntu Japanese Remix packages
+    dfx curl -sL https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg '|' sudo apt-key add -
+    dfx curl -sL https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg '|' sudo apt-key add -
+    dfx sudo bash -c 'curl -sL https://www.ubuntulinux.jp/sources.list.d/'"$(lsb_release -sc)"'.list > /etc/apt/sources.list.d/ubuntu-ja.list'
+    dfx echo 'ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true' '|' sudo debconf-set-selections
+    dfx echo 'resolvconf resolvconf/linkify-resolvconf boolean false' '|' sudo debconf-set-selections
+    dfx sudo bash -c 'echo oracle-java8-installer hold | dpkg --set-selections'
+    dfx curl -sSL https://dl.google.com/linux/linux_signing_key.pub '|' sudo apt-key add -
+    dfx sudo cp "$HOME/dotfiles/list/google-chrome.list" \
+        "/etc/apt/sources.list.d/google-chrome.list"
+    addapt ppa:alessandro-strada/ppa
+    aptupdate
+}
 
-packages=()
-grep "$HOME/dotfiles/list/dfguiinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
-while read i; do
-    packages=(${packages[@]} $i)
-done < "$DFTMP/data"
-aptinstall ${packages[@]}
+install()
+{
+    packages=()
+    grep "$HOME/dotfiles/list/dfguiinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        packages=(${packages[@]} $i)
+    done < "$DFTMP/data"
+    aptinstall ${packages[@]}
+}
 
-# Powerline fonts
-if [ -f "$HOME/.local/share/fonts/Inconsolata for Powerline.otf" ]; then
-    dfout2 "Powerline fonts have already installed"
+font()
+{
+    # Powerline fonts
+    if [ -f "$HOME/.local/share/fonts/Inconsolata for Powerline.otf" ]; then
+        dfout2 "Powerline fonts have already installed"
+    else
+        dfx git clone "https://github.com/powerline/fonts.git" --depth 1 -b master \
+            "$DFTMP/plfonts"
+        dfx cd "$DFTMP/plfonts"
+        dfx bash install.sh
+    fi
+    # Noto Sans
+    if [ -d "$HOME/.local/share/fonts/NSCJKaR" ]; then
+        dfout2 "Noto Sans CJK JP Kai fonts have already installed"
+    else
+        dfx mkdir -p "$HOME/.local/share/fonts/"
+        dfx cd "$DFTMP"
+        dfx curl -sLO 'https://ja.osdn.net/downloads/users/9/9930/NSCJKaR.tar.xz'
+        dfx tar Jxf NSCJKaR.tar.xz -C "$HOME/.local/share/fonts/"
+    fi
+}
+
+adobeair()
+{
+    dfx wget -qO $DFTMP/adobeair.deb http://drive.noobslab.com/data/apps/AdobeAir/adobeair_2.6.0.2_amd64.deb
+    dfx sudo dpkg -i $DFTMP/adobeair.deb
+    dfx sudo apt-get -f install
+}
+
+run()
+{
+    dfout2 "dfguiinstall: $1"
+    eval $1
+}
+
+if [ $# -eq 0 ]; then
+    run postinstall
+    run install
+    run font
+elif [ $1 = help ]; then
+    (
+    cat << EOF
+dfguiinstall [commands...]
+commands:
+    postinstall
+    install
+    font
+    adobeair
+EOF
+    ) >&2
+    exit 1
 else
-    dfx git clone "https://github.com/powerline/fonts.git" --depth 1 -b master \
-        "$DFTMP/plfonts"
-    dfx cd "$DFTMP/plfonts"
-    dfx bash install.sh
-fi
-
-# Noto Sans
-if [ -d "$HOME/.local/share/fonts/NSCJKaR" ]; then
-    dfout2 "Noto Sans CJK JP Kai fonts have already installed"
-else
-    dfx mkdir -p "$HOME/.local/share/fonts/"
-    dfx cd "$DFTMP"
-    dfx curl -sLO 'https://ja.osdn.net/downloads/users/9/9930/NSCJKaR.tar.xz'
-    dfx tar Jxf NSCJKaR.tar.xz -C "$HOME/.local/share/fonts/"
+    while [ $# -gt 0 ]; do
+        run "$1"
+    done
 fi
 
 finalize dfguiinstall
