@@ -185,7 +185,9 @@ def processjson(data, subarray):
         "警報級の可能性（明日まで）",
         "降灰予報（定時）",
         "生物季節観測",
-        "異常天候早期警戒情報"
+        "異常天候早期警戒情報", 
+        "府県週間天気予報", 
+        "地方高温注意情報"
         ]
     if args.all == False and title in blacklist:
         return
