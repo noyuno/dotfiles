@@ -1,0 +1,5 @@
+ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true
+resolvconf resolvconf/linkify-resolvconf boolean false
+libdvd-pkg   libdvd-pkg/post-invoke_hook-install     boolean true
+libdvd-pkg  libdvd-pkg/build        boolean true
+
