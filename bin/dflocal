@@ -12,11 +12,11 @@ while [ $# -gt 0 ] ; do
     case "$1" in
         all)
             array=(${array[@]} "dfinstall" "dfguiinstall" "dfsysconf" \
-            "dfdeploy" "dfguiconf" "dfnvim" "dfjava" "dftex")
+            "dfdeploy" "dfguiconf" "dfnvim-apt" "dfjava" "dftex")
             ;;
         cli)    
             array=(${array[@]} "dfinstall" "dfsysconf" \
-            "dfdeploy" "dfnvim")
+            "dfdeploy" "dfnvim-apt")
             ;;
         *)
             if [ -e "$HOME/dotfiles/bin/$1" ]; then 

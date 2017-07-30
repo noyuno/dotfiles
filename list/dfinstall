@@ -9,6 +9,7 @@ cmake
 cmake
 colordiff
 cproto
+debconf-utils
 dkms
 docker
 docx2txt
