@@ -53,7 +53,7 @@ _update_repo()
         _check_remote  "$name" "$remote_name" "$remote_url"
         if [ "$dirty" ]; then
             ret=$(git -c color.status=always fetch $remote_name)
-            if [ ! "$ret" = "" ]; then
+            if [ "$ret" != "" ]; then
                 echo "$ret"
                 return 3
             fi
