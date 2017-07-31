@@ -51,14 +51,8 @@ _update_repo()
     if [ -d "$base/$name/.git" ]; then
         pushd "$base/$name" >/dev/null
         _check_remote  "$name" "$remote_name" "$remote_url"
-        if [ "$dirty" ]; then
-            ret=$(git -c color.status=always fetch $remote_name)
-            if [ "$ret" != "" ]; then
-                echo "$ret"
-                return 3
-            fi
-        else
-            ret=$(git -c color.status=always pull $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name)
+        ret=$(git -c color.status=always pull $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name &&:)
+        if [ $? -eq 0 ]; then
             echo "$ret" | grep '^Already up-to-date.$' >/dev/null 2>&1 &&:
             if [ $? -eq 0 ]; then
                 # did update local branch?
@@ -74,6 +68,13 @@ _update_repo()
                 echo "$ret"
                 return 2
             fi
+        else
+            # conflict, abort merging
+            echo -e "\e[31m[ conflict ] abort merging $name\e[m ($(git status -s | wc -l) files)"
+            cat $DFTMP/git-pull-stderr-$name-$remote_name
+            echo "$ret"
+            dfx git merge --abort
+            return 5
         fi
         popd >/dev/null
     else
@@ -89,7 +90,7 @@ _check_dirty()
         pushd "$base/$name" >/dev/null
         status=$(git status -s)
         if [ "$status" ]; then
-            echo -e "\e[33m[ dirty ] $name\e[m ($(echo "$status" | wc -l) files)"
+            echo -e "\e[35m[ dirty ] $name\e[m ($(echo "$status" | wc -l) files)"
             git -c color.status=always status -s
             return 0
         fi
@@ -120,21 +121,24 @@ update_repo()
                     remote_status[$remote_name]="latest "
                     ;;
                 1) # clone
-                    remote_status[$remote_name]="\e[32mclone  \e[m"
+                    remote_status[$remote_name]="\e[32mclone   \e[m"
                     ;;
                 2) # pull
-                    remote_status[$remote_name]="\e[34mpull   \e[m"
+                    remote_status[$remote_name]="\e[34mpull    \e[m"
                     ;;
                 3) # fetch
-                    remote_status[$remote_name]="\e[35mfetch  \e[m"
+                    remote_status[$remote_name]="\e[35mfetch   \e[m"
                     ;;
                 4) # forward
-                    remote_status[$remote_name]="\e[33mforward\e[m"
+                    remote_status[$remote_name]="\e[33mforward \e[m"
+                    ;;
+                5) # conflict, abort merging
+                    remote_status[$remote_name]="\e[31mconflict\e[m"
                     ;;
             esac
         done
         if [ "$dirty" ]; then
-            dirty_message="\e[31mdirty\e[m"
+            dirty_message="\e[35mdirty\e[m"
         else
             dirty_message="     "
         fi
