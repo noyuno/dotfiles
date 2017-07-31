@@ -105,9 +105,10 @@ restart it.
 - `dumppass`: Dump password from `password-store`.
 - `dumprepo`: Dump home repositories as json.
 - `extension`: Get file extension using MIME.
-- `gitignore`: Remove git-watching files registered in `.gitignore`.
 - `git-gc-all`: Collect Git garbage objects in all repositories.
+- `gitignore`: Remove git-watching files registered in `.gitignore`.
 - `google`: Search web.
+- `hardware`: Show hardware information.
 - `holiday`: Show holiday.
 - `ical`: Print ical calendar.
 - `idea`: Launch IntelliJ IDEA.

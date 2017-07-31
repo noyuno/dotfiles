@@ -1,0 +1,39 @@
+#!/bin/bash -e
+
+echo Baseboard:
+sudo dmidecode --type baseboard | \
+    awk -F: '
+    BEGIN { printf "       " }
+    /Manufacturer|Product/ { printf $2 }
+    END { printf "\n" }
+    '
+
+echo Memory:
+(
+sudo dmidecode --type memory | \
+    awk -F: '
+    BEGIN { i = 0 }
+    /^Memory Device/ { printf "\n        "i",";  i++ }
+    /^\s(Manufacturer|Size|Type|Speed|Voltage):/ {printf $2","}
+    END { printf "\n" }
+    '
+) |column -ts,
+
+echo Processor:
+sudo dmidecode --type processor | \
+    awk -F: '
+    BEGIN { printf "       " }
+    /Version/ { printf $2 }
+    END { printf "\n" }
+    '
+
+echo Slot:
+sudo dmidecode --type slot | \
+    awk -F: '
+    /Type/ { print "       "$2 }
+    '
+
+echo Videocard:
+sudo lspci | \
+    awk '/VGA/ { print "        "substr($0, index($0, "[")) }'
+
