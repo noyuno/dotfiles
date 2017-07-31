@@ -110,11 +110,17 @@ gitbucket()
 {
     dfx sudo mkdir -p $target/repo
     cd $target
+    cat << EOF | sudo -u git tee $target/update.sh
+#!/bin/bash -e
+curl -sL \$(curl -s https://api.github.com/repos/gitbucket/gitbucket/releases/latest | \\
+    jq -r '.assets[] |select(.name=="gitbucket.war").browser_download_url') \\
+    >/tmp/gitbucket.war
+sudo -u git cp /tmp/gitbucket.war $target/gitbucket.war
+sudo systemctl restart gitbucket.service
+EOF
+    dfx sudo chmod +x $target/update.sh
     if [ ! -e $target/gitbucket.war ]; then
-        curl -sL $(curl -s \
-                   $(curl -s https://api.github.com/repos/gitbucket/gitbucket/releases/latest | \
-                     jq -r '.assets[] |select(.name=="gitbucket.war")|.url') | \
-                   jq -r .browser_download_url) >gitbucket.war
+        dfx $target/update
     fi
 
     cat << EOF | sudo tee /etc/systemd/system/gitbucket.service
@@ -129,7 +135,7 @@ ExecStart=$target/run.sh
 WantedBy=multi-user.target
 EOF
 
-    cat << EOF | sudo tee $target/run.sh
+    cat << EOF | sudo -u git tee $target/run.sh
 #!/bin/sh -e
 (
 /usr/bin/java -jar /var/git/gitbucket.war --port=8080 \
