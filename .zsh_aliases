@@ -610,7 +610,7 @@ b() {
                 sub(/^\"/,"", $2);
                 sub(/\"$/,"", $1);
                 sub(/\"$/,"", $2);
-                print $1","$2
+                printf $1"  \x1b[36m"$2"\x1b[m\n"
             }
         ' | \
     fzf --ansi --multi --no-hscroll --tiebreak=begin >/tmp/chrome-bookmarks-select
