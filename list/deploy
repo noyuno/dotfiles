@@ -73,4 +73,6 @@ autostart .config/autostart
 .sqliterc
 # mecab
 .mecabrc
+# applications
+applications .local/share/applications
 
