@@ -103,6 +103,7 @@ EOF
         /etc/nginx/sites-enabled/00-root.conf
     dfx sudo systemctl reload nginx.service
     dfx sudo chown -R noyuno:noyuno /var/www/html
+    dfx /var/www/html/bin/chown
 }
 
 gitbucket()
