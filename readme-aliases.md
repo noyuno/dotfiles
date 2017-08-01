@@ -2,6 +2,9 @@
 
 This document describes my common Zsh aliases, functions.
 
+[dotfiles](https://github.com/noyuno/dotfiles/blob/master/readme.md)
+[日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
+
 ## Directories, files, Git
 
 - `cdr`: Change directory to git's root.
