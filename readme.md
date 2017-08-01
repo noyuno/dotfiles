@@ -7,7 +7,7 @@
 - `sudo`
 - `bash`
 - `git` or `curl` or `wget`
-- This repo (`dfchuri` to change owner (hosting URI, user name and so on))
+- This repo (Please change owner by `dfchuri` (hosting URI, user name and so on))
 
 ## Commands
 
@@ -15,18 +15,12 @@ Paste on terminal:
 
     curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s all
 
-Or, paste one of the following commands.
+Or, paste one of the following commands if necessary.
 
     git clone git@github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/bin/dflocal all
     wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s all
     curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
     wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
-
-- `dflocal`: Install from local Git directory.
-- `dfssh`: Clone remote Git repository via SSH. (Requires adding public key to
-CVS.)
-- `dfhttps`: Clone remote Git repository via HTTPS. (Requires typing CVS' user
-id and password.)
 
 ### Arguments
 
@@ -57,7 +51,6 @@ Depending items have to put before install item.
 - `dfdocker`: dotfiles docker tool.
 - `dfdoctor`: Packages and deployments checker.
 - `dffunc`: Base function.
-- `dfgetpackage`: Print packages that installed by apt.
 - `dfvim-alternatives`: Set up alternatives of Vim/Neovim.
 - `dfpassword`: Set up RSA and GPG keys.
 - `dfreadme-bin`: Print not discribed command in `readme.md`.
@@ -70,8 +63,7 @@ Depending items have to put before install item.
 
 ### After installation
 
-- Execute Vim/Neovim, type `:call dein#install()`, `:UpdateRemotePlugins` and
-restart it.
+- Execute Vim/Neovim, type `:UpdateRemotePlugins` and restart it.
 
 ## Preferences
 
@@ -99,12 +91,13 @@ restart it.
 - `background`: Synchronize background wallpaper.
 - `backlight`: Change intel backlght brightness.
 - `blog`: Create blog post.
-- `board`: Show as electric bulletin board.
+- `board`: Show the terminal as electric bulletin board.
 - `color`: 256-color terminal tester.
 - `dconf-dump`: Dump dconf.
 - `dumppass`: Dump password from `password-store`.
 - `dumprepo`: Dump home repositories as json.
 - `extension`: Get file extension using MIME.
+- `getpackage`: Print packages that installed by apt.
 - `git-gc-all`: Collect Git garbage objects in all repositories.
 - `gitignore`: Remove git-watching files registered in `.gitignore`.
 - `google`: Search web.
@@ -123,7 +116,7 @@ restart it.
 - `now` : Show current time.
 - `panview`: View as HTML using Pandoc.
 - `pi`: Raspberry Pi 3 command.
-- `printout`: Print out plain text file or stdin.
+- `printout`: Print out plain text from file or stdin.
 - `pull`: Pull under all $HOME repository.
 - `rate`: Show JPY/USD rate.
 - `repo`: Synchronize my repositories.
@@ -167,6 +160,8 @@ Partitioning will be:
 ## Figures
 
 ![fig](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)
+
+    tmain
 
 ## References
 - Vim/Neovim: [Shougo/shougo-s-github](https://github.com/Shougo/shougo-s-github)

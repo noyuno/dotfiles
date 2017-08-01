@@ -574,13 +574,48 @@ c() {
     sep='{::}'
 
     command rm -f "/tmp/chrome-history"
-    command cp -f "$HOME/.config/google-chrome/Profile 1/History" /tmp/chrome-history
+    if [ -f "$HOME/.config/google-chrome/Profile 1/History" ]; then
+        command cp -f "$HOME/.config/google-chrome/Profile 1/History" /tmp/chrome-history
+    else
+        command cp -f "$HOME/.config/google-chrome/Default/History" /tmp/chrome-history
+    fi
 
     sqlite3 -init /dev/null -separator $sep /tmp/chrome-history \
         "select substr(title, 1, $cols), url
         from urls order by last_visit_time desc" 2>/dev/null | \
     awk -F $sep 'NR!=1{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' | \
     fzf --ansi --multi --no-hscroll --tiebreak=begin >/tmp/chrome-history-select
-    [ $? -eq 0 ] && sed 's#.*\(https*://\)#\1#' </tmp/chrome-history-select | xargs xdg-open
+    [ $? -eq 0 ] && sed 's#.*\(https*://\)#\1#' </tmp/chrome-history-select | \
+    xargs google-chrome
+}
+
+b() {
+    local cols sep
+    cols=$(( COLUMNS / 3 ))
+
+    command rm -f "/tmp/chrome-bookmarks"
+    if [ -f "$HOME/.config/google-chrome/Profile 1/Bookmarks" ]; then
+        command cp -f "$HOME/.config/google-chrome/Profile 1/Bookmarks" /tmp/chrome-bookmarks
+    else
+        command cp -f "$HOME/.config/google-chrome/Default/Bookmarks" /tmp/chrome-bookmarks
+    fi
+
+    jq -r '..|{"name":.name?,"url":.url?,"visited":.meta_info?.last_visited_desktop?}|select(.name!=null)|select(.url!=null)|select(.visited!=null)' \
+        < /tmp/chrome-bookmarks > /tmp/chrome-bookmarks2
+    jq -sr '.|sort_by(.visited)| reverse | .[] | [.name, .url]|@csv' \
+        < /tmp/chrome-bookmarks2 | \
+        awk -F, '
+            NF==2 {
+                sub(/^\"/,"", $1);
+                sub(/^\"/,"", $2);
+                sub(/\"$/,"", $1);
+                sub(/\"$/,"", $2);
+                printf $1"  \x1b[36m"$2"\x1b[m\n"
+            }
+        ' | \
+    fzf --ansi --multi --no-hscroll --tiebreak=begin >/tmp/chrome-bookmarks-select
+    [ $? -eq 0 ] && sed 's#.*\(https*://\|chrome://\)#\1#' </tmp/chrome-bookmarks-select | \
+    xargs google-chrome
+
 }
 
