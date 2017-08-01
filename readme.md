@@ -1,5 +1,10 @@
 # dotfiles
 
+Environment structure tool, config files, practical scripts.
+
+[aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
+[日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
+
 ## Requirements
 
 - Ubuntu based distribution
