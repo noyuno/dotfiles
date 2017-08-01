@@ -108,7 +108,7 @@
 - `ical`: ical形式カレンダーを表示する.
 - `idea`: IntelliJ IDEAを起動する.
 - `image`: 端末内で画像を閲覧する．
-- `jma`: 気象庁災害情報を表示する.
+- `jma`: 気象庁防災情報を表示する.
 - `kernel`: カーネルを取得，ビルドする.
 - `mate-terminal-colorscheme-hybrid`: mate-terminalのカラースキームをhybridにする. `dfguiconf`で呼び出される.
 - `menu`: プログラムメニュー.

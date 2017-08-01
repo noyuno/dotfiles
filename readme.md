@@ -86,12 +86,12 @@ Depending items have to put before install item.
 ## Useful commands
 
 - `anime-check`: Check whether onair the anime this season.
-- `anime`: Display anime program list.
+- [`anime`](https://noyuno.github.io/blog/2016/12/09/anime/): Display anime program list.
 - `args`: Arguments checker.
 - `background`: Synchronize background wallpaper.
 - `backlight`: Change intel backlght brightness.
 - `blog`: Create blog post.
-- `board`: Show the terminal as electric bulletin board.
+- [`board`](https://noyuno.github.io/blog/2017/01/01/board/): Show the terminal as electric bulletin board.
 - `color`: 256-color terminal tester.
 - `dconf-dump`: Dump dconf.
 - `dumppass`: Dump password from `password-store`.
@@ -116,10 +116,10 @@ Depending items have to put before install item.
 - `now` : Show current time.
 - `panview`: View as HTML using Pandoc.
 - `pi`: Raspberry Pi 3 command.
-- `printout`: Print out plain text from file or stdin.
+- [`printout`](https://noyuno.github.io/blog/2017/05/15/printout/): Print out plain text from file or stdin.
 - `pull`: Pull under all $HOME repository.
 - `rate`: Show JPY/USD rate.
-- `repo`: Synchronize my repositories.
+- [`repo`](https://noyuno.github.io/blog/2017/06/25/repo/): Synchronize my repositories.
 - `rinit`: Initialize report directory.
 - `rmdocker`: Remove unnamed containers and images.
 - `rmswap`: Remove Vim/Neovim swap file using zsh completion candidates.
@@ -129,7 +129,7 @@ Depending items have to put before install item.
 - `upgrade`: Upgrade installed packages.
 - `weather`: Show weather forecast.
 
-## Automatic partition tool
+## [Automatic partition tool](https://noyuno.github.io/blog/2017/04/09/crypto/)
 
 On the live DVD, before install operation:
 
