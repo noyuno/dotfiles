@@ -39,6 +39,7 @@ This document describes my common Zsh aliases, functions.
 ## System
 
 - `lock`: Lock screen.
+- `susp`: Suspend system.
 
 ## Figure
 
