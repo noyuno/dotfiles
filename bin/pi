@@ -73,6 +73,10 @@ server {
         deny all;
     }
 
+    location /bin {
+        deny all;
+    }
+
     location /jma/subscriber {
         fastcgi_pass unix:/var/run/php5-fpm.sock;
         fastcgi_index index.php;
@@ -237,6 +241,10 @@ server {
         client_max_body_size    500m; # Big number is we can post big commits.
         client_body_buffer_size 128k;
 
+    }
+
+    location /robots.txt {
+        alias /var/www/html/robots-disallow.txt;
     }
 
     location /assets/ {
@@ -471,6 +479,11 @@ server {
     location / {
         try_files \$uri \$uri/ =404;
     }
+
+    location /robots.txt {
+        alias /var/www/html/robots-disallow.txt;
+    }
+
     error_page 404 /404.html;
     error_page 500 502 503 504 /50x.html;
 
@@ -527,6 +540,10 @@ server {
         proxy_pass_request_headers on;
         proxy_set_header Connection "keep-alive";
         proxy_store off;
+    }
+
+    location /robots.txt {
+        alias /var/www/html/robots-disallow.txt;
     }
 }
 EOF
@@ -661,6 +678,10 @@ server {
         client_max_body_size    500m; # Big number is we can post big commits.
         client_body_buffer_size 128k;
 
+    }
+
+    location /robots.txt {
+        alias /var/www/html/robots-disallow.txt;
     }
 
     location /assets/ {
