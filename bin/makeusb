@@ -1,0 +1,105 @@
+#!/bin/bash -e
+
+. $HOME/dotfiles/bin/dffunc
+
+iso=$HOME/Downloads/ubuntu-mate-16.04.2-desktop-amd64.iso
+
+download()
+{
+    dfx wget -NO "$iso" \
+    'http://cdimage.ubuntu.com/ubuntu-mate/releases/16.04.2/release/ubuntu-mate-16.04.2-desktop-amd64.iso'
+}
+
+partitioning()
+{
+    dfx sudo umount "$usb"1 &&:
+    dfx sudo umount "$usb"2 &&:
+    dfx sudo umount "$usb"3 &&:
+    dfx sudo parted -s "$usb" -a optimal -- \
+        mklabel msdos \
+        mkpart primary 1 100M \
+        set 1 boot on \
+        mkpart primary 100M $separate \
+        mkpart primary $separate -1
+    dfx sudo sync
+    dfx sudo mkfs.vfat -F 32 "$usb"1
+    dfx sudo mkfs.vfat -F 32 "$usb"2
+    dfx sudo mkfs.vfat -F 32 "$usb"3
+    dfx sudo sync
+}
+
+targetmount()
+{
+    dev=$1
+    dir=$2
+    shift; shift
+    options=$*
+    m=$(mount | grep "^$dev\ ") &&:
+    if [ ! "$m" ]; then
+        dfx sudo mount $options "$dev" "$dir"
+    elif [[ ! "$m" =~ ^$dev\ on\ $dir\  ]]; then
+        echo "$dev already mounted at other point\n$m" >&2
+        exit 1
+    else
+        echo "already mounted $dev on $dir"
+    fi
+}
+
+copyiso()
+{
+    dfx sudo mkdir -p /mnt/{iso,usb-data,usb-install}
+    targetmount "$iso" /mnt/iso -o loop
+    targetmount "$usb"2 /mnt/usb-data
+    targetmount "$usb"3 /mnt/usb-install
+    #dfx sudo cp -a /mnt/iso/* /mnt/usb-install
+    dfx sudo rsync -a /mnt/iso/* /mnt/usb-install &&:
+    ret=$?
+    if [ $ret -ne 0 -a $ret -ne 23 ]; then
+        echo "rsync fatal error" >&2
+        exit $ret
+    fi
+    dfx sudo sync
+    dfx sudo umount /mnt/iso
+}
+
+bootable()
+{
+    #uuid=$(blkid | \
+    #    grep "$target"3 | \
+    #    awk -F ' ' '{ print $2 }' | \
+    #    sed -e 's/"//g' -e 's/UUID=//')
+    u=$(echo "$usb" | awk -F/ '{print $3}')
+    uuid=$(command ls -l /dev/disk/by-uuid | awk -F ' ' "/${u}3/"'{ print $9 }')
+    dfx sudo syslinux /dev/disk/by-uuid/$uuid
+    dfx sudo dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/mbr/mbr.bin of=/dev/sdd
+}
+
+help()
+{
+    (cat << EOF
+makeusb device separation
+device: usb device file [/dev/sdd]
+separation: usb separation size (64G storage -> 58G separate)
+
+EOF
+    )>&2
+    exit 1
+}
+
+# http://stackoverflow.com/questions/19713918/how-to-load-luks-passphrase-from-usb-falling-back-to-keyboard
+# http://www.cheshirekow.com/wordpress/?p=810
+
+if [ $# -eq 2 ]; then
+    usb="$1"
+    separate="$2"
+    dfx sudo fdisk -l "$usb"
+    echo -en "\e[31mAre you sure to remove all data in $usb? [enter]\e[m"
+    read
+    [ ! -e "$iso" ] && download
+    partitioning
+    copyiso
+    bootable
+else
+    help
+fi
+

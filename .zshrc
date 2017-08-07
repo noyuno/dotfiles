@@ -17,6 +17,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 bindkey -e
 #bindkey -v
 
+setopt nonomatch
 setopt no_beep
 setopt auto_cd
 setopt auto_pushd
@@ -85,7 +86,8 @@ zstyle ':vcs_info:git:*' unstagedstr "%F{green}u"
 zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 precmd(){
-    [ "$?" -eq 0 ] && ret= || ret="$?"
+    ret="$?"
+    [ "$ret" -eq 0 ] && ret=
     vcs_info
     [ "$(pgrep tmux)" != "" ] && \
         tmux refresh-client -S

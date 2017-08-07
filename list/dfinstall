@@ -25,6 +25,7 @@ imagemagick
 jq
 keychain
 libacl1-dev
+libav-tools
 libboost-all-dev
 libncurses5-dev
 libpython3-dev
