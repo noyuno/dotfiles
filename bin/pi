@@ -647,6 +647,7 @@ EOF
     dfx sudo chown noyuno:noyuno /var/log/showterm.log
     
     dfx sudo systemctl restart showterm
+    dfx sudo systemctl enable gitbucket.service
 }
 
 showterm_nginx()
