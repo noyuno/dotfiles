@@ -5,11 +5,11 @@
 inoremap <expr> , smartchr#one_of(', ', ',')
 
 " Smart =.
-inoremap <expr> =
+augroup MyAutoCmd
+  autocmd FileType c,cpp,perl,php,vim,sh inoremap <expr> =
       \ search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
       \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
       \ : smartchr#one_of(' = ', '=', ' == ')
-augroup MyAutoCmd
   " Substitute .. into -> .
   autocmd FileType c,cpp inoremap <buffer> <expr> .
         \ smartchr#loop('.', '->', '...')
