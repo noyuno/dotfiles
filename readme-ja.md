@@ -4,6 +4,7 @@
 
 [aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
 [English](https://github.com/noyuno/dotfiles/blob/master/readme.md)
+[Raspberry Pi](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md)
 
 ## 要件
 
