@@ -3,8 +3,10 @@ layout: post
 title:
 tags:
 #- tags
-#image: /blog/images/
+image:
 ---
 
 contents
+
+![image]({{page.image}})
 

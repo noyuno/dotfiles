@@ -16,7 +16,8 @@ mkdir -p "$ybase"
 f="$ybase/$(date +%Y-%m-%d)-$title.md"
 if [ ! -f "$f" ]; then
     cp "$HOME/dotfiles/templates/blog.md" "$f"
-    sed -i 's|title:|title: '"$title"'|' "$f"
+    sed -i 's|^title:|title: '"'$title'"'|' "$f"
+    sed -i 's|^image:|image: /blog/images/'"$(date +%Y-%m-%d)-$title.png"'|' "$f"
 fi
 vim "$f"
 
