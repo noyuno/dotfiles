@@ -125,7 +125,7 @@ Depending items have to put before install item.
 - `jma`: Show JMA disaster report.
 - `kernel`: Get and build kernel.
 - `mate-terminal-colorscheme-hybrid`: Make mate-terminal colorscheme to hybrid. Called by `dfguiconf`.
-- `menu`: Program menu.
+- [`menu`](https://noyuno.github.io/blog/2017/08/11/application-menu-on-cli/): Program menu.
 - `netload`: Measure network interface load.
 - `news`: Show news.
 - `note`: Take a note.
