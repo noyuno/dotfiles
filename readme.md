@@ -121,7 +121,7 @@ Depending items have to put before install item.
 - `note`: Take a note.
 - `now` : Show current time.
 - `panview`: View as HTML using Pandoc.
-- `pi`: Raspberry Pi 3 command.
+- [`pi`](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md): Raspberry Pi 3 command.
 - [`printout`](https://noyuno.github.io/blog/2017/05/15/printout/): Print out plain text from file or stdin.
 - `pull`: Pull under all $HOME repository.
 - `rate`: Show JPY/USD rate.
