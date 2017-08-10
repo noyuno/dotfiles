@@ -32,6 +32,36 @@ iinit()
     fi
 }
 
+igo()
+{
+    which go 1>/dev/null 2>&1 &&:
+    if [ $? -ne 0 ]; then
+        if [ "$distribution" = "raspbian" ]; then
+            dfx mkdir -p $HOME/.go
+            dfx wget -qO /tmp/go.tar.gz \
+                'https://storage.googleapis.com/golang/go1.8.linux-armv6l.tar.gz'
+            dfx sudo tar -C /tmp -xzf go.tar.gz
+            dfx sudo cp /tmp/go/bin/go /usr/local/bin/go
+            dfx sudo rm -rf /tmp/go /tmp/go.tar.gz
+            set -x
+            export PATH=$PATH:$HOME/.go/bin:/usr/local/bin
+            set +x
+        else
+            packages=(${packages[@]} "git-lfs" "golang" "golang-go")
+        fi
+    else
+        dfout3 "go has already installed"
+    fi
+}
+
+igopackages()
+{
+    export GOPATH=$HOME/.go
+    dfx go get github.com/github/hub \
+            github.com/atsaki/termeter/cmd/termeter \
+            github.com/walle/wiki/cmd/wiki 
+}
+
 igitlfs()
 {
     which git-lfs 1>/dev/null 2>&1 &&:
@@ -41,16 +71,6 @@ igitlfs()
             # https://gist.github.com/show0k/388bf364da9347d7cfedcddd322eb8f4
             dfx mkdir -p $HOME/.go
             dfx pushd "$HOME/.go"
-                dfx wget -qO go.tar.gz \
-                    'https://storage.googleapis.com/golang/go1.8.linux-armv6l.tar.gz'
-                dfx sudo tar -C /usr/local -xzf go.tar.gz
-                dfx rm -f go.tar.gz
-                set -x
-                export PATH=$PATH:$HOME/.go/bin:/usr/local/go/bin
-                export GOPATH=$PWD
-                echo "PATH=$PATH:/usr/local/go/bin" >> $HOME/.bashrc
-                echo "GOPATH=$PWD" >> $HOME/.bashrc
-                set +x
                 dfx mkdir -p src/github.com/git-lfs
                 dfx pushd src/github.com/git-lfs
                     dfx git clone https://github.com/git-lfs/git-lfs --depth 1
@@ -64,7 +84,6 @@ igitlfs()
         else
             dfx curl -sL https://packagecloud.io/github/git-lfs/gpgkey '|' sudo apt-key add -
             addapt "deb https://packagecloud.io/github/git-lfs/$distribution/ $release main"
-            packages=(${packages[@]} "git-lfs" "golang" "golang-go")
         fi
     else
         dfout3 "git-lfs has already installed"
@@ -132,11 +151,6 @@ ipip()
 
 igo()
 {
-    [ ! "$GOPATH" ] && dfx export GOPATH="$HOME/.go"
-    dfx go get github.com/github/hub \
-            github.com/atsaki/termeter/cmd/termeter \
-            github.com/walle/wiki/cmd/wiki 
-    set -e
 }
 
 iruby()
@@ -235,6 +249,7 @@ commands:
     apt
     pip
     go
+    gopackages
     ruby
     tpm
     nodejs
@@ -256,13 +271,14 @@ run()
 
 if [ $# -eq 0 ]; then
     run iinit
+    run igo
     run igitlfs
     run ipostfix
     run idkmsheaders
     run imutt
     run iapt
+    run igopackages
     run ipip
-    run igo
     run iruby
     run itpm
     run inodejs
