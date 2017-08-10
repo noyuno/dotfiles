@@ -61,3 +61,15 @@ If no command is given, will run below commands.
     cve
     vuls
 
+## Variables
+
+[`bin/pi`](https://github.com/noyuno/dotfiles/blob/master/bin/pi)
+
+    declare user=noyuno
+    declare gittarget=/var/git
+    declare gituser=git
+    declare domain=noyuno.mydns.jp
+    declare mail=noyuno@$domain
+    declare pdata=/var/postgresql/data
+    declare showterm=/var/www/showterm
+
