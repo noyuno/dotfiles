@@ -16,7 +16,7 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-function addpath()
+insertpath()
 {
     if [ -d "$1" ]; then
         PATH="$1:$PATH"
@@ -24,24 +24,24 @@ function addpath()
 }
 
 # set PATH so it includes user's private bin if it exists
-addpath "$HOME/bin"
-addpath "$HOME/.local/bin"
-addpath "$HOME/dotfiles/bin"
-addpath "/usr/local/texlive/2015/bin/x86_64-linux"
-addpath "$HOME/.gem/ruby/2.3.0/bin"
-addpath "$HOME/.password-store/bin"
-addpath "$HOME/.cargo/bin"
-addpath "$HOME/.rbenv/bin"
-addpath "$HOME/.fzf/bin"
+insertpath "$HOME/bin"
+insertpath "$HOME/.local/bin"
+insertpath "$HOME/dotfiles/bin"
+insertpath "/usr/local/texlive/2015/bin/x86_64-linux"
+insertpath "$HOME/.gem/ruby/2.3.0/bin"
+insertpath "$HOME/.password-store/bin"
+insertpath "$HOME/.cargo/bin"
+insertpath "$HOME/.rbenv/bin"
+insertpath "$HOME/.fzf/bin"
 if [ -d "$HOME/.go" ]; then
     export GOPATH="$HOME/.go"
-    addpath "$GOPATH/bin"
+    insertpath "$GOPATH/bin"
 fi
 
 export MAILDIR="$HOME/Mail"
 if [ -d "$HOME/.npm" ]; then
     export NPM_PACKAGES="$HOME/.npm"
-    addpath "$NPM_PACKAGES/bin"
+    insertpath "$NPM_PACKAGES/bin"
 fi
 
 #git
