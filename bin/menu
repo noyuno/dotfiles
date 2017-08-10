@@ -42,5 +42,6 @@ build()
 if [ "$1" = "-b" -o ! -d "$cache" ]; then
     build
 fi
-ranger "$cache"
+ranger "$cache" --choosefile=/tmp/menu.choose
+"`cat /tmp/menu.choose`"
 
