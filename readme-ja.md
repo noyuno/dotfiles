@@ -15,7 +15,17 @@
 - `git`または `curl`，`wget`
 - このリポジトリ（`dfchuri`で所有者（ホスティングURI，ユーザ名など）を変更してから使ってください）
 
-## Commands
+## 使う
+
+1. フォーク
+2. `git clone https://github.com/user/dotfiles.git ~/dotfiles`
+3. `dfchuri`
+4. `git add . && git commit -m Update && git push origin master`
+5. `./dotfiles/bin/dfinstall`
+6. `./dotfiles/bin/dfdeploy`
+7. お好きに
+
+## コマンド
 
 以下を端末に貼り付けてください：
 

@@ -15,6 +15,16 @@ Environment structure tool, config files, practical scripts.
 - `git` or `curl` or `wget`
 - This repo (Please change owner by `dfchuri` (hosting URI, user name and so on))
 
+## Using this repository
+
+1. Fork
+2. `git clone https://github.com/user/dotfiles.git ~/dotfiles`
+3. `dfchuri`
+4. `git add . && git commit -m Update && git push origin master`
+5. `./dotfiles/bin/dfinstall`
+6. `./dotfiles/bin/dfdeploy`
+7. As you like
+
 ## Commands
 
 Paste on terminal:
