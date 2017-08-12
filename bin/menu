@@ -4,6 +4,21 @@ cache="$HOME/.cache/menu"
 dir="/usr/share/applications"
 nocat="Uncategorized"
 
+add()
+{
+    ex=$1
+    e=$2
+    name=$3
+    pname=$4
+    fname="$pname:$name"
+    if [ "$name" = "$pname" ]; then
+        fname="$name"
+    fi
+    mkdir -p "$cache/$e"
+    echo "$ex" > "$cache/$e/$fname"
+    chmod +x "$cache/$e/$fname"
+}
+
 build()
 {
     if [ ! "$cache" ]; then
@@ -15,8 +30,10 @@ build()
     echo "building"
     for f in $(find "$dir" -type f -name "*.desktop"); do
         #echo $f
+        pname=
         for i in $(seq `grep -ce "^Name=" < "$f"`); do
             name=$(grep -e "^Name=" < "$f" | awk -F= '{gsub("/", "_", $2); print $2}' | awk "NR==$i")
+            [ -z "$pname" ] && pname="$name"
             ex="#!/bin/sh -e
 "$(grep -e "^Exec=" < "$f" | awk "NR==$i" | \
             awk -F= '{gsub("%u", "$*", $2); gsub("%U", "$*", $2); print $2}')
@@ -25,18 +42,10 @@ build()
                 awk -F\; 'BEGIN {FS=";"; OFS=" "} {for(i=1;i<=NF;i++){print $i}}'))
             if [ "$cat" ]; then
                 for e in ${cat[@]}; do
-                    if [ ! -d "$cache/$e" ]; then
-                        mkdir -p "$cache/$e"
-                    fi
-                    echo "$ex" > "$cache/$e/$name"
-                    chmod +x "$cache/$e/$name"
+                    add "$ex" "$e" "$name" "$pname"
                 done
             else
-                if [ ! -d "$cache/$nocat" ]; then
-                    mkdir -p "$cache/$nocat"
-                fi
-                echo "$ex" > "$cache/$nocat/$name"
-                chmod +x "$cache/$nocat/$name"
+                add "$ex" "$nocat" "$name" "$pname"
             fi
         done
     done
@@ -46,13 +55,14 @@ if [ "$1" = "-b" -o ! -d "$cache" ]; then
     build
 elif [ "$1" = "-h" ]; then
     cat << EOF
-menu [-b]
+menu [-b] [arguments...]
 
 -b: build
+arguments: Arguments of choosed program (e.g. filename)
 EOF
     exit 1
 fi
 rm -f /tmp/menu.choose
 ranger "$cache" --choosefile=/tmp/menu.choose
-[ -f /tmp/menu.choose ] && "`cat /tmp/menu.choose`"
+[ -f /tmp/menu.choose ] && "`cat /tmp/menu.choose`" $*
 

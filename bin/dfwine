@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+. $HOME/dotfiles/bin/dffunc
+
+dfx wget -qO $DFTMP/Release.key https://dl.winehq.org/wine-builds/Release.key
+dfx sudo apt-key add $DFTMP/Release.key
+dfx sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/'
+aptupdate
+aptinstall winehq-stable
+dfx sudo apt -y autoremove
+
