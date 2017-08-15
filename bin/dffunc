@@ -205,8 +205,12 @@ if [ -z "$DFBACKUP" ]; then
     DFBACKUP="$HOME/dotfiles/backup/$DFTIME"
     mkdir -p "$DFBACKUP"
 fi
+if [ -z "$APTFLAG" ]; then
+    APTFLAG="-qq"
+fi
 if [ "$DRYRUN" != "" ]; then
     APTFLAG="$APTFLAG --dry-run"
     dfout2 "DRYRUN=$DRYRUN"
 fi
+
 
