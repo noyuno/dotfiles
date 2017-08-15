@@ -18,6 +18,9 @@ declare showterm=/var/www/showterm
 . $HOME/dotfiles/raspberry-pi/nginx.sh
 . $HOME/dotfiles/raspberry-pi/showterm.sh
 . $HOME/dotfiles/raspberry-pi/vuls.sh
+. $HOME/dotfiles/raspberry-pi/nodejs.sh
+. $HOME/dotfiles/raspberry-pi/python.sh
+. $HOME/dotfiles/raspberry-pi/jma.sh
 
 if [ "$(lsb_release -is)" != "Raspbian" ]; then
     echo "this command is Raspbian only" 1>&2
