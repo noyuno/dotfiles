@@ -17,11 +17,16 @@ import unicodedata
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as etree
+import asyncio
+import websocket
 
 quoted_delimiter = "%01"
 delimiter = urllib.parse.unquote(quoted_delimiter)
 sleep_time = 3600
 notify_time = 2
+url = "noyuno.mydns.jp"
+websocket_url = 'ws://' + url + ':8000'
+
 
 class bcolors:
     HEADER = '\033[95m'
@@ -75,7 +80,7 @@ def jastr(string, size):
     ret += " " * (size - s)
     return ret
 
-def onmessage(message):
+def processxml(message):
     outstr = ""
     cols = curses.tigetnum("cols")
     datecol = 6
@@ -160,56 +165,50 @@ class jsonitem:
         self.value = v
 
 def processjson(data, subarray):
-    title = data["title"]
-    blacklist = [
-        "全般海上警報",
-        "全般海上警報（定時）", 
-        "地方気象情報",
-        "地方海上予報", 
-        "地方海上予報（Ｈ２８）", 
-        "地方海上警報",
-        "地方海上警報（Ｈ２８）", 
-        "季節観測", 
-        "府県天気予報",
-        "府県天気概況", 
-        "府県気象情報", 
-        "気象警報・注意報",
-        "特殊気象報",
-        "環境気象情報",
-        "生物季節観測"
-        "異常天候早期警戒情報",
-        "竜巻注意情報", 
-        "竜巻注意情報（目撃情報付き）", 
-        "紫外線観測データ", 
-        "警報級の可能性（明後日以降）",
-        "警報級の可能性（明日まで）",
-        "降灰予報（定時）",
-        "生物季節観測",
-        "異常天候早期警戒情報", 
-        "府県週間天気予報", 
-        "地方高温注意情報"
-        ]
-    if args.all == False and title in blacklist:
-        return
+    titles = data["title"]
+    for title in titles:
+        blacklist = [
+            "全般海上警報",
+            "全般海上警報（定時）", 
+            "地方気象情報",
+            "地方海上予報", 
+            "地方海上予報（Ｈ２８）", 
+            "地方海上警報",
+            "地方海上警報（Ｈ２８）", 
+            "季節観測", 
+            "府県天気予報",
+            "府県天気概況", 
+            "府県気象情報", 
+            "気象警報・注意報",
+            "特殊気象報",
+            "環境気象情報",
+            "生物季節観測"
+            "異常天候早期警戒情報",
+            "竜巻注意情報", 
+            "竜巻注意情報（目撃情報付き）", 
+            "紫外線観測データ", 
+            "警報級の可能性（明後日以降）",
+            "警報級の可能性（明日まで）",
+            "降灰予報（定時）",
+            "生物季節観測",
+            "異常天候早期警戒情報", 
+            "府県週間天気予報", 
+            "地方高温注意情報"
+            ]
+        if args.all == False and title in blacklist:
+            return
 
-    for i in jsonarray:
-        if i.key == data["link"]:
-            return False
+        #for i in jsonarray:
+        #    if i.key == data["link"]:
+        #        return False
 
-    with urllib.request.urlopen(data["link"]) as page:
-        a = onmessage(page.read())
-        subarray.insert(0, jsonitem(data["link"], a))
-        if a != "":
-            return True
-        else:
-            return False
-
-def lenjson():
-    e = 0
-    for i in jsonarray:
-        if i.value != "":
-            e += 1
-    return e
+        with urllib.request.urlopen(data["link"]) as page:
+            a = processxml(page.read())
+            subarray.insert(0, jsonitem(data["link"], a))
+            if a != "":
+                return True
+            else:
+                return False
 
 def outputjson(jsonarray):
     i = len(jsonarray) - 1
@@ -230,47 +229,41 @@ def outputjson(jsonarray):
                 output(jsonarray[i].value)
         i += 1
 
-cols = 0
-def main(args, jsonarray):
-    curses.setupterm()
-    cols = curses.tigetnum("cols")
-    subarray = []
+def on_message(ws, message):
+    data = json.loads(message)
+    if not data["status"] or ("cache_end" in data and data["cache_end"]):
+        ws.close()
+    else:
+        subarray = []
+        ret = processjson(data, subarray)
+        for i in subarray:
+            output(i.value)
 
-    urlnormal = "通常"
-    begin = arrow.now().replace(days=-1).format("YYYY-MM-DD HH:mm")
-    end = arrow.now().format("YYYY-MM-DD HH:mm")
-    url = "http://api.aitc.jp/jmardb-api/search?&" + \
-        "datetime=" + urllib.parse.quote(begin, "/:") + \
-        "&datetime=" + urllib.parse.quote(end, "/:") + \
-        "&order=new&limit=100"
-    
-    with urllib.request.urlopen(url) as page:
-        data = json.loads(page.read().decode("utf-8"))
-        if not(args.quiet):
-            progress = progressbar.ProgressBar(
-               widgets=[progressbar.SimpleProgress()], maxval=args.count).start()
-        ecnt = 0
-        for i in data["data"]:
-            if ecnt >= args.count:
-                break
-            if processjson(i, subarray):
-                ecnt += 1
-                if not(args.quiet):
-                    progress.update(ecnt)
+def on_message_keep(ws, message):
+    data = json.loads(message)
+    if not data["status"]:
+        return
+    else:
+        subarray = []
+        ret = processjson(data, subarray)
+        for i in subarray:
+            output(i.value)
 
-    #clear terminal
-    output("")
-    if args.keep == True:
-        output(chr(27) + "[2J" + chr(27) + "[H", end="")
-        sys.stdout.flush()
-    jsonarray += subarray
-    outputjson(jsonarray)
+def on_open(ws):
+    ws.send("cache")
+
+def main(keep):
+    if keep:
+        ws = websocket.WebSocketApp(websocket_url, on_message=on_message_keep, on_open=on_open)
+    else:
+        ws = websocket.WebSocketApp(websocket_url, on_message=on_message, on_open=on_open)
+    ws.run_forever()
 
 if __name__ == '__main__':
     try:
         parser = argparse.ArgumentParser(
             description = "Display JMA disaster report.", 
-            epilog = "Powered by 先端IT活用推進コンソーシアム, 気象庁")
+            epilog = "Powered by 気象庁")
         parser.add_argument("--count", "-n", type=int)
         parser.add_argument("--all", "-a", action = "store_true")
         parser.add_argument("--keep", "-k", action = "store_true")
@@ -283,20 +276,11 @@ if __name__ == '__main__':
         quiet = args.quiet
         if args.no_color: bcolors.nocolor()
         
-        jsonarray = []
-        if args.keep == True:
-            while True:
-                try:
-                    main(args, jsonarray)
-                    time.sleep(sleep_time)
-                except KeyboardInterrupt:
-                    raise
-                except Exception as e:
-                    sys.stderr.writelines(str(e) + "\n")
-                    sys.stderr.flush()
-                    time.sleep(sleep_time)
-        else:
-            main(args, jsonarray)
+        curses.setupterm()
+        main(args.keep)
     except KeyboardInterrupt:
         pass
+    except Exception as e:
+        sys.stderr.writelines(str(e) + "\n")
+        sys.stderr.flush()
 
