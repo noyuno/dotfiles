@@ -10,19 +10,19 @@ Description=Japan Meteorological Agency WebSocket Server
 
 [Service]
 User=www-data
-ExecStart=/var/www/html/jma/server/run.sh
+ExecStart=/var/www/html/jma/bin/run.sh
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
-    cat << EOF | sudo -u noyuno tee /var/www/html/jma/server/run.sh
+    cat << EOF | sudo -u noyuno tee /var/www/html/jma/bin/run.sh
 #!/bin/sh -e
 (
-    /usr/local/bin/python3 /var/www/html/jma/server/websocket.py
+    /usr/local/bin/python3 /var/www/html/jma/bin/websocket.py
 ) >/dev/null 2>&1
 EOF
-    dfx sudo chmod +x /var/www/html/jma/server/run.sh
+    dfx sudo chmod +x /var/www/html/jma/bin/run.sh
     dfx sudo service jmaws restart
 }
 
