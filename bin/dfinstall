@@ -149,10 +149,6 @@ ipip()
             < "$HOME/dotfiles/patch/freetype-py/__init__.py.patch"
 }
 
-igo()
-{
-}
-
 iruby()
 {
     # gem
