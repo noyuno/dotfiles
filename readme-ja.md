@@ -19,11 +19,12 @@
 
 1. フォーク
 2. `git clone https://github.com/user/dotfiles.git ~/dotfiles`
-3. `dfchuri`
-4. `git add . && git commit -m Update && git push origin master`
-5. `./dotfiles/bin/dfinstall`
-6. `./dotfiles/bin/dfdeploy`
-7. お好きに
+3. `git remote set-url origin <your-url>`
+4. `dfchuri`
+5. `git add . && git commit -m Update && git push origin master`
+6. `./dotfiles/bin/dfinstall`
+7. `./dotfiles/bin/dfdeploy`
+8. お好きに
 
 ## コマンド
 
