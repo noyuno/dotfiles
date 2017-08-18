@@ -1,24 +1,20 @@
 #!/usr/bin/env python3
 
-from collections import OrderedDict
-from datetime import *
-from icalendar import Calendar, Event
-import argparse
-import arrow
-import curses
 import json
 import os
-import progressbar
-import pytz
-import subprocess
 import sys
 import time
 import unicodedata
 import urllib.parse
 import urllib.request
-import xml.etree.ElementTree as etree
-import asyncio
-import websocket
+try:
+    import argparse
+    import arrow
+    import curses
+    import websocket
+except:
+    print("type: pip install argparse arrow curses websocket-client")
+    sys.exit(1)
 
 quoted_delimiter = "%01"
 delimiter = urllib.parse.unquote(quoted_delimiter)
@@ -80,72 +76,6 @@ def jastr(string, size):
     ret += " " * (size - s)
     return ret
 
-def processxml(message):
-    outstr = ""
-    cols = curses.tigetnum("cols")
-    datecol = 6
-    titlecol = 9
-    if args.debug:
-        titlecol = 33
-    disccol = cols - datecol - titlecol - 1
-    if isinstance(message, str):
-        raw = message
-    else:
-        raw = message.decode('utf-8')
-    t = etree.fromstring(str(raw))
-    namespaces = {'jmx': 'http://xml.kishou.go.jp/jmaxml1/', 
-        'jmx_ib': 'http://xml.kishou.go.jp/jmaxml1/informationBasis1/', 
-        'jmx_mete': 'http://xml.kishou.go.jp/jmaxml1/body/meteorology1/', 
-        'jmx_seis': 'http://xml.kishou.go.jp/jmaxml1/body/seismology1/', 
-        'jmx_eb': 'http://xml.kishou.go.jp/jmaxml1/elementBasis1/' }
-
-    for i in t.findall(".", namespaces):
-        title = str(i.find("./jmx_ib:Head/jmx_ib:InfoKind", namespaces).text)
-        if False == args.all and title == "気象警報・注意報":
-            continue
-
-        showtitle = jastr(title, titlecol)
-        showtitle = bcolors.WARNING + showtitle + bcolors.ENDC \
-            if title.find("津波") >= 0 or \
-                title.find("特別") >= 0 else showtitle
-        # ignore "one"
-        try:
-            adate = arrow.get(str(i.find("./jmx_ib:Head/jmx_ib:TargetDateTime", namespaces).text))
-            outstr += (jastr("{0:0>2}".format(adate.hour) + \
-                ":" + "{0:0>2}".format(adate.minute), datecol))
-            outstr += (showtitle)
-        except arrow.parser.ParserError:
-            outstr += str(i.find("./jmx_ib:Head/jmx_ib:TargetDateTime", namespaces).text)
-
-        if i.find("./jmx_seis:Body/jmx_seis:Earthquake", namespaces) is not None:
-            outstr2 = ""
-            area = str(i.find(
-                "./jmx_seis:Body/jmx_seis:Earthquake/jmx_seis:Hypocenter/jmx_seis:Area/jmx_seis:Name", 
-                namespaces).text)
-            outstr2 += area + ", "
-            mg = str(i.find(
-                "./jmx_seis:Body/jmx_seis:Earthquake/jmx_eb:Magnitude", 
-                namespaces).text)
-            outstr2 += "M"+mg + ", "
-            commenttext = i.find("./jmx_seis:Body/jmx_seis:Comments/jmx_seis:ForecastComment/jmx_seis:Text", namespaces)
-            if commenttext is None:
-                comment = ""
-            else:
-                comment = str(commenttext.text)
-            outstr2 += comment
-            outstr += (jastr(outstr2+"("+str(i.find(
-                "./jmx_ib:Head/jmx_ib:Headline/jmx_ib:Text", 
-                namespaces).text)+")".replace("\r", "").replace("\n", ""),
-                disccol))
-        else:
-            text = i.find(
-                "./jmx_ib:Head/jmx_ib:Headline/jmx_ib:Text", namespaces).text
-            if text is None:
-                text = "("+str("".join(i.find("./jmx:Control/jmx:Title", 
-                    namespaces).text))+")"
-            outstr += (jastr(text.replace("\r", "").replace("\n", ""), disccol))
-    return outstr
-
 notifysent = []
 def notifysend(id, text):
     if id not in notifysent:
@@ -164,90 +94,78 @@ class jsonitem:
         self.key = k
         self.value = v
 
-def processjson(data, subarray):
-    titles = data["title"]
-    for title in titles:
-        blacklist = [
-            "全般海上警報",
-            "全般海上警報（定時）", 
-            "地方気象情報",
-            "地方海上予報", 
-            "地方海上予報（Ｈ２８）", 
-            "地方海上警報",
-            "地方海上警報（Ｈ２８）", 
-            "季節観測", 
-            "府県天気予報",
-            "府県天気概況", 
-            "府県気象情報", 
-            "気象警報・注意報",
-            "特殊気象報",
-            "環境気象情報",
-            "生物季節観測"
-            "異常天候早期警戒情報",
-            "竜巻注意情報", 
-            "竜巻注意情報（目撃情報付き）", 
-            "紫外線観測データ", 
-            "警報級の可能性（明後日以降）",
-            "警報級の可能性（明日まで）",
-            "降灰予報（定時）",
-            "生物季節観測",
-            "異常天候早期警戒情報", 
-            "府県週間天気予報", 
-            "地方高温注意情報"
-            ]
-        if args.all == False and title in blacklist:
-            return
+def dataloop(d):
+    title = d["infokind"]
+    blacklist = [
+        "全般海上警報",
+        "全般海上警報（定時）", 
+        "地方気象情報",
+        "地方海上予報", 
+        "地方海上予報（Ｈ２８）", 
+        "地方海上警報",
+        "地方海上警報（Ｈ２８）", 
+        "季節観測", 
+        "府県天気予報",
+        "府県天気概況", 
+        "府県気象情報", 
+        "気象警報・注意報",
+        "特殊気象報",
+        "環境気象情報",
+        "生物季節観測"
+        "異常天候早期警戒情報",
+        "竜巻注意情報", 
+        "竜巻注意情報（目撃情報付き）", 
+        "紫外線観測データ", 
+        "警報級の可能性（明後日以降）",
+        "警報級の可能性（明日まで）",
+        "降灰予報（定時）",
+        "生物季節観測",
+        "異常天候早期警戒情報", 
+        "府県週間天気予報", 
+        "地方高温注意情報"
+        ]
+    if args.all == False and title in blacklist:
+        return [ False, ""]
 
-        #for i in jsonarray:
-        #    if i.key == data["link"]:
-        #        return False
-
-        with urllib.request.urlopen(data["link"]) as page:
-            a = processxml(page.read())
-            subarray.insert(0, jsonitem(data["link"], a))
-            if a != "":
-                return True
-            else:
-                return False
-
-def outputjson(jsonarray):
-    i = len(jsonarray) - 1
-    e = 0
-    while i >= 0 and e < args.count:
-        if jsonarray[i].value != "":
-            e += 1
-        i -= 1
-
-    if i < 0:
-        i = 0
-    while i < len(jsonarray):
-        if jsonarray[i].value != "":
-            if i + 1 == len(jsonarray):
-                output(jsonarray[i].value, end="")
-                sys.stdout.flush()
-            else:
-                output(jsonarray[i].value)
-        i += 1
+    outstr = ""
+    cols = curses.tigetnum("cols")
+    datecol = 6
+    titlecol = 9
+    if args.debug:
+        titlecol = 33
+    disccol = cols - datecol - titlecol - 1
+    # ignore "one"
+    # datetime
+    adate = arrow.get(d["target-datetime"])
+    outstr += (jastr("{0:0>2}".format(adate.hour) + \
+        ":" + "{0:0>2}".format(adate.minute), datecol))
+    # title
+    showtitle = jastr(title, titlecol)
+    showtitle = bcolors.WARNING + showtitle + bcolors.ENDC \
+        if title.find("津波") >= 0 or \
+            title.find("特別") >= 0 else showtitle
+    outstr += (showtitle)
+    # text
+    text = str(d["text"])
+    outstr += (jastr(text.replace("\r", "").replace("\n", ""), disccol))
+    return [ True, outstr ]
 
 def on_message(ws, message):
-    data = json.loads(message)
-    if not data["status"] or ("cache_end" in data and data["cache_end"]):
-        ws.close()
-    else:
-        subarray = []
-        ret = processjson(data, subarray)
-        for i in subarray:
-            output(i.value)
+    on_message_keep(ws, message)
+    ws.close()
 
 def on_message_keep(ws, message):
     data = json.loads(message)
-    if not data["status"]:
-        return
-    else:
-        subarray = []
-        ret = processjson(data, subarray)
-        for i in subarray:
-            output(i.value)
+    if data["status"]:
+        i = 0
+        while i < data["count"]:
+            [ f, outstr ] = dataloop(data["data"][i])
+            if f:
+                if i + 1 == data["count"]:
+                    output(outstr, end="")
+                else:
+                    output(outstr)
+            i += 1
 
 def on_open(ws):
     ws.send("cache")
