@@ -16,13 +16,30 @@ ExecStart=/var/www/html/jma/bin/run.sh
 WantedBy=multi-user.target
 EOF
 
-    cat << EOF | sudo -u noyuno tee /var/www/html/jma/bin/run.sh
-#!/bin/sh -e
-(
-    /usr/local/bin/python3 /var/www/html/jma/bin/websocket.py
-) >/dev/null 2>&1
-EOF
-    dfx sudo chmod +x /var/www/html/jma/bin/run.sh
+#    cat << EOF | sudo -u noyuno tee /var/www/html/jma/bin/run.sh
+##!/bin/sh -e
+#(
+#    /usr/local/bin/python3 /var/www/html/jma/bin/websocket.py
+#) >/dev/null
+#EOF
+
     dfx sudo service jmaws restart
+
+
+    # file remover
+
+    cat << EOF | sudo tee /etc/cron.d/jmarm.sh
+25 */24 * * * www-data /var/www/html/jma/bin/rm.sh
+EOF
+
+#    cat << EOF | sudo -u noyuno tee /var/www/html/jma/bin/rm.sh
+##!/bin/bash -e
+#(
+#    find /var/www/html/jma/data -ctime +3 -exec rm -f {} \;
+#) >/dev/null
+#EOF
+
+    dfx sudo chmod +x /var/www/html/jma/bin/rm.sh
+
 }
 
