@@ -622,4 +622,9 @@ cb() {
 # open multiple files by tab
 alias vi='vi -p'
 
+# atool
+alias au='aunpack'
+
+# TeX
+alias te='cat report.log | grep Error -A8 -n'
 
