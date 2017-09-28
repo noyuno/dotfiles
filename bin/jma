@@ -13,7 +13,7 @@ try:
     import curses
     import websocket
 except:
-    print("type: pip install argparse arrow curses websocket-client")
+    print("type: pip install argparse arrow websocket-client")
     sys.exit(1)
 
 quoted_delimiter = "%01"
