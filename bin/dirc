@@ -9,9 +9,9 @@ dirs=$(command ls -aFU1 | command grep /)
 dirscount=$(echo "$dirs" | command wc -l)
 dirshiddencount=$(echo "$dirs" | command grep '^\.' | command wc -l)
 dirsnormalcount=$((dirscount - dirshiddencount))
-printf "f %d (n %d h %d), " $filescount $filesnormalcount $fileshiddencount
-printf "d %d (n %d h %d), " $dirscount $dirsnormalcount $dirshiddencount
-printf "t %d (n %d, h %d), " $total \
+printf "%d (\e[32m%d\e[m \e[30m%d\e[m) " $filescount $filesnormalcount $fileshiddencount
+printf "\e[34m%d (\e[32m%d\e[m \e[30m%d\e[34m) \e[m" $dirscount $dirsnormalcount $dirshiddencount
+printf "%d (\e[32m%d\e[m \e[30m%d\e[m) " $total \
     $((filesnormalcount + dirsnormalcount)) $((fileshiddencount + dirshiddencount))
 command ls -al . | awk '{ total += $5 }; END { printf("%dMB\n", int(total/1024/1024)) }'
 
