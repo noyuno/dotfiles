@@ -99,63 +99,78 @@ _check_dirty()
     return 1
 }
 
+update_repo2()
+{
+    r=$1
+    i=$2
+    name=$(jq -r "$r.name" "$json")
+    remotelen=$(jq -r "$r"'.remotes | length' "$json")
+    dirty=
+    if _check_dirty $name ; then
+        dirty=1
+    fi
+    latest=
+    declare -A remote_status
+    for j in $(seq 0 $((remotelen - 1))); do
+        remote_name=$(jq -r "$r"'.remotes['$j'].name' $json)
+        remote_url=$(jq -r "$r"'.remotes['$j'].url' $json)
+        _update_repo "$name" "$remote_name" "$remote_url" "$dirty" &&:
+        case "$?" in
+            0) # latest
+                remote_status[$remote_name]="latest "
+                ;;
+            1) # clone
+                remote_status[$remote_name]="\e[32mclone   \e[m"
+                ;;
+            2) # pull
+                remote_status[$remote_name]="\e[34mpull    \e[m"
+                ;;
+            3) # fetch
+                remote_status[$remote_name]="\e[35mfetch   \e[m"
+                ;;
+            4) # forward
+                remote_status[$remote_name]="\e[33mforward \e[m"
+                ;;
+            5) # conflict, abort merging
+                remote_status[$remote_name]="\e[31mconflict\e[m"
+                ;;
+        esac
+    done
+    if [ "$dirty" ]; then
+        dirty_message="\e[35mdirty\e[m"
+    else
+        dirty_message="     "
+    fi
+    printf "%-20s " "$name" >> $outtmp
+    echo -ne "$dirty_message " >> $outtmp
+    for k in "${!remote_status[@]}"; do
+        echo -ne "$k:${remote_status[$k]} " >> $outtmp
+    done
+    echo "" >> $outtmp
+    if [ "$i" = "" ]; then
+        echo -ne "\e[2K\e[1Gprocessed $name (primary)"
+    else
+        echo -ne "\e[2K\e[1Gprocessed $name ($((i+1)) of $len)"
+    fi
+}
+
 update_repo()
 {
-    len=$(jq -r length "$json")
+    len=$(jq -r ".repositories | length" "$json")
     for i in $(seq 0 $((len - 1))); do
-        (
-        name=$(jq -r '.['$i'].name' "$json")
-        remotelen=$(jq -r '.['$i'].remote | length' "$json")
-        dirty=
-        if _check_dirty $name ; then
-            dirty=1
+        if [ "$(jq -r '.repositories['$i'].name' $json)" != "$primaryrepo" ]; then
+            (
+            update_repo2 '.repositories['$i']' $i
+            ) &
         fi
-        latest=
-        declare -A remote_status
-        for j in $(seq 0 $((remotelen - 1))); do
-            remote_name=$(jq -r '.['$i'].remote['$j'].name' $json)
-            remote_url=$(jq -r '.['$i'].remote['$j'].url' $json)
-            _update_repo "$name" "$remote_name" "$remote_url" "$dirty" &&:
-            case "$?" in
-                0) # latest
-                    remote_status[$remote_name]="latest "
-                    ;;
-                1) # clone
-                    remote_status[$remote_name]="\e[32mclone   \e[m"
-                    ;;
-                2) # pull
-                    remote_status[$remote_name]="\e[34mpull    \e[m"
-                    ;;
-                3) # fetch
-                    remote_status[$remote_name]="\e[35mfetch   \e[m"
-                    ;;
-                4) # forward
-                    remote_status[$remote_name]="\e[33mforward \e[m"
-                    ;;
-                5) # conflict, abort merging
-                    remote_status[$remote_name]="\e[31mconflict\e[m"
-                    ;;
-            esac
-        done
-        if [ "$dirty" ]; then
-            dirty_message="\e[35mdirty\e[m"
-        else
-            dirty_message="     "
-        fi
-        printf "%-20s " "$name" >> $outtmp
-        echo -ne "$dirty_message " >> $outtmp
-        for k in "${!remote_status[@]}"; do
-            echo -ne "$k:${remote_status[$k]} " >> $outtmp
-        done
-        echo "" >> $outtmp
-        echo -ne "\e[2K\e[1Gprocessed $name ($((i+1)) of $len)"
-        ) &
     done
 }
 
 # pi
 json="$DFTMP/repo.json"
-curl -sL "$jsonurl" > "$DFTMP/repo.json"
+curl -sL "$jsonurl" > "$json"
+primaryrepo=$(jq -r .primary "$json")
+update_repo2 '.repositories[] | select(.name=="'$primaryrepo'")'
 update_repo
 
 wait
