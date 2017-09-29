@@ -110,12 +110,18 @@ if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
 [ -f "$HOME/.zsh_aliases" ] && . $HOME/.zsh_aliases
 
 function cd() {
-    builtin cd $@ && case ${OSTYPE} in
-        linux*) ls --color ;;
-        darwin*) ls -G ;;
-        *) ls ;;
-    esac && \
-    [ "$(pgrep tmux)" != "" ] && tmux refresh-client -S
+    builtin cd $@
+    if [ $? -eq 0 ]; then
+        dirc
+        if [ $(ls -U1 | wc -l) -lt 50 ]; then
+            case ${OSTYPE} in
+                linux*) ls --color ;;
+                darwin*) ls -G ;;
+                *) ls ;;
+            esac && \
+            [ "$(pgrep tmux)" != "" ] && tmux refresh-client -S
+        fi
+    fi
 }
 
 zstyle ':completion:*' auto-description 'specify: %d'

@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+total=$(ls -aU1 | wc -l)
+files=$(command ls -aFU1 | command grep -v /)
+filescount=$(echo "$files" | command wc -l)
+fileshiddencount=$(echo "$files" | command grep '^\.' | command wc -l)
+filesnormalcount=$((filescount - fileshiddencount))
+dirs=$(command ls -aFU1 | command grep /)
+dirscount=$(echo "$dirs" | command wc -l)
+dirshiddencount=$(echo "$dirs" | command grep '^\.' | command wc -l)
+dirsnormalcount=$((dirscount - dirshiddencount))
+printf "f %d (n %d h %d), " $filescount $filesnormalcount $fileshiddencount
+printf "d %d (n %d h %d), " $dirscount $dirsnormalcount $dirshiddencount
+printf "t %d (n %d, h %d), " $total \
+    $((filesnormalcount + dirsnormalcount)) $((fileshiddencount + dirshiddencount))
+command ls -al . | awk '{ total += $5 }; END { printf("%dMB\n", int(total/1024/1024)) }'
+
