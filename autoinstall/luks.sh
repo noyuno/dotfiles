@@ -125,7 +125,7 @@ echo 100
 ) | zenity --progress --text="unlocking /home" --pulsate --auto-close --no-cancel
 text="$(cat /tmp/luks.end)"
 if [ "$text" ]; then
-    zenity --error --text="$text"
+    zenity --error --timeout 5 --text="$text"
 fi
 echo -n "" > /tmp/luks.end
 EOF
