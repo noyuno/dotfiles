@@ -131,6 +131,14 @@ echo -n "" > /tmp/luks.end
 EOF
     dfx chmod +x /usr/local/bin/waitluks
 
+    cat << EOF > /usr/local/bin/openluks
+#!/bin/bash -e
+
+sudo cryptsetup open --type luks /dev/vg0/lv1 $cryptoname
+sudo mount $cryptoname /home
+EOF
+    dfx chmod +x /usr/local/bin/openluks
+
     cat << EOF > /etc/udev/rules.d/luks.rules
 ACTION=="add", SUBSYSTEM=="usb", RUN+="/usr/local/bin/unlockluks"
 EOF
