@@ -3,7 +3,7 @@ repo = 'zchee/deoplete-clang'
 on_ft = ['c', 'cpp', 'cc', 'cmake']
 depends = ['deoplete.nvim']
 hook_source = '''
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so'
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-4.0/lib/libclang.so'
     let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
 '''
 [[plugins]]
