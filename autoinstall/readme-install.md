@@ -2,13 +2,21 @@
 
 ## Commands
 
-sudo bash install.sh STORAGE_DEVICE ROOT_PARTITION_SIZE
-    Install new system partitions and luks system.
-    Example: sudo bash install.sh /dev/sda 20G
+### Install new system partitions and luks system
 
-sudo bash install.sh luks USB_DEVICE
-    Create luks unlock USB.
-    Example: sudo bash install.sh luks /dev/sdb1
+    sudo bash install.sh STORAGE_DEVICE ROOT_PARTITION_SIZE
+
+Example:
+
+    sudo bash install.sh /dev/sda 20G
+
+### Create luks unlock USB
+
+    sudo bash install.sh luks USB_DEVICE
+
+Example:
+
+    sudo bash install.sh luks /dev/sdb1
 
 ## Guide
 
