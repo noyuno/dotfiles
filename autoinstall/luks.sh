@@ -124,10 +124,10 @@ done
 echo 100
 ) | zenity --progress --text="unlocking /home" --pulsate --auto-close --no-cancel
 text="$(cat /tmp/luks.end)"
-if [ "$text" ]; then
-    zenity --error --timeout 5 --text="$text"
-fi
 echo -n "" > /tmp/luks.end
+if [ "$text" ]; then
+    zenity --error --timeout 3 --text="$text" &&:
+fi
 EOF
     dfx chmod +x /usr/local/bin/waitluks
 
@@ -146,9 +146,19 @@ EOF
     dfx update-initramfs -u
 }
 
+help()
+{
+    curl -sL 'https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/readme-luks.sh'
+    exit 1
+}
+
 if [ $# -ge 1 ]; then
-    luks $*
+    if [ "$1" = "-h" -o "$1" = "--help" ]; then
+        help
+    else
+        luks $*
+    fi
 else
-    echo "least one device required" >&2
+    help
 fi
 
