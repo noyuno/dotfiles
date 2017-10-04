@@ -160,13 +160,15 @@ After install operation:
 
 Partitioning will be:
 
-    | sda1      | sda2             | sda3    |
-    |           | lvm(vg0)         | bios    |
-    |           | lv0   | lv1      |         |
-    |           |       | luks     |         |
-    | fat32     | ext4  | ext4     | ef02    |
-    | /boot/efi | /     | /home    |         |
-    | 100MB     | 100GB | 100%free | 1007KiB |
+    -----------------------------------------------------
+    | device   | sda1      | sda2             | sda3    |
+    | manage   |           | lvm(vg0)         | bios    |
+    | lv       |           | lv0   | lv1      |         |
+    | crypto   |           |       | luks     |         |
+    | format   | fat32     | ext4  | ext4     | ef02    |
+    | mount on | /boot/efi | /     | /home    |         |
+    | size     | 100MB     | 100GB | 100%free | 1007KiB |
+    -----------------------------------------------------
 
 ## Windows 10 1607
 

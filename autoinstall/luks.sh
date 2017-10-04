@@ -124,12 +124,20 @@ done
 echo 100
 ) | zenity --progress --text="unlocking /home" --pulsate --auto-close --no-cancel
 text="$(cat /tmp/luks.end)"
-if [ "$text" ]; then
-    zenity --error --text="$text"
-fi
 echo -n "" > /tmp/luks.end
+if [ "$text" ]; then
+    zenity --error --timeout 3 --text="$text" &&:
+fi
 EOF
     dfx chmod +x /usr/local/bin/waitluks
+
+    cat << EOF > /usr/local/bin/openluks
+#!/bin/bash -e
+
+sudo cryptsetup open --type luks /dev/vg0/lv1 $cryptoname
+sudo mount $cryptoname /home
+EOF
+    dfx chmod +x /usr/local/bin/openluks
 
     cat << EOF > /etc/udev/rules.d/luks.rules
 ACTION=="add", SUBSYSTEM=="usb", RUN+="/usr/local/bin/unlockluks"
@@ -138,9 +146,19 @@ EOF
     dfx update-initramfs -u
 }
 
+help()
+{
+    curl -sL 'https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/readme-luks.md'
+    exit 1
+}
+
 if [ $# -ge 1 ]; then
-    luks $*
+    if [ "$1" = "-h" -o "$1" = "--help" ]; then
+        help
+    else
+        luks $*
+    fi
 else
-    echo "least one device required" >&2
+    help
 fi
 

@@ -76,7 +76,7 @@ let g:deoplete#enable_camel_case = 1
 "let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
 
 " clang builtin header path
-let g:deoplete#sources#clang#clang_header = '/usr/include/clang/3.8/include'
+"let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
 
 " libclang default compile flags
 let g:deoplete#sources#clang#flags = ['-x', 'c++', '-std=c++11']

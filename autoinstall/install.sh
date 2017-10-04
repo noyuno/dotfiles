@@ -117,9 +117,13 @@ clean()
     dfx sync
 }
 
-if [ $# -le 1 ]; then
-    echo 'target device and root size required (e.g. /dev/sda 20G, luks /dev/sdb1)'
+help()
+{
+    curl -sL 'https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/readme-install.md'
     exit 1
+}
+if [ $# -le 1 ]; then
+    help
 fi
 
 if [ "$1" = "luks" ]; then
