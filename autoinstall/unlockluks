@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # mount /home from luks encrypted /dev/vg0/lv1
-exec 2>/tmp/rc.local.log
+exec 2>/var/log/unlockluks.log
 exec 1>&2
 set -x
 runningfile=/tmp/luks.lock
@@ -64,6 +64,8 @@ usbloop()
             error "failed to umount: $usbd"
         touch "$endfile"
         return 0
+    else
+        return 1
     fi
 }
 
