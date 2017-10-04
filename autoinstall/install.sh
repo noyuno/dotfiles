@@ -119,7 +119,7 @@ clean()
 
 help()
 {
-    curl -sL 'https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/readme-install.sh'
+    curl -sL 'https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/readme-install.md'
     exit 1
 }
 if [ $# -le 1 ]; then

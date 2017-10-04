@@ -148,7 +148,7 @@ EOF
 
 help()
 {
-    curl -sL 'https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/readme-luks.sh'
+    curl -sL 'https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/readme-luks.md'
     exit 1
 }
 
