@@ -13,6 +13,6 @@ python()
         popd
     popd
 
-    dfx sudo -H pip3 install watchdog tornado
+    dfx sudo -H pip3 install watchdog tornado icalendar
 }
 
