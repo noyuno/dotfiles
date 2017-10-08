@@ -24,7 +24,7 @@ EOF
 #EOF
 
     dfx sudo service jmaws restart
-
+    dfx sudo systemctl enable jmaws
 
     # file remover
 

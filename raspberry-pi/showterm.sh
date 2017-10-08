@@ -72,7 +72,7 @@ EOF
     dfx sudo chown $user:$user /var/log/showterm.log
     
     dfx sudo systemctl restart showterm
-    dfx sudo systemctl enable gitbucket.service
+    dfx sudo systemctl enable showterm
 }
 
 showterm_nginx()

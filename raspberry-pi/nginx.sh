@@ -112,6 +112,8 @@ EOF
 
     dfx sudo service anime-ical restart
     dfx sudo service anime-json restart
+    dfx systemctl enable anime-ical
+    dfx systemctl enable anime-json
 }
 
 export -f nginx
