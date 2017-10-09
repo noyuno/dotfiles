@@ -1,10 +1,12 @@
-icalendar
+argparse
 arrow
-progressbar2
-pylint
 feedparser
 freetype-py
+icalendar
+maybe
+progressbar2
+pylint
 rainbowstream
 virtualenv
-maybe
+websocket-client
 
