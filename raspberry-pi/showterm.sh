@@ -61,9 +61,9 @@ EOF
     cat << EOF | sudo tee /etc/logrotate.d/showterm
 /var/log/showterm.log {
     weekly
-    coppytruncate
-    rotate 52
-    ocmpress
+    copytruncate
+    rotate 12
+    compress
     delaycompress
     notifempty
 }

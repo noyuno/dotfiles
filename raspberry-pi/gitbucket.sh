@@ -41,9 +41,9 @@ EOF
     cat << EOF | sudo tee /etc/logrotate.d/gitbucket
 /var/log/gitbucket.log {
     weekly
-    coppytruncate
-    rotate 52
-    ocmpress
+    copytruncate
+    rotate 12
+    compress
     delaycompress
     notifempty
 }
