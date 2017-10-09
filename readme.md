@@ -123,7 +123,7 @@ Depending items have to put before install item.
 - `ical`: Print ical calendar.
 - `idea`: Launch IntelliJ IDEA.
 - `image`: Show image via terminal
-- `jma`: Show JMA disaster report.
+- [`jma`](https://noyuno.github.io/blog/2017/10/08/jma): Show JMA disaster report.
 - `kernel`: Get and build kernel.
 - `mate-terminal-colorscheme-hybrid`: Make mate-terminal colorscheme to hybrid. Called by `dfguiconf`.
 - [`menu`](https://noyuno.github.io/blog/2017/08/11/application-menu-on-cli/): Program menu.
