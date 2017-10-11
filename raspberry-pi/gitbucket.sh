@@ -56,11 +56,11 @@ notification=false
 useSMTP=false
 is_create_repository_option_public=false
 ldap_authentication=false
-ssh=true
+ssh=false
 allow_account_registration=false
 ssh.host=$domain
 allow_anonymous_access=true
-ssh.port=4023
+ssh.port=22
 base_url=http\://git.$domain
 EOF
     fi

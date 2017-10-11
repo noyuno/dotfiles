@@ -73,3 +73,11 @@ If no command is given, will run below commands.
     declare pdata=/var/postgresql/data
     declare showterm=/var/www/showterm
 
+## Public ports
+
+- 80: nginx
+- 8000: jma
+- 8081: showterm
+- 8125: netdata
+- 8080: gitbucket (v6 only)
+
