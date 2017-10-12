@@ -7,3 +7,6 @@ if has('win32') || has('win64')
 else
     set path+=/usr/local/include;/usr/include
 endif
+
+set formatoptions+=ro
+

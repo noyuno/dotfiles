@@ -32,6 +32,7 @@ libpython3-dev
 libreadline-dev
 libssl-dev
 libtool-bin
+lldb
 locate
 make
 manpages-ja

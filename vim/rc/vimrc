@@ -171,6 +171,11 @@ let t:cwd = getcwd()
 " Bugfix
 call s:source_rc('bugfix.rc.vim')
 
+" current directory .vimrc
+if exists(".vimrc")
+  source ".vimrc"
+endif
+
 set secure
 
 " vim: foldmethod=marker
