@@ -41,8 +41,8 @@ EOF
 
     dfx sudo chmod +x /var/www/html/jma/bin/rm.sh
 
-    dfx sudo touch /var/log/jma{,rm}.log
-    dfx sudo chown www-data:www-data /var/log/jma{,rm}.log
+    dfx sudo touch /var/log/jma{,rm,ws}.log
+    dfx sudo chown www-data:www-data /var/log/jma{,rm,ws}.log
 
 }
 
