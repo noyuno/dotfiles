@@ -16,6 +16,7 @@ declare showterm=/var/www/showterm
 . $HOME/dotfiles/raspberry-pi/localnet.sh
 . $HOME/dotfiles/raspberry-pi/netdata.sh
 . $HOME/dotfiles/raspberry-pi/nginx.sh
+. $HOME/dotfiles/raspberry-pi/anime.sh
 . $HOME/dotfiles/raspberry-pi/showterm.sh
 . $HOME/dotfiles/raspberry-pi/vuls.sh
 . $HOME/dotfiles/raspberry-pi/nodejs.sh

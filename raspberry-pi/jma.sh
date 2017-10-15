@@ -6,7 +6,7 @@ jma()
 
     cat << EOF | sudo tee /etc/systemd/system/jmaws.service
 [Unit]
-Description=Japan Meteorological Agency WebSocket Server
+Description=JMA disaster prevention information WebSocket server
 
 [Service]
 User=www-data
