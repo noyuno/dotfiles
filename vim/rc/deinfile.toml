@@ -112,10 +112,10 @@ let g:Tex_IgnoreLevel = 10
 '''
 
 [[plugins]]
-repo = 'noyuno/unite-latex-symbols'
+repo = 'noyuno/unite-latexsymbols'
 on_ft = 'tex'
 hook_add = '''
-nnoremap <leader>s :<C-u>Unite latex-symbols<CR>
+nnoremap <leader>s :<C-u>Unite latexsymbols<CR>
 '''
 
 [[plugins]]

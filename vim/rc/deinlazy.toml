@@ -302,7 +302,7 @@ hook_add = '''
 repo = 'katono/rogue.vim'
 
 [[plugins]]
-repo = 'lambdalisue/vim-gita'
+repo = 'lambdalisue/gina'
 hook_add = '''
   nnoremap <silent> [Space]gs  :<C-u>Gita status<CR>
   nnoremap <silent> [Space]gc  :<C-u>Gita commit<CR>
