@@ -105,6 +105,9 @@ nnoremap <silent> <Leader><Leader> :<C-u>update<CR>
 " syntastic
 nnoremap <silent> <Leader>c :<C-u>SyntasticCheck<CR>
 
+" make
+nnoremap <Leader>m :<C-u>make<bar>copen<CR>
+
 " Change current directory.
 nnoremap <silent> [Space]cd :<C-u>call <SID>cd_buffer_dir()<CR>
 function! s:cd_buffer_dir() abort "{{{

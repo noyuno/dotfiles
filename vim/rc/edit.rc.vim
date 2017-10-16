@@ -158,3 +158,6 @@ endfunction
 
 command! Period call Period()
 
+" set make program
+let &makeprg="vmake"
+

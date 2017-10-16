@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+make='make EXTRA_CFLAGS=-fcolor-diagnostic'
+if [ -e Makefile -o -e makefile ]; then
+    $make $*
+else
+    $make -C '..' $*
+fi
+

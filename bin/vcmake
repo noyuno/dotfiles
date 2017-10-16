@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+make='cmake -DCMAKE_BUILD_TYPE=Debug'
+if [ -e CMakeLists.txt ]; then
+    $make $*
+else
+    pushd .. >/dev/null
+        $make $*
+    popd >/dev/null
+fi
+
