@@ -1,15 +1,21 @@
+#[[plugins]]
+#repo = 'zchee/deoplete-clang'
+#on_ft = ['c', 'cpp', 'cc', 'cmake']
+#depends = ['deoplete.nvim']
+#hook_source = '''
+#    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-4.0/lib/libclang.so'
+#    let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
+#'''
 [[plugins]]
-repo = 'zchee/deoplete-clang'
-on_ft = ['c', 'cpp', 'cc', 'cmake']
-depends = ['deoplete.nvim']
+repo = 'justmao945/vim-clang'
+on_ft = ['c', 'cpp', 'cc']
 hook_source = '''
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-4.0/lib/libclang.so'
-    let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
+let g:clang_cpp_options = '-std=c++14'
 '''
-[[plugins]]
-repo = 'Shougo/neoinclude.vim'
-on_ft = ['c', 'cpp', 'cc', 'cmake']
-depends = ['deoplete.nvim']
+#[[plugins]]
+#repo = 'Shougo/neoinclude.vim'
+#on_ft = ['c', 'cpp', 'cc', 'cmake']
+#depends = ['deoplete.nvim']
 
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
