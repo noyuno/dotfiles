@@ -1,13 +1,13 @@
-# deb          xenial xenial-updates xenial-backports xenial-security
-# main         v      v              v                 v
-# restricted   v      v              v                 v
-# universe     v      v              v                 v
-# multiverse   v      v              v                 v
-# deb-src      xenial xenial-updates xenial-backports xenial-security
-# main         v      v              v                 v
-# restricted   v      v              v                 v
-# universe     v      v              v                 v
-# multiverse   v      v              v                 v
+## deb          xenial xenial-updates xenial-backports xenial-security
+## main         v      v              v                 v
+## restricted   v      v              v                 v
+## universe     v      v              v                 v
+## multiverse   v      v              v                 v
+## deb-src      xenial xenial-updates xenial-backports xenial-security
+## main         v      v              v                 v
+## restricted   v      v              v                 v
+## universe     v      v              v                 v
+## multiverse   v      v              v                 v
 
 deb http://jp.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
 deb-src http://jp.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
