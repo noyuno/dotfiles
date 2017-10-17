@@ -2,10 +2,10 @@
 
 . $HOME/dotfiles/bin/dffunc
 
-postfix() {
-    aptinstall postfix dovecot-imapd
+mail() {
+    aptinstall postfix dovecot-imapd sasl2-bin
 
-    cat << EOF | tee /etc/postfix/main.cf
+    cat << "EOF" | sudo tee /etc/postfix/main.cf
 
 # See /usr/share/postfix/main.cf.dist for a commented, more complete version
 
@@ -25,15 +25,20 @@ readme_directory = no
 # TLS parameters
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
-smtpd_use_tls=yes
+smtpd_tls_auth_only=no
+smtpd_tls_policy_maps=hash:/etc/postfix/tls_policy
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_use_tls=yes
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtp_tls_security_level = may
 
 smtpd_sasl_type=dovecot
 smtpd_sasl_path=private/auth
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_security_options = noanonymous
 smtpd_sasl_local_domain = $myhostname
+smtpd_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtpd_sasl_mechanism_filter = plain
 smtpd_recipient_restrictions = permit_mynetworks,permit_auth_destination,permit_sasl_authenticated,reject
 
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
@@ -46,14 +51,14 @@ myorigin = $mydomain
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 mydestination = localhost, localhost.$mydomain, $myhostname, $mydomain
-relayhost = 
+relayhost = [smtp.gmail.com]:587
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128, 192.168.11.0/24
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 local_recipient_maps = unix:passwd.byname $alias_maps
 mynetworks_style = subnet
-home_mailbox=Maildir/
+home_mailbox=Mail/
 
 sendmail_path = /usr/sbin/postfix
 newaliases_path = /usr/bin/newaliases
@@ -68,8 +73,9 @@ EOF
 
     sudo newaliases
 
-    cat << "EOF" | patch -bN
---- dovecot.conf	2017-10-17 02:22:41.533252093 +0900
+    set +e
+    cat << "EOF" | sudo patch -d /etc/dovecot -bN
+--- /etc/dovecot/dovecot.conf.old	2017-10-17 02:22:41.533252093 +0900
 +++ /etc/dovecot/dovecot.conf	2017-10-17 02:23:21.213270784 +0900
 @@ -27,7 +27,7 @@
  # "*" listens in all IPv4 interfaces, "::" listens in all IPv6 interfaces.
@@ -80,8 +86,10 @@ EOF
  
  # Base directory where to store runtime data.
  #base_dir = /var/run/dovecot/
-
---- conf.d/10-auth.conf	2017-10-17 02:29:08.033430451 +0900
+EOF
+    
+    cat << "EOF" | sudo patch -d /etc/dovecot/conf.d -bN
+--- /etc/dovecot/conf.d/10-auth.conf.old	2017-10-17 02:29:08.033430451 +0900
 +++ /etc/dovecot/conf.d/10-auth.conf	2017-10-17 02:27:26.103384197 +0900
 @@ -7,7 +7,7 @@
  # matches the local IP (ie. you're connecting from the same computer), the
@@ -101,14 +109,14 @@ EOF
  
  ##
  ## Password and user databases
---- conf.d/10-mail.conf	2017-10-17 02:28:41.953418668 +0900
+--- /etc/dovecot/conf.d/10-mail.conf.old	2017-10-17 02:28:41.953418668 +0900
 +++ /etc/dovecot/conf.d/10-mail.conf	2017-10-17 02:33:33.123548251 +0900
 @@ -27,7 +27,7 @@
  #
  # <doc/wiki/MailLocation.txt>
  #
 -# mail_location = mbox:~/mail:INBOX=/var/mail/%u
-+mail_location = maildir:~/Maildir
++mail_location = maildir:~/Mail
  
  # If you need to set multiple mailbox locations or want to change default
  # namespace settings, you can do it by defining namespace sections.
@@ -129,14 +137,23 @@ EOF
  
    # Auth process is run as this user.
    #user = $default_internal_user
-
 EOF
+    set -e
 
-    dfx sudo ufw allow 25 # smtp
-    dfx sudo ufw allow 587 # submission
+    #dfx sudo ufw allow 25 # smtp
+    #dfx sudo ufw allow 587 # submission
     dfx sudo ufw allow 143 # imaps
     dfx sudo ufw allow 993 # imap
     dfx sudo systemctl restart postfix
     dfx sudo systemctl restart dovecot
+    dfx sudo touch /etc/postfix/sasl_passwd
+    dfx sudo chmod 600 /etc/postfix/sasl_passwd
+}
+
+gmail()
+{
+    dfx sudo chmod 600 /etc/postfix/sasl_passwd
+    dfx sudo postmap hash:/etc/postfix/sasl_passwd
+    dfx sudo systemctl restart postfix
 }
 
