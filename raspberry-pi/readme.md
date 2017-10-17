@@ -78,6 +78,7 @@ If no command is given, will run below commands.
 - 80: nginx
 - 8000: jma
 - 8081: showterm
+- 8082: slack
 - 8125: netdata
 - 8080: gitbucket (v6 only)
 
