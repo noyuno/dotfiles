@@ -253,6 +253,10 @@ repo = 'jelera/vim-javascript-syntax'
 on_ft = 'javascript'
 
 [[plugins]]
+repo = 'kchmck/vim-coffee-script'
+on_ft = 'coffee'
+
+[[plugins]]
 repo = 'JesseKPhillips/d.vim'
 on_ft = 'd'
 

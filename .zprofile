@@ -38,6 +38,7 @@ if [ -d "$HOME/.go" ]; then
     export GOPATH="$HOME/.go"
     insertpath "$GOPATH/bin"
 fi
+insertpath "/usr/local/go/bin"
 
 export MAILDIR="$HOME/Mail"
 if [ -d "$HOME/.npm" ]; then
