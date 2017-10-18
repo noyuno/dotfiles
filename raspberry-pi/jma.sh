@@ -28,7 +28,7 @@ EOF
 
     # file remover
 
-    cat << EOF | sudo tee /etc/cron.d/jmarm.sh
+    cat << EOF | sudo tee /etc/cron.d/jmarm
 25 */24 * * * www-data /var/www/html/jma/bin/rm.sh
 EOF
 

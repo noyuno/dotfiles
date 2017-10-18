@@ -31,7 +31,7 @@ service()
             active)   echo -e "\e[32m$ret\e[m" ;;
             unknown)  echo -e "\e[31m$ret\e[m" ;;
             inactive) echo -e "\e[31m$ret\e[m" ;;
-            unknown)  echo -e "\e[31m$ret\e[m" ;;
+            failed)  echo -e "\e[31m$ret\e[m" ;;
             *) echo "$ret Didn't match anything"
         esac
     done
