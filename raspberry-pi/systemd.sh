@@ -17,9 +17,11 @@ service()
         php5-fpm
         postgresql
         showterm
+        slack
         smbd
         ssh
-        ufw)
+        ufw
+        )
 
     a=$(sudo systemctl list-units --type service)
     for service in ${services[@]}; do
