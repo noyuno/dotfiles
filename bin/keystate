@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+caps=$(xset q | awk '/Caps Lock/{ print $4 }')
+num=$(xset q | awk '/Num Lock/{ print $8 }')
+
+echo "C:"$caps" N:"$num
+

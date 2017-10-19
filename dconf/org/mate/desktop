@@ -13,7 +13,8 @@ binding='<Mod4>c'
 name='google-chrome'
 
 [media-handling]
-autorun-x-content-start-app=['x-content/software', 'x-content/video-bluray.xml', 'x-content/video-dvd.xml', 'x-content/video-hddvd.xml', 'x-content/video-svcd.xml', 'x-content/video-vcd.xml', 'x-content/image-dcf']
+automount-open=false
+autorun-x-content-start-app=['x-content/software', 'x-content/video-bluray.xml', 'x-content/video-dvd.xml', 'x-content/video-hddvd.xml', 'x-content/video-svcd.xml', 'x-content/video-vcd.xml', 'x-content/image-dcf', 'x-content/blank-dvd', 'x-content/video-dvd']
 autorun-x-content-ignore=['x-content/image-dcf']
 autorun-x-content-open-folder=@as []
 
@@ -27,7 +28,7 @@ exec='onboard'
 exec='orca'
 
 [peripherals/keyboard/general]
-duplicate-leds=true
+duplicate-leds=false
 
 [peripherals/keyboard/kbd]
 model='logitech_base'
@@ -48,7 +49,7 @@ windowmanager='compiz'
 
 [session]
 idle-delay=120
-session-start=1491548679
+session-start=1508433449
 
 [sound]
 input-feedback-sounds=false
@@ -81,5 +82,5 @@ slowkeys-enable=false
 color-shading-type='vertical-gradient'
 primary-color='#58589191bcbc'
 picture-options='zoom'
-picture-filename='/home/noyuno/Pictures/background.jpg'
+picture-filename='/home/noyuno/Pictures/background.png'
 secondary-color='#3c3c8f8f2525'
