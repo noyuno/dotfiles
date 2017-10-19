@@ -34,8 +34,8 @@ insertpath "$HOME/.cargo/bin"
 insertpath "$HOME/.rbenv/bin"
 insertpath "$HOME/.fzf/bin"
 insertpath "$HOME/.npm/bin"
-if [ -d "$HOME/.go" ]; then
-    export GOPATH="$HOME/.go"
+if [ -d "$HOME/go" ]; then
+    export GOPATH="$HOME/go"
     insertpath "$GOPATH/bin"
 fi
 insertpath "/usr/local/go/bin"

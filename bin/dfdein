@@ -2,6 +2,43 @@
 
 . "$HOME/dotfiles/bin/dffunc"
 
+max_process=5
+process=$(tempfile -p dfdein.)
+waittime=0.1
+echo 0 > $process
+
+clone()
+{
+    cache=$1
+    i=$2
+    echo $((`cat $process`+1)) >$process
+    echo -n "["$((`cat $process`+1))"] "
+    dfout3 "clone $i"
+    mkdir -p "$cache/$(dirname $i)"
+    git clone -q --depth 1 "https://github.com/$i" "$cache/$i"
+    echo $((`cat $process`-1)) >$process
+}
+
+pull()
+{
+    cache=$1
+    i=$2
+    echo $((`cat $process`+1)) >$process
+    echo -n "["$((`cat $process`+1))"] "
+    dfout3 "pull $i"
+    pushd "$cache/$i" >/dev/null
+        git pull -q --depth 1 &&:
+        if [ $? -ne 0 ]; then
+            dfwarn "conflict $i, removing and cloning"
+            pushd .. >/dev/null
+                trash $(basename $i)
+                git clone -q --depth 1 "https://github.com/$i" "$cache/$i"
+            popd >/dev/null
+        fi
+    popd >/dev/null
+    echo $((`cat $process`-1)) >$process
+}
+
 idein()
 {
     check_ret=0
@@ -9,23 +46,18 @@ idein()
     grep "$HOME/dotfiles/vim/rc/$1" -e '^repo\s=\s' | \
         sed -e "s/#.*//g" -e "s/repo\s=\s//g" -e "s/'//g" > "$DFTMP/data"
     while read i; do
+        sleep $waittime
         if [ ! -d "$cache/$i" ]; then
-            dfout3 "clone $i"
-            mkdir -p "$cache/$(dirname $i)"
-            git clone -q --depth 1 "https://github.com/$i" "$cache/$i"
+            while [ $(cat $process) -ge $max_process ]; do
+                sleep $waittime
+            done
+            clone $cache $i &
             check_ret=$((check_ret + 1))
         else
-            dfout3 "pull $i"
-            pushd "$cache/$i" >/dev/null
-                git pull -q --depth 1 &&:
-                if [ $? -ne 0 ]; then
-                    dfwarn "conflict $i, removing and cloning"
-                    pushd .. >/dev/null
-                        trash $(basename $i)
-                        git clone -q --depth 1 "https://github.com/$i" "$cache/$i"
-                    popd >/dev/null
-                fi
-            popd >/dev/null
+            while [ $(cat $process) -ge $max_process ]; do
+                sleep $waittime
+            done
+            pull $cache $i &
         fi
     done < "$DFTMP/data"
     total=$((total + check_ret))
@@ -69,4 +101,6 @@ else
     idein deinfile.toml
     idein deinlazy.toml
 fi
+
+wait
 

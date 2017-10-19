@@ -56,7 +56,7 @@ igo()
 
 igopackages()
 {
-    export GOPATH=$HOME/.go
+    export GOPATH=$HOME/go
     dfx go get github.com/github/hub \
             github.com/atsaki/termeter/cmd/termeter \
             github.com/walle/wiki/cmd/wiki 
