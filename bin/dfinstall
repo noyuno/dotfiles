@@ -192,9 +192,12 @@ itpm()
 
 inodejs()
 {
-    dfx sudo ln -sfnv /usr/bin/nodejs /usr/bin/node
-    dfx ln -sfnv "$HOME/dotfiles/.npmrc" "$HOME/.npmrc"
-    dfx npm install -g npm-check-updates markdown-cli ansimd
+    sudo curl -sL https://deb.nodesource.com/setup_6.x | sudo bash -
+    dfx sudo apt install -y nodejs
+    [ ! -f /usr/bin/node ] && dfx sudo ln -sfnv /usr/bin/nodejs /usr/bin/node
+    dfx sudo npm install -g n npm-check-updates markdown-cli ansimd
+    dfx sudo n lts
+    dfx sudo n use lts -v
 }
 
 igitsecrets()
