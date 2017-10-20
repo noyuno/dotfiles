@@ -3,6 +3,7 @@ arrow
 feedparser
 freetype-py
 icalendar
+libclang-py3
 maybe
 progressbar2
 pylint

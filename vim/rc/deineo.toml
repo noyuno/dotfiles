@@ -22,15 +22,32 @@ repo = 'zchee/deoplete-jedi'
 on_ft = 'python'
 
 [[plugins]]
+repo = 'nsf/gocode'
+on_ft = 'go'
+
+[[plugins]]
+repo = 'fatih/vim-go'
+on_ft = 'go'
+hook_source = '''
+let g:go_fmt_command = "goimports"
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_term_enabled = 1
+let g:go_highlight_build_constraints = 1
+'''
+
+[[plugins]]
 repo = 'zchee/deoplete-go'
 on_i = 1
 on_ft = 'go'
 hook_source='''
-let g:deoplete#sources#go#gocode_binary = '/usr/local/go/bin/go'
+let g:deoplete#sources#go#gocode_binary = '$HOME/go/bin/gocode'
 let g:deoplete#sources#go#package_dot = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#pointer = 1
-let g:deoplete#sources#go#cgo = 1
+let g:deoplete#sources#go#cgo = 0
 '''
 
 [[plugins]]
@@ -49,4 +66,5 @@ hook_source = '''
 #let g:cmake_build_type = 'Debug'
 #let g:cmake_build_dir = 'bin'
 #'''
+
 

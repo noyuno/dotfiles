@@ -135,15 +135,21 @@ iapt()
 ipip()
 {
     dfx sudo -H pip3 install --upgrade pip
-    dfx sudo -H pip3 freeze --local '|' grep -v '^\-e' '|' cut -d = -f 1 '|' xargs sudo -H pip3 install -U &&:
-    dfx sudo -H pip3 install ipython pip-review ansi2html gitpython
-    set +e
+    # system
+    packages=()
+    grep "$HOME/dotfiles/list/pip-system" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        packages=(${packages[@]} $i)
+    done < "$DFTMP/data"
+    dfx sudo -H pip3 install ${packages[@]}
+    # user
     packages=()
     grep "$HOME/dotfiles/list/pip" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"
     dfx pip3 install --user ${packages[@]}
+    # patch
     [ -f "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" ] && \
         dfx patch -u "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" \
             < "$HOME/dotfiles/patch/freetype-py/__init__.py.patch"
