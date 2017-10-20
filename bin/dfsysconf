@@ -36,5 +36,7 @@ if [ -e "/dev/hidraw0" ]; then
     dfx sudo chmod o+rw /dev/hidraw*
 fi
 
+dfx sudo cp ~/dotfiles/list/lsb-release /etc/lsb-release
+
 finalize dfsysconf
 
