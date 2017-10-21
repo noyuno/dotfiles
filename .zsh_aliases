@@ -620,3 +620,9 @@ alias au='aunpack'
 # TeX
 alias te='cat report.log | grep Error -A8 -n'
 
+ssh() {
+    command bash $HOME/dotfiles/tmux/window-status.sh nopwd colour208
+    command ssh $*
+    command bash $HOME/dotfiles/tmux/window-status.sh normal
+}
+
