@@ -85,12 +85,18 @@ zstyle ':vcs_info:git:*' stagedstr "%F{green}s"
 zstyle ':vcs_info:git:*' unstagedstr "%F{green}u"
 zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
+
+preexec(){
+    bash $HOME/dotfiles/tmux/window-status.sh normal exec
+}
 precmd(){
     ret="$?"
     [ "$ret" -eq 0 ] && ret=
     vcs_info
-    [ "$(pgrep tmux)" != "" ] && \
+    if [ "$(pgrep tmux)" != "" ]; then
+        bash $HOME/dotfiles/tmux/window-status.sh normal prompt
         tmux refresh-client -S
+    fi
 }
 PROMPT="[%F{green}${USER}@${HOST%%.*} %F{blue}%~%f] %(!.#.$) "
 PROMPT2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
