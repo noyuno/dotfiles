@@ -20,6 +20,13 @@ augroup MyAutoCmd
   autocmd FileType vim inoremap <buffer> <expr> .
         \ smartchr#loop('.', ' . ', '..', '...')
   autocmd FileType lisp,scheme,clojure inoremap <buffer> <expr> = =
+  autocmd FileType c,cpp,perl,php,go inoremap <expr> +
+        \ smartchr#loop(' + ', '+')
+  autocmd FileType go inoremap <expr> -
+        \ smartchr#loop(' - ', '-')
+  autocmd FileType go inoremap <expr> : smartchr#loop(' := ', ': ', ':')
+  autocmd FileType go inoremap <expr> ! smartchr#loop(' != ', '!')
+  autocmd FileType go inoremap <expr> ; smartchr#loop('; ', ';')
 
   autocmd FileType haskell,int-ghci
         \ inoremap <buffer> <expr> + smartchr#loop('+', ' ++ ')
