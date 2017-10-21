@@ -117,23 +117,17 @@ update_repo2()
         _update_repo "$name" "$remote_name" "$remote_url" "$dirty" &&:
         case "$?" in
             0) # latest
-                remote_status[$remote_name]="latest "
-                ;;
+                remote_status[$remote_name]="latest " ;;
             1) # clone
-                remote_status[$remote_name]="\e[32mclone   \e[m"
-                ;;
+                remote_status[$remote_name]="\e[32mclone   \e[m" ;;
             2) # pull
-                remote_status[$remote_name]="\e[34mpull    \e[m"
-                ;;
+                remote_status[$remote_name]="\e[34mpull    \e[m" ;;
             3) # fetch
-                remote_status[$remote_name]="\e[35mfetch   \e[m"
-                ;;
+                remote_status[$remote_name]="\e[35mfetch   \e[m" ;;
             4) # forward
-                remote_status[$remote_name]="\e[33mforward \e[m"
-                ;;
+                remote_status[$remote_name]="\e[33mforward \e[m" ;;
             5) # conflict, abort merging
-                remote_status[$remote_name]="\e[31mconflict\e[m"
-                ;;
+                remote_status[$remote_name]="\e[31mconflict\e[m" ;;
         esac
     done
     if [ "$dirty" ]; then
