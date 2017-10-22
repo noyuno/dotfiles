@@ -87,13 +87,13 @@ zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 
 preexec(){
-    bash $HOME/dotfiles/tmux/window-status.sh normal exec
+    [ "$TMUX" ] && bash $HOME/dotfiles/tmux/window-status.sh normal exec
 }
 precmd(){
     ret="$?"
     [ "$ret" -eq 0 ] && ret=
     vcs_info
-    if [ "$(pgrep tmux)" != "" ]; then
+    if [ "$TMUX" ]; then
         bash $HOME/dotfiles/tmux/window-status.sh normal prompt
         tmux refresh-client -S
     fi
@@ -125,7 +125,7 @@ function cd() {
                 darwin*) ls -G ;;
                 *) ls ;;
             esac && \
-            [ "$(pgrep tmux)" != "" ] && tmux refresh-client -S
+            [ "$TMUX" ] && tmux refresh-client -S
         fi
     fi
 }
@@ -211,4 +211,7 @@ which rbenv 1>/dev/null 2>&1 &&:
 if [ $? -eq 0 ]; then
     eval "$(rbenv init -)"
 fi
+
+# direnv
+eval "$(direnv hook zsh)"
 

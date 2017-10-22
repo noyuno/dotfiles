@@ -37,14 +37,14 @@ igo()
     which go 1>/dev/null 2>&1 &&:
     if [ $? -ne 0 ]; then
         if [ "$distribution" = "raspbian" ]; then
-            dfx mkdir -p $HOME/.go
+            dfx mkdir -p $HOME/go
             dfx wget -qO /tmp/go.tar.gz \
-                'https://storage.googleapis.com/golang/go1.8.linux-armv6l.tar.gz'
+                'https://storage.googleapis.com/golang/go1.9.1.linux-amd64.tar.gz'
             dfx sudo tar -C /tmp -xzf go.tar.gz
             dfx sudo cp /tmp/go/bin/go /usr/local/bin/go
             dfx sudo rm -rf /tmp/go /tmp/go.tar.gz
             set -x
-            export PATH=$PATH:$HOME/.go/bin:/usr/local/bin
+            export PATH=$PATH:$HOME/go/bin:/usr/local/bin
             set +x
         else
             packages=(${packages[@]} "git-lfs" "golang" "golang-go")
@@ -58,8 +58,9 @@ igopackages()
 {
     export GOPATH=$HOME/go
     dfx go get github.com/github/hub \
-            github.com/atsaki/termeter/cmd/termeter \
-            github.com/walle/wiki/cmd/wiki 
+               github.com/atsaki/termeter/cmd/termeter \
+               github.com/walle/wiki/cmd/wiki \
+               github.com/direnv/direnv
 }
 
 igitlfs()

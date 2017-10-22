@@ -38,11 +38,13 @@ locate
 make
 manpages-ja
 mercurial
+moreutils
 msmtp
 multitail
 nano
 nodejs
 npm
+num-utils
 offlineimap
 openssh-client
 pass

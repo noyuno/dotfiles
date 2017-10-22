@@ -122,7 +122,9 @@ def dataloop(d):
         "生物季節観測",
         "異常天候早期警戒情報", 
         "府県週間天気予報", 
-        "地方高温注意情報"
+        "地方高温注意情報", 
+        "降灰予報", 
+        "台風解析・予報情報（３日予報）"
         ]
     if args.all == False and title in blacklist:
         return [ False, ""]
