@@ -81,4 +81,7 @@ If no command is given, will run below commands.
 - 8082: slack
 - 8125: netdata
 - 8080: gitbucket (v6 only)
+- 25: postfix
+- 587: postfix
+- 143: dovecot IMAP
 
