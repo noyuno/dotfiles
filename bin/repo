@@ -5,6 +5,7 @@
 name=$(git config --global user.name)
 jsonurl=http://noyuno.mydns.jp/static/repo.json
 outtmp=$DFTMP/out
+namelength=18
 if [ "$1" ]; then
     base="$1"
 else
@@ -48,8 +49,9 @@ _update_repo()
     remote_name=$2
     remote_url=$3
     dirty=$4
-    if [ -d "$base/$name/.git" ]; then
-        pushd "$base/$name" >/dev/null
+    repobase=$5
+    if [ -d "$repobase/.git" ]; then
+        pushd "$repobase" >/dev/null
         _check_remote  "$name" "$remote_name" "$remote_url"
         ret=$(git -c color.status=always pull $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name &&:)
         if [ $? -eq 0 ]; then
@@ -78,16 +80,17 @@ _update_repo()
         fi
         popd >/dev/null
     else
-        git clone "$remote_url" "$base/$name"
+        mkdir -p $repobase
+        git clone "$remote_url" "$repobase"
         return 1
     fi
 }
 
 _check_dirty()
 {
-    name=$1
-    if [ -d "$base/$name/.git" ]; then
-        pushd "$base/$name" >/dev/null
+    repobase=$1
+    if [ -d "$repobase/.git" ]; then
+        pushd "$repobase" >/dev/null
         status=$(git status -s)
         if [ "$status" ]; then
             echo -e "\e[35m[ dirty ] $name\e[m ($(echo "$status" | wc -l) files)"
@@ -104,9 +107,15 @@ update_repo2()
     r=$1
     i=$2
     name=$(jq -r "$r.name" "$json")
+    rb=$(jq -r "$r.path" "$json")
+    if [ "$rb" = "null" ]; then
+        repobase=$base/$name
+    else
+        repobase=$base/$rb
+    fi
     remotelen=$(jq -r "$r"'.remotes | length' "$json")
     dirty=
-    if _check_dirty $name ; then
+    if _check_dirty $repobase ; then
         dirty=1
     fi
     latest=
@@ -114,7 +123,7 @@ update_repo2()
     for j in $(seq 0 $((remotelen - 1))); do
         remote_name=$(jq -r "$r"'.remotes['$j'].name' $json)
         remote_url=$(jq -r "$r"'.remotes['$j'].url' $json)
-        _update_repo "$name" "$remote_name" "$remote_url" "$dirty" &&:
+        _update_repo "$name" "$remote_name" "$remote_url" "$dirty" "$repobase" &&:
         case "$?" in
             0) # latest
                 remote_status[$remote_name]="latest " ;;
@@ -130,12 +139,14 @@ update_repo2()
                 remote_status[$remote_name]="\e[31mconflict\e[m" ;;
         esac
     done
+    dirty_message=""
     if [ "$dirty" ]; then
+        printf "%-${namelength}s" "$name" >> $outtmp
         dirty_message="\e[35mdirty\e[m"
     else
-        dirty_message="     "
+        printf "%-$((namelength + 5))s" "$name" >> $outtmp
+        dirty_message=""
     fi
-    printf "%-20s " "$name" >> $outtmp
     echo -ne "$dirty_message " >> $outtmp
     for k in "${!remote_status[@]}"; do
         echo -ne "$k:${remote_status[$k]} " >> $outtmp
@@ -170,7 +181,7 @@ update_repo
 wait
 
 echo -ne "\e[2K\e[1G"
-cat $outtmp | sort
+sort -f < $outtmp
 
 finalize
 

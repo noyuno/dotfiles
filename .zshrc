@@ -213,5 +213,8 @@ if [ $? -eq 0 ]; then
 fi
 
 # direnv
-eval "$(direnv hook zsh)"
+which direnv 1>/dev/null 2>&1 &&:
+if [ $? -eq 0 ]; then
+    eval "$(direnv hook zsh)"
+fi
 
