@@ -19,7 +19,7 @@ dfx . ~/dotfiles/bin/mate-terminal-colorscheme-hybrid
 dfx im-config '-n' fcitx
 
 dfx sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser \
-    /usr/bin/google-chrome-stable 20
+    /usr/bin/google-chrome-stable 50
 
 finalize dfguiconf
 
