@@ -39,6 +39,9 @@ Or, paste one of the following commands if necessary.
     curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
     wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
 
+- `dflocal`: Run `~/dotfiles/bin/df*` commands.
+- `dfget`: Clone dotfiles repository, and execute `dflocal`.
+
 ### Arguments
 
 `dflocal`, `dfget` require least 1 argument of below set/item.
