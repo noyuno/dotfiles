@@ -135,7 +135,8 @@ iruby()
     # gem
     gv=$(gem --version | sed 's/\(.*\..*\)\..*/\1/')
     export PATH=$PATH:$HOME/.gem/ruby/$gv/bin
-    dfx gem install --user-install --no-doc rubygems-update showterm
+    #dfx gem install --user-install --no-doc rubygems-update showterm
+    dfx gem install --user-install --no-doc rubygems-update
     dfx sudo $HOME/.gem/ruby/*/bin/update_rubygems
     
     # rbenv
