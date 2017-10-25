@@ -62,7 +62,6 @@ shellcheck
 silversearcher-ag
 sqlite3
 ssh
-sysv-rc-conf
 tar
 tcpdump
 texinfo

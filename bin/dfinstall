@@ -232,7 +232,8 @@ itrans()
 iufw()
 {
     dfx sudo service ufw start '&&:'
-    dfx sudo sysv-rc-conf ufw on
+    dfx sudo systemctl enable ufw
+    dfx sudo systemctl start ufw
 }
 
 izsh()
