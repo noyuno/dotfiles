@@ -47,7 +47,7 @@ igo()
             export PATH=$PATH:$HOME/go/bin:/usr/local/bin
             set +x
         else
-            packages=(${packages[@]} "git-lfs" "golang" "golang-go")
+            packages=(${packages[@]} "golang" "golang-go")
         fi
     else
         dfout3 "go has already installed"
@@ -61,34 +61,6 @@ igopackages()
                github.com/atsaki/termeter/cmd/termeter \
                github.com/walle/wiki/cmd/wiki \
                github.com/direnv/direnv
-}
-
-igitlfs()
-{
-    which git-lfs 1>/dev/null 2>&1 &&:
-    if [ $? -ne 0 ]; then
-        if [ "$distribution" = "raspbian" ]; then
-            dfout2 "Building git-lfs"
-            # https://gist.github.com/show0k/388bf364da9347d7cfedcddd322eb8f4
-            dfx mkdir -p $HOME/.go
-            dfx pushd "$HOME/.go"
-                dfx mkdir -p src/github.com/git-lfs
-                dfx pushd src/github.com/git-lfs
-                    dfx git clone https://github.com/git-lfs/git-lfs --depth 1
-                    dfx pushd git-lfs
-                    dfx script/bootstrap
-                    dfx popd
-                dfx popd
-                dfx mkdir -p bin
-                dfx ln -sfnv $HOME/.go/src/github.com/git-lfs/git-lfs/bin/git-lfs bin/git-lfs
-            dfx popd
-        else
-            dfx curl -sL https://packagecloud.io/github/git-lfs/gpgkey '|' sudo apt-key add -
-            addapt "deb https://packagecloud.io/github/git-lfs/$distribution/ $release main"
-        fi
-    else
-        dfout3 "git-lfs has already installed"
-    fi
 }
 
 ipostfix()
