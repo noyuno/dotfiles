@@ -121,11 +121,13 @@ ipip()
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"
+    set +e
     dfx pip3 install --user ${packages[@]}
     # patch
     [ -f "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" ] && \
         dfx patch -u "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" \
             < "$HOME/dotfiles/patch/freetype-py/__init__.py.patch"
+    set -e
 }
 
 iruby()
