@@ -14,7 +14,7 @@ aptinstall \
 aptremove 'tex.*-doc$'
 
 dfx sudo kanji-config-updmap-sys ipaex
-dfx kanji-config-updmap ipaex
+dfx kanji-config-updmap -sys ipaex
 
 if [ ! -e ~/SourceHanSansJ-LaTeX ]; then
     dfx git clone 'https://github.com/noyuno/latex-fonts.git' ~/SourceHanSansJ-LaTeX
