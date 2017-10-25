@@ -4,14 +4,6 @@ repo = 'aharisu/vim-gdev'
 on_ft = 'scheme'
 
 [[plugins]]
-repo = 'fatih/vim-go'
-on_ft = 'go'
-
-#[[plugins]]
-#repo = 'todesking/ruby_hl_lvar.vim'
-#on_ft = 'ruby'
-
-[[plugins]]
 repo = 'kannokanno/previm'
 on_ft = ['markdown', 'rst', 'mkd']
 on_cmd = 'PrevimOpen'
@@ -259,11 +251,6 @@ on_ft = 'coffee'
 [[plugins]]
 repo = 'JesseKPhillips/d.vim'
 on_ft = 'd'
-
-[[plugins]]
-repo = 'nsf/gocode'
-rtp = 'vim'
-on_ft = 'go'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
