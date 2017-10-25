@@ -251,7 +251,6 @@ run()
 if [ $# -eq 0 ]; then
     run iinit
     run igo
-    run igitlfs
     run ipostfix
     run idkmsheaders
     run imutt
