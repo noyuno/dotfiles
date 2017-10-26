@@ -25,7 +25,7 @@ if [ $# -eq 1 ]; then
 
 else
     aptupdate
-    aptupgrade
+    dfx sudo DEBIAN_FRONTEND=noninteractive apt $APTFLAG -y full-upgrade
     if [ "$(lsb_release -is)" = "Raspbian" ]; then
         dfx sudo apt-get -y $APTFLAG autoremove
         dfx sudo apt-get $APTFLAG clean

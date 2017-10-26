@@ -53,7 +53,8 @@ _update_repo()
     if [ -d "$repobase/.git" ]; then
         pushd "$repobase" >/dev/null
         _check_remote  "$name" "$remote_name" "$remote_url"
-        ret=$(git -c color.status=always pull $remote_name master 2>$DFTMP/git-pull-stderr-$name-$remote_name &&:)
+        branch_name=$(git branch | grep '*.*' | sed -e 's/\*\ //')
+        ret=$(git -c color.status=always pull $remote_name $branch_name 2>$DFTMP/git-pull-stderr-$name-$remote_name &&:)
         if [ $? -eq 0 ]; then
             echo "$ret" | grep '^Already up-to-date.$' >/dev/null 2>&1 &&:
             if [ $? -eq 0 ]; then
@@ -70,6 +71,9 @@ _update_repo()
                 echo "$ret"
                 return 2
             fi
+        elif grep "Couldn't find remote" < $DFTMP/git-pull-stderr-$name-$remote_name; then
+            # remote has not this branch
+            return 6
         else
             # conflict, abort merging
             echo -e "\e[31m[ conflict ] abort merging $name\e[m ($(git status -s | wc -l) files)"
@@ -137,14 +141,21 @@ update_repo2()
                 remote_status[$remote_name]="\e[33mforward \e[m" ;;
             5) # conflict, abort merging
                 remote_status[$remote_name]="\e[31mconflict\e[m" ;;
+            6) # branch not found
+                remote_status[$remote_name]="\e[35mnot find\e[m" ;;
         esac
     done
+
+    branch_name="("$(git branch | grep '*.*' | sed -e 's/\*\ //')")"
+    if [ "$branch_name" = "(master)" ]; then
+        branch_name=""
+    fi
     dirty_message=""
     if [ "$dirty" ]; then
-        printf "%-${namelength}s" "$name" >> $outtmp
+        printf "%-${namelength}s" "$name$branch_name" >> $outtmp
         dirty_message="\e[35mdirty\e[m"
     else
-        printf "%-$((namelength + 5))s" "$name" >> $outtmp
+        printf "%-$((namelength + 5))s" "$name$branch_name" >> $outtmp
         dirty_message=""
     fi
     echo -ne "$dirty_message " >> $outtmp
