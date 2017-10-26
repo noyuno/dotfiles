@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+setup()
+{
+    cat << "EOF" | sudo tee -a /etc/pacman.conf
+[archlinuxfr]
+SigLevel = Optional
+Server = http://repo.archlinux.fr/$arch
+EOF
+    sudo pacman -Syy
+    sudo pacman -S yaourt
+}
+
+setup
+

@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+pacpac()
+{
+    pacman -Syu
+    grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        packages=(${packages[@]} $i)
+    done < "$DFTMP/data"
+    yaourt -Sy ${packages[@]}
+}
+
+if which yaourt 1>/dev/null 2>&1; then
+    pacpac
+else
+    echo "yaourt has not installed. Please type dfyaourt to install it."
+fi
+
