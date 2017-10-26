@@ -44,7 +44,10 @@ fi
 i=1
 for e in "${array[@]}"; do
     cd ~
-    file="dotfiles/ubuntu/bin/$e"
+    file="dotfiles/bin/$e"
+    if [ "$e" != "dfdeploy" ]; then
+        file="dotfiles/ubuntu/bin/$e"
+    fi
     dfout1 "Step $i: $file"
         . "$file"
     i=$((i + 1))
