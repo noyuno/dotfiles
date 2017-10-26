@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/dotfiles/bin/dffunc
+. ~/dotfiles/ubuntu/bin/dffunc
 
 # disable ssh server
 dfx sudo systemctl stop ssh

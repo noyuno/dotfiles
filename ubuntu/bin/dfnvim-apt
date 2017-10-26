@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Type `:CheckHealth` to check installed modules.
-. ~/dotfiles/bin/dffunc
+. ~/dotfiles/ubuntu/bin/dffunc
 require dfdeploy
 
 dfx sudo apt-add-repository -y ppa:neovim-ppa/unstable

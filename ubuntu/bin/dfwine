@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. $HOME/dotfiles/bin/dffunc
+. $HOME/dotfiles/ubuntu/bin/dffunc
 
 dfx wget -qO $DFTMP/Release.key https://dl.winehq.org/wine-builds/Release.key
 dfx sudo apt-key add $DFTMP/Release.key

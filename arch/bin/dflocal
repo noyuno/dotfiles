@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. ~/dotfiles/ubuntu/bin/dffunc
+. ~/dotfiles/bin/dffunc
 
 if [ $# -eq 0 ]; then
     dfout3 "required least 1 argument."
@@ -44,7 +44,7 @@ fi
 i=1
 for e in "${array[@]}"; do
     cd ~
-    file="dotfiles/ubuntu/bin/$e"
+    file="dotfiles/bin/$e"
     dfout1 "Step $i: $file"
         . "$file"
     i=$((i + 1))

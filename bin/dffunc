@@ -1,0 +1,77 @@
+#!/bin/bash -e
+
+dfout1()
+{
+    printf "\e[1;37m\e[44m%s\e[0m\n" "$*"
+}
+export -f dfout1
+
+dfout2()
+{
+    printf "\e[34m%s\e[0m\n" "$*"
+}
+export -f dfout2 
+
+dfout3()
+{
+    printf "\e[32m%s\e[0m\n" "$*"
+}
+export -f dfout3
+
+dfwarn()
+{
+    printf "\e[33m%s\e[0m\n" "$*"
+}
+export -f dfwarn
+
+dfx()
+{
+    if [ "$HOME" = "" ]; then
+        dfout2 'Unable to find $HOME'
+        exit 1
+    fi 
+    a=""
+    c=""
+    while [ $# -gt 0 ]; do
+        b="$1"
+        case "$b" in
+        '|'|'||'|'&'|'&&'|'>'|'>>'|'>>>'|'<'|'<<'|'<<<'|'&&:')
+            a="$a$b "
+            c="$c$b "
+            ;;
+        *)
+            b=$(printf "%s" "$b" | sed -e "s|~|$HOME|g" \
+                -e "s/^'//g" -e "s/'$//g" -e "s/'/'\"'\"'/g")
+            a="$a'$b' "
+            c="$c$b "
+            ;;
+        esac
+        shift
+    done 
+    dfout3 "$c"
+    if [ ! "$DRYRUN" ]; then
+        if [ "$QUIET" ]; then
+            eval command $a 1>/dev/null
+        else
+            eval command $a
+        fi
+    fi
+}
+export -f dfx
+
+if [ -z "$DFTIME" ]; then
+    DFTIME=$(date +%Y%m%d-%H%M%S)
+fi
+if [ -z "$DFTMP" ]; then
+    export DFTMP="/tmp/dotfiles/$DFTIME"
+    mkdir -p "$DFTMP"
+fi
+if [ -z "$DFBACKUP" ]; then
+    DFBACKUP="$HOME/dotfiles/backup/$DFTIME"
+    mkdir -p "$DFBACKUP"
+fi
+if [ "$DRYRUN" != "" ]; then
+    dfout2 "DRYRUN=$DRYRUN"
+fi
+
+

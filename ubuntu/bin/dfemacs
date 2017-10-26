@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. ~/dotfiles/bin/dffunc
+. ~/dotfiles/ubuntu/bin/dffunc
 require dfdeploy
 
 aptinstall libpoppler-glib-dev libpoppler-private-dev mew

@@ -1,5 +1,5 @@
 #!/bin/bash -e
-. ~/dotfiles/bin/dffunc
+. ~/dotfiles/ubuntu/bin/dffunc
 
 iinit()
 {
@@ -23,7 +23,7 @@ iinit()
     packages=()
     if [ "$distribution" = "ubuntu" ]; then
         dfx sudo cp -v /etc/apt/sources.list "$DFBACKUP/sources.list"
-        dfx sudo cp -v ~/dotfiles/list/sources.list /etc/apt/sources.list
+        dfx sudo cp -v ~/dotfiles/ubuntu/list/sources.list /etc/apt/sources.list
         sedapt 's/xenial/'"$release"'/g'
         if [ "$(curl -s ipinfo.io/country)" != "JP" ]; then
             sedapt 's|http://jp.archive.ubuntu.com|http://archive.ubuntu.com|g'
@@ -97,7 +97,7 @@ iapt()
     aptupdate
     aptupgrade
 
-    grep "$HOME/dotfiles/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    grep "$HOME/dotfiles/ubuntu/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"

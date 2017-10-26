@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. ~/dotfiles/bin/dffunc
+. ~/dotfiles/ubuntu/bin/dffunc
 
 require dfinstall
 
@@ -10,10 +10,10 @@ postinstall()
     dfx curl -sL https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg '|' sudo apt-key add -
     dfx curl -sL https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg '|' sudo apt-key add -
     dfx sudo bash -c 'curl -sL https://www.ubuntulinux.jp/sources.list.d/'"$(lsb_release -sc)"'.list > /etc/apt/sources.list.d/ubuntu-ja.list'
-    dfx sudo debconf-set-selections $HOME/dotfiles/list/debconfgui
+    dfx sudo debconf-set-selections $HOME/dotfiles/ubuntu/list/debconfgui
     dfx sudo bash -c 'echo oracle-java8-installer hold | dpkg --set-selections'
     dfx curl -sSL https://dl.google.com/linux/linux_signing_key.pub '|' sudo apt-key add -
-    dfx sudo cp "$HOME/dotfiles/list/google-chrome.list" \
+    dfx sudo cp "$HOME/dotfiles/ubuntu/list/google-chrome.list" \
         "/etc/apt/sources.list.d/google-chrome.list"
     addapt ppa:alessandro-strada/ppa
     aptupdate
@@ -22,7 +22,7 @@ postinstall()
 install()
 {
     packages=()
-    grep "$HOME/dotfiles/list/dfguiinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    grep "$HOME/dotfiles/ubuntu/list/dfguiinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"

@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. $HOME/dotfiles/bin/dffunc
+. $HOME/dotfiles/ubuntu/bin/dffunc
 
 # https://github.com/neovim/neovim/wiki/Building-Neovim
 aptinstall libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
