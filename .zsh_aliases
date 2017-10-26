@@ -152,7 +152,7 @@ which tig 1>/dev/null 2>&1 &&:
 gpush()
 {
     [ -z "$@" ] && text="Update" || text="$@"
-    branchname=$(git branch | grep --no-color '*.*' | sed -e 's/\*\ //')
+    branchname=$(git branch | grep --color=no '*.*' | sed -e 's/\*\ //')
     git add . && \
     git commit -m "$text" && \
     git push origin $branchname
