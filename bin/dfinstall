@@ -178,7 +178,7 @@ inodejs()
 igitsecrets()
 {
     dfx git clone --depth 1 https://github.com/awslabs/git-secrets.git $DFTMP/git-secrets
-    dfx pushd git-secrets
+    dfx pushd $DFTMP/git-secrets
         make install PREFIX=$HOME
     dfx popd
 }
@@ -186,7 +186,7 @@ igitsecrets()
 ihub()
 {
     dfx git clone --depth 1 https://github.com/github/hub.git $DFTMP/hub
-    dfx pushd hub
+    dfx pushd $DFTMP/hub
         script/build -o ~/bin/hub
     dfx popd
 }
