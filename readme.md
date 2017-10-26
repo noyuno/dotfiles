@@ -22,7 +22,7 @@ Environment structure tool, config files, practical scripts.
 4. `dfchuri`
 5. `git add . && git commit -m Update && git push origin master`
 6. `./dotfiles/DISTRIBUTION/bin/dfinstall`
-7. `./dotfiles/DISTRIBUTION/bin/dfdeploy`
+7. `./dotfiles/bin/dfdeploy`
 8. As you like
 
 ## Start
@@ -31,17 +31,17 @@ Environment structure tool, config files, practical scripts.
 
 ## Distributions
 
-### Ubuntu
-
-[Ubuntu](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
-
-[Ubuntu 日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
-
 ### Arch Linux
 
 [Arch Linux](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
 
 [Arch Linux 日本語](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md)
+
+### Ubuntu
+
+[Ubuntu](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
+
+[Ubuntu 日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
 ## Preferences
 
