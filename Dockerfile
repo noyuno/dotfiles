@@ -16,5 +16,5 @@ USER tu
 WORKDIR /home/tu
 RUN sudo chown -R tu:tu /home/tu/dotfiles && \
     sudo sync && \
-    ./dotfiles/bin/dflocal all
+    ./dotfiles/ubuntu/bin/dflocal all
 
