@@ -205,7 +205,6 @@ iufw()
 {
     dfx sudo service ufw start '&&:'
     dfx sudo systemctl enable ufw
-    dfx sudo systemctl start ufw
 }
 
 izsh()
