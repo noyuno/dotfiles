@@ -219,20 +219,21 @@ help()
     (
     cat << EOF
 dfinstall [commands...]
+Install CLI packages.
+Install all packages by default.
 commands:
     init
-    gitlfs
+    go
     postfix
     dkmsheaders
     mutt
     apt
-    pip
-    go
     gopackages
+    pip
     ruby
     tpm
-    nodejs
     gitsecrets
+    hub
     fzf
     trans
     ufw
@@ -259,7 +260,6 @@ if [ $# -eq 0 ]; then
     run ipip
     run iruby
     run itpm
-    run inodejs
     run igitsecrets
     run ihub
     run ifzf
