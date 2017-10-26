@@ -8,7 +8,7 @@ Environment structure tool, config files, practical scripts.
 
 ## Requirements
 
-- Ubuntu based distribution
+- Ubuntu 17.10 based distribution
 - `apt`
 - `sudo`
 - `bash`
@@ -87,7 +87,8 @@ Depending items have to put before install item.
 
 ## Preferences
 
-- Ubuntu MATE Desktop 16.04.1 LTS
+- Running these commands will install the NON-FREE SOFTWARE.
+- Ubuntu MATE Desktop 17.10
 - Font: Inconsolata for Powerline/Noto Sans CJK JP DemiLight
 - Typesetting: TeX Live 2015, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
