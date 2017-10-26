@@ -59,6 +59,20 @@ dfx()
 }
 export -f dfx
 
+finalize()
+{
+    if [ "$DFTIME" -a "$DFBACKUP" -a ! "$(find "$DFBACKUP" -type f)" ]; then
+        rmdir "$DFBACKUP"
+    fi
+    if [ "$1" ]; then
+        [ ! -f "$HOME/dotfiles/result" ] || \
+            [ "$(grep "$HOME/dotfiles/result" -e "^$1$")" = "" ] && \
+                echo "$1" >> "$HOME/dotfiles/result"
+        dfout2 "Finished $1"
+    fi
+}
+export -f finalize
+
 if [ -z "$DFTIME" ]; then
     DFTIME=$(date +%Y%m%d-%H%M%S)
 fi

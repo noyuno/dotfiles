@@ -185,20 +185,22 @@ alias uxterm='TERM=xterm-256color uxterm -e tmux -2'
 alias xterm='uxterm'
 
 # cron
-if [ -f ~/dotfiles/.crontab ]; then
-    crontabrc=~/dotfiles/.crontab
-    if test -z $CRONTABCMD; then
-        # allows to source zshrc twice
-        export CRONTABCMD=$(which crontab)
-        crontab()
-        {
-            if [[ $@ == "-e" ]]; then
-                vim $crontabrc && $CRONTABCMD $crontabrc
-            else
-                $CRONTABCMD -i $@
-            fi
-        }
-        $CRONTABCMD $crontabrc
+if which crontab 1>/dev/null 2>&1; then
+    if [ -f ~/dotfiles/.crontab ]; then
+        crontabrc=~/dotfiles/.crontab
+        if test -z $CRONTABCMD; then
+            # allows to source zshrc twice
+            export CRONTABCMD=$(which crontab)
+            crontab()
+            {
+                if [[ $@ == "-e" ]]; then
+                    vim $crontabrc && $CRONTABCMD $crontabrc
+                else
+                    $CRONTABCMD -i $@
+                fi
+            }
+            $CRONTABCMD $crontabrc
+        fi
     fi
 fi
 

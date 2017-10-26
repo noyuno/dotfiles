@@ -155,16 +155,18 @@ if [[ "`zsh --version`" =~ ^zsh\ 5.*$ ]]; then
     zsh_version_is_5="1"
     # antigen
     if [ ! -e ~/.cache/antigen ]; then
-        cd ~/.cache
-        git clone https://github.com/zsh-users/antigen.git --depth 1
+        mkdir -p ~/.cache
+        git clone https://github.com/zsh-users/antigen.git ~/.cache/antigen --depth 1
     fi
     source ~/.cache/antigen/antigen.zsh
 
-    antigen bundle zsh-users/zsh-syntax-highlighting
-    antigen bundle zsh-users/zsh-completions
-    antigen bundle zsh-users/zsh-autosuggestions
-    antigen bundle mollifier/cd-gitroot
-    antigen apply
+    if which antigen 1>/dev/null 2>&1; then
+        antigen bundle zsh-users/zsh-syntax-highlighting
+        antigen bundle zsh-users/zsh-completions
+        antigen bundle zsh-users/zsh-autosuggestions
+        antigen bundle mollifier/cd-gitroot
+        antigen apply
+    fi
 fi
 
 
