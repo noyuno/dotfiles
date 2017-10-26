@@ -22,22 +22,22 @@ Environment structure tool, config files, practical scripts.
 3. `git remote set-url origin <your-url>`
 4. `dfchuri`
 5. `git add . && git commit -m Update && git push origin master`
-6. `./dotfiles/bin/dfinstall`
-7. `./dotfiles/bin/dfdeploy`
+6. `./dotfiles/ubuntu/bin/dfinstall`
+7. `./dotfiles/ubuntu/bin/dfdeploy`
 8. As you like
 
 ## Commands
 
 Paste on terminal:
 
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s all
+    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s all
 
 Or, paste one of the following commands if necessary.
 
-    git clone git@github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/bin/dflocal all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s all
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
+    git clone git@github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/ubuntu/bin/dflocal all
+    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s all
+    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s ssh all
+    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s ssh all
 
 - `dflocal`: Run `~/dotfiles/bin/df*` commands.
 - `dfget`: Clone dotfiles repository, and execute `dflocal`.

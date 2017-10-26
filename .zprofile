@@ -27,6 +27,11 @@ insertpath()
 insertpath "$HOME/bin"
 insertpath "$HOME/.local/bin"
 insertpath "$HOME/dotfiles/bin"
+case "$(lsb_release -is)" in
+    Ubuntu) insertpath "$HOME/dotfiles/ubuntu/bin" ;;
+    "Arch Linux") insertpath "$HOME/dotfiles/arch/bin" ;;
+    *) echo "$(lsb_release -is) Didn't match anything"
+esac
 insertpath "/usr/local/texlive/2015/bin/x86_64-linux"
 insertpath "$HOME/.gem/ruby/2.3.0/bin"
 insertpath "$HOME/.password-store/bin"
