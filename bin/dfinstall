@@ -57,8 +57,7 @@ igo()
 igopackages()
 {
     export GOPATH=$HOME/go
-    dfx go get github.com/github/hub \
-               github.com/atsaki/termeter/cmd/termeter \
+    dfx go get github.com/atsaki/termeter/cmd/termeter \
                github.com/walle/wiki/cmd/wiki \
                github.com/direnv/direnv
 }
@@ -178,9 +177,17 @@ inodejs()
 
 igitsecrets()
 {
-    dfx git clone --depth 1 https://github.com/awslabs/git-secrets.git
+    dfx git clone --depth 1 https://github.com/awslabs/git-secrets.git $DFTMP/git-secrets
     dfx pushd git-secrets
         make install PREFIX=$HOME
+    dfx popd
+}
+
+ihub()
+{
+    dfx git clone --depth 1 https://github.com/github/hub.git $DFTMP/hub
+    dfx pushd hub
+        script/build -o ~/bin/hub
     dfx popd
 }
 
@@ -264,6 +271,7 @@ if [ $# -eq 0 ]; then
     run itpm
     run inodejs
     run igitsecrets
+    run ihub
     run ifzf
     run itrans
     run iufw
