@@ -8,8 +8,7 @@ Environment structure tool, config files, practical scripts.
 
 ## Requirements
 
-- Ubuntu 17.10 based distribution
-- `apt`
+- Arch Linux or Ubuntu 17.10 based distribution
 - `sudo`
 - `bash`
 - `git` or `curl` or `wget`
@@ -22,75 +21,34 @@ Environment structure tool, config files, practical scripts.
 3. `git remote set-url origin <your-url>`
 4. `dfchuri`
 5. `git add . && git commit -m Update && git push origin master`
-6. `./dotfiles/ubuntu/bin/dfinstall`
-7. `./dotfiles/ubuntu/bin/dfdeploy`
+6. `./dotfiles/DISTRIBUTION/bin/dfinstall`
+7. `./dotfiles/DISTRIBUTION/bin/dfdeploy`
 8. As you like
 
-## Commands
+## Start
 
-Paste on terminal:
+    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles
 
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s all
+## Distributions
 
-Or, paste one of the following commands if necessary.
+### Ubuntu
 
-    git clone git@github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/ubuntu/bin/dflocal all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s all
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s ssh all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s ssh all
+[Ubuntu](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
-- `dflocal`: Run `~/dotfiles/bin/df*` commands.
-- `dfget`: Clone dotfiles repository, and execute `dflocal`.
+[Ubuntu 日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
 
-### Arguments
+### Arch Linux
 
-`dflocal`, `dfget` require least 1 argument of below set/item.
-Depending items have to put before install item.
+[Arch Linux](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
 
-| item   \ set   | `all` | `cli` | depends        | description               |
-| :------------: | :---: | :---: | :------------: | :-----------------------: |
-| `dfinstall   ` | v     | v     |                | Install CLI base package. |
-| `dfguiinstall` | v     |       | `dfinstall   ` | Install MATE GUI package. |
-| `dfsysconf   ` | v     | v     | `dfinstall   ` | Configure system.         |
-| `dfdeploy    ` | v     | v     | `dfinstall   ` | Deploy dotfiles using `ln`.|
-| `dfguiconf   ` | v     |       | `dfdeploy    ` | Configure user GUI.       |
-| `dfnvim-apt  ` | v     | v     | `dfdeploy    ` | Install Neovim from apt.  |
-| `dfnvim-build` |       |       | `dfdeploy    ` | Install Neovim from source.|
-| `dfvim       ` |       |       | `dfdeploy    ` | Install Vim from source.  |
-| `dfemacs     ` |       |       | `dfdeploy    ` | Install Emacs.            |
-| `dfjava      ` | v     |       | `dfguiinstall` | Install Eclipse           |
-| `dftex       ` | v     |       | `dfguiinstall` | Install TeX Live.         |
-| `dfdns       ` |       |       | `dfinstall   ` | Install unbound.          |
-| `dfurxvt     ` |       |       | `dfinstall   ` | Install urxvt terminal.   |
-| `dfgcp       ` |       |       | `dfinstall   ` | Set up Google Cloud Platform. |
-| `dfdein      ` | v     | v     | `dfdeploy    ` | Get dein.vim plugins.     |
-
-## Extra configuration tool
-
-- `dfchuri`: Change dotfiles' owner (hosting URI, user name and so on).
-- `dfdocker`: dotfiles docker tool.
-- `dfdoctor`: Packages and deployments checker.
-- `dffunc`: Base function.
-- `dfvim-alternatives`: Set up alternatives of Vim/Neovim.
-- `dfpassword`: Set up RSA and GPG keys.
-- `dfreadme-bin`: Print not discribed command in `readme.md`.
-- `dfstopservice`: Stop unnecessary service.
-
-### Environment variables
-
-- `DRYRUN`
-- `QUIET`
-
-### After installation
-
-- Execute Vim/Neovim, type `:UpdateRemotePlugins` and restart it.
+[Arch Linux 日本語](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md)
 
 ## Preferences
 
 - Running these commands will install the NON-FREE SOFTWARE.
-- Ubuntu MATE Desktop 17.10
+- MATE Desktop 17.10
 - Font: Inconsolata for Powerline/Noto Sans CJK JP DemiLight
-- Typesetting: TeX Live 2015, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
+- Typesetting: TeX Live 2017, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
 | applications  | colorscheme | statusline | run  | IM         | recommended |
 |:-------------:|:-----------:|:----------:|:----:|:----------:|:-----------:|
@@ -150,7 +108,7 @@ Depending items have to put before install item.
 - `upgrade`: Upgrade installed packages.
 - `weather`: Show weather forecast.
 
-## [Automatic partition tool](https://noyuno.github.io/blog/2017/04/09/crypto/)
+## [Automatic partition tool (unstable)](https://noyuno.github.io/blog/2017/04/09/crypto/)
 
 On the live DVD, before install operation:
 
@@ -173,12 +131,6 @@ Partitioning will be:
     | mount on | /boot/efi | /     | /home    |         |
     | size     | 100MB     | 100GB | 100%free | 1007KiB |
     -----------------------------------------------------
-
-## Windows 10 1607
-
-- Chocolatey
-- `runvbox.ps1`: Run Ubuntu on VirtualBox on Windows.
-- `windows/dfinstall.ps1`, `windows/dfdeploy.ps1`: For Windows Subsystem for Linux.
 
 ## Figures
 
