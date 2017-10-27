@@ -5,7 +5,7 @@
 	default = simple
 [core]
 	quotepath = false
-	editor = vim
+	editor = nvim
 	autocrlf = false
 	excludesfile = $HOME/dotfiles/.gitignore
     attributesFile = $HOME/dotfiles/.gitattributes
