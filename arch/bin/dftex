@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+. $HOME/dotfiles/bin/dffunc
+
+itex()
+{
+    yaourt -S texlive-langjapanese texlive-core texlive-latexextra texlive-science texlive-pictures
+}
+
+itex
+

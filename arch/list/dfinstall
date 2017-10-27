@@ -28,9 +28,11 @@ neovim
 npm
 num-utils
 openssh
+pandoc
 pass
 pdftk
 python-pip
+python2-pip
 python2-xlsx2csv
 python3
 ranger
@@ -53,5 +55,4 @@ xclip
 xvkbd
 zip
 zsh
-python2-pip
 
