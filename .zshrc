@@ -9,11 +9,6 @@ else
     export LANG=ja_JP.UTF-8
 fi 
 
-export EDITOR=vim
-export KCODE=u
-export AUTOFEATURE=true
-export XDG_CONFIG_HOME=$HOME/.config
-
 bindkey -e
 #bindkey -v
 
@@ -182,18 +177,8 @@ fi
 
 [ "$zsh_version_is_5" = "1" ] && [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# gpg
-GPG_TTY=$(tty)
-export GPG_TTY
-
 # C-s
 stty stop undef
-
-# shellcheck
-export SHELLCHECK_OPTS="-e SC2002 -e SC2016"
-
-# wiki
-export WIKI_LANG="ja"
 
 # SSH
 if [ ! -n "${REMOTEHOST}${SSH_CONNECTION}" ]; then

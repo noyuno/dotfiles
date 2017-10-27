@@ -84,3 +84,16 @@ fi
 # showterm
 export SHOWTERM_SERVER='http://record.noyuno.mydns.jp'
 
+export EDITOR=nvim
+export KCODE=u
+export AUTOFEATURE=true
+export XDG_CONFIG_HOME=$HOME/.config
+
+# shellcheck
+export SHELLCHECK_OPTS="-e SC2002 -e SC2016"
+
+# wiki
+export WIKI_LANG="ja"
+
+export GPG_TTY=$(tty)
+
