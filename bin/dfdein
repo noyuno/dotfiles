@@ -3,7 +3,7 @@
 . "$HOME/dotfiles/bin/dffunc"
 
 max_process=5
-process=$(tempfile -p dfdein.)
+process=$(/tmp/dfdein.$RANDOM)
 waittime=0.1
 echo 0 > $process
 
