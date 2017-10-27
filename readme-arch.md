@@ -2,14 +2,15 @@
 
 Environment structure tool, config files, practical scripts for Arch Linux.
 
-[aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
-[日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
+- [Home (English)](https://github.com/noyuno/dotfiles/blob/master/readme.md)
+- [Home (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
+- [Arch Linux (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md)
 
 ## Commands
 
 Execute on the terminal:
 
-    git clone git@github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/arch/bin/dflocal all
+    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/arch/bin/dflocal all
 
 - `dflocal`: Run `~/dotfiles/arch/bin/df*` commands.
 
@@ -49,5 +50,5 @@ Depending items have to put before install item.
 
 ![fig](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)
 
-    tmain
+    tmain (tmuxinator)
 

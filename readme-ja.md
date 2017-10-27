@@ -2,9 +2,9 @@
 
 境環構築ツール，設定ファイル，有用なスクリプト．
 
-[aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
-[English](https://github.com/noyuno/dotfiles/blob/master/readme.md)
-[Raspberry Pi](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md)
+- [aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
+- [English](https://github.com/noyuno/dotfiles/blob/master/readme.md)
+- [Raspberry Pi](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md)
 
 ## 要件
 
@@ -146,7 +146,7 @@
 - `upgrade`: インストールされたパッケージを更新する.
 - `weather`: 天気予報を表示する.
 
-## [自動パーティションツール](https://noyuno.github.io/blog/2017/04/09/crypto/)
+## [自動パーティションツール(不安定)](https://noyuno.github.io/blog/2017/04/09/crypto/)
 
 実行すると/dev/sdaおよび/dev/sdb1のデータが失われます．
 
@@ -181,7 +181,7 @@
 ![fig](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)
 
 上段: anime，中段: ical，下段左: jma, 下段右: weather．
-`tmain`で見た目が整います．
+`tmain (tmuxinator)`で見た目が整います．
 
 ## 参考
 - Vim/Neovim: [Shougo/shougo-s-github](https://github.com/Shougo/shougo-s-github)
