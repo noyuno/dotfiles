@@ -17,6 +17,7 @@ vim/vimrc .vimrc
 # X
 .Xmodmap
 .Xresources
+.xprofile
 # mutt
 mutt/mutt.rc .muttrc
 # offlineimap
