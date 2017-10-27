@@ -615,7 +615,9 @@ cb() {
 }
 
 # open multiple files by tab
-alias vi='vi -p'
+alias vi='command nvim -p'
+alias vim='command nvim -p'
+alias nvim='command nvim -p'
 
 # atool
 alias au='aunpack'
