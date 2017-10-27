@@ -2,9 +2,9 @@
 
 Environment structure tool, config files, practical scripts.
 
-[aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
-[日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
-[Raspberry Pi](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md)
+- [aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
+- [日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
+- [Raspberry Pi](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md)
 
 ## Requirements
 
@@ -33,20 +33,18 @@ Environment structure tool, config files, practical scripts.
 
 ### Arch Linux
 
-[Arch Linux](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
-
-[Arch Linux 日本語](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md)
+- [Arch Linux (English)](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
+- [Arch Linux (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md)
 
 ### Ubuntu
 
-[Ubuntu](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
-
-[Ubuntu 日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
+- [Ubuntu (English)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
+- [Ubuntu (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
 ## Preferences
 
-- Running these commands will install the NON-FREE SOFTWARE.
-- MATE Desktop 17.10
+- Running these commands will install **NON-FREE SOFTWARES**.
+- MATE Desktop
 - Font: Inconsolata for Powerline/Noto Sans CJK JP DemiLight
 - Typesetting: TeX Live 2017, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
@@ -136,7 +134,7 @@ Partitioning will be:
 
 ![fig](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)
 
-    tmain
+    tmain (tmuxinator)
 
 ## References
 - Vim/Neovim: [Shougo/shougo-s-github](https://github.com/Shougo/shougo-s-github)

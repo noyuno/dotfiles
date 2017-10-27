@@ -2,9 +2,9 @@
 
 Environment structure tool, config files, practical scripts.
 
-[aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
-[日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
-[Ubuntu 日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
+- [Home (English)](https://github.com/noyuno/dotfiles/blob/master/readme.md)
+- [Home (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
+- [Ubuntu (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
 ## Commands
 
@@ -19,7 +19,7 @@ Or, paste one of the following commands if necessary.
     curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s ssh all
     wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s ssh all
 
-- `dflocal`: Run `~/dotfiles/bin/df*` commands.
+- `dflocal`: Run `~/dotfiles/ubuntu/bin/df*` commands.
 - `dfget`: Clone dotfiles repository, and execute `dflocal`.
 
 ### Arguments
@@ -69,5 +69,5 @@ Depending items have to put before install item.
 
 ![fig](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)
 
-    tmain
+    tmain (tmuxinator)
 
