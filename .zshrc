@@ -181,11 +181,11 @@ fi
 stty stop undef
 
 # SSH
-if [ ! -n "${REMOTEHOST}${SSH_CONNECTION}" ]; then
-    if [ -x /usr/bin/keychain -a ! -e "$HOME/.keychain/$(hostname)-sh" ]; then
-        /usr/bin/keychain --quiet --clear $HOME/.ssh/id_rsa
-    fi
-fi
+#if [ ! -n "${REMOTEHOST}${SSH_CONNECTION}" ]; then
+#    if [ -x /usr/bin/keychain -a ! -e "$HOME/.keychain/$(hostname)-sh" ]; then
+#        /usr/bin/keychain --quiet --clear $HOME/.ssh/id_rsa
+#    fi
+#fi
 
 PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
