@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+. $HOME/dotfiles/bin/dffunc
+
 mate()
 {
     (echo ""; echo ""; echo ""; echo "" ) | yaourt -S --noconfirm mate mate-extra
@@ -60,7 +62,7 @@ font()
     fi
 }
 
-if [ $# -eq 0] ;then
+if [ $# -eq 0 ] ;then
     run mate
     run yaourt
     run font
