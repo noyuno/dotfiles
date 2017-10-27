@@ -1,17 +1,19 @@
+fcitx-configtool
+fcitx-im
+fcitx-mozc
+gnome-keyring
+google-chrome
+libreoffice
+libreoffice-ja
 lightdm
 lightdm-gtk-greeter
 mate-terminal
+network-manager
+network-manager-applet
 noto-fonts-cjk
 otf-ipafont
+ubuntu-mate-themes
 xf86-video-intel
 xorg-server
-network-manager-applet
-network-manager
 xterm
-google-chrome
-ubuntu-mate-themes
-fcitx-mozc
-fcitx-im
-fcitx-configtool
-gnome-keyring
 
