@@ -1,0 +1,17 @@
+lightdm
+lightdm-gtk-greeter
+mate-terminal
+noto-fonts-cjk
+otf-ipafont
+xf86-video-intel
+xorg-server
+network-manager-applet
+network-manager
+xterm
+google-chrome
+ubuntu-mate-themes
+fcitx-mozc
+fcitx-im
+fcitx-configtool
+gnome-keyring
+

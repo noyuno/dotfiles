@@ -1,0 +1,52 @@
+#!/bin/bash -e
+
+mate()
+{
+    (echo ""; echo ""; echo ""; echo "" ) | yaourt -S --noconfirm mate mate-extra
+}
+
+yaourt()
+{
+    pacman -Syu
+    grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        packages=(${packages[@]} $i)
+    done < "$DFTMP/data"
+    yaourt -S --noconfirm ${packages[@]}
+    systemctl enable lightdm
+}
+
+help()
+{
+    (
+    cat << EOF
+dfguiinstall [commands...]
+Install GUI packages.
+Install all packages by default.
+
+commands:
+    mate
+    yaourt
+EOF
+    ) >&2
+    exit 1
+}
+
+run()
+{
+    dfout2 "dfinstall: $1"
+    eval "$1"
+}
+
+if [ $# -eq 0] ;then
+    run mate
+    run yaourt
+elif [ "$1" = help ]; then
+    help
+else
+    while [ $# -gt 0 ]; do
+        run "i$1"
+        shift
+    done
+fi
+

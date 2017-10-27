@@ -11,6 +11,7 @@ findutils
 gettext
 git
 git-lfs
+git-secrets
 go
 highlight
 htop
@@ -20,6 +21,8 @@ keychain
 mercurial
 moreutils
 multitail
+mutt
+neovim
 npm
 num-utils
 openssh
@@ -47,4 +50,6 @@ xclip
 xvkbd
 zip
 zsh
+hub
+fzf
 

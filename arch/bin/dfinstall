@@ -1,18 +1,101 @@
 #!/bin/bash -e
+. ~/dotfiles/bin/dffunc
 
-pacpac()
+ikey()
 {
-    pacman -Syu
+    dfx pacman-key --refresh
+}
+
+iyaourt()
+{
+    if ! which yaourt 1>/dev/null 2>&1; then
+        echo "yaourt has not installed. Please type dfyaourt to install it."
+        exit 1
+    fi
+    dfx pacman -Syu
     grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"
-    yaourt -Sy ${packages[@]}
+    dfx yaourt -S --noconfirm ${packages[@]}
 }
 
-if which yaourt 1>/dev/null 2>&1; then
-    pacpac
+igopackages()
+{
+    export GOPATH=$HOME/go
+    dfx go get github.com/atsaki/termeter/cmd/termeter \
+               github.com/walle/wiki/cmd/wiki \
+               github.com/direnv/direnv
+}
+
+ipip()
+{
+    # system
+    packages=()
+    grep "$HOME/dotfiles/list/pip-system" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        packages=(${packages[@]} $i)
+    done < "$DFTMP/data"
+    dfx sudo -H pip3 install ${packages[@]}
+    # user
+    packages=()
+    grep "$HOME/dotfiles/list/pip" -v -e '^#' -e '^$' > "$DFTMP/data"
+    while read i; do
+        packages=(${packages[@]} $i)
+    done < "$DFTMP/data"
+    set +e
+    dfx pip3 install --user ${packages[@]}
+    # patch
+    [ -f "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" ] && \
+        dfx patch -u "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" \
+            < "$HOME/dotfiles/patch/freetype-py/__init__.py.patch"
+    set -e
+}
+
+itrans()
+{
+    dfx mkdir -p "$HOME/bin"
+    dfx curl -sL git.io/trans -o "$HOME/bin/trans"
+    dfx chmod +x "$HOME/bin/trans"
+}
+
+help()
+{
+    (
+    cat << EOF
+dfinstall [commands...]
+Install CLI packages.
+Install all packages by default.
+
+commands:
+    key
+    yaourt
+    gopackages
+    pip
+    trans
+EOF
+    ) >&2
+    exit 1
+}
+
+run()
+{
+    dfout2 "dfinstall: $1"
+    eval "$1"
+}
+
+if [ $# -eq 0] ;then
+    run ikey
+    run iyaourt
+    run igopackages
+    run ipip
+    run itrans
+elif [ "$1" = help ]; then
+    help
 else
-    echo "yaourt has not installed. Please type dfyaourt to install it."
+    while [ $# -gt 0 ]; do
+        run "i$1"
+        shift
+    done
 fi
 
