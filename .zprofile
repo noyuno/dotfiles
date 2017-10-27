@@ -38,6 +38,7 @@ else
 fi
 insertpath "/usr/local/texlive/2015/bin/x86_64-linux"
 insertpath "$HOME/.gem/ruby/2.3.0/bin"
+insertpath "$HOME/.gem/ruby/2.4.0/bin"
 insertpath "$HOME/.password-store/bin"
 insertpath "$HOME/.cargo/bin"
 insertpath "$HOME/.rbenv/bin"
