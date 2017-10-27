@@ -8,6 +8,7 @@ ctags
 docx2txt
 expect
 findutils
+fzf
 gettext
 git
 git-lfs
@@ -15,6 +16,7 @@ git-secrets
 go
 highlight
 htop
+hub
 imagemagick
 jq
 keychain
@@ -41,6 +43,7 @@ tcpdump
 the_silver_searcher
 tig
 tmux
+trash-cli
 ufw
 w3m
 wget
@@ -50,6 +53,4 @@ xclip
 xvkbd
 zip
 zsh
-hub
-fzf
 
