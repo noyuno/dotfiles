@@ -85,7 +85,7 @@ run()
     eval "$1"
 }
 
-if [ $# -eq 0] ;then
+if [ $# -eq 0 ] ;then
     run ikey
     run iyaourt
     run igopackages
