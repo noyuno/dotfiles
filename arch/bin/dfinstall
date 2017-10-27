@@ -1,6 +1,18 @@
 #!/bin/bash -e
 . ~/dotfiles/bin/dffunc
 
+
+isetup()
+{
+    cat << "EOF" | sudo tee -a /etc/pacman.conf
+[archlinuxfr]
+SigLevel = Optional
+Server = http://repo.archlinux.fr/$arch
+EOF
+    sudo pacman -Syu
+    sudo pacman -S yaourt
+}
+
 ikey()
 {
     dfx pacman-key --refresh
@@ -70,6 +82,7 @@ Install all packages by default.
 
 commands:
     key
+    setup
     yaourt
     gopackages
     pip
@@ -86,6 +99,7 @@ run()
 }
 
 if [ $# -eq 0 ] ;then
+    run isetup
     run ikey
     run iyaourt
     run igopackages

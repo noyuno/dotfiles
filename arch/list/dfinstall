@@ -4,6 +4,7 @@ boost
 clang
 cmake
 colordiff
+cron
 ctags
 docx2txt
 expect

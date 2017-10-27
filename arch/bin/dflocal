@@ -11,12 +11,11 @@ array=()
 while [ $# -gt 0 ] ; do 
     case "$1" in
         all)
-            array=(${array[@]} "dfinstall" "dfguiinstall" "dfsysconf" \
-            "dfdeploy" "dfguiconf" "dfjava" "dftex" "dfdein")
+            array=(${array[@]} "dfinstall" "dfguiinstall" \
+            "dfdeploy" "dfguiconf" "dftex" "dfdein")
             ;;
         cli)    
-            array=(${array[@]} "dfinstall" "dfsysconf" \
-            "dfdeploy" "dfdein")
+            array=(${array[@]} "dfinstall" "dfdeploy" "dfdein")
             ;;
         *)
             if [ -e "$HOME/dotfiles/arch/bin/$1" ]; then 
@@ -45,7 +44,7 @@ i=1
 for e in "${array[@]}"; do
     cd ~
     file="dotfiles/arch/bin/$e"
-    if [ "$e" = "dfdeploy" ]; then
+    if [ "$e" = "dfdeploy" -o "$e" = "dfdein" ]; then
         file="dotfiles/bin/$e"
     fi
     dfout1 "Step $i: $file"

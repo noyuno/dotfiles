@@ -46,7 +46,7 @@ Environment structure tool, config files, practical scripts.
 ## Preferences
 
 - Running these commands will install the NON-FREE SOFTWARE.
-- MATE Desktop 17.10
+- MATE Desktop
 - Font: Inconsolata for Powerline/Noto Sans CJK JP DemiLight
 - Typesetting: TeX Live 2017, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 

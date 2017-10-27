@@ -1,6 +1,10 @@
 #!/bin/bash -e
 
 . ~/dotfiles/ubuntu/bin/dffunc
+
+exit 0
+
+
 require dfdeploy
 
 set +e
