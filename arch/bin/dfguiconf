@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+. ~/dotfiles/ubuntu/bin/dffunc
+require dfdeploy
+
+set +e
+dconfload()
+{
+    dfx dconf load $1/ '<' "$HOME/dotfiles/dconf$1"
+}
+dconfload /org/mate/desktop
+dconfload /org/mate/marco
+dconfload /org/mate/terminal
+dconfload /org/compiz
+set -e
+
+dfx . ~/dotfiles/bin/mate-terminal-colorscheme-hybrid
+
