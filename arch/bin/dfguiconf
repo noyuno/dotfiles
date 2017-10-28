@@ -13,9 +13,7 @@ dconfload()
     dfx dconf load $1/ '<' "$HOME/dotfiles/arch/dconf$1"
 }
 dconfload /org/mate/desktop
-dconfload /org/mate/marco
 dconfload /org/mate/terminal
-dconfload /org/compiz
 set -e
 
 dfx . ~/dotfiles/bin/mate-terminal-colorscheme-hybrid

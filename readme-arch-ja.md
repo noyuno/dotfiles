@@ -1,4 +1,4 @@
-# dotfiles
+# dotfiles: Arch Linux
 
 境環構築ツール，設定ファイル，有用なスクリプト．
 
