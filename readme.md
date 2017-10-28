@@ -11,7 +11,7 @@ Environment structure tool, config files, practical scripts.
 - Arch Linux or Ubuntu 17.10 based distribution
 - `sudo`
 - `bash`
-- `git` or `curl` or `wget`
+- `git`
 - This repo (Please change owner by `dfchuri` (hosting URI, user name and so on))
 
 ## Using this repository

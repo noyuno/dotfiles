@@ -1,0 +1,38 @@
+#!/bin/bash -e
+
+if [ $# -ne 5 ]; then
+    name=${0##*/}
+    {
+    cat << EOF
+$name: required 5 arguments: user email repo-raw sshgit httpsgit
+example: $name noyuno noyuno@users.noreply.github.com \\
+    https://raw.githubusercontent.com/noyuno/dotfiles/master \\
+    ssh://git@github.com:noyuno/dotfiles.git \\
+    https://github.com/noyuno/dotfiles.git
+EOF
+    }>&2
+    exit 1
+fi
+
+user="$1"
+email="$2"
+reporaw="$3"
+sshgit="$4"
+httpsgit="$5"
+
+sed -i -e 's|^REPO=.*$|REPO="'"$reporaw"'"|' ~/dotfiles/ubuntu/bin/dfget ~/dotfiles/ubuntu/bin/dfget
+sed -i -e 's|^sshgit=.*$|sshgit="'"$sshgit"'"|' ~/dotfiles/ubuntu/bin/dfget
+sed -i -e 's|^httpsgit=.*$|httpsgit="'"$httpsgit"'"|' ~/dotfiles/ubuntu/bin/dfget
+
+sed -i -e 's|^ *git clone .* ~/dotfiles|    git clone '"$httpsgit"' ~/dotfiles|' ~/dotfiles/readme.md
+sed -i -e 's|^ *git clone .* ~/dotfiles|    git clone '"$httpsgit"' ~/dotfiles|' ~/dotfiles/readme-ja.md
+sed -i -e 's|^ *git clone .* ~/dotfiles|    git clone '"$httpsgit"' ~/dotfiles|' ~/dotfiles/readme-arch.md
+sed -i -e 's|^ *git clone .* ~/dotfiles|    git clone '"$httpsgit"' ~/dotfiles|' ~/dotfiles/readme-arch-ja.md
+sed -i -e 's|^ *git clone .* ~/dotfiles|    git clone '"$httpsgit"' ~/dotfiles|' ~/dotfiles/readme-ubuntu.md
+sed -i -e 's|^ *git clone .* ~/dotfiles|    git clone '"$httpsgit"' ~/dotfiles|' ~/dotfiles/readme-ubuntu-ja.md
+
+sed -i -e 's|^\s*name\s*=.*|    name = '"$user"'|' ~/dotfiles/.gitconfig
+sed -i -e 's|^\s*email\s*=.*|    email = '"$email"'|' ~/dotfiles/.gitconfig
+sed -i -e 's|^\s*user\s*=.*|    user = '"$user"'|' ~/dotfiles/.gitconfig
+
+
