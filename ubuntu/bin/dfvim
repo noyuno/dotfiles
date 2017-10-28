@@ -98,7 +98,7 @@ dfout2 "Making Vim"
 dfx make -j4
 dfx sudo make install
 
-dfx . ~/dotfiles/bin/dfvim-alternatives /usr/local/bin/vim
+dfx . ~/dotfiles/ubuntu/bin/dfvim-alternatives /usr/local/bin/vim
 
 finalize dfvim
 

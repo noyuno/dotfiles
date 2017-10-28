@@ -9,13 +9,27 @@ isetup()
 SigLevel = Optional
 Server = http://repo.archlinux.fr/$arch
 EOF
-    sudo pacman -Syu
-    sudo pacman -S yaourt
+    dfx sudo pacman -Syu --noconfirm
+    dfx sudo pacman -S yaourt --noconfirm
 }
 
 ikey()
 {
-    dfx pacman-key --refresh
+    if [ $# -eq 0 ]; then
+        t=5
+    elif [ $1 -gt 300 ]; then
+        return 1
+    else
+        t=$1
+        dfout2 "retrying pacman-key --refresh (t=$t)"
+        sleep $t
+    fi
+    dfx sudo pacman-key --refresh &&:
+    if [ $? -ne 0 ]; then
+        ikey $((t * 2)) &&:
+        return $?
+    fi
+    return 0
 }
 
 iyaourt()
@@ -24,7 +38,7 @@ iyaourt()
         echo "yaourt has not installed. Please type dfyaourt to install it."
         exit 1
     fi
-    dfx pacman -Syu
+    dfx sudo pacman -Syu --noconfirm
     grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         packages=(${packages[@]} $i)
@@ -100,7 +114,7 @@ run()
 
 if [ $# -eq 0 ] ;then
     run isetup
-    run ikey
+    run ikey &&:
     run iyaourt
     run igopackages
     run ipip

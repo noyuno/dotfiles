@@ -1,10 +1,13 @@
+cups
+cups-pdf
 fcitx-configtool
 fcitx-im
 fcitx-mozc
 gnome-keyring
-google-chrome
-libreoffice
-libreoffice-ja
+google-chrome-stable
+gtk3-print-backends
+libreoffice-fresh
+libreoffice-fresh-ja
 lightdm
 lightdm-gtk-greeter
 mate-terminal
@@ -12,8 +15,13 @@ network-manager
 network-manager-applet
 noto-fonts-cjk
 otf-ipafont
+sane
 ubuntu-mate-themes
+xbindkeys
+xclip
 xf86-video-intel
 xorg-server
+xsane
 xterm
+xvkbd
 

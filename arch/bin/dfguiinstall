@@ -4,20 +4,20 @@
 
 imate()
 {
-    (echo ""; echo ""; echo ""; echo "" ) | yaourt -S --noconfirm mate mate-extra
+    dfout3 "yaourt -S --noconfirm mate mate-extra"
+    yaourt -S --noconfirm mate mate-extra
 }
 
 iyaourt()
 {
-    pacman -Syu
+    packages=()
     grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"
-    yaourt -S --noconfirm ${packages[@]}
-    systemctl enable lightdm
+    dfx yaourt -S --noconfirm ${packages[@]}
+    dfx sudo systemctl enable lightdm
 }
-
 
 ifont()
 {
@@ -58,14 +58,14 @@ EOF
 
 run()
 {
-    dfout2 "dfinstall: $1"
+    dfout2 "dfguiinstall: $1"
     eval "$1"
 }
 
 if [ $# -eq 0 ] ;then
-    run mate
-    run yaourt
-    run font
+    run imate
+    run iyaourt
+    run ifont
 elif [ "$1" = help ]; then
     help
 else

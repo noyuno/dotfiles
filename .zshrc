@@ -82,7 +82,7 @@ zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 
 preexec(){
-    [ "$TMUX" ] && bash $HOME/dotfiles/tmux/window-status.sh normal exec
+    [ "$TMUX" ] && bash $HOME/dotfiles/tmux/window-status.sh normal colour76
 }
 precmd(){
     ret="$?"
