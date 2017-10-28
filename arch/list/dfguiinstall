@@ -1,3 +1,4 @@
+avahi
 cups
 cups-pdf
 fcitx-configtool
@@ -14,8 +15,10 @@ mate-terminal
 network-manager
 network-manager-applet
 noto-fonts-cjk
+nss-mdns
 otf-ipafont
 sane
+system-config-printer
 ubuntu-mate-themes
 xbindkeys
 xclip
