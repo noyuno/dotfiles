@@ -10,7 +10,7 @@
 
 以下を端末で実行してください：
 
-    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/arch/bin/dflocal all
+    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles && ~/dotfiles/arch/bin/dflocal all
 
 ### 引数
 

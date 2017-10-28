@@ -10,7 +10,7 @@ Environment structure tool, config files, practical scripts for Arch Linux.
 
 Execute on the terminal:
 
-    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/arch/bin/dflocal all
+    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles && ~/dotfiles/arch/bin/dflocal all
 
 - `dflocal`: Run `~/dotfiles/arch/bin/df*` commands.
 

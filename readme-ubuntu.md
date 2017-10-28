@@ -8,16 +8,9 @@ Environment structure tool, config files, practical scripts.
 
 ## Commands
 
-Paste on terminal:
+Execute on the terminal:
 
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s all
-
-Or, paste one of the following commands if necessary.
-
-    git clone git@github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/ubuntu/bin/dflocal all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s all
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s ssh all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/ubuntu/bin/dfget | bash -s ssh all
+    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles && ~/dotfiles/arch/bin/dflocal all
 
 - `dflocal`: Run `~/dotfiles/ubuntu/bin/df*` commands.
 - `dfget`: Clone dotfiles repository, and execute `dflocal`.

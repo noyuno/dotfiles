@@ -8,16 +8,9 @@
 
 ## コマンド
 
-以下を端末に貼り付けてください：
+以下を端末で実行してください：
 
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s all
-
-または，必要に応じて以下のコマンドのうち一つを貼り付けてください．
-
-    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles --depth 1 && ~/dotfiles/bin/dflocal all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s all
-    curl -sL https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
-    wget -qO - https://raw.githubusercontent.com/noyuno/dotfiles/master/bin/dfget | bash -s ssh all
+    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles && ~/dotfiles/arch/bin/dflocal all
 
 - `dflocal`: `~/dotfiles/ubuntu/bin/df*`　コマンドを実行します．
 - `dfget`: dotfilesリポジトリをクローンして，`dflocal`を実行します．
