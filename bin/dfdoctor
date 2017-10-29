@@ -21,7 +21,7 @@ arch)
     need_install_ret=""
     need_install()
     {
-        yaourt -Qqe $1 1>/dev/null 2>&1 &&:
+        yaourt --noconfirm -Qqe $1 1>/dev/null 2>&1 &&:
         need_install_ret=$?
     }
     ;;
