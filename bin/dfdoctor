@@ -1,6 +1,33 @@
 #!/bin/bash -e
 
-. "$HOME/dotfiles/ubuntu/bin/dffunc"
+dist=arch
+if which lsb_release 1>/dev/null 2>&1 ; then
+    case "$(lsb_release -is)" in
+    Ubuntu)
+        dist=ubuntu
+        ;;
+    *)
+        dist=arch
+        ;;
+    esac
+fi
+
+case "$dist" in
+ubuntu)
+    . $HOME/dotfiles/ubuntu/bin/dffunc
+    ;;
+arch)
+    . $HOME/dotfiles/bin/dffunc
+    need_install_ret=""
+    need_install()
+    {
+        yaourt -Qqe $1 1>/dev/null 2>&1 &&:
+        need_install_ret=$?
+    }
+    ;;
+*)
+    echo "$dist Didn't match anything"
+esac
 
 total=0
 check_ret=0
@@ -8,7 +35,7 @@ check_ret=0
 checkapt()
 {
     check_ret=0
-    grep "$HOME/dotfiles/ubuntu/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
+    grep "$HOME/dotfiles/$dist/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         need_install "$i"
         if [ "$need_install_ret" -eq 1 ]; then
@@ -22,7 +49,7 @@ checkapt()
 checkpip()
 {
     check_ret=0
-    grep "$HOME/dotfiles/ubuntu/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
+    grep "$HOME/dotfiles/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         pip3 show "$1" 1>/dev/null 2>&1 &&:
         if [ $? -eq 1 ]; then
@@ -68,7 +95,7 @@ cdf()
 checklink()
 {
     check_ret=0
-    grep "$HOME/dotfiles/ubuntu/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
+    grep "$HOME/dotfiles/list/$1" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         cdf "$(echo $i | cut -d ' ' -f 1)" "$(echo $i | cut -d ' ' -f 2)"
         check_ret=$((check_ret + cdf_ret))
@@ -90,22 +117,6 @@ checkdein()
     total=$((total + check_ret))
 }
 
-checkrepo()
-{
-    check_ret=0
-    name=$(git config --global user.name)
-    curl -s "https://api.github.com/users/$name/repos" | \
-        jq -r '.[].name' > "$DFTMP/data"
-    while read i; do
-        cd "$HOME"
-        if [ ! -d "$i/.git" ]; then
-            echo "[ not exists ] repo: $i"
-            check_ret=$((check_ret + 1))
-        fi
-    done < "$DFTMP/data"
-    total=$((total + check_ret))
-}
-
 if [ "$1" ]; then
     a="$1"
     case "$a" in
@@ -117,7 +128,7 @@ if [ "$1" ]; then
         checkdein deineo.toml
         checkdein deinfile.toml
         checkdein deinlazy.toml ;;
-    *) echo "$a Didn't match anything" >&2; exit 1 ;;
+    *) echo -e "$a Didn't match anything\ndfinstall|dfguiinstall|pip|dfdeploy|dein" >&2; exit 1 ;;
     esac
 else
     checkapt dfinstall
@@ -128,7 +139,6 @@ else
     checkdein deineo.toml
     checkdein deinfile.toml
     checkdein deinlazy.toml
-    checkrepo
 fi
 
 if [ "$total" -eq 0 ]; then
