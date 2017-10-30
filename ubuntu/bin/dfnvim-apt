@@ -11,7 +11,7 @@ dfx sudo -H pip2 install neovim
 dfx sudo -H pip3 install neovim
 dfx sudo -H gem install neovim
 
-dfx . ~/dotfiles/bin/dfvim-alternatives /usr/bin/nvim
+dfx . ~/dotfiles/ubuntu/bin/dfvim-alternatives /usr/bin/nvim
 
 dir=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
 if [ -d "$dir" ]; then
