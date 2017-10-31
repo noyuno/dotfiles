@@ -53,8 +53,6 @@ for e in "${array[@]}"; do
 done
 cd "$DF_CURRENT_DIR"
 dfx fc-cache -f
-dfx sudo apt -y autoremove
-dfx sudo apt clean
 if [ -d "$DFTMP" ]; then
     dfx sudo rm -rf "$DFTMP"
 fi
