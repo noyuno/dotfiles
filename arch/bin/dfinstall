@@ -42,6 +42,7 @@ iyaourt()
     fi
     dfx sudo pacman -Syu --noconfirm
     grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    packages=()
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"

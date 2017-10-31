@@ -4,11 +4,10 @@
 
 imate()
 {
-    dfout3 "yaourt -S --noconfirm mate mate-extra"
-    yaourt -S --noconfirm mate mate-extra
+    dfx yaourt -S --noconfirm mate mate-extra
 }
 
-iyaourt()
+iyaourtgui()
 {
     packages=()
     grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
@@ -49,7 +48,7 @@ Install all packages by default.
 
 commands:
     mate
-    yaourt
+    yaourtgui
 EOF
     ) >&2
     exit 1
@@ -63,7 +62,7 @@ run()
 
 if [ $# -eq 0 ] ;then
     run imate
-    run iyaourt
+    run iyaourtgui
     run ifont
 elif [ "$1" = help ]; then
     help
