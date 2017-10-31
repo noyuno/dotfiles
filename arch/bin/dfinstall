@@ -4,11 +4,13 @@
 
 isetup()
 {
-    cat << "EOF" | sudo tee -a /etc/pacman.conf
+    if ! grep archlinuxfr < /etc/pacman.conf ; then
+        cat << "EOF" | sudo tee -a /etc/pacman.conf
 [archlinuxfr]
 SigLevel = Optional
 Server = http://repo.archlinux.fr/$arch
 EOF
+    fi
     dfx sudo pacman -Syu --noconfirm
     dfx sudo pacman -S yaourt --noconfirm
 }
