@@ -12,7 +12,6 @@ libreoffice-fresh
 libreoffice-fresh-ja
 lightdm
 lightdm-gtk-greeter
-mate-terminal
 mesa
 networkmanager
 network-manager-applet
@@ -23,7 +22,6 @@ sane
 system-config-printer
 ubuntu-mate-themes
 xbindkeys
-xclip
 xf86-video-intel
 xorg-server
 xsane
