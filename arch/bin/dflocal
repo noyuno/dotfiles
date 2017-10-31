@@ -52,7 +52,6 @@ for e in "${array[@]}"; do
     i=$((i + 1))
 done
 cd "$DF_CURRENT_DIR"
-dfx fc-cache -f
 if [ -d "$DFTMP" ]; then
     dfx sudo rm -rf "$DFTMP"
 fi
