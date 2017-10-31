@@ -19,5 +19,5 @@ if [ ! -f "$f" ]; then
     sed -i 's|^title:|title: '"'$title'"'|' "$f"
     sed -i 's|^image:|image: /blog/images/'"$(date +%Y-%m-%d)-$title.png"'|' "$f"
 fi
-vim "$f"
+$EDITOR "$f"
 
