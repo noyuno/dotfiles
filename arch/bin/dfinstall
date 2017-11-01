@@ -4,11 +4,13 @@
 
 isetup()
 {
-    cat << "EOF" | sudo tee -a /etc/pacman.conf
+    if ! grep archlinuxfr < /etc/pacman.conf ; then
+        cat << "EOF" | sudo tee -a /etc/pacman.conf
 [archlinuxfr]
 SigLevel = Optional
 Server = http://repo.archlinux.fr/$arch
 EOF
+    fi
     dfx sudo pacman -Syu --noconfirm
     dfx sudo pacman -S yaourt --noconfirm
 }
@@ -40,6 +42,7 @@ iyaourt()
     fi
     dfx sudo pacman -Syu --noconfirm
     grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    packages=()
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"

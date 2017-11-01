@@ -4,14 +4,13 @@
 
 imate()
 {
-    dfout3 "yaourt -S --noconfirm mate mate-extra"
-    yaourt -S --noconfirm mate mate-extra
+    dfx yaourt -S --noconfirm mate mate-extra
 }
 
 iyaourt()
 {
     packages=()
-    grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
+    grep "$HOME/dotfiles/arch/list/dfguiinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"

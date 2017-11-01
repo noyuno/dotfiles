@@ -19,7 +19,7 @@ while [ $# -gt 0 ] ; do
             "dfdeploy" "dfnvim-apt" "dfdein")
             ;;
         *)
-            if [ -e "$HOME/dotfiles/ubuntu/bin/$1" ]; then 
+            if [ -e "$HOME/dotfiles/ubuntu/bin/$1" -o "$HOME/dotfiles/bin/$1" ]; then 
                 array=(${array[@]} $1)
             else
                 dfout3 "Arguments item/set '$1' not found."

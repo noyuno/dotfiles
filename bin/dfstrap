@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+dist=arch
+if which lsb_release 1>/dev/null 2>&1 ; then
+    case "$(lsb_release -is)" in
+    Ubuntu) dist=ubuntu ;;
+    *) dist=debian ;;
+    esac
+fi
+
+exec $HOME/dotfiles/$dist/bin/dflocal $@
+

@@ -1,0 +1,36 @@
+#!/bin/bash -ex
+
+help()
+{
+    echo "archconfig hostname usename" >&2
+    exit 1
+}
+
+setup()
+{
+    hostname=$1
+    username=$2
+    ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+    hwclock --systohc
+    echo -e "en_US.UTF-8 UTF-8\nja_JP.UTF-8 UTF-8" >> /etc/locale.gen
+    locale-gen
+    echo LANG=ja_JP.UTF-8 > /etc/locale.conf
+    echo KEYMAP=jp106 > /etc/vconsole.conf
+    echo $hostname > /etc/hostname
+    echo "127.0.1.1 $hostname.localdomain $hostname" >> /etc/hosts
+    systemctl enable dhcpcd
+    grub-install --target=i386-pc /dev/sda
+    grub-mkconfig -o /boot/grub/grub.cfg
+    groupadd sudo
+    useradd -m -G sys,adm,disk,lp,wheel,log,audio,sudo $username
+    echo "%sudo ALL=(ALL) ALL" >>/etc/sudoers
+    mkinitcpio -p linux
+    echo "all ok"
+}
+
+if [ $# -ne 2 ]; then
+    help
+fi
+
+setup $@
+
