@@ -11,10 +11,15 @@ fi
 
 bindkey -e
 bindkey "\e[3~" delete-char
+# zsh home, end
 bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
+# tmux home, end
 bindkey "\e[1~" beginning-of-line
 bindkey "\e[4~" end-of-line
+# M-home, M-end
+bindkey "\e[1;3D" beginning-of-line
+bindkey "\e[1;3C" end-of-line
 
 setopt nonomatch
 setopt no_beep
