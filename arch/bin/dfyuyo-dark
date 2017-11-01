@@ -3,12 +3,9 @@
 . $HOME/dotfiles/bin/dffunc
 
 pushd $DFTMP >/dev/null
-    wget https://launchpad.net/ubuntu/+archive/primary/+files/yuyo-gtk-theme_0.3.tar.gz
+    wget -q https://launchpad.net/ubuntu/+archive/primary/+files/yuyo-gtk-theme_0.3.tar.gz
     tar xf yuyo-gtk-theme_0.3.tar.gz
-    pushd yuyo-gtk-theme-0.3/Yuyo-Dark >/dev/null
-        tar czf Yuyo-Dark.tar.gz *
-        mate-appearance-properties -i Yuyo-Dark.tar.gz
-    popd >/dev/null
+    sudo cp -r yuyo-gtk-theme-0.3/Yuyo-Dark /usr/share/themes
 popd >/dev/null
 
 
