@@ -1,4 +1,5 @@
 #!/bin/bash -e
+set -e
 
 dist=arch
 if which lsb_release 1>/dev/null 2>&1 ; then
