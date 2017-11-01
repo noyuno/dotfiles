@@ -5,7 +5,7 @@
 pushd $DFTMP
     wget -q https://launchpad.net/ubuntu/+archive/primary/+files/yuyo-gtk-theme_0.3.tar.gz
     tar xvf yuyo-gtk-theme_0.3.tar.gz
-    pushd yuyo-gtk-theme_0.3/Yuyo-Dark
+    pushd yuyo-gtk-theme-0.3/Yuyo-Dark
         tar cf $HOME/Desktop/Yuyo-Dark.tar.gz *
     popd
 popd
