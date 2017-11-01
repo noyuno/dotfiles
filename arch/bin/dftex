@@ -4,7 +4,7 @@
 
 itex()
 {
-    yaourt -S texlive-langjapanese texlive-core texlive-latexextra texlive-science texlive-pictures
+    yaourt --noconfirm -S texlive-langjapanese texlive-core texlive-latexextra texlive-science texlive-pictures
 }
 
 itex
