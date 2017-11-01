@@ -10,7 +10,7 @@ else
 fi 
 
 bindkey -e
-#bindkey -v
+bindkey "\e[3~" delete-char
 
 setopt nonomatch
 setopt no_beep
