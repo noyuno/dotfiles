@@ -11,6 +11,10 @@ fi
 
 bindkey -e
 bindkey "\e[3~" delete-char
+bindkey "\e[H" beginning-of-line
+bindkey "\e[F" end-of-line
+bindkey ";3D" beginning-of-line
+bindkey ";3C" end-of-line
 
 setopt nonomatch
 setopt no_beep
