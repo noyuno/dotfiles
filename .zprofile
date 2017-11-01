@@ -29,9 +29,8 @@ insertpath "$HOME/.local/bin"
 insertpath "$HOME/dotfiles/bin"
 if which lsb_release 1>/dev/null 2>&1; then
     case "$(lsb_release -is)" in
-        Ubuntu) insertpath "$HOME/dotfiles/ubuntu/bin" ;;
+        Ubuntu|Raspbian|Debian) insertpath "$HOME/dotfiles/ubuntu/bin" ;;
         "Arch Linux") insertpath "$HOME/dotfiles/arch/bin" ;;
-        *) echo "$(lsb_release -is) Didn't match anything"
     esac
 else
     insertpath "$HOME/dotfiles/arch/bin"
