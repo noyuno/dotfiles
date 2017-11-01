@@ -82,6 +82,11 @@ ipip()
     set -e
 }
 
+igem()
+{
+    dfx gem install --user-install neovim github-pages tmuxinator
+}
+
 itrans()
 {
     dfx mkdir -p "$HOME/bin"
@@ -104,6 +109,7 @@ commands:
     gopackages
     pip
     trans
+    gem
 EOF
     ) >&2
     exit 1
@@ -122,6 +128,7 @@ if [ $# -eq 0 ] ;then
     run igopackages
     run ipip
     run itrans
+    run igem
 elif [ "$1" = help ]; then
     help
 else

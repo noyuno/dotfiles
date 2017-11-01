@@ -25,6 +25,7 @@ xbindkeys
 xf86-video-intel
 xorg-server
 xsane
+xsel
 xterm
 xvkbd
 
