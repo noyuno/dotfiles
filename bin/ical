@@ -175,7 +175,7 @@ def parse(args):
     nowts = datetime.now().replace(tzinfo=jst)
 
     if not os.path.exists(args.url_file):
-        print('''~/.config/ical file not found. Please create iCalendar list.
+        print('''~/.config/ical file not found. Please create iCalendar list or run with --init.
 Format: COLOR URL
 COLOR: one of (b, g, y, r, p)
     b: blue, g: green, y: yellow, r: red, p: purple
@@ -335,6 +335,7 @@ if __name__ == '__main__':
         parser.add_argument("--quiet", "-q", action = "store_true")
         parser.add_argument("--no-color", action = "store_true")
         parser.add_argument("--verbose", action = "store_true")
+        parser.add_argument("--init", action="store_true")
         args = parser.parse_args()
 
         if args.count is None: args.count = 20
@@ -346,6 +347,11 @@ if __name__ == '__main__':
             args.cache_dir = os.environ['HOME'] + '/.cache/ical'
         quiet = args.quiet
         if args.no_color: bcolors.nocolor()
+        if args.init:
+            f = open(args.url_file, "w")
+            f.write("r https://www.google.com/calendar/ical/ja.japanese%23holiday%40group.v.calendar.google.com/public/basic.ics")
+            f.close()
+            print("wrote holiday url to " + args.url_file)
 
         locale.setlocale(locale.LC_ALL, os.environ['LANG'])
 
