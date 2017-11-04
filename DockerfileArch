@@ -3,7 +3,7 @@ FROM base/archlinux
 ARG DRYRUN=${DRYRUN}
 ARG QUIET=${QUIET}
 run pacman -Syu --noconfirm && \
-    pacman --noconfirm -S sudo bash fakeroot groff && \
+    pacman --noconfirm -S base base-devel && \
     groupadd sudo && \
     echo '%sudo ALL=(ALL:ALL) ALL' >> /etc/sudoers && \
     useradd tu -d /home/tu -p '' -s /bin/bash && \
