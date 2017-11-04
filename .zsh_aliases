@@ -2,7 +2,7 @@
 case ${OSTYPE} in
     linux*) 
         alias ls='ls --color -h'
-        tstyle='--time-style=iso';; #I like color
+        tstyle='--time-style=long-iso';; #I like color
     darwin*) alias ls='ls -Gh' ;;
 esac
 alias l='ls -Fh'     #size,show type,human readable
@@ -16,7 +16,7 @@ alias lS='ls -1FSsh' # show size
 alias lrt='ls -1Fcrt' # show order by ctime
 alias lart='ls -1Fcart' # show all order by ctime
 # show all recursively order by size
-alias fs='ls -lah --time-style=iso $(find . -type f) | sort -h -k5 | grep -v "./.git"'
+alias fs='ls -lah --time-style=long-iso $(find . -type f) | sort -h -k5 | grep -v "./.git"'
 
 # less
 alias less='less -asRix8'
