@@ -106,7 +106,7 @@ PROMPT="[%F{green}${USER}@${HOST%%.*} %F{blue}%~%f] %(!.#.$) "
 PROMPT2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
 RPROMPT='${ret}${vcs_info_msg_0_}'
 RPROMPT_ORIG="$RPROMPT"
-SPROMPT="%{${fg[yellow]}%}Did you mean '%r'? [yNea]:%{${reset_color}%}"
+SPROMPT="%{${fg[yellow]}%}possibly '%r'? [yNea]:%{${reset_color}%}"
 [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
   PROMPT="[%F{green}${USER}%F{yellow}@${HOST%%.*}%F{blue} %~%f] %(!.#.$) "
 ;
