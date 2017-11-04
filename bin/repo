@@ -56,7 +56,7 @@ _update_repo()
         branch_name=$(git branch | grep '*.*' | sed -e 's/\*\ //')
         ret=$(git -c color.status=always pull $remote_name $branch_name 2>$DFTMP/git-pull-stderr-$name-$remote_name &&:)
         if [ $? -eq 0 ]; then
-            echo "$ret" | grep '^Already up-to-date.$' >/dev/null 2>&1 &&:
+            echo "$ret" | grep '^Already up[- ]to[- ]date.$' >/dev/null 2>&1 &&:
             if [ $? -eq 0 ]; then
                 # did update local branch?
                 localhead=$(git branch -va --no-color | awk '/^*/{print $3}')
