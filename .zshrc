@@ -139,8 +139,7 @@ zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-which dircolors 1>/dev/null 2>&1
-[ $? -eq 0 ] && eval "$(dircolors -b)"
+which dircolors 1>/dev/null 2>&1 && eval "$(dircolors -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
@@ -203,14 +202,8 @@ PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 
 #ruby
-which rbenv 1>/dev/null 2>&1 &&:
-if [ $? -eq 0 ]; then
-    eval "$(rbenv init -)"
-fi
+which rbenv 1>/dev/null 2>&1 && eval "$(rbenv init -)"
 
 # direnv
-which direnv 1>/dev/null 2>&1 &&:
-if [ $? -eq 0 ]; then
-    eval "$(direnv hook zsh)"
-fi
+which direnv 1>/dev/null 2>&1 && eval "$(direnv hook zsh)"
 

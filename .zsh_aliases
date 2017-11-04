@@ -635,3 +635,7 @@ ssh() {
 alias newid='ssh-keygen -t rsa && xsel -ib < ~/.ssh/id_rsa.pub'
 alias copyid='xsel -ib < ~/.ssh/id_rsa.pub'
 
+if which neomutt 1>/dev/null 2>&1 ; then
+    alias mutt='neomutt'
+fi
+
