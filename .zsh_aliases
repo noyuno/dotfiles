@@ -635,3 +635,6 @@ if which neomutt 1>/dev/null 2>&1 ; then
     alias mutt='neomutt'
 fi
 
+# pass
+alias pc'pass -c'
+
