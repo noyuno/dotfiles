@@ -636,5 +636,5 @@ if which neomutt 1>/dev/null 2>&1 ; then
 fi
 
 # pass
-alias pc'pass -c'
+alias pc='pass -c'
 
