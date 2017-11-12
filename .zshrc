@@ -207,3 +207,6 @@ which rbenv 1>/dev/null 2>&1 && eval "$(rbenv init -)"
 # direnv
 which direnv 1>/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
+# added by travis gem
+[ -f /home/noyuno/.travis/travis.sh ] && source /home/noyuno/.travis/travis.sh
+

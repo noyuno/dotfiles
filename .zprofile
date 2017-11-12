@@ -96,3 +96,5 @@ export WIKI_LANG="ja"
 
 export GPG_TTY=$(tty)
 
+export LESS="-x4"
+
