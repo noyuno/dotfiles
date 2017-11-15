@@ -28,6 +28,8 @@ keychain
 libacl1-dev
 libav-tools
 libboost-all-dev
+libc++-dev
+libc++abi-dev
 libclang-4.0-dev
 libncurses5-dev
 libpython3-dev
