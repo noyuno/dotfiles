@@ -97,4 +97,5 @@ export WIKI_LANG="ja"
 export GPG_TTY=$(tty)
 
 export LESS="-x4"
+export QT_QPA_PLATFORMTHEME='gtk2'
 
