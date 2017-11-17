@@ -135,7 +135,9 @@ server {
         proxy_cache             cache;
         proxy_cache_key         \$host\$uri\$is_args\$args;
         proxy_cache_valid       200 301 302 1d;
-        expires                 1d;
+        expires                 7d;
+        gzip on;
+        gzip_types text/html text/css application/javascript application/json;
     }
 
     location /console/ {
