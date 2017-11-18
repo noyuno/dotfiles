@@ -162,3 +162,9 @@ let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
 '''
 
+[[plugins]]
+repo = 'rhysd/unite-redpen.vim'
+hook_add = '''
+"g:unite_redpen_default_config_path = '/home/noyuno/dotfiles/redpen/redpen-conf-ja.xml'
+'''
+

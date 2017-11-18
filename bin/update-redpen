@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+d=$(mktemp -d)
+target=~/.local/redpen
+
+curl -L $(curl -s https://api.github.com/repos/redpen-cc/redpen/releases/latest|jq -r '.assets[]|select(.name|test("^redpen")).browser_download_url') \
+    >$d/redpen.tar.gz
+
+tar -xvf $d/redpen.tar.gz -C $d
+if [ -e $target ]; then
+    trash $target
+fi
+mv $d/redpen-* $target
+

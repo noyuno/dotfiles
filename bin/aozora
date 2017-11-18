@@ -1,0 +1,32 @@
+#!/bin/bash -e
+
+help()
+{
+    (
+    cat << EOF
+aozora input_with_ruby.zip
+EOF
+    )>&2
+    exit 1
+}
+
+run()
+{
+    tmp=/tmp/aozora
+    mkdir -p $tmp
+    z=$1
+    l=$(zipinfo -1 $z)
+    unzip -q -o -d $tmp $z
+    echo $l | while read line; do
+        echo $line
+        iconv -f SJIS -o $line $tmp/$line
+        sed -i -e 's/\r//g' -e 's/《[^》]\+》//g' $line
+    done 
+}
+
+if [ $# -lt 1 ]; then
+    help
+fi
+
+run $1
+
