@@ -7,11 +7,6 @@ nmap <C-Space>  <C-@>
 cmap <C-Space>  <C-@>
 
 " Visual mode keymappings: "{{{
-" <TAB>: indent.
-xnoremap <TAB>  >
-" <S-TAB>: unindent.
-xnoremap <S-TAB>  <
-
 " Indent
 nnoremap > >>
 nnoremap < <<
@@ -19,12 +14,7 @@ xnoremap > >gv
 xnoremap < <gv
 
 if (!has('nvim') || $DISPLAY != '') && has('clipboard')
-  xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR> 
-  xnoremap <silent> Y "*Y:let [@+,@"]=[@*,@*]<CR>
-  nnoremap <silent> Y "*Y:let [@+,@"]=[@*,@*]<CR>
-
-  " cut
-  xnoremap <silent> X "*x:let [@+,@"]=[@*,@*]<CR>
+  xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>
 endif
 "}}}
 
@@ -34,10 +24,6 @@ inoremap <C-t>  <C-v><TAB>
 " Enable undo <C-w> and <C-u>.
 inoremap <C-w>  <C-g>u<C-w>
 inoremap <C-u>  <C-g>u<C-u>
-
-if has('gui_running')
-  inoremap <ESC> <ESC>
-endif
 "}}}
 
 " Command-line mode keymappings:"{{{
@@ -55,9 +41,6 @@ cnoremap <C-f>          <Right>
 cnoremap <C-n>          <Down>
 " <C-p>: previous history.
 cnoremap <C-p>          <Up>
-" <C-k>, K: delete to end.
-cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
-      \ '' : getcmdline()[:getcmdpos()-2]<CR>
 " <C-y>: paste.
 cnoremap <C-y>          <C-r>*
 " <C-g>: Exit.
@@ -67,142 +50,53 @@ cnoremap <C-g>          <C-c>
 " [Space]: Other useful commands "{{{
 " Smart space mapping.
 nmap  <Space>   [Space]
-xmap  <Space>   [Space]
 nnoremap  [Space]   <Nop>
-xnoremap  [Space]   <Nop>
 
-" Toggle relativenumber.
-nnoremap <silent> [Space].
-      \ :<C-u>call ToggleOption('relativenumber')<CR>
-nnoremap <silent> [Space]m
-      \ :<C-u>call ToggleOption('paste')<CR>:set mouse=<CR>
-" Toggle highlight.
-nnoremap <silent> [Space]/
-      \ :<C-u>call ToggleOption('hlsearch')<CR>
-" Toggle cursorline.
-nnoremap <silent> [Space]cl
-      \ :<C-u>call ToggleOption('cursorline')<CR>
 " Set autoread.
 nnoremap [Space]ar
-      \ :<C-u>setlocal autoread<CR>
+      \ :<C-u>call vimrc#toggle_option('autoread')<CR>
 " Set spell check.
 nnoremap [Space]p
-      \ :<C-u>call ToggleOption('spell')<CR>
+      \ :<C-u>call vimrc#toggle_option('spell')<CR>
       \: set spelllang=en_us<CR>
       \: set spelllang+=cjk<CR>
 nnoremap [Space]w
-      \ :<C-u>call ToggleOption('wrap')<CR>
+      \ :<C-u>call vimrc#toggle_option('wrap')<CR>
 
-" Easily edit .vimrc "{{{
+" Easily edit .vimrc
 nnoremap <silent> [Space]ev  :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> [Space]rv :<C-u>source $MYVIMRC \|
-      \ echo "source $MYVIMRC"<CR>
-"}}}
 
 " Useful save mappings.
 nnoremap <silent> <Leader><Leader> :<C-u>update<CR>
-
-" syntastic
-nnoremap <silent> <Leader>c :<C-u>SyntasticCheck<CR>
-
-" make
-nnoremap <Leader>m :<C-u>make<bar>copen<CR>
-
-" Change current directory.
-nnoremap <silent> [Space]cd :<C-u>call <SID>cd_buffer_dir()<CR>
-function! s:cd_buffer_dir() abort "{{{
-  let filetype = getbufvar(bufnr('%'), '&filetype')
-  if filetype ==# 'vimfiler'
-    let dir = getbufvar(bufnr('%'), 'vimfiler').current_dir
-  elseif filetype ==# 'vimshell'
-    let dir = getbufvar(bufnr('%'), 'vimshell').save_dir
-  else
-    let dir = isdirectory(bufname('%')) ?
-          \ bufname('%') : fnamemodify(bufname('%'), ':p:h')
-  endif
-
-  execute 'lcd' fnameescape(dir)
-endfunction"}}}
-
-" Toggle options. "{{{
-function! ToggleOption(option_name) abort
-  execute 'setlocal' a:option_name.'!'
-  execute 'setlocal' a:option_name.'?'
-endfunction  "}}}
-" Toggle variables. "{{{
-function! ToggleVariable(variable_name) abort
-  if eval(a:variable_name)
-    execute 'let' a:variable_name.' = 0'
-  else
-    execute 'let' a:variable_name.' = 1'
-  endif
-  echo printf('%s = %s', a:variable_name, eval(a:variable_name))
-endfunction  "}}}
-"}}}
 
 " s: Windows and buffers(High priority) "{{{
 " The prefix key.
 nnoremap    [Window]   <Nop>
 nmap    s [Window]
-"nnoremap <silent> [Window]p  :<C-u>vsplit<CR>:wincmd w<CR>
-"nnoremap <silent> [Window]o  :<C-u>only<CR>
+nnoremap <silent> [Window]p  :<C-u>vsplit<CR>:wincmd w<CR>
+nnoremap <silent> [Window]o  :<C-u>only<CR>
 nnoremap <silent> <Tab>      :wincmd w<CR>
 nnoremap <silent><expr> q winnr('$') != 1 ? ':<C-u>close<CR>' : ""
-
-" http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca
-"nnoremap <silent> [Window] <Nop>
-nnoremap <silent> [Window]j <C-w>j
-nnoremap <silent> [Window]k <C-w>k
-nnoremap <silent> [Window]l <C-w>l
-nnoremap <silent> [Window]h <C-w>h
-nnoremap <silent> [Window]J <C-w>J
-nnoremap <silent> [Window]K <C-w>K
-nnoremap <silent> [Window]L <C-w>L
-nnoremap <silent> [Window]H <C-w>H
-nnoremap <silent> [Window]n gt
-nnoremap <silent> [Window]p gT
-nnoremap <silent> [Window]r <C-w>r
-nnoremap <silent> [Window]= <C-w>=
-nnoremap <silent> [Window]w <C-w>w
-"nnoremap so <C-w>_<C-w>|
-nnoremap <silent> [Window]o :<C-u>only<CR>
-nnoremap <silent> [Window]O <C-w>=
-nnoremap <silent> [Window]N :<C-u>bn<CR>
-nnoremap <silent> [Window]P :<C-u>bp<CR>
-nnoremap <silent> [Window]t :<C-u>tabnew<CR>
-nnoremap <silent> [Window]T :<C-u>Unite tab<CR>
-nnoremap <silent> [Window]s :<C-u>sp<CR>
-nnoremap <silent> [Window]v :<C-u>vs<CR>
-nnoremap <silent> [Window]q :<C-u>q<CR>
-nnoremap <silent> [Window]Q :<C-u>bd<CR>
-nnoremap <silent> [Window]b :<C-u>Unite buffer_tab -buffer-name=file<CR>
-nnoremap <silent> [Window]B :<C-u>Unite buffer -buffer-name=file<CR>
-
 "}}}
 
 " e: Change basic commands "{{{
 " The prefix key.
 nnoremap [Alt]   <Nop>
-xnoremap [Alt]   <Nop>
-nmap    e  [Alt]
-xmap    e  [Alt]
+nmap    S  [Alt]
 
 " Indent paste.
 nnoremap <silent> [Alt]p o<Esc>pm``[=`]``^
-xnoremap <silent> [Alt]p o<Esc>pm``[=`]``^
 nnoremap <silent> [Alt]P O<Esc>Pm``[=`]``^
-xnoremap <silent> [Alt]P O<Esc>Pm``[=`]``^
-nnoremap x "_x
 "}}}
+
+" Better x
+nnoremap x "_x
 
 " Disable Ex-mode.
 nnoremap Q  q
 
-" Jump mark can restore column."{{{
-nnoremap \  `
 " Useless command.
 nnoremap M  m
-"}}}
 
 " Smart <C-f>, <C-b>.
 noremap <expr> <C-f> max([winheight(0) - 2, 1])
@@ -219,25 +113,20 @@ xnoremap r <C-v>
 " Redraw.
 nnoremap <silent> <C-l>    :<C-u>redraw!<CR>
 
-" Folding."{{{
-" If press h on head, fold close.
-"nnoremap <expr> h col('.') == 1 && foldlevel(line('.')) > 0 ? 'zc' : 'h'
 " If press l on fold, fold open.
 nnoremap <expr> l foldclosed(line('.')) != -1 ? 'zo0' : 'l'
-" If press h on head, range fold close.
-"xnoremap <expr> h col('.') == 1 && foldlevel(line('.')) > 0 ? 'zcgv' : 'h'
 " If press l on fold, range fold open.
 xnoremap <expr> l foldclosed(line('.')) != -1 ? 'zogv0' : 'l'
-noremap [Space]j zj
-noremap [Space]k zk
-"noremap zu :<C-u>Unite outline:foldings<CR>
-nnoremap <silent> ze :<C-u>set foldenable<CR>
-nnoremap <silent> zn :<C-u>set nofoldenable<CR>
-nnoremap <silent> zu :<C-u>Unite -vertical -no-quit -winwidth=30 outline<CR>
-"}}}
 
 " Substitute.
 xnoremap s :s//g<Left><Left>
+
+" Sticky shift in English keyboard."{{{
+" Sticky key.
+inoremap <expr> ;  vimrc#sticky_func()
+cnoremap <expr> ;  vimrc#sticky_func()
+snoremap <expr> ;  vimrc#sticky_func()
+"}}}
 
 " Easy escape."{{{
 inoremap jj           <ESC>
@@ -259,29 +148,6 @@ onoremap ar  a]
 xnoremap ar  a]
 onoremap ir  i]
 xnoremap ir  i]
-
-" 'quote'
-onoremap aq  a'
-xnoremap aq  a'
-onoremap iq  i'
-xnoremap iq  i'
-
-" "double quote"
-onoremap ad  a"
-xnoremap ad  a"
-onoremap id  i"
-xnoremap id  i"
-"}}}
-
-" Move to top/center/bottom.
-noremap <expr> zz (winline() == (winheight(0)+1)/ 2) ?
-      \ 'zt' : (winline() == 1)? 'zb' : 'zz'
-
-" Capitalize.
-nnoremap gu gUiw`]
-
-" Clear highlight.
-nnoremap <ESC><ESC> :nohlsearch<CR>:match<CR>
 "}}}
 
 " Improved increment.
@@ -290,56 +156,21 @@ nmap <C-x> <SID>(decrement)
 nnoremap <silent> <SID>(increment)    :AddNumbers 1<CR>
 nnoremap <silent> <SID>(decrement)   :AddNumbers -1<CR>
 command! -range -nargs=1 AddNumbers
-      \ call s:add_numbers((<line2>-<line1>+1) * eval(<args>))
-function! s:add_numbers(num) abort
-  let prev_line = getline('.')[: col('.')-1]
-  let next_line = getline('.')[col('.') :]
-  let prev_num = matchstr(prev_line, '\d\+$')
-  if prev_num != ''
-    let next_num = matchstr(next_line, '^\d\+')
-    let new_line = prev_line[: -len(prev_num)-1] .
-          \ printf('%0'.len(prev_num . next_num).'d',
-          \    max([0, prev_num . next_num + a:num])) . next_line[len(next_num):]
-  else
-    let new_line = prev_line . substitute(next_line, '\d\+',
-          \ "\\=printf('%0'.len(submatch(0)).'d',
-          \         max([0, submatch(0) + a:num]))", '')
-  endif
-
-  if getline('.') !=# new_line
-    call setline('.', new_line)
-  endif
-endfunction
-
-" Replace word under cursor (which should be a GitHub username)
-" with some user info ("Full Name <email@address>").
-" If info cout not be found, "Not found" is inserted.
-function! <SID>InsertGitHubUserInfo() abort
-    let user = expand('<cWORD>')
-    " final slice is to remove ending newline
-    let info = system('github_user_info ' . user . ' 2> /dev/null')[:-2]
-    if v:shell_error
-        let info = 'Not found'
-    endif
-    execute "normal! diWa" . info . "\<esc>"
-endfunction
-
-nnoremap <silent> <leader>gu :call <SID>InsertGitHubUserInfo()<cr>
+      \ call vimrc#add_numbers((<line2>-<line1>+1) * eval(<args>))
 
 nnoremap <silent> #    <C-^>
 
-nnoremap あ a
-nnoremap い i
-nnoremap う u
-nnoremap お o
-nnoremap っd dd
-nnoremap っy yy
+" Change current word and repeatable
+nnoremap cn *``cgn
+nnoremap cN *``cgN
 
-nnoremap <s-up> V<up>
-nnoremap <s-down> V<down>
-nnoremap <s-left> v<left>
-nnoremap <s-right> v<right>
+" Change selected word and repeatable
+vnoremap <expr> cn "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>" . "``cgn"
+vnoremap <expr> cN "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>" . "``cgN"
 
-" paste on insert mode
-inoremap <C-v> <C-r>"
-
+if exists(':tnoremap')
+  tnoremap   <ESC>      <C-\><C-n>
+  tnoremap   jj         <C-\><C-n>
+  tnoremap   j<Space>   j
+  tnoremap <expr> ;  vimrc#sticky_func()
+endif
