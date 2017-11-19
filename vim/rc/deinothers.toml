@@ -53,7 +53,7 @@ hook_add = '''
   function! AbsolutePath()
     let a = substitute(expand('%:p'), $HOME, '~', '')
     if a == ""
-      return '📝'
+      return ''
     elseif strlen(a) > 40
       return a[strlen(a)-40:]
     else
@@ -162,8 +162,6 @@ on_ft = 'tex'
 hook_add = '''
 nnoremap <leader>s :<C-u>Unite latexsymbols<CR>
 '''
-[[plugins]]
-repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
@@ -214,29 +212,6 @@ let g:syntastic_warning_symbol = '⚠'
 
 nnoremap <silent> <space>c :<c-u>SyntasticCheck<cr>
 '''
-
-[[plugins]]
-repo = 'kassio/neoterm'
-
-[[plugins]]
-repo = 'easymotion/vim-easymotion'
-on_map = {n = '<Plug>'}
-hook_add = '''
-  nmap w <Plug>(easymotion-lineforward)
-  nnoremap W     w
-  nmap b <Plug>(easymotion-linebackward)
-  nnoremap B     b
-  nmap [Alt]j <Plug>(easymotion-j)
-  nmap [Alt]k <Plug>(easymotion-k)
-  nmap ' <Plug>(easymotion-prefix)
-
-  let g:EasyMotion_startofline = 0
-  let g:EasyMotion_show_prompt = 0
-  let g:EasyMotion_verbose = 0
-'''
-
-[[plugins]]
-repo = 'rhysd/nyaovim-markdown-preview'
 
 
 
