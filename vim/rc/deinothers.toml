@@ -53,7 +53,7 @@ hook_add = '''
   function! AbsolutePath()
     let a = substitute(expand('%:p'), $HOME, '~', '')
     if a == ""
-      return ''
+      return '📝'
     elseif strlen(a) > 40
       return a[strlen(a)-40:]
     else
@@ -162,6 +162,8 @@ on_ft = 'tex'
 hook_add = '''
 nnoremap <leader>s :<C-u>Unite latexsymbols<CR>
 '''
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
