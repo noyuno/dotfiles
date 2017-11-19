@@ -2,67 +2,6 @@
 repo = 'vim-jp/syntax-vim-ex'
 
 [[plugins]]
-repo = 'itchyny/lightline.vim'
-hook_add = '''
-  set laststatus=2
-  let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'readonly', 'absolutepath', 'modified' ] ],
-      \   'right': [ [ 'lineinfo',  'syntastic' ],
-      \              [ 'percent' ],
-      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'mode_map': {
-      \   '__' : '-',
-      \   'n'  : 'N',
-      \   'i'  : 'I',
-      \   'R'  : 'R',
-      \   'c'  : 'C',
-      \   'v'  : 'V',
-      \   'V'  : 'V',
-      \   '^V' : 'V',
-      \   's'  : 'S',
-      \   'S'  : 'S',
-      \   '^S' : 'S',
-      \   'p'  : 'P'
-      \ },
-      \ 'component': {
-      \   'paste': '%{&paste?"P":""}',
-      \   'readonly': '%{&readonly?"":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-      \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&filetype!="help"&& &readonly)',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      \ },
-      \ 'component_function': {
-      \   'syntastic': 'SyntasticStatuslineFlag',
-      \   'absolutepath': 'AbsolutePath'
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' },
-      \ 'tabline': {
-      \ 'left': [ [ 'tabs' ] ]
-      \ }
-      \ }
-
-  function! AbsolutePath()
-    let a = substitute(expand('%:p'), $HOME, '~', '')
-    if a == ""
-      return ''
-    elseif strlen(a) > 40
-      return a[strlen(a)-40:]
-    else
-      return a
-    endif
-  endfunction
-'''
-
-[[plugins]]
 repo = 'mattn/gist-vim'
 depends = ['webapi-vim']
 hook_add = '''

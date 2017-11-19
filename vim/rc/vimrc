@@ -48,7 +48,7 @@ if has('vim_starting')
 endif
 
 call s:source_rc('dein.rc.vim')
-"
+
 if has('vim_starting') && !empty(argv())
   call vimrc#on_filetype()
 endif
