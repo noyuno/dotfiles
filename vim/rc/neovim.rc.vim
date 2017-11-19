@@ -2,14 +2,25 @@
 " For neovim:
 "
 
-tnoremap   <ESC>      <C-\><C-n>
-tnoremap   jj         <C-\><C-n>
-tnoremap   j<Space>   j
+if has('vim_starting') && empty(argv())
+  syntax off
+endif
 
-nnoremap <Leader>t    :<C-u>terminal<CR>
-nnoremap !            :<C-u>terminal<Space>
+let g:python_host_prog  = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
 
-set mouse=
+if exists('&inccommand')
+  set inccommand=nosplit
+endif
+
+" Use cursor shape feature
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+
+" Share the histories
+autocmd MyAutoCmd CursorHold *
+      \if exists(':rshada') | rshada | wshada | endif
+
+autocmd MyAutoCmd FocusGained * checktime
 
 " Set terminal colors
 let s:num = 0
@@ -22,43 +33,14 @@ for s:color in [
   let g:terminal_color_{s:num} = s:color
   let s:num += 1
 endfor
+unlet! s:num
+unlet! s:color
 
-" Use cursor shape feature
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+" Modifiable terminal
+autocmd MyAutoCmd TermOpen * setlocal modifiable
+autocmd MyAutoCmd TermClose * buffer #
 
-" Use true color feature
-if exists('+termguicolors')
-  set termguicolors
-endif
+let g:terminal_scrollback_buffer_size = 3000
 
-" Share the histories
-augroup MyAutoCmd
-  autocmd CursorHold * if exists(':rshada') | rshada | wshada | endif
-augroup END
-
-autocmd BufEnter * call s:init_neovim_qt()
-
-function! s:init_neovim_qt() abort "{{{
-  if $NVIM_GUI == ''
-    return
-  endif
-
-  " Neovim-qt Guifont command
-  command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', '<args>')
-        \ | let g:Guifont = '<args>'
-
-  " Set the font
-  if !exists('g:Guifont')
-    Guifont Courier 10 Pitch:h14
-  endif
-
-  " if &columns < 170
-  "   " Width of window.
-  "    set columns=170
-  " endif
-  " if &lines < 40
-  "   " Height of window.
-  "    set lines=40
-  " endif
-endfunction"}}}
-
+" For denite.nvim in gonvim
+let g:gonvim_draw_split = 0
