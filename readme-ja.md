@@ -47,7 +47,7 @@
 
 - これらのコマンドを実行すると**不自由なソフトウェア**がインストールされます．
 - MATE Desktop
-- フォント: Inconsolata for Powerline/Noto Sans CJK JP DemiLight
+- フォント: Inconsolata/Noto Sans CJK JP DemiLight
 - 組版: TeX Live 2015, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
 | アプリケーション | カラースキーム | ステータスライン | 実行 | 入力メソッド | 推奨 |

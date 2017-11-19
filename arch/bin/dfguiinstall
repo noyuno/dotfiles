@@ -20,14 +20,14 @@ iyaourt()
 ifont()
 {
     # Powerline fonts
-    if [ -f "$HOME/.local/share/fonts/Inconsolata for Powerline.otf" ]; then
-        dfout2 "Powerline fonts have already installed"
-    else
-        dfx git clone "https://github.com/powerline/fonts.git" --depth 1 -b master \
-            "$DFTMP/plfonts"
-        dfx cd "$DFTMP/plfonts"
-        dfx bash install.sh
-    fi
+    #if [ -f "$HOME/.local/share/fonts/Inconsolata for Powerline.otf" ]; then
+    #    dfout2 "Powerline fonts have already installed"
+    #else
+    #    dfx git clone "https://github.com/powerline/fonts.git" --depth 1 -b master \
+    #        "$DFTMP/plfonts"
+    #    dfx cd "$DFTMP/plfonts"
+    #    dfx bash install.sh
+    #fi
     # Noto Sans
     if [ -d "$HOME/.local/share/fonts/NSCJKaR" ]; then
         dfout2 "Noto Sans CJK JP Kai fonts have already installed"

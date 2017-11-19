@@ -45,7 +45,7 @@ Environment structure tool, config files, practical scripts.
 
 - Running these commands will install **NON-FREE SOFTWARES**.
 - MATE Desktop
-- Font: Inconsolata for Powerline/Noto Sans CJK JP DemiLight
+- Font: Inconsolata/Noto Sans CJK JP DemiLight
 - Typesetting: TeX Live 2017, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
 | applications  | colorscheme | statusline | run  | IM         | recommended |

@@ -18,7 +18,7 @@ if has('nvim')
   call dein#load_toml('~/.vim/rc/deineo.toml', {})
 endif
 call dein#load_toml('~/.vim/rc/deinft.toml')
-call dein#load_toml('~/.vim/rc/deinothers.toml')
+call dein#load_toml('~/.vim/rc/deinothers.toml', {'lazy': 1})
 
 let s:vimrc_local = findfile('vimrc_local.vim', '.;')
 if s:vimrc_local !=# ''

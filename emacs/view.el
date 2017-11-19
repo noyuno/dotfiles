@@ -116,7 +116,7 @@
 (set-face-attribute 'whitespace-empty nil
                     :background my/bg-color)
 
-(set-default-font "Inconsolata for Powerline")
+(set-default-font "Inconsolata ")
 (setq-default line-spacing 2)
 (cond (window-system
        (set-fontset-font (frame-parameter nil 'font)

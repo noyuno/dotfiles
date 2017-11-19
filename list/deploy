@@ -9,6 +9,7 @@
 # vim
 vim .config/vim
 vim .config/nvim
+vim .config/nyaovim
 vim .vim
 vim/vimrc .vimrc
 # tmux
@@ -75,5 +76,5 @@ autostart .config/autostart
 # mecab
 .mecabrc
 # applications
-applications .local/share/applications
+#applications .local/share/applications
 
