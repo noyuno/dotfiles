@@ -1,0 +1,218 @@
+[[plugins]]
+repo = 'vim-jp/syntax-vim-ex'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+  set laststatus=2
+  let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'readonly', 'absolutepath', 'modified' ] ],
+      \   'right': [ [ 'lineinfo',  'syntastic' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \ },
+      \ 'mode_map': {
+      \   '__' : '-',
+      \   'n'  : 'N',
+      \   'i'  : 'I',
+      \   'R'  : 'R',
+      \   'c'  : 'C',
+      \   'v'  : 'V',
+      \   'V'  : 'V',
+      \   '^V' : 'V',
+      \   's'  : 'S',
+      \   'S'  : 'S',
+      \   '^S' : 'S',
+      \   'p'  : 'P'
+      \ },
+      \ 'component': {
+      \   'paste': '%{&paste?"P":""}',
+      \   'readonly': '%{&readonly?"":""}',
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype!="help"&& &readonly)',
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ },
+      \ 'component_function': {
+      \   'syntastic': 'SyntasticStatuslineFlag',
+      \   'absolutepath': 'AbsolutePath'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
+      \ 'tabline': {
+      \ 'left': [ [ 'tabs' ] ]
+      \ }
+      \ }
+
+  function! AbsolutePath()
+    let a = substitute(expand('%:p'), $HOME, '~', '')
+    if a == ""
+      return ''
+    elseif strlen(a) > 40
+      return a[strlen(a)-40:]
+    else
+      return a
+    endif
+  endfunction
+'''
+
+[[plugins]]
+repo = 'mattn/gist-vim'
+depends = ['webapi-vim']
+hook_add = '''
+let g:gist_clip_command = 'xclip -selection clipboard'
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+let g:gist_browser_command = 'xdg-open %URL%'
+'''
+
+
+[[plugins]]
+repo = 'vim-scripts/gnupg.vim'
+
+[[plugins]]
+repo = 'kana/vim-submode'
+hook_add  = '''
+"call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
+"call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
+"call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
+"call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
+"call submode#map('bufmove', 'n', '', '>', '<C-w>>')
+"call submode#map('bufmove', 'n', '', '<', '<C-w><')
+"call submode#map('bufmove', 'n', '', '+', '<C-w>+')
+"call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'noyuno/unite-uri'
+
+[[plugins]]
+repo = 'itchyny/calendar.vim'
+hook_add = '''
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
+'''
+
+[[plugins]]
+repo = 'rhysd/unite-redpen.vim'
+hook_add = '''
+"g:unite_redpen_default_config_path = '/home/noyuno/dotfiles/redpen/redpen-conf-ja.xml'
+'''
+
+[[plugins]]
+repo = 'noyuno/calc.vim'
+on_ft = 'markdown'
+hook_add = '''
+let g:alignta_default_arguments = '|'
+'''
+
+[[plugins]]
+repo = 'h1mesuke/vim-alignta'
+on_ft = 'markdown'
+
+[[plugins]]
+repo = 'vim-latex/vim-latex'
+on_ft = 'tex'
+hook_add = '''
+filetype plugin on
+set shellslash
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='latex'
+let g:Tex_AutoFolding = 0
+let g:Imap_UsePlaceHolders = 1
+let g:Imap_DeleteEmptyPlaceHolders = 1
+let g:Imap_StickyPlaceHolders = 0
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_MultipleCompileFormats='pdf'
+let g:Tex_FormatDependency_pdf = 'pdf'
+let g:Tex_FormatDependency_ps = 'dvi,ps'
+let g:Tex_CompileRule_pdf = 'latexmk -pdfdvi $*'
+let g:Tex_CompileRule_ps = 'dvips -Ppdf -o $*.ps $*.dvi'
+let g:Tex_CompileRule_dvi = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error-style $*'
+let g:Tex_BibtexFlavor = 'upbibtex'
+let g:Tex_MakeIndexFlavor = 'upmendex $*.idx'
+let g:Tex_UseEditorSettingInDVIViewer = 1
+let g:Tex_ViewRule_pdf = 'xdg-open'
+let g:Tex_IgnoredWarnings =
+    \'Cannot patch'."\n".
+    \'Unsupported document class'."\n".
+    \'Underfull'."\n".
+    \'Overfull'."\n".
+    \'specifier changed to'."\n".
+    \'You have requested'."\n".
+    \'Missing number, treated as zero.'."\n".
+    \'There were undefined references'."\n".
+    \'Citation %.%# undefined'."\n".
+    \'Double space found.'."\n"
+let g:Tex_IgnoreLevel = 10
+'''
+
+[[plugins]]
+repo = 'noyuno/unite-latexsymbols'
+on_ft = 'tex'
+hook_add = '''
+nnoremap <leader>s :<C-u>Unite latexsymbols<CR>
+'''
+
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+on_map = {n = '<Plug>'}
+hook_add = '''
+nmap <silent> <Leader>r <Plug>(quickrun)
+if !exists("g:quickrun_config")
+    let g:quickrun_config = {}
+endif
+let g:quickrun_config = {
+  \ "_" : {
+  \     "outputter" : "error",
+  \     "outputter/error/success" : "buffer",
+  \     "outputter/error/error"   : "quickfix",
+  \     "outputter/buffer/split" : ":botright 8sp",
+  \     "outputter/quickfix/open_cmd" : "copen",
+  \     "runner" : "vimproc",
+  \     "runner/vimproc/updatetime" : 500,
+  \ },
+  \ 'html': { 'command' : 'xdg-open', 'exec' : '%c %s', 'outputter': 'error' },
+  \ 'markdown': { 'command' : 'panview', 'exec' : '%c %s', 'outputter': 'error' },
+  \ 'tex': { 'command' : 'latexmk', 'exec' : '%c -pdfdvi -pv %s' },
+  \ 'cpp': { 'command': 'clang++', 'exec':'%c -std=c++11 %s' },
+  \ }
+'''
+
+[[plugins]]
+repo = 'scrooloose/syntastic'
+hook_add = '''
+let g:syntastic_sh_checkers = ['shellcheck']
+let g:syntastic_tex_checkers = ['lacheck', 'text/language_check']
+let g:syntastic_python_checkers = ['pylint']
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs = 1
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
+
+nnoremap <silent> <space>c :<c-u>SyntasticCheck<cr>
+'''
+
+
+
+

@@ -65,6 +65,12 @@ autocmd MyAutoCmd BufWritePost * nested
 
 " Reload .vimrc automatically.
 autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim,*.toml source $MYVIMRC | redraw
+
+" Auto reload VimScript.
+autocmd MyAutoCmd BufWritePost,FileWritePost *.vim nested
+\ if &l:autoread > 0 | source <afile> |
+\   echo 'source ' . bufname('%') |
+\ endif
 '''
 
 [ftplugin]
@@ -112,13 +118,7 @@ if 5000 < line('$')
   syntax sync minlines=200
 endif
 
-" Auto reload VimScript.
-autocmd MyAutoCmd BufWritePost,FileWritePost *.vim nested
-\ if &l:autoread > 0 | source <afile> |
-\   echo 'source ' . bufname('%') |
-\ endif
-
-setlocal nomodeline
+setlocal foldmethod=indent
 '''
 
 qfreplace = 'setlocal nofoldenable'
@@ -130,3 +130,5 @@ setlocal iskeyword+=:
 setlocal iskeyword+=#
 setlocal iskeyword+=-
 '''
+
+ruby = 'setlocal omnifunc='

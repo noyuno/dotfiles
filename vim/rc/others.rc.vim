@@ -22,7 +22,7 @@ set noshowmode
 set laststatus=2
 set t_Co=256
 set background=dark
-"let g:hybrid_custom_term_colors = 1
+let g:hybrid_custom_term_colors = 1
 autocmd ColorScheme * highlight Normal ctermbg=none
 autocmd ColorScheme * highlight LineNr ctermbg=none
 autocmd ColorScheme * highlight StatusLine ctermbg=none
@@ -47,7 +47,9 @@ set printoptions+=paper:A4,number:y
 set printoptions=duplex:short
 command! -nargs=* Printout !printout -q %
 
-set ambiwidth=double
+if !has('gui_running')
+  set ambiwidth=double
+endif
 
 if has('conceal')
   set conceallevel=0 concealcursor=
@@ -73,8 +75,6 @@ if !IsWindows()
 endif
 " Always display cursor line
 set cursorline
-" Disable cursor shape
-set guicursor=
 "set cmdheight=1
 set showtabline=1
 set swapfile

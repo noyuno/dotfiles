@@ -14,7 +14,8 @@ if exists('&inccommand')
 endif
 
 " Use cursor shape feature
-set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+"set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+set guicursor=
 
 " Share the histories
 autocmd MyAutoCmd CursorHold *
