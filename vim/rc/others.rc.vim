@@ -57,6 +57,10 @@ if has('conceal')
   set conceallevel=0 concealcursor=
 endif
 
+augroup vimrcEx
+  au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
+  \ exe "normal g`\"" | endif
+augroup END
 
 set modelines=5
 set modeline
