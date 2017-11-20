@@ -13,19 +13,22 @@ libreoffice-fresh-ja
 lightdm
 lightdm-gtk-greeter
 mesa
-networkmanager
 network-manager-applet
+networkmanager
 noto-fonts-cjk
 nss-mdns
 otf-ipafont
 sane
 system-config-printer
+ttf-inconsolata
 ubuntu-mate-themes
 xbindkeys
 xf86-video-intel
 xorg-server
+xorg-xset
 xsane
 xsel
 xterm
 xvkbd
+
 

@@ -104,9 +104,6 @@ dfx mkdir -p ~/Mail/a
 dfx mkdir -p ~/Applications
 dfx mkdir -p ~/bin
 
-which update-desktop-database >/dev/null 2>&1 && 
-    dfx update-desktop-database ~/dotfiles/applications &&:
-
 which zsh &&:
 [ $? -eq 0 ] && existszsh=1
 

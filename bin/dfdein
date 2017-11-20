@@ -43,7 +43,7 @@ idein()
 {
     check_ret=0
     cache="$HOME/.cache/dein/repos/github.com"
-    grep "$HOME/dotfiles/vim/rc/$1" -e '^repo\s=\s' | \
+    grep "$1" -e '^repo\s=\s' | \
         sed -e "s/#.*//g" -e "s/repo\s=\s//g" -e "s/'//g" > "$DFTMP/data"
     while read i; do
         sleep $waittime
@@ -68,7 +68,7 @@ total=0
 overview()
 {
     cache="$HOME/.cache/dein/repos/github.com"
-    grep "$HOME/dotfiles/vim/rc/$1" -e '^repo\s=\s' | \
+    grep "$1" -e '^repo\s=\s' | \
         sed -e "s/#.*//g" -e "s/repo\s=\s//g" -e "s/'//g" > "$DFTMP/data"
     while read i; do
         user=$(dirname $i)
@@ -80,10 +80,9 @@ overview()
 if [ $# -eq 1 ]; then
     case "$1" in
         overview)
-            overview dein.toml
-            overview deineo.toml
-            overview deinfile.toml
-            overview deinlazy.toml
+            find ~/dotfiles/vim/rc -type f -name '*.toml' |while read line; do
+                overview $line
+            done
             dfout3 "$total plugins registred"
             (
             for i in ${!users[@]}; do
@@ -96,10 +95,9 @@ if [ $# -eq 1 ]; then
             exit 1
     esac
 else
-    idein dein.toml
-    idein deineo.toml
-    idein deinfile.toml
-    idein deinlazy.toml
+    find ~/dotfiles/vim/rc -type f -name '*.toml' |while read line; do
+        idein $line
+    done
 fi
 
 wait
