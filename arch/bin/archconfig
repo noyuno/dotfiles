@@ -3,7 +3,7 @@ set -ex
 
 help()
 {
-    echo "archconfig hostname usename" >&2
+    echo "archconfig hostname username" >&2
     exit 1
 }
 
