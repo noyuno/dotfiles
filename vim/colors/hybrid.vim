@@ -287,6 +287,8 @@ exe "hi! ColorColumn"   .s:fg_none        .s:bg_line        .s:fmt_none
 "   Conceal"
 "   Cursor"
 "   CursorIM"
+exe "hi! Cursor" .s:fg_none .s:bg_none ." gui=reverse"
+
 exe "hi! CursorColumn"  .s:fg_none        .s:bg_line        .s:fmt_none
 exe "hi! CursorLine"    .s:fg_none        .s:bg_none        .s:fmt_undr
 exe "hi! Directory"     .s:fg_blue        .s:bg_none        .s:fmt_none
