@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+# nVidia graphic card
+
+if ! grep '^\[multilib\]' /etc/pacman.conf; then
+    cat << EOF | sudo tee -a /etc/pacman.conf
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+EOF
+fi
+yaourt -Syu --no-confirm
+yaourt -S --no-confirm steam nvidia lib32-nvidia-libgl nvidia-settings noto-fonts
+sudo fc-cache -vf
+sudo nvidia-xconfig
+echo "Please reboot before playing"
+

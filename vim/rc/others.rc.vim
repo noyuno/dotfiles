@@ -141,6 +141,10 @@ nnoremap <s-right> v<right>
 " paste on insert mode
 inoremap <C-v> <C-r>"
 
+" vimproc
+
+command! MakeVimproc !make -C ~/.cache/dein/repos/github.com/Shougo/vimproc.vim 
+
 " bugfix
 
 set number 
