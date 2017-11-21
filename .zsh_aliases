@@ -211,7 +211,7 @@ alias trej='trans en:ja'
 alias trje='trans ja:en'
 
 alias restart-keyring='gnome-keyring-daemon -r -d'
-alias susp='mate-screensaver-command -l && sudo pm-suspend'
+alias susp='mate-screensaver-command -l && sudo systemctl suspend'
 alias sourceall='exec $SHELL -l'
 
 # clipboard
