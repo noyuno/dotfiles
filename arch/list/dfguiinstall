@@ -1,3 +1,4 @@
+alsa-utils
 avahi
 cups
 cups-pdf
@@ -16,8 +17,12 @@ mesa
 network-manager-applet
 networkmanager
 noto-fonts-cjk
+noto-fonts-emoji
 nss-mdns
 otf-ipafont
+pavucontrol
+pulseaudio
+pulseaudio-alsa
 sane
 system-config-printer
 ttf-inconsolata
@@ -30,5 +35,4 @@ xsane
 xsel
 xterm
 xvkbd
-
 

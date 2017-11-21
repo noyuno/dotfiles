@@ -54,7 +54,8 @@ igopackages()
     export GOPATH=$HOME/go
     dfx go get github.com/atsaki/termeter/cmd/termeter \
                github.com/walle/wiki/cmd/wiki \
-               github.com/direnv/direnv
+               github.com/direnv/direnv \
+               github.com/nsf/gocode
 }
 
 ipip()
