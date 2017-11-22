@@ -9,6 +9,7 @@
 	autocrlf = false
 	excludesfile = $HOME/dotfiles/.gitignore
     attributesFile = $HOME/dotfiles/.gitattributes
+	pager = less -R
 [color]
 	ui = true
 	diff = true
