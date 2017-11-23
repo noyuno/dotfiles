@@ -151,6 +151,7 @@ set number
 syntax on
 set tabstop=4
 set shiftwidth=4
+set foldlevelstart=7
 
 set helplang=ja,en
 
