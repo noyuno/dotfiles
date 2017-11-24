@@ -28,6 +28,7 @@ system-config-printer
 ttf-inconsolata
 ubuntu-mate-themes
 xbindkeys
+xdg-utils
 xf86-video-intel
 xorg-server
 xorg-xset
