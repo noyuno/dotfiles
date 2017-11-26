@@ -7,6 +7,7 @@ colordiff
 cronie
 ctags
 docx2txt
+exfat-utils
 expect
 findutils
 fzf
@@ -31,9 +32,11 @@ neovim
 npm
 num-utils
 openssh
+otf-ipaexfont
 pandoc
 pass
 pdftk
+pv
 python-pip
 python2-pip
 python2-xlsx2csv
