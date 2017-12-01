@@ -2,7 +2,6 @@
 
 from icalendar import Calendar, Event
 from datetime import *
-import pytz
 import urllib.parse
 import urllib.request
 import arrow

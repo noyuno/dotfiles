@@ -7,7 +7,6 @@ import arrow
 import curses
 import locale
 import os
-import pytz
 import subprocess
 import sys
 import time
@@ -151,7 +150,7 @@ def output(text, end="\n"):
         sys.stdout.write(text + end)
 
 def getdt(ev, name, google_calendar):
-    jst = pytz.timezone('Asia/Tokyo')
+    jst = timezone(timedelta(hours=9))
     dt = ev.get(name).dt
     if name == "dtend":
         h = 23
@@ -171,7 +170,7 @@ def getdt(ev, name, google_calendar):
 def parse(args):
     name = ""
     cals = []
-    jst = pytz.timezone('Asia/Tokyo')
+    jst = timezone(timedelta(hours=9))
     nowts = datetime.now().replace(tzinfo=jst)
 
     if not os.path.exists(args.url_file):
@@ -232,7 +231,7 @@ URL: iCalendar URL''')
 def main(args):
     ret = 0
     count = 0
-    jst = pytz.timezone('Asia/Tokyo')
+    jst = timezone(timedelta(hours=9))
     nowts = datetime.now().replace(tzinfo=jst)
     curses.setupterm()
     cols = curses.tigetnum("cols")
