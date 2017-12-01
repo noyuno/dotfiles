@@ -6,7 +6,6 @@ import argparse
 import arrow
 import curses
 import os
-import pytz
 import subprocess
 import sys
 import time
@@ -155,8 +154,9 @@ def main(args):
                 return True
         return False
 
-    jst = pytz.timezone('Asia/Tokyo')
-    nowts = datetime.now().replace(tzinfo=jst)
+    z=timezone(timedelta(hours=9, minutes=0))
+    nowts=datetime.now(z)
+    print(nowts)
     limit = nowts + timedelta(days=int(args.days))
 
     curses.setupterm()
