@@ -152,8 +152,8 @@ let g:syntastic_warning_symbol = '⚠'
 nnoremap <silent> <space>c :<c-u>SyntasticCheck<cr>
 '''
 
-[[plugins]]
-repo = 'kassio/neoterm'
+#[[plugins]]
+#repo = 'kassio/neoterm'
 
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
