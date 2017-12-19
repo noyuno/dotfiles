@@ -51,7 +51,7 @@ cp -R ~/dotfiles/report/*.sty ~/dotfiles/report/*.tex ~/dotfiles/report/Makefile
 cp -R ~/dotfiles/plain/*.tex $tmp
 cd $tmp
 echo "$text" |
-sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/$/<br>/' |
+sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/$/　<br>/' |
 pandoc -f html -t latex -o plain.tex
 sed -i 's|\[2\\baselineskip\]|\[1\\baselineskip\]|' plain.tex
 
