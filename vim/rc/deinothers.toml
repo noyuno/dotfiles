@@ -67,7 +67,7 @@ set shellslash
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 let g:Tex_AutoFolding = 0
-let g:Imap_UsePlaceHolders = 1
+let g:Imap_UsePlaceHolders = 0
 let g:Imap_DeleteEmptyPlaceHolders = 1
 let g:Imap_StickyPlaceHolders = 0
 let g:Tex_DefaultTargetFormat = 'pdf'
@@ -93,6 +93,7 @@ let g:Tex_IgnoredWarnings =
     \'Citation %.%# undefined'."\n".
     \'Double space found.'."\n"
 let g:Tex_IgnoreLevel = 10
+let g:Tex_SmartKeyQuote=0
 '''
 
 [[plugins]]
