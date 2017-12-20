@@ -55,7 +55,8 @@ igopackages()
     dfx go get github.com/atsaki/termeter/cmd/termeter \
                github.com/walle/wiki/cmd/wiki \
                github.com/direnv/direnv \
-               github.com/nsf/gocode
+               github.com/nsf/gocode \
+               github.com/pocke/xrandr-mirror
 }
 
 ipip()
