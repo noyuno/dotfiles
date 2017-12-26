@@ -9,6 +9,7 @@ aptinstall \
     texlive-lang-japanese \
     texlive-latex-extra \
     texlive-science \
+    texlive-generic-extra \
     xzdec
 
 aptremove 'tex.*-doc$'
