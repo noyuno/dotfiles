@@ -74,6 +74,8 @@ _update_repo()
         elif grep "Couldn't find remote" < $DFTMP/git-pull-stderr-$name-$remote_name; then
             # remote has not this branch
             return 6
+        elif grep "Authentication failed" < $DFTMP/git-pull-stderr-$name-$remote_name;then
+            return 7
         else
             # conflict, abort merging
             echo -e "\e[31m[ conflict ] abort merging $name\e[m ($(git status -s | wc -l) files)"
@@ -143,6 +145,9 @@ update_repo2()
                 remote_status[$remote_name]="\e[31mconflict\e[m" ;;
             6) # branch not found
                 remote_status[$remote_name]="\e[35mnot find\e[m" ;;
+            7) # authentication failed
+                remote_status[$remote_name]="\e31mauth failure\e[m"
+                exit 1 ;;
         esac
     done
 
