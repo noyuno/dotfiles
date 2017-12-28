@@ -68,8 +68,6 @@ luks() {
     else
         usbuuid=$(sudo blkid|grep "^$usbd:"|sed -e 's/.* UUID="//' -e 's/" .*//')
     fi
-    rclocal=/etc/rc.local
-    rclocal2=/usr/local/bin/unlockluks
     dfout2 "usbuuid=$usbuuid"
 
     mount | grep "^$usbd " >/dev/null &&:
@@ -90,14 +88,26 @@ luks() {
     dfx cryptsetup luksAddKey /dev/vg0/lv1 /mnt/luksusb$keyfile
 
     dfx sed -i -e "s|^/dev/mapper/$cryptoname |#&|" /etc/fstab
+}
 
+install() {
+    rclocal=/etc/rc.local
+    rclocal2=/usr/local/bin/unlockluks
     dfout3 "$rclocal"
-    cat << "EOF" > "$rclocal"
+    if [ -e "$rclocal" ]; then
+        if ! grep "$rclocal2" < "$rclocal" ; then
+            cat << EOF | sudo tee -a "$rclocal"
+bash $rclocal2
+EOF
+        fi
+    else
+        cat << EOF | sudo tee "$rclocal"
 #!/bin/bash -e
 
-bash /usr/local/bin/unlockluks
-exit $_
+bash $rclocal2
+exit \$_
 EOF
+    fi
     dfx chmod +x "$rclocal"
 
     dfx wget -N -O "$rclocal2" \
@@ -157,6 +167,7 @@ if [ $# -ge 1 ]; then
         help
     else
         luks $*
+        install $*
     fi
 else
     help
