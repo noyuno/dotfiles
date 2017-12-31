@@ -1,6 +1,6 @@
 # dotfiles
 
-境環構築ツール，設定ファイル，有用なスクリプト．
+境環構築ツール，設定，スクリプト，テンプレート．
 
 - [aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
 - [English](https://github.com/noyuno/dotfiles/blob/master/readme.md)
