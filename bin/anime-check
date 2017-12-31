@@ -17,20 +17,27 @@ EOF
     exit 1
 }
 
+year=$(date +%Y)
+
 while getopts hn item; do
     case $item in
         h) help ;;
-        n) month=$(((month + 2) % 12 + 1)) ;;
+        n)
+            month=$(((month + 2) % 12 + 1))
+            if [ "$month" -le 3 ]; then
+                year=$((year+1))
+            fi
+            ;;
         *) query="[$item]"; shift ;;
     esac
     shift
 done
 
 case "$month" in
-    1|2|3)    query="[$(date +%Y)冬]" ;;
-    4|5|6)    query="[$(date +%Y)春]" ;;
-    7|8|9)    query="[$(date +%Y)夏]" ;;
-    10|11|12) query="[$(date +%Y)秋]" ;;
+    1|2|3)    query="[${year}冬]" ;;
+    4|5|6)    query="[${year}春]" ;;
+    7|8|9)    query="[${year}夏]" ;;
+    10|11|12) query="[${year}秋]" ;;
 esac
 echo $query
 

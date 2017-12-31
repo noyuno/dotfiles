@@ -156,7 +156,6 @@ def main(args):
 
     z=timezone(timedelta(hours=9, minutes=0))
     nowts=datetime.now(z)
-    print(nowts)
     limit = nowts + timedelta(days=int(args.days))
 
     curses.setupterm()
