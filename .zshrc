@@ -91,13 +91,13 @@ zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 
 preexec(){
-    [ "$TMUX" ] && bash $HOME/dotfiles/tmux/window-status.sh normal colour76
+    [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ] && bash $HOME/dotfiles/tmux/window-status.sh normal colour76
 }
 precmd(){
     ret="$?"
     [ "$ret" -eq 0 ] && ret=
     vcs_info
-    if [ "$TMUX" ]; then
+    if [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ]; then
         bash $HOME/dotfiles/tmux/window-status.sh normal prompt
         tmux refresh-client -S
     fi
@@ -167,7 +167,6 @@ if [[ "`zsh --version`" =~ ^zsh\ 5.*$ ]]; then
         antigen bundle zsh-users/zsh-syntax-highlighting
         antigen bundle zsh-users/zsh-completions
         antigen bundle zsh-users/zsh-autosuggestions
-        antigen bundle mollifier/cd-gitroot
         antigen apply
     fi
 fi
