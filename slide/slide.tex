@@ -1,0 +1,142 @@
+\documentclass[11pt,xcolor=dvipsnames,table,dvipdfmx,professional font,t]{beamer}
+
+% reference: Beamer — Tasuku Soma's webpage:http://www.opt.mist.i.u-tokyo.ac.jp/~tasuku/beamer.html
+
+%Beamerの設定
+\usetheme{Boadilla}
+
+%Beamerフォント設定
+%\usepackage{newtxtext,newtxmath} % TXフォント
+\usepackage{sfmath}
+\usepackage[deluxe,uplatex]{otf} % 日本語多ウェイト化
+\usepackage{pxjahyper} % PDF目次文字化け回避(platexでは不要)
+\usepackage{setspace} 
+\usepackage{listings,jlisting}
+\usepackage{caption}
+\usepackage{ascmac}
+\usepackage{framed}
+\captionsetup[figure]{labelformat=empty}
+%\usepackage[svgnames]{xcolor}
+\setstretch{1.3} 
+\def\lstlistingname{}
+\renewcommand{\figurename}{Fig.}
+\setbeamertemplate{caption}[numbered]
+\setbeamercolor{caption name}{fg=black}
+\setbeamercolor{subtitle}{fg=black}
+
+\renewcommand{\familydefault}{\sfdefault}  % 英文をサンセリフ体に
+\renewcommand{\kanjifamilydefault}{\gtdefault}  % 日本語をゴシック体に
+\DeclareSymbolFont{operators}{OT1}{\sfdefault}{m}{n}
+\SetSymbolFont{operators}{bold}{OT1}{\sfdefault}{b}{n}
+%\usefonttheme{structurebold} % タイトル部を太字
+\setbeamerfont{alerted text}{series=\mdseries} % Alertを太字
+\setbeamerfont{section in toc}{series=\mdseries} % 目次は太字にしない
+\setbeamerfont{frametitle}{size=\Large} % フレームタイトル文字サイズ
+\setbeamerfont{title}{size=\LARGE} % タイトル文字サイズ
+\setbeamerfont{date}{size=\small}  % 日付文字サイズ
+
+% Babel (日本語の場合のみ・英語の場合は不要)
+\uselanguage{japanese}
+\languagepath{japanese}
+\deftranslation[to=japanese]{Theorem}{定理}
+\deftranslation[to=japanese]{Lemma}{補題}
+\deftranslation[to=japanese]{Example}{例}
+\deftranslation[to=japanese]{Examples}{例}
+\deftranslation[to=japanese]{Definition}{定義}
+\deftranslation[to=japanese]{Definitions}{定義}
+\deftranslation[to=japanese]{Problem}{問題}
+\deftranslation[to=japanese]{Solution}{解}
+\deftranslation[to=japanese]{Fact}{事実}
+\deftranslation[to=japanese]{Proof}{証明}
+\def\proofname{証明}
+
+%%Beamer色設定
+%\definecolor{UniBlue}{RGB}{0,150,200} 
+%\definecolor{AlertOrange}{RGB}{255,76,0}
+%\definecolor{AlmostBlack}{RGB}{38,38,38}
+%\setbeamercolor{normal text}{fg=AlmostBlack}  % 本文カラー
+%\setbeamercolor{structure}{fg=UniBlue} % 見出しカラー
+%\setbeamercolor{block title}{fg=UniBlue!50!black} % ブロック部分タイトルカラー
+%\setbeamercolor{alerted text}{fg=AlertOrange} % \alert 文字カラー
+%\mode<beamer>{
+%    \definecolor{BackGroundGray}{RGB}{254,254,254}
+%    \setbeamercolor{background canvas}{bg=BackGroundGray} % スライドモードのみ背景をわずかにグレーにする
+%}
+
+%フラットデザイン化
+\setbeamertemplate{blocks}[rounded] % Blockの影を消す
+\useinnertheme{circles} % 箇条書きをシンプルに
+\setbeamertemplate{navigation symbols}{} % ナビゲーションシンボルを消す
+\setbeamertemplate{footline}[frame number] % フッターはスライド番号のみ
+\setbeamerfont{institute}{size=\small}
+
+\setbeamertemplate{itemize/enumerate body begin}{\normalsize}
+\setbeamertemplate{itemize/enumerate subbody begin}{\normalsize}
+
+%%タイトルページ
+%\setbeamertemplate{title page}{%
+%    \vspace{2.5em}
+%    {\usebeamerfont{title} \usebeamercolor[fg]{title} \inserttitle \par}
+%    {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle \par}
+%    \vspace{1.5em}
+%    \begin{flushright}
+%        \usebeamerfont{author}\insertauthor\par
+%        \usebeamerfont{institute}\insertinstitute \par
+%        \vspace{3em}
+%        \usebeamerfont{date}\insertdate\par
+%        \usebeamercolor[fg]{titlegraphic}\inserttitlegraphic
+%    \end{flushright}
+%}
+
+\defbeamertemplate*{title page}{customized}[1][c]
+{
+    \centering
+    \vspace{8em}
+    \usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par
+  \usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par
+  \vspace{3em}
+  \usebeamerfont{author}\insertauthor\par\medskip
+  \usebeamerfont{institute}\insertinstitute\par\medskip
+  \usebeamerfont{date}\insertdate\par
+  \usebeamercolor[fg]{titlegraphic}\inserttitlegraphic
+}
+
+% Algorithm系
+\usepackage{algorithm}
+\usepackage[noend]{algorithmic}
+\algsetup{linenosize=\color{fg!50}\footnotesize}
+\renewcommand\algorithmicdo{:}
+\renewcommand\algorithmicthen{:}
+\renewcommand\algorithmicrequire{\textbf{Input:}}
+\renewcommand\algorithmicensure{\textbf{Output:}}
+
+% TikZ
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows}
+
+% 定理
+\theoremstyle{definition}
+\newenvironment{mythm}{\begin{alertblock}{定理}}{\end{alertblock}} %自分の結果は赤色で表示
+
+\AtBeginSection[]{
+    \frame{\tableofcontents[currentsection, hideallsubsections]} %目次スライド
+}
+
+
+%タイトル
+\title{Title}
+\author{Author}
+\date{Date}
+\institute{Institute}
+
+\begin{document}
+\maketitle
+
+\begin{frame}[fragile]
+\frametitle{Frame title}
+
+\begin{block}{Block}
+Block
+\end{block}
+\end{frame}
+\end{document}

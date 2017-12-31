@@ -1,0 +1,170 @@
+% !TEX encoding = UTF-8 Unicode
+\usepackage{docmute}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{setspace}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{jlisting}
+\usepackage{float}
+\usepackage{atbegshi}
+
+\ifx\kanjiskip\undefined\else
+  \usepackage{atbegshi}
+  \ifx\ucs\undefined
+    \ifnum 42146=\euc"A4A2
+      \AtBeginShipoutFirst{\special{pdf:tounicode EUC-UCS2}}
+    \else
+      \AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}
+    \fi
+  \else
+    \AtBeginShipoutFirst{\special{pdf:tounicode UTF8-UCS2}}
+  \fi
+  \usepackage[dvipdfmx,hidelinks]{hyperref}
+\fi
+\usepackage{pxjahyper}
+\usepackage{pxrubrica}
+\usepackage{comment}
+\usepackage[dvipdfmx]{color}
+\usepackage[dvipsnames,dvipdfmx]{xcolor}
+\usepackage{ascmac}
+\usepackage{amsmath}
+\usepackage{bigtabular}
+\usepackage{multicol}
+\usepackage[subrefformat=parens]{subcaption}
+\captionsetup{compatibility=false}
+\usepackage{pxrubrica}
+\usepackage{indentfirst}
+\usepackage{bm}
+\usepackage{here}
+\usepackage{siunitx}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{framed}
+\usepackage{dirtree}
+
+%\AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}
+
+\definecolor{srcgreen}{rgb}{0,0.3,0}
+\definecolor{srcblue}{rgb}{0,0,0.6}
+\definecolor{srcbrown}{rgb}{0.4,0.1,0.1}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single}
+\lstset{
+  language={},
+  basicstyle={\ttfamily},
+  identifierstyle={},
+  commentstyle={\color{srcgreen}},
+  keywordstyle={\color{srcblue}},
+  ndkeywordstyle={\color{srcblue}},
+  stringstyle={\color{srcbrown}},
+  frame={lrtb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=2zw,
+  numberstyle={\scriptsize\texttt},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex,
+  breakindent=0pt,
+  showstringspaces=false,
+  tabsize=2,
+  caption=\lstname,
+  keepspaces=true
+}
+
+\setlength\intextsep{10.5pt}
+\setlength\textfloatsep{10.5pt}
+\setlength\abovecaptionskip{0pt}
+
+\pagestyle{plain}
+
+\makeatletter
+\def\section{\@startsection {section}{1}{\z@}{0.1ex}{0.1ex}{\large}}
+\usepackage[truedimen,top=25truemm,bottom=25truemm,left=25truemm,right=25truemm]{geometry}
+\makeatother
+
+% caption
+\makeatletter
+\long\def\@makecaption#1#2{%
+\vskip\abovecaptionskip
+\iftdir\sbox\@tempboxa{#1\hskip1zw#2}%
+\else\sbox\@tempboxa{#1 #2}%
+\fi
+\ifdim \wd\@tempboxa >\hsize
+\iftdir #1\hskip1zw#2\relax\par
+\else #1 #2\relax\par\fi
+\else
+\global \@minipagefalse
+\hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+\fi
+\vskip\belowcaptionskip}
+\makeatother
+
+\makeatletter
+\@addtoreset{equation}{section}
+\def\theequation{\thesection.\arabic{equation}}
+\makeatother
+
+\makeatletter
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+{0.1ex}%
+{0.1ex}%
+{\normalsize}}
+
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+{0.1ex}%
+{0.1ex}%
+{\normalsize}}
+\makeatother
+
+\renewcommand{\figurename}{Figure }
+\renewcommand{\tablename}{Table }
+\renewcommand{\lstlistingname}{List}
+
+\newcommand\figref[1]{Figure~\ref{fig:#1}}
+\newcommand\tabref[1]{Table~\ref{tab:#1}}
+\newcommand\srcref[1]{List~\ref{src:#1}}
+
+\setstretch{1.15}
+\begin{comment}
+% example
+% insert figure
+\begin{figure}[H]
+\centering
+    \includegraphics[width=8cm]{figure/foo.pdf}
+\caption{foo \label{fig:foo}}
+\end{figure}
+
+% insert code
+\lstinputlisting[caption=hello code \lstname \label{src:hello}]{src/hello.cc}
+\begin{lstlisting}
+\end{lstlisting}
+
+% insert table
+\begin{table}[H]
+\centering
+\caption{ \label{}}
+\begin{tabular}{|c|c|c|} \hline
+a & b & c \\ \hline
+d & e & f \\ \hline
+\end{tabular}
+\end{table}
+\end{comment}
+
+\makeatletter
+\renewcommand{\section}{%
+  \@startsection{section}%
+   {1}%
+   {\z@}%
+   {-3.5ex \@plus -1ex \@minus -.2ex}%
+   {2.3ex \@plus.2ex}%
+   {\sffamily\bfseries\normalsize}%
+}%
+
+\makeatother
+
+\renewcommand{\refname}{}
+\setlength\columnsep{8pt}
+

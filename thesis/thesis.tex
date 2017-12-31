@@ -1,0 +1,50 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass[uplatex,a4paper,11pt]{jsarticle}
+
+\usepackage{docmute}
+\input{style}
+%\input{style-pandoc}
+%\usepackage{pgffor}
+
+\makeatletter
+% 折り返し
+%\def\lst@lettertrue{\let\lst@ifletter\iffalse}
+
+\def\@maketitle{
+\begin{center}
+\vspace*{10truecm}
+{\huge \@title}\\
+\vspace{8truecm}
+{\Large \@author}\\ 
+\vspace{5truemm}
+{\Large \@date}\\ 
+\end{center}
+}
+\makeatother
+\usepackage{listings-golang} 
+
+\title{Title}
+\author{Author}
+\date{Date}
+
+\bibliographystyle{jplain}
+
+\begin{document}
+\setlength{\abovedisplayskip}{-7pt}
+\setlength{\belowdisplayskip}{5pt}
+\maketitle
+\thispagestyle{empty}
+\clearpage
+\addtocounter{page}{-1}
+\newpage
+\tableofcontents
+\newpage
+
+\newpage
+\addcontentsline{toc}{section}{参考文献}
+\section*{参考文献}
+\vspace{-3em}
+\bibliography{thesis}
+
+\end{document}
+
