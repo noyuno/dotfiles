@@ -49,6 +49,13 @@ iyaourt()
     dfx yaourt -S --noconfirm ${packages[@]}
 }
 
+iudisks() {
+    cat << EOF | sudo tee /etc/udev/rules.d/99-udisks2.rules
+ENV{ID_FS_USAGE}=="filesystem|other|crypto", ENV{UDISKS_FILESYSTEM_SHARED}="1"
+EOF
+    dfx sudo mkdir -p /media
+}
+
 igopackages()
 {
     export GOPATH=$HOME/go
@@ -127,6 +134,7 @@ if [ $# -eq 0 ] ;then
     run isetup
     run ikey &&:
     run iyaourt
+    run iudisks
     run igopackages
     run ipip
     run itrans
