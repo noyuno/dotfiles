@@ -9,6 +9,7 @@ gnome-keyring
 google-chrome
 graphviz
 gtk3-print-backends
+libdvdcss
 libreoffice-fresh
 libreoffice-fresh-ja
 lightdm
@@ -23,10 +24,12 @@ otf-ipafont
 pavucontrol
 pulseaudio
 pulseaudio-alsa
+qt4
 sane
 system-config-printer
 ttf-inconsolata
 ubuntu-mate-themes
+vlc
 xbindkeys
 xdg-utils
 xf86-video-intel
