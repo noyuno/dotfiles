@@ -2,7 +2,7 @@
 foreground-color='#C5C5C8C8C6C6'
 visible-name='Default'
 palette='#2D2D3C3C4646:#A5A542424242:#8C8C94944040:#DEDE93935F5F:#5F5F81819D9D:#858567678F8F:#5E5E8D8D8787:#C3C3C9C9CCCC:#424250505959:#CCCC66666666:#B5B5BDBD6868:#F0F0C6C67474:#8181A2A2BEBE:#B2B29494BBBB:#8A8ABEBEB7B7:#DEDEDEDEDEDE'
-custom-command='sh -c "TERM=xterm-256color tmux"'
+custom-command='tmux -2'
 title='Terminal'
 cursor-shape='block'
 use-custom-command=true
@@ -23,7 +23,7 @@ cursor-shape='block'
 scroll-on-keystroke=true
 default-size-rows=24
 use-theme-colors=false
-custom-command='sh -c "TERM=xterm-256color tmux"'
+custom-command='tmux -2'
 visible-name='zsh'
 use-custom-default-size=false
 login-shell=false
