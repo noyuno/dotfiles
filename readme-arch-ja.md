@@ -21,6 +21,7 @@
 | :------------: | :---: | :---: | :------------: | :-----------------------: |
 | `dfinstall   ` | v     | v     |                | CLI基底パッケージをインストールする． |
 | `dfguiinstall` | v     |       | `dfinstall   ` | MATE GUI環境をインストールする． |
+| `dffont`       | v     |       | `dfinstall   ` | Noto Sans フォントをインストールする. |
 | `dfdeploy    ` | v     | v     | `dfinstall   ` | `ln`でdotfilesを展開する．|
 | `dfguiconf   ` | v     |       | `dfdeploy    ` | ユーザ環境下のGUIを設定する．|
 | `dftex       ` | v     |       | `dfguiinstall` | TeX Liveをインストールする．|

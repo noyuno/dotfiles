@@ -23,6 +23,7 @@ Depending items have to put before install item.
 | :------------: | :---: | :---: | :------------: | :-----------------------: |
 | `dfinstall   ` | v     | v     |                | Install CLI base package. |
 | `dfguiinstall` | v     |       | `dfinstall   ` | Install MATE GUI package. |
+| `dffont`       | v     |       | `dfinstall   ` | Install Noto Sans font.   |
 | `dfdeploy    ` | v     | v     | `dfinstall   ` | Deploy dotfiles using `ln`.|
 | `dfguiconf   ` | v     |       | `dfdeploy    ` | Configure user GUI.       |
 | `dftex       ` | v     |       | `dfguiinstall` | Install TeX Live.         |
