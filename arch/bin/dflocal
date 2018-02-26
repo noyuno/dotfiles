@@ -12,7 +12,7 @@ while [ $# -gt 0 ] ; do
     case "$1" in
         all)
             array=(${array[@]} "dfinstall" "dfguiinstall" \
-            "dfdeploy" "dfguiconf" "dfyuyo-dark" "dftex" "dfdein")
+            "dfdeploy" "dfguiconf" "dffont" "dfyuyo-dark" "dftex" "dfdein")
             ;;
         cli)    
             array=(${array[@]} "dfinstall" "dfdeploy" "dfdein")
@@ -40,15 +40,12 @@ if [ $? -ne 0 ]; then
     sudoers_add_nopasswd=1
 fi
 
+PATH=$HOME/dotfiles/arch/bin:$HOME/dotfiles/bin:$PATH
 i=1
 for e in "${array[@]}"; do
     cd ~
-    file="dotfiles/arch/bin/$e"
-    if [ "$e" = "dfdeploy" -o "$e" = "dfdein" ]; then
-        file="dotfiles/bin/$e"
-    fi
-    dfout1 "Step $i: $file"
-        . "$file"
+    dfout1 "Step $i: $e"
+    $e
     i=$((i + 1))
 done
 cd "$DF_CURRENT_DIR"
