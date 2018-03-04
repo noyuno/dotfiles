@@ -125,7 +125,7 @@ function cd() {
         dirc
         if [ $(ls -U1 | wc -l) -lt 50 ]; then
             case ${OSTYPE} in
-                linux*) ls --color ;;
+                linux*) ls --color -N ;;
                 darwin*) ls -G ;;
                 *) ls ;;
             esac && \

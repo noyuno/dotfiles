@@ -8,9 +8,10 @@ if ! grep '^\[multilib\]' /etc/pacman.conf; then
 Include = /etc/pacman.d/mirrorlist
 EOF
 fi
-yaourt -Syu --no-confirm
-yaourt -S --no-confirm steam nvidia lib32-nvidia-libgl nvidia-settings noto-fonts
-sudo fc-cache -vf
+yaourt -Syu --noconfirm
+yaourt -S --noconfirm steam nvidia lib32-nvidia-libgl nvidia-settings \
+    lib32-libxtst lib32-gtk2 lib32-libpulse lib32-gdk-pixbuf2 lib32-libva \
+    lib32-libvdpau lib32-openal
 sudo nvidia-xconfig
 echo "Please reboot before playing"
 

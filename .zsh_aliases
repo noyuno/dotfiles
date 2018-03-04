@@ -5,18 +5,18 @@ case ${OSTYPE} in
         tstyle='--time-style=long-iso';; #I like color
     darwin*) alias ls='ls -Gh' ;;
 esac
-alias l='ls -Fh'     #size,show type,human readable
-alias la='ls -AFh'   #long list,show almost all,show type,human readable
-alias lr='ls -tRFh'   #sorted by date,recursive,show type,human readable
-alias lt='ls -ltFh '"$tstyle"   #long list,sorted by date,show type,human readable
-alias ll='ls -lFh '"$tstyle" # show with long
-alias lla='ls -halF '"$tstyle" # show all with long
-alias ldot='ls -ld '"$tstyle"' .*' # show only dotfiles
-alias lS='ls -1FSsh' # show size
-alias lrt='ls -1Fcrt' # show order by ctime
-alias lart='ls -1Fcart' # show all order by ctime
+alias l='ls -FhN'     #size,show type,human readable
+alias la='ls -AFhN'   #long list,show almost all,show type,human readable
+alias lr='ls -tRFhN'   #sorted by date,recursive,show type,human readable
+alias lt='ls -lNtFh '"$tstyle"   #long list,sorted by date,show type,human readable
+alias ll='ls -lNFh '"$tstyle" # show with long
+alias lla='ls -NhalF '"$tstyle" # show all with long
+alias ldot='ls -Nld '"$tstyle"' .*' # show only dotfiles
+alias lS='ls -N1FSsh' # show size
+alias lrt='ls -N1Fcrt' # show order by ctime
+alias lart='ls -N1Fcart' # show all order by ctime
 # show all recursively order by size
-alias fs='ls -lah --time-style=long-iso $(find . -type f) | sort -h -k5 | grep -v "./.git"'
+alias fs='ls -Nlah --time-style=long-iso $(find . -type f) | sort -h -k5 | grep -v "./.git"'
 
 # less
 alias less='less -asRix8'
