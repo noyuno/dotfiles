@@ -195,3 +195,6 @@ repo = 'itchyny/vim-parenmatch'
 [[plugins]]
 repo = 'itchyny/vim-cursorword'
 
+[[plugins]]
+repo='kchmck/vim-coffee-script'
+
