@@ -48,13 +48,13 @@ idein()
     while read i; do
         sleep $waittime
         if [ ! -d "$cache/$i" ]; then
-            while [ $(cat $process) -ge $max_process ]; do
+            while [ "$(cat $process)" -ge $max_process ]; do
                 sleep $waittime
             done
             clone $cache $i &
             check_ret=$((check_ret + 1))
         else
-            while [ $(cat $process) -ge $max_process ]; do
+            while [ "$(cat $process)" -ge $max_process ]; do
                 sleep $waittime
             done
             pull $cache $i &
