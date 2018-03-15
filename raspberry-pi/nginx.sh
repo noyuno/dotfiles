@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+usage=$usage"
+nginx.sh
+    nginx: nginx service "
+
 nginx()
 {
 

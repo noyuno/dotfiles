@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+usage=$usage"
+systemd.sh
+    service: service status
+    status: aliased for service "
+
 service()
 {
     services=(
@@ -9,6 +14,7 @@ service()
         cron
         fcgiwrap
         gitbucket
+        humidity
         jmaws
         netdata
         nginx
@@ -16,6 +22,7 @@ service()
         ntp
         php5-fpm
         postgresql
+        rsyslog
         showterm
         slack
         smbd
@@ -35,5 +42,10 @@ service()
             *) echo "$ret Didn't match anything"
         esac
     done
+}
+
+status()
+{
+    service
 }
 

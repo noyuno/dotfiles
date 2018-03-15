@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+usage=$usage"
+jma.sh
+    jma: jma service "
+
 jma()
 {
     dfx sudo ufw allow 8000

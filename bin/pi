@@ -9,6 +9,7 @@ declare domain=noyuno.mydns.jp
 declare mail=noyuno@$domain
 declare pdata=/var/postgresql/data
 declare showterm=/var/www/showterm
+declare usage=
 
 . $HOME/dotfiles/raspberry-pi/general.sh
 . $HOME/dotfiles/raspberry-pi/gitbucket.sh
@@ -25,6 +26,16 @@ declare showterm=/var/www/showterm
 . $HOME/dotfiles/raspberry-pi/systemd.sh
 . $HOME/dotfiles/raspberry-pi/mail.sh
 . $HOME/dotfiles/raspberry-pi/slack.sh
+. $HOME/dotfiles/raspberry-pi/display.sh
+
+help()
+{
+    cat << EOF
+pi: Raspberry Pi tools
+$usage
+EOF
+    exit 1
+}
 
 if [ "$(lsb_release -is)" != "Raspbian" ]; then
     echo "this command is Raspbian only" 1>&2
@@ -32,7 +43,11 @@ if [ "$(lsb_release -is)" != "Raspbian" ]; then
 fi
 
 if [ $# -eq 0 ]; then
-    install
+    help
+fi
+
+if [ "$1" = "install" ]; then
+    ainstall
     motd
     timezone
     ssl

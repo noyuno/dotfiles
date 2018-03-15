@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+usage=$usage"
+python.sh
+    python: python3 "
+
 python()
 {
     #v=3.6.2

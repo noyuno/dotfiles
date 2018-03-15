@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+usage=$usage"
+anime.sh
+    anime: anime service "
+
 anime()
 {
 #    cat << EOF | sudo tee /etc/cron.d/anime

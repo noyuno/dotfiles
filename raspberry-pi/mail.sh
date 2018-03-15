@@ -1,6 +1,10 @@
 #!/bin/bash -e
 
 . $HOME/dotfiles/bin/dffunc
+usage=$usage"
+mail.sh
+    mail: mail service
+    gmail: gmail "
 
 mail() {
     aptinstall postfix dovecot-imapd sasl2-bin

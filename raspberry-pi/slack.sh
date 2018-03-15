@@ -1,6 +1,10 @@
 #!/bin/bash -e
 # https://qiita.com/tomkimra/items/be33bd27587d3c6eaca5
 
+usage=$usage"
+slack.sh
+    slack: slack "
+
 slack()
 {
     sudo npm install -g npm n yo generator-hubot coffee-script

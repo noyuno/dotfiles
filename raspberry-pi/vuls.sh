@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+usage=$usage"
+vuls.sh
+    cve: cve
+    vuls: vuls
+    scan: scan "
+
 cve()
 {
     dfx sudo mkdir -p /var/log/vuls

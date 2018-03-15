@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+usage=$usage"
+localnet.sh
+    samba: samba file sharering
+    zeroconf: avahi zeroconf service
+    pychromecast: Chromecast for Python library "
 samba()
 {
     cat << "EOF" | sudo tee /etc/samba/smb.conf
