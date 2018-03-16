@@ -1,5 +1,12 @@
 #!/bin/bash -e
 
+usage=$usage"
+gitbucket.sh
+    gitbucket: gitbucket service
+    gitbucket_nginx: nginx routing for gitbucket
+    gitbucket_psql: psql for gitbucket
+    gitbucket_plugins: gitbucket plugins "
+
 gitbucket()
 {
     dfx sudo mkdir -p $gittarget/repo

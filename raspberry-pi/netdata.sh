@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+usage=$usage"
+netdata.sh
+    netdata: netdata service
+    netdata_conf: netdata settings
+    netdata_nginx: nginx routing for netdata "
+
 netdata()
 {
     bash <(curl -Ss https://my-netdata.io/kickstart.sh)

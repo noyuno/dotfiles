@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+usage=$usage"
+showterm.sh
+    showterm: showterm service
+    showterm_conf: showterm setting
+    showterm_nginx: nginx routing for showterm "
+
 showterm()
 {
     if [ ! -d $showterm ]; then

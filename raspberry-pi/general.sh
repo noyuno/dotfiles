@@ -1,6 +1,16 @@
 #!/bin/bash -e
 
-install()
+usage=$usage"
+general.sh
+    ainstall: apt install
+    network: set host to pi.\$domain
+    timezone: set timezone to Tokyo
+    motd: move motd
+    ssl: letsencrypt
+    psql: initialize postgresql
+    ddns: ddns cron"
+
+ainstall()
 {
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
@@ -55,11 +65,11 @@ psql()
 ddns()
 {
     cat << EOF | sudo tee /etc/cron.d/ddnsauth
-17 */6 * * * $user /home/$user/bin/ddnsauth
+7,17,27,37,47,57 * * * * $user /home/$user/bin/ddnsauth
 EOF
 }
 
-export -f install
+export -f ainstall
 export -f network
 export -f timezone
 export -f motd

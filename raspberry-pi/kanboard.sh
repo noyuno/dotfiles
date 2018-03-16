@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+usage=$usage"
+kanboard.sh
+    kanboard: kanboard service
+    kanboard_psql: psql for kanboard
+    kanboard_nginx: nginx routing for kanboard "
+
 kanboard_psql()
 {
     cat << EOF | dfx sudo -u postgres psql
