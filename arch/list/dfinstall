@@ -16,6 +16,7 @@ git
 git-lfs
 git-secrets
 go
+gvfs-smb
 highlight
 htop
 hub
@@ -45,6 +46,7 @@ python2-xlsx2csv
 python3
 ranger
 rbenv
+rsync
 sc
 screenfetch
 shellcheck

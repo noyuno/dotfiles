@@ -1,0 +1,32 @@
+#!/bin/bash -e
+
+src="$HOME/dotfiles/" # do not forget trailing slash
+dest="/mnt/karen/share/backup/$(hostname)"
+server=pi
+args="-ai --delay-updates"
+date=$(date +%Y%m%d-%H%M%S)
+tmp=$(mktemp -d)
+latestbackup=$(ssh pi find $dest -maxdepth 1 -type d -name `date +%Y%m`"\*" | sort -r | head -n 1)
+if [ "$latestbackup" ]; then
+    args=$args" --link-dest $latestbackup/$src"
+fi
+
+ionice -c 3 -p $$
+renice +12  -p $$
+
+cat << EOF | tee $tmp/$date.log
+args=$args
+src=$src
+server=$server
+dest=$dest
+date=$date
+latestbackup=$(basename $latestbackup)
+EOF
+
+ssh $server mkdir -p $dest/$date/$src
+ssh $server mkdir -p $dest/log
+rsync $args $src $server:$dest/$date/$src >> $tmp/$date.log
+ssh $server mkdir -p $server:$dest/log
+scp $tmp/$date.log $server:$dest/log/$date.log
+ssh $server ln -sfn $date $dest/latest
+
