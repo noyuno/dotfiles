@@ -28,6 +28,7 @@ service()
         smbd
         ssh
         ufw
+        spindown
         )
 
     a=$(sudo systemctl list-units --type service)
