@@ -1,4 +1,5 @@
 # min hour day month weekday command
 #*/30 * * * * bash ~/dotfiles/bin/start-offlineimap -q
 19 */6 * * * ~/dotfiles/bin/background
+5 12 * * 0 ~/dotfiles/bin/backup
 

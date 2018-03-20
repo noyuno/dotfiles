@@ -194,7 +194,7 @@ if which crontab 1>/dev/null 2>&1; then
             crontab()
             {
                 if [[ $@ == "-e" ]]; then
-                    vim $crontabrc && $CRONTABCMD $crontabrc
+                    $EDITOR $crontabrc && $CRONTABCMD $crontabrc
                 else
                     $CRONTABCMD -i $@
                 fi
