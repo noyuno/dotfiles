@@ -69,6 +69,7 @@
 - `args`: 引数チェッカ．
 - `background`: 壁紙を同期する．
 - `backlight`: Intelバックライトの明るさを変更する．
+- [`backup`](https://noyuno.github.io/blog/2018-03-17-snapshot): $HOME ディレクトリのスナップショットを取る．
 - `blog`: ブログの投稿を作成する．
 - [`board`](https://noyuno.github.io/blog/2017/01/01/board/): ターミナルに電光掲示板のように表示する．
 - `color`: 256-color端末テスタ．

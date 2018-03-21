@@ -68,6 +68,7 @@
 - `args`: Arguments checker.
 - `background`: Synchronize background wallpaper.
 - `backlight`: Change intel backlght brightness.
+- [`backup`](https://noyuno.github.io/blog/2018-03-17-snapshot): Take an snapshot $HOME directory.
 - `blog`: Create blog post.
 - [`board`](https://noyuno.github.io/blog/2017/01/01/board/): Show the terminal as electric bulletin board.
 - `color`: 256-color terminal tester.
