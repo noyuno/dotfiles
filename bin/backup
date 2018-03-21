@@ -9,7 +9,7 @@ run()
     date=$(date +%Y%m%d-%H%M%S)
     tmp=/tmp/backup-$date
     log=$dest/log/$date.log
-    args="-a --delay-updates --info=progress2 -h --info=name0
+    args="-a -z --delay-updates --info=progress2 -h --info=name0
         --remote-option=--log-file=$dest/log/$date.log"
     latestbackup=$(ssh pi find $dest -maxdepth 1 -type d -name `date +%Y%m`"\*" | sort -r | head -n 1)
     if [ ! "$NEW" -a "$latestbackup" ]; then
