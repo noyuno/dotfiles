@@ -1,6 +1,6 @@
 # dotfiles: Arch Linux
 
-Environment structure tool, config files, practical scripts for Arch Linux.
+:penguin: Environment structure tool, config, scripts, templates for Arch Linux.
 
 - [Home (English)](https://github.com/noyuno/dotfiles/blob/master/readme.md)
 - [Home (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)

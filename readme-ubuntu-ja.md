@@ -1,6 +1,6 @@
 # dotfiles: Ubuntu
 
-境環構築ツール，設定ファイル，有用なスクリプト．
+:penguin: Ubuntu 用境環構築ツール，設定，スクリプト，テンプレート．
 
 - [Home (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
 - [Home (English)](https://github.com/noyuno/dotfiles/blob/master/readme.md)

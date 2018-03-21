@@ -1,6 +1,6 @@
 # dotfiles: Arch Linux
 
-境環構築ツール，設定ファイル，有用なスクリプト．
+:penguin: Arch Linux 用境環構築ツール，設定，スクリプト，テンプレート．
 
 - [Home (English)](https://github.com/noyuno/dotfiles/blob/master/readme.md)
 - [Home (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
