@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 NEW=
+DRYRUN=
 run()
 {
     src="$HOME/" # do not forget trailing slash
@@ -9,11 +10,16 @@ run()
     date=$(date +%Y%m%d-%H%M%S)
     tmp=/tmp/backup-$date
     log=$dest/log/$date.log
-    args="-a -z -C --delay-updates --info=progress2 -h --info=name0
-        --remote-option=--log-file=$dest/log/$date.log"
+    args="-a -z -C --delay-updates --info=progress2 -h
+        --remote-option=--log-file=$dest/log/$date.log --exclude-from $HOME/dotfiles/list/snapshot-ignore"
     latestbackup=$(ssh pi find $dest -maxdepth 1 -type d -name `date +%Y%m`"\*" | sort -r | head -n 1)
     if [ ! "$NEW" -a "$latestbackup" ]; then
         args=$args" --link-dest $latestbackup/$src"
+    fi
+    if [ "$DRYRUN" ]; then
+        args=$args" -nv"
+    else
+        args=$args" --info=name0"
     fi
 
     ionice -c 3 -p $$
@@ -51,15 +57,17 @@ usage:
     backup [options...]
 
 options:
-    -n: new backup period (do not make hard link)
+    -e: new backup period (do not make hard link)
+    -n: dry-run
     -h: this help
 EOF
     exit 1
 }
 
-while getopts nh OPT; do
+while getopts neh OPT; do
     case $OPT in
-        n) NEW=1 ;;
+        e) NEW=1 ;;
+        n) DRYRUN=1 ;;
         h) help ;;
     esac
 done
