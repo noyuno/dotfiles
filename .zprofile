@@ -45,6 +45,7 @@ insertpath "$HOME/.rbenv/bin"
 insertpath "$HOME/.fzf/bin"
 insertpath "$HOME/.npm/bin"
 insertpath "$HOME/.local/redpen/bin"
+insertpath "$HOME/.local/share/miniconda3/bin"
 if [ -d "$HOME/go" ]; then
     export GOPATH="$HOME/go"
     insertpath "$GOPATH/bin"
