@@ -91,16 +91,23 @@ zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 
 preexec(){
-    [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ] && bash $HOME/dotfiles/tmux/window-status.sh normal colour76
+    case ${OSTYPE} in
+    linux*)
+        [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ] && bash $HOME/dotfiles/tmux/window-status.sh normal colour76
+        ;;
+    esac
 }
 precmd(){
     ret="$?"
     [ "$ret" -eq 0 ] && ret=
     vcs_info
-    if [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ]; then
-        bash $HOME/dotfiles/tmux/window-status.sh normal prompt
-        tmux refresh-client -S
-    fi
+    case ${OSTYPE} in
+    linux*)
+        if [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ]; then
+            bash $HOME/dotfiles/tmux/window-status.sh normal prompt
+            tmux refresh-client -S
+        fi
+    esac
 }
 PROMPT="[%F{green}${USER}@${HOST%%.*} %F{blue}%~%f] %(!.#.$) "
 PROMPT2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
