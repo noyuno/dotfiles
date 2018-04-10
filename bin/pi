@@ -12,6 +12,7 @@ declare showterm=/var/www/showterm
 declare usage=
 
 . $HOME/dotfiles/raspberry-pi/general.sh
+. $HOME/dotfiles/raspberry-pi/network.sh
 . $HOME/dotfiles/raspberry-pi/gitbucket.sh
 . $HOME/dotfiles/raspberry-pi/kanboard.sh
 . $HOME/dotfiles/raspberry-pi/localnet.sh
@@ -51,6 +52,7 @@ if [ "$1" = "install" ]; then
     ainstall
     motd
     timezone
+    network
     ssl
     nginx
     psql

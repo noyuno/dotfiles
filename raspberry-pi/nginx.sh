@@ -82,9 +82,16 @@ server {
         include fastcgi_params;
     }
 }
+
+server {
+    listen 80 default_server;
+    server_name _;
+    return 444;
+}
 EOF
     dfx sudo ln -sfnv /etc/nginx/sites-available/00-root.conf \
         /etc/nginx/sites-enabled/00-root.conf
+    dfx sudo mv /etc/nginx/sites-available/default ~/nginx-default-old
     dfx sudo systemctl reload nginx.service
     dfx sudo chown -R $user:$user /var/www/html
     dfx /var/www/html/bin/chown
