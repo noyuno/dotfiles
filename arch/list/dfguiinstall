@@ -9,6 +9,9 @@ gnome-keyring
 google-chrome
 graphviz
 gtk3-print-backends
+intellij-idea-community-edition
+jdk9-openjdk
+krita
 libdvdcss
 libreoffice-fresh
 libreoffice-fresh-ja
@@ -25,11 +28,14 @@ pulseaudio-alsa
 qt4
 sane
 system-config-printer
+thunderbird
+thunderbird-i18n-ja
 ttf-inconsolata
 ubuntu-mate-themes
 vlc
 xbindkeys
 xdg-utils
+xf86-input-wacom
 xf86-video-intel
 xorg-server
 xorg-xset
@@ -37,7 +43,4 @@ xsane
 xsel
 xterm
 xvkbd
-thunderbird
-thunderbird-i18n-ja
-intellij-idea-community-edition
-jdk9-openjdk
+

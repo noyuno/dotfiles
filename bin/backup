@@ -1,6 +1,9 @@
 #!/bin/bash -e
 
 NEW=
+DRYRUN=
+VERBOSE=
+
 run()
 {
     src="$HOME/" # do not forget trailing slash
@@ -9,11 +12,22 @@ run()
     date=$(date +%Y%m%d-%H%M%S)
     tmp=/tmp/backup-$date
     log=$dest/log/$date.log
-    args="-a -z --delay-updates --info=progress2 -h --info=name0
-        --remote-option=--log-file=$dest/log/$date.log"
-    latestbackup=$(ssh pi find $dest -maxdepth 1 -type d -name `date +%Y%m`"\*" | sort -r | head -n 1)
+    catalog=$dest/catalog
+    args="-a -z -C --delay-updates --info=progress2 -h
+        --remote-option=--log-file=$dest/log/$date.log --exclude-from $HOME/dotfiles/list/snapshot-ignore"
+    #latestbackup=$(ssh pi find $dest -maxdepth 1 -type d -name `date +%Y%m`"\*" | sort -r | head -n 1)
+    ssh pi touch $dest/catalog
+    latestbackup=$(ssh pi cat $catalog | tail -n 1 | awk -F' ' '{print $1}')
     if [ ! "$NEW" -a "$latestbackup" ]; then
-        args=$args" --link-dest $latestbackup/$src"
+        args=$args" --link-dest $dest/$latestbackup/$src"
+    fi
+    if [ "$VERBOSE" ]; then
+        args=$args" -v"
+    else
+        args=$args" --info=name0"
+    fi
+    if [ "$DRYRUN" ]; then
+        args=$args" -n"
     fi
 
     ionice -c 3 -p $$
@@ -27,16 +41,25 @@ src=$src
 server=$server
 dest=$dest
 date=$date
+catalog=$catalog
 latestbackup=$latestbackup
 log=$log
 EOF
-    ssh $server mkdir -p $dest/log
-    scp $tmp/info $server:$dest/log/$date.info
-
-    ssh $server mkdir -p $dest/$date/$src
+    if [ ! "$DRYRUN" ]; then
+        ssh $server mkdir -p $dest/log
+        scp $tmp/info $server:$dest/log/$date.info
+        ssh $server mkdir -p $dest/$date/$src
+    fi
     rsync $args $src $server:$dest/$date/$src
-
-    ssh $server ln -sfn $date $dest/latest
+    if [ ! "$DRYRUN" ]; then
+        ssh $server ln -sfn $date $dest/latest
+        if [ "$NEW" ]; then
+            ssh pi 'echo '"$date complete"' | tee -a '"$catalog"
+        else
+            ssh pi 'echo '"$date diff"' | tee -a '"$catalog"
+        fi
+    fi
+    echo -e "\e[34mFinished\e[m"
 
     if [ "$tmp" ]; then
         rm -rf "$tmp"
@@ -51,15 +74,19 @@ usage:
     backup [options...]
 
 options:
-    -n: new backup period (do not make hard link)
+    -e: new backup period (do not make hard link)
+    -n: dry-run
+    -v: verbose
     -h: this help
 EOF
     exit 1
 }
 
-while getopts nh OPT; do
+while getopts nevh OPT; do
     case $OPT in
-        n) NEW=1 ;;
+        e) NEW=1 ;;
+        n) DRYRUN=1 ;;
+        v) VERBOSE=1 ;;
         h) help ;;
     esac
 done
