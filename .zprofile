@@ -75,9 +75,6 @@ fi
 #    fcitx
 #fi
 
-# Neovim
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=0
-
 (
 if [ -e "$HOME/.keychain/$(hostname)-sh" ]; then
     rm $HOME/.keychain/$(hostname)-sh

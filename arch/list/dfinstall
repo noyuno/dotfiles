@@ -43,14 +43,14 @@ pv
 python-pip
 python2-pip
 python2-xlsx2csv
-python3
+python
 ranger
 rbenv
 rsync
 sc
 screenfetch
 shellcheck
-sqlite3
+sqlite
 tcpdump
 the_silver_searcher
 tig
