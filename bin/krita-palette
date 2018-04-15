@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+ln -sfn $PWD/$1 /home/noyuno/.local/share/krita/palettes
+

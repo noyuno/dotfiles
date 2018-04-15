@@ -46,6 +46,7 @@ insertpath "$HOME/.fzf/bin"
 insertpath "$HOME/.npm/bin"
 insertpath "$HOME/.local/redpen/bin"
 insertpath "$HOME/.local/share/miniconda3/bin"
+insertpath "$HOME/nvim-osx64/bin"
 if [ -d "$HOME/go" ]; then
     export GOPATH="$HOME/go"
     insertpath "$GOPATH/bin"
@@ -73,9 +74,6 @@ fi
 #if [ $? -eq 0 -a "${DISPLAY//:.*/}" -a ! "$(pgrep fcitx)" ]; then
 #    fcitx
 #fi
-
-# Neovim
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=0
 
 (
 if [ -e "$HOME/.keychain/$(hostname)-sh" ]; then

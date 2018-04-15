@@ -109,30 +109,6 @@
 - `upgrade`: インストールされたパッケージを更新する.
 - `weather`: 天気予報を表示する.
 
-## [自動パーティションツール(不安定)](https://noyuno.github.io/blog/2017/04/09/crypto/)
-
-実行すると/dev/sdaおよび/dev/sdb1のデータが失われます．
-
-ライブDVD上でインストール処理の前に：
-
-    sudo su -
-    wget https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/install.sh
-    bash install.sh /dev/sda 20G # root partition size
-
-インストール処理の後に：
-
-    bash install.sh luks /dev/sdb1 # usb
-
-パーティションは：
-
-    | sda1      | sda2             | sda3    |
-    |           | lvm(vg0)         | bios    |
-    |           | lv0   | lv1      |         |
-    |           |       | luks     |         |
-    | fat32     | ext4  | ext4     | ef02    |
-    | /boot/efi | /     | /home    |         |
-    | 100MB     | 100GB | 100%free | 1007KiB |
-
 ## Windows 10 1607
 
 - Chocolatey

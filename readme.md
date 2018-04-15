@@ -108,30 +108,6 @@
 - `upgrade`: Upgrade installed packages.
 - `weather`: Show weather forecast.
 
-## [Automatic partition tool (unstable)](https://noyuno.github.io/blog/2017/04/09/crypto/)
-
-On the live DVD, before install operation:
-
-    sudo su -
-    wget https://raw.githubusercontent.com/noyuno/dotfiles/master/autoinstall/install.sh
-    bash install.sh /dev/sda 20G # root partition size
-
-After install operation:
-
-    bash install.sh luks /dev/sdb1 # usb
-
-Partitioning will be:
-
-    -----------------------------------------------------
-    | device   | sda1      | sda2             | sda3    |
-    | manage   |           | lvm(vg0)         | bios    |
-    | lv       |           | lv0   | lv1      |         |
-    | crypto   |           |       | luks     |         |
-    | format   | fat32     | ext4  | ext4     | ef02    |
-    | mount on | /boot/efi | /     | /home    |         |
-    | size     | 100MB     | 100GB | 100%free | 1007KiB |
-    -----------------------------------------------------
-
 ## Figures
 
 ![fig](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)

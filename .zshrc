@@ -91,16 +91,23 @@ zstyle ':vcs_info:*' formats "%F{green}%c%u"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 
 preexec(){
-    [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ] && bash $HOME/dotfiles/tmux/window-status.sh normal colour76
+    case ${OSTYPE} in
+    linux*)
+        [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ] && bash $HOME/dotfiles/tmux/window-status.sh normal colour76
+        ;;
+    esac
 }
 precmd(){
     ret="$?"
     [ "$ret" -eq 0 ] && ret=
     vcs_info
-    if [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ]; then
-        bash $HOME/dotfiles/tmux/window-status.sh normal prompt
-        tmux refresh-client -S
-    fi
+    case ${OSTYPE} in
+    linux*)
+        if [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ]; then
+            bash $HOME/dotfiles/tmux/window-status.sh normal prompt
+            tmux refresh-client -S
+        fi
+    esac
 }
 PROMPT="[%F{green}${USER}@${HOST%%.*} %F{blue}%~%f] %(!.#.$) "
 PROMPT2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
@@ -153,23 +160,27 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-zsh_version_is_5="0"
-if [[ "`zsh --version`" =~ ^zsh\ 5.*$ ]]; then
-    zsh_version_is_5="1"
-    # antigen
-    if [ ! -e ~/.cache/antigen ]; then
-        mkdir -p ~/.cache
-        git clone https://github.com/zsh-users/antigen.git ~/.cache/antigen --depth 1
-    fi
-    source ~/.cache/antigen/antigen.zsh
+case "${OSTYPE}" in
+linux*)
+    zsh_version_is_5="0"
+    if [[ "`zsh --version`" =~ ^zsh\ 5.*$ ]]; then
+        zsh_version_is_5="1"
+        # antigen
+        if [ ! -e ~/.cache/antigen ]; then
+            mkdir -p ~/.cache
+            git clone https://github.com/zsh-users/antigen.git ~/.cache/antigen --depth 1
+        fi
+        source ~/.cache/antigen/antigen.zsh
 
-    if which antigen 1>/dev/null 2>&1; then
-        antigen bundle zsh-users/zsh-syntax-highlighting
-        antigen bundle zsh-users/zsh-completions
-        antigen bundle zsh-users/zsh-autosuggestions
-        antigen apply
+        if which antigen 1>/dev/null 2>&1; then
+            antigen bundle zsh-users/zsh-syntax-highlighting
+            antigen bundle zsh-users/zsh-completions
+            antigen bundle zsh-users/zsh-autosuggestions
+            antigen apply
+        fi
     fi
-fi
+    ;;
+esac
 
 
 # colorscheme
