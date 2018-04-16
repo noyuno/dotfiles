@@ -88,10 +88,51 @@ server {
     server_name _;
     return 444;
 }
+
+server {
+    listen 443 ssl;
+    server_name $domain localhost;
+    include /etc/nginx/mime.types;
+    charset UTF-8;
+    charset_types text/css application/json text/plain application/javascript;
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
+    add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';
+    
+    gzip on;
+    gzip_types text/html text/css application/javascript application/json;
+
+    root /var/www/html;
+
+    ssl on;
+    ssl_certificate /etc/ssl/myca/server.crt;
+    ssl_certificate_key /etc/ssl/myca/private/server.key;
+    
+    location / {
+        proxy_pass http://localhost:80/;
+        proxy_redirect default;
+    }
+}
+
+server {
+    listen 443 default_server;
+    ssl on;
+    server_name _;
+    ssl_certificate /etc/ssl/myca/server.crt;
+    ssl_certificate_key /etc/ssl/myca/private/server.key;
+    return 444;
+}
+
 EOF
+
     dfx sudo ln -sfnv /etc/nginx/sites-available/00-root.conf \
         /etc/nginx/sites-enabled/00-root.conf
-    dfx sudo mv /etc/nginx/sites-available/default ~/nginx-default-old
+    if [ -e /etc/nginx/sites-available/default ]; then
+        dfx sudo mv /etc/nginx/sites-available/default ~/nginx-default-old
+    fi
+    dfx sudo ufw allow 80
+    dfx sudo ufw allow 443
     dfx sudo systemctl reload nginx.service
     dfx sudo chown -R $user:$user /var/www/html
     dfx /var/www/html/bin/chown

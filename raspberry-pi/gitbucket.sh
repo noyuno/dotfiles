@@ -68,7 +68,7 @@ allow_account_registration=false
 ssh.host=$domain
 allow_anonymous_access=true
 ssh.port=22
-base_url=http\://git.$domain
+base_url=https\://git.$domain
 EOF
     fi
     if [ ! -e $gittarget/repo/database.conf ]; then
@@ -103,13 +103,19 @@ EOF
 gitbucket_nginx()
 {
     cat << EOF | sudo tee /etc/nginx/sites-available/gitbucket.conf
+
 server {
     listen 80;
-    #listen 443 ssl;
+    server_name git.$domain;
+    return 301 https://\$host\$request_uri;
+}
+server {
+    listen 443 ssl;
     server_name git.$domain;
     
-    #ssl_certificate /etc/letsencrypt/live/git.$domain/fullchain.pem;
-    #ssl_certificate_key /etc/letsencrypt/live/git.$domain/privkey.pem;
+    ssl on;
+    ssl_certificate /etc/ssl/myca/server.crt;
+    ssl_certificate_key /etc/ssl/myca/private/server.key;
     
     charset UTF-8;
     proxy_set_header Host \$http_host;
@@ -151,6 +157,21 @@ server {
         deny all;
     }
 }
+
+#server {
+#    listen 443 ssl;
+#    server_name git.$domain;
+#    charset UTF-8;
+#
+#    ssl on;
+#    ssl_certificate /etc/ssl/myca/server.crt;
+#    ssl_certificate_key /etc/ssl/myca/private/server.key;
+#    
+#    location / {
+#        proxy_pass http://git.$domain:80/;
+#        proxy_redirect default;
+#    }
+#}
 EOF
     dfx sudo ln -sfnv /etc/nginx/sites-available/gitbucket.conf \
         /etc/nginx/sites-enabled/gitbucket.conf

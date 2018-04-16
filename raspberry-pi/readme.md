@@ -75,13 +75,14 @@ If no command is given, will run below commands.
 
 ## Public ports
 
+- 25: postfix
 - 80: nginx
+- 143: dovecot IMAP
+- 587: postfix
+- 5432: postgre sql
 - 8000: jma
+- 8080: gitbucket
 - 8081: showterm
 - 8082: slack
 - 8125: netdata
-- 8080: gitbucket (v6 only)
-- 25: postfix
-- 587: postfix
-- 143: dovecot IMAP
 

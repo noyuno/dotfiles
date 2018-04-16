@@ -29,6 +29,7 @@ declare usage=
 . $HOME/dotfiles/raspberry-pi/slack.sh
 . $HOME/dotfiles/raspberry-pi/display.sh
 . $HOME/dotfiles/raspberry-pi/disk.sh
+. $HOME/dotfiles/raspberry-pi/owncloud.sh
 
 help()
 {
