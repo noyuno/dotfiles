@@ -2,6 +2,7 @@
 *.bbl
 *.blg
 *.dvi
+*.ent
 *.fdb_latexmk
 *.fls
 *.gch
@@ -37,6 +38,7 @@ cmake_install.cmake
 compile_commands.json
 fcitx-pinyin.config
 install_manifest.txt
+reportc.tex
 result
 tags
 ~$*
