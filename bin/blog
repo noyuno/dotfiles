@@ -1,23 +1,59 @@
 #!/bin/bash -e
 
-base="$HOME/blog"
-title="$1"
-if [ ! "$title" ]; then
-    echo "required title" 1>&2
-    exit 1
-fi
-if [ ! -d "$HOME/blog" ]; then
-    echo "clone blog repo" 1>&2
-    exit  1
-fi
+help() {
+    cat << EOF >&2
+blog command
+    blog command
 
-ybase="$base/_posts/$(date +%Y)"
-mkdir -p "$ybase"
-f="$ybase/$(date +%Y-%m-%d)-$title.md"
-if [ ! -f "$f" ]; then
-    cp "$HOME/dotfiles/templates/blog.md" "$f"
-    sed -i 's|^title:|title: '"'$title'"'|' "$f"
-    sed -i 's|^image:|image: /images/'"$(date +%Y-%m-%d)-$title.png"'|' "$f"
-fi
-$EDITOR "$f"
+command: required one command
+    new|n <title>: new article with url-title
+    push|p: build and push blog
+    help: show this help
+EOF
+}
+
+new() {
+    base="$HOME/blog"
+    title="$1"
+    if [ ! "$title" ]; then
+        echo "required title" 1>&2
+        exit 1
+    fi
+    if [ ! -d "$HOME/blog" ]; then
+        echo "clone blog repo" 1>&2
+        exit  1
+    fi
+
+    ybase="$base/_posts/$(date +%Y)"
+    mkdir -p "$ybase"
+    f="$ybase/$(date +%Y-%m-%d)-$title.md"
+    if [ ! -f "$f" ]; then
+        cp "$HOME/dotfiles/templates/blog.md" "$f"
+        sed -i 's|^title:|title: '"'$title'"'|' "$f"
+        sed -i 's|^image:|image: /images/'"$(date +%Y-%m-%d)-$title.png"'|' "$f"
+    fi
+    $EDITOR "$f"
+}
+
+push() {
+    pushd $HOME/blog >/dev/null
+        bundle exec jekyll build -q
+        pushd _site >/dev/null
+            git add .
+            git commit -q -m 'Update article'
+            git push -q origin master
+        popd >/dev/null
+    popd >/dev/null
+    echo ok
+}
+
+case $1 in
+n|new) new $2 ;;
+p|push) push $* ;;
+help) help ;;
+*) 
+    echo "unknown command: $1" 1>&2
+    exit 1
+    ;;
+esac
 
