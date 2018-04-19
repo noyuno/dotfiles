@@ -18,7 +18,7 @@ ainstall()
         php5 php5-pgsql php5-gd php5-fpm php5-curl \
         rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl \
         librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
-        libconfig-general-perl libio-socket-ssl-perl wiringpi
+        libconfig-general-perl libio-socket-ssl-perl wiringpi etckeeper
 }
 
 network()

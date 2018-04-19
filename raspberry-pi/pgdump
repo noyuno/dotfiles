@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+pg_dump gitbucket >/mnt/karen/share/backup/psql/gitbucket
+pg_dump kanboard >/mnt/karen/share/backup/psql/kanboard
+pg_dump owncloud >/mnt/karen/share/backup/psql/owncloud
+
