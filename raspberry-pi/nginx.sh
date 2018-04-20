@@ -106,8 +106,8 @@ server {
     root /var/www/html;
 
     ssl on;
-    ssl_certificate /etc/ssl/myca/server.crt;
-    ssl_certificate_key /etc/ssl/myca/private/server.key;
+    ssl_certificate /etc/letsencrypt/live/noyuno.space/cert.pem;
+    ssl_certificate_key /etc/letsencrypt/live/noyuno.space/privkey.pem;
     
     location / {
         proxy_pass http://localhost:80/;
@@ -124,6 +124,16 @@ server {
     return 444;
 }
 
+server {
+    listen 80;
+    server_name $domain2 git.$domain2 status.$domain2 dir.$domain2 record.$domain2;
+    return 301 https://$domain\$request_uri;
+}
+server {
+    listen 443;
+    server_name $domain2 git.$domain2 status.$domain2 dir.$domain2 record.$domain2;
+    return 301 https://$domain\$request_uri;
+}
 EOF
 
     dfx sudo ln -sfnv /etc/nginx/sites-available/00-root.conf \

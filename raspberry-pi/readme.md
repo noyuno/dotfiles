@@ -68,7 +68,7 @@ If no command is given, will run below commands.
     declare user=noyuno
     declare gittarget=/var/git
     declare gituser=git
-    declare domain=noyuno.mydns.jp
+    declare domain=noyuno.space
     declare mail=noyuno@$domain
     declare pdata=/var/postgresql/data
     declare showterm=/var/www/showterm

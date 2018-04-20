@@ -114,8 +114,8 @@ server {
     server_name git.$domain;
     
     ssl on;
-    ssl_certificate /etc/ssl/myca/server.crt;
-    ssl_certificate_key /etc/ssl/myca/private/server.key;
+    ssl_certificate /etc/letsencrypt/live/noyuno.space/cert.pem;
+    ssl_certificate_key /etc/letsencrypt/live/noyuno.space/privkey.pem;
     
     charset UTF-8;
     proxy_set_header Host \$http_host;

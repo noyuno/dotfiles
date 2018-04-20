@@ -9,7 +9,7 @@ EOF
     sudo mkdir -p /root/.ssh
     sudo chmod 700 /root/.ssh
     sudo ssh-keygen -t rsa -f /root/.ssh/id_rsa -N ''
-    echo -e "Host git.noyuno.mydns.jp\n\tStrictHostKeyChecking no\n" | sudo tee -a /root/.ssh/config
+    echo -e "Host git.$domain\n\tStrictHostKeyChecking no\n" | sudo tee -a /root/.ssh/config
     sudo chmod 600 /root/.ssh/config
 }
 
