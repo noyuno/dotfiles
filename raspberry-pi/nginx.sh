@@ -104,8 +104,8 @@ server {
     listen 443 default_server;
     ssl on;
     server_name _;
-    ssl_certificate /etc/ssl/myca/server.crt;
-    ssl_certificate_key /etc/ssl/myca/private/server.key;
+    ssl_certificate /etc/letsencrypt/live/$domain/cert.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
     return 444;
 }
 
