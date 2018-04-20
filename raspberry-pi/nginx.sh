@@ -15,7 +15,7 @@ server_tokens off;
 server_names_hash_bucket_size 64;
 
 server {
-    listen 80;
+    listen 443 ssl;
     server_name $domain localhost;
     include /etc/nginx/mime.types;
     charset UTF-8;
@@ -27,6 +27,10 @@ server {
     
     gzip on;
     gzip_types text/html text/css application/javascript application/json;
+
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/noyuno.space/cert.pem;
+    ssl_certificate_key /etc/letsencrypt/live/noyuno.space/privkey.pem;
 
     root /var/www/html;
     
@@ -84,35 +88,16 @@ server {
 }
 
 server {
+    listen 80;
+    server_name $domain;
+    return 301 https://$domain\$request_uri;
+}
+
+
+server {
     listen 80 default_server;
     server_name _;
     return 444;
-}
-
-server {
-    listen 443 ssl;
-    server_name $domain localhost;
-    include /etc/nginx/mime.types;
-    charset UTF-8;
-    charset_types text/css application/json text/plain application/javascript;
-    add_header 'Access-Control-Allow-Origin' '*';
-    add_header 'Access-Control-Allow-Credentials' 'true';
-    add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
-    add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';
-    
-    gzip on;
-    gzip_types text/html text/css application/javascript application/json;
-
-    root /var/www/html;
-
-    ssl on;
-    ssl_certificate /etc/letsencrypt/live/noyuno.space/cert.pem;
-    ssl_certificate_key /etc/letsencrypt/live/noyuno.space/privkey.pem;
-    
-    location / {
-        proxy_pass http://localhost:80/;
-        proxy_redirect default;
-    }
 }
 
 server {
