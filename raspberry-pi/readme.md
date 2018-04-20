@@ -73,16 +73,22 @@ If no command is given, will run below commands.
     declare pdata=/var/postgresql/data
     declare showterm=/var/www/showterm
 
-## Public ports
+## Ports
 
 - 25: postfix
-- 80: nginx
+- 80: nginx(public)
+- 137: samba
+- 138: samba
+- 139: samba
 - 143: dovecot IMAP
+- 443: nginx(public)
 - 587: postfix
+- 4023: gitbucket
+- 4040: pleroma
 - 5432: postgre sql
-- 8000: jma
+- 8000: jma(public)
 - 8080: gitbucket
 - 8081: showterm
-- 8082: slack
+(- 8082: slack)
 - 8125: netdata
 

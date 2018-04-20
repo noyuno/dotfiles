@@ -29,8 +29,8 @@ server {
     gzip_types text/html text/css application/javascript application/json;
 
     ssl on;
-    ssl_certificate /etc/letsencrypt/live/noyuno.space/cert.pem;
-    ssl_certificate_key /etc/letsencrypt/live/noyuno.space/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$domain/cert.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
 
     root /var/www/html;
     
