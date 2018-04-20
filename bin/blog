@@ -8,6 +8,7 @@ blog command
 command: required one command
     new|n <title>: new article with url-title
     push|p: build and push blog
+    compress|c: compress images
     help: show this help
 EOF
 }
@@ -47,9 +48,16 @@ push() {
     echo ok
 }
 
+compress () {
+    pushd $HOME/blog/images >/dev/null
+        pngquant --ext .png -f *.png
+    popd >/dev/null
+}
+
 case $1 in
 n|new) new $2 ;;
 p|push) push $* ;;
+c|compress) compress ;;
 help) help ;;
 *) 
     echo "unknown command: $1" 1>&2

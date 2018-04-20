@@ -107,7 +107,11 @@ dfx mkdir -p ~/bin
 which zsh &&:
 [ $? -eq 0 ] && existszsh=1
 
-[ "$existszsh" ] && dfx sudo chsh "$(whoami)" -s /bin/zsh
+if [ "$existszsh" ]; then
+    if id | grep sudo; then
+        dfx sudo chsh "$(whoami)" -s /bin/zsh
+    fi
+fi
 
 [ "$existszsh" ] && dfx zsh -c 'zcompile ~/.zshrc'
 dfx . ~/dotfiles/.zprofile
@@ -139,6 +143,7 @@ sshstr()
 
 sshstr 'github.com'
 sshstr 'bitbucket.org'
+sshstr 'git.noyuno.mydns.jp'
 
 dfout2 "Deployed dotfiles. You need to restart tmux, zsh, vim."
 
