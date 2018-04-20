@@ -1,4 +1,4 @@
 #!/bin/bash -e
 
-etckeeper push origin master
+etckeeper vcs push origin master
 
