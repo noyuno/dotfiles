@@ -29,7 +29,7 @@ server {
     gzip_types text/html text/css application/javascript application/json;
 
     ssl on;
-    ssl_certificate /etc/letsencrypt/live/$domain/cert.pem;
+    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
 
     root /var/www/html;
@@ -104,7 +104,7 @@ server {
     listen 443 default_server;
     ssl on;
     server_name _;
-    ssl_certificate /etc/letsencrypt/live/$domain/cert.pem;
+    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
     return 444;
 }

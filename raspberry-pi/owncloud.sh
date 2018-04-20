@@ -48,7 +48,7 @@ server {
     server_name  dir.$domain;
 
     ssl on;
-    ssl_certificate /etc/letsencrypt/live/$domain/cert.pem;
+    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
 
     charset UTF-8;

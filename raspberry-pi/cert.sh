@@ -17,6 +17,6 @@ sudo certbot certonly --standalone -t
     -d trash.noyuno.space
     -d www.noyuno.space
     -d blog.noyuno.space
-sudo cp /etc/letsencrypt/live/noyuno.space/cert.pem /var/www/html/ca/ca.crt
+sudo cp /etc/letsencrypt/live/noyuno.space/fullchain.pem /var/www/html/ca/ca.crt
 openssl x509 -outform der -in /var/www/html/ca/ca.crt >/var/www/html/ca/ca.der
 
