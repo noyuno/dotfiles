@@ -20,7 +20,7 @@ quoted_delimiter = "%01"
 delimiter = urllib.parse.unquote(quoted_delimiter)
 sleep_time = 3600
 notify_time = 2
-url = "noyuno.mydns.jp"
+url = "noyuno.space"
 websocket_url = 'ws://' + url + ':8000'
 
 

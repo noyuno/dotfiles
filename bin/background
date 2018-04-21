@@ -3,7 +3,7 @@
 if [ "$1" = "push" ]; then
     scp ~/Pictures/background.png pi:/var/www/html/data/background.png
 else
-    wget -qO ~/Pictures/background.png noyuno.mydns.jp/data/background.png
+    wget -qO ~/Pictures/background.png noyuno.space/data/background.png
 fi
 which gsettings >/dev/null 2>&1
 if [ $? -eq 0 -a "$DESKTOP_SESSION" ]; then
