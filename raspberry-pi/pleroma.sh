@@ -66,6 +66,8 @@ server {
     ssl_prefer_server_ciphers on;
 
     server_name s.$domain;
+    error_page 503 /503;
+    error_page 502 =503 /503;
 
     gzip_vary on;
     gzip_proxied any;
@@ -99,6 +101,12 @@ server {
         proxy_pass http://localhost:4040;
 
         client_max_body_size 16m;
+
+    }
+
+    location /503 {
+        root /var/www/html;
+        try_files /pleroma/503.html /;
     }
 
     location /proxy {
