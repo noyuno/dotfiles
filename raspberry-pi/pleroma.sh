@@ -108,7 +108,7 @@ server {
         root /var/www/html/pleroma;
         try_files /503.html /;
     }
-    location /about/more {
+    location ~ ^/(about/more|terms) {
         root /var/www/html/pleroma;
         try_files /about.html /;
     }
