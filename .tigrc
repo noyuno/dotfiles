@@ -5,4 +5,5 @@ set blame-view = date:default author:full file-name:auto id:yes,color \
                  line-number:yes,interval=1 text
 set pager-view = line-number:yes,interval=1 text
 set tab-size = 4
+set main-view-date = custom,local:true,format="%F %R",width=0
 
