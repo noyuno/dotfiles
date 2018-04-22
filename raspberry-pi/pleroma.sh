@@ -105,8 +105,12 @@ server {
     }
 
     location /503 {
-        root /var/www/html;
-        try_files /pleroma/503.html /;
+        root /var/www/html/pleroma;
+        try_files /503.html /;
+    }
+    location /about/more {
+        root /var/www/html/pleroma;
+        try_files /about.html /;
     }
 
     location /proxy {
