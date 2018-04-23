@@ -82,12 +82,13 @@ server {
     #    alias /var/www/html/.well-known;
     #}
 
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Methods' 'POST, GET, OPTIONS' always;
+    add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type' always;
+
     location / {
         # if you do not want remote frontends to be able to access your Pleroma backend
         # server, remove these lines.
-        add_header 'Access-Control-Allow-Origin' '*' always;
-        add_header 'Access-Control-Allow-Methods' 'POST, GET, OPTIONS' always;
-        add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type' always;
         if (\$request_method = OPTIONS) {
             return 204;
         }
