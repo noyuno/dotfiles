@@ -29,10 +29,20 @@ upstream backend {
 
 server {
     # nginx listens to this
-    listen 80;
+    listen 443 ssl;
 
     # the virtual host name of this
     server_name status.$domain;
+
+    charset UTF-8;
+    charset_types text/css application/json text/plain application/javascript;
+    
+    gzip on;
+    gzip_types text/html text/css application/javascript application/json;
+
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
 
     location / {
         proxy_set_header X-Forwarded-Host \$host;
@@ -48,6 +58,12 @@ server {
     location /robots.txt {
         alias /var/www/html/robots-disallow.txt;
     }
+}
+
+server {
+    listen 80;
+    server_name status.$domain;
+    return 301 https://status.$domain\$request_uri;
 }
 EOF
     dfx sudo ln -sfnv /etc/nginx/sites-available/netdata.conf \

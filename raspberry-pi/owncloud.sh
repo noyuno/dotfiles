@@ -66,6 +66,10 @@ server {
     error_page 403 /core/templates/403.php;
     error_page 404 /core/templates/404.php;
 
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
+    add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';
 
     location = /robots.txt {
             allow all;
@@ -105,6 +109,6 @@ server {
 EOF
 
     sudo ln -sfnv /etc/nginx/sites-available/70-owncloud.conf /etc/nginx/sites-enabled/70-owncloud.conf 
-    sudo systemctl reload nginx
+    dfx sudo systemctl reload nginx
 
 }
