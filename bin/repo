@@ -60,7 +60,11 @@ _update_repo()
             # maybe upstream
             ret=$(git fetch $remote_name 2>$DFTMP/git-fetch-stderr-$name-$remote_name &&:)
             if [ $? -eq 0 ]; then
-                return 3
+                if [ "$ret" = "" ]; then
+                    return 0
+                else
+                    return 3
+                fi
             else
                 cat $DFTMP/git-fetch-stderr-$name-$remote_name
                 return 8
