@@ -645,3 +645,6 @@ fi
 # pass
 alias pc='pass -c'
 
+# image minify
+alias pngmin='pngquant -f --ext .png --quality=60'
+
