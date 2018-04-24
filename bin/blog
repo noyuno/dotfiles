@@ -6,11 +6,17 @@ blog command
     blog command
 
 command: required one command
+    init|i: init repository
     new|n <title>: new article with url-title
     push|p: build and push blog
     compress|c: compress images
     help: show this help
 EOF
+}
+
+init() {
+    git clone git@github.com:noyuno/blog.git $HOME/blog
+    git clone git@github.com:noyuno/noyuno.github.io.git $HOME/blog/_site
 }
 
 new() {
@@ -38,6 +44,9 @@ new() {
 
 push() {
     pushd $HOME/blog >/dev/null
+        git add .
+        git commit -m 'Update article'
+        git push origin master
         bundle exec jekyll build -q
         pushd _site >/dev/null
             git add .
@@ -55,6 +64,7 @@ compress () {
 }
 
 case $1 in
+i|init) init ;;
 n|new) new $2 ;;
 p|push) push $* ;;
 c|compress) compress ;;
