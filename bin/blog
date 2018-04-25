@@ -44,11 +44,16 @@ new() {
 
 push() {
     pushd $HOME/blog >/dev/null
+        echo -n "blog: "
         git add .
-        git commit -m 'Update article'
-        git push origin master
+        git commit -q -m 'Update article' &&:
+        git push -q origin master &&:
+        echo "ok"
+        echo -n "noyuno.github.io: "
         bundle exec jekyll build -q
         pushd _site >/dev/null
+            git checkout .
+            git pull -q
             git add .
             git commit -q -m 'Update article'
             git push -q origin master
