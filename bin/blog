@@ -50,10 +50,13 @@ push() {
         git push -q origin master &&:
         echo "ok"
         echo -n "noyuno.github.io: "
-        bundle exec jekyll build -q
         pushd _site >/dev/null
+            git clean -fdx
             git checkout .
             git pull -q
+        popd >/dev/null
+        bundle exec jekyll build -q
+        pushd _site >/dev/null
             git add .
             git commit -q -m 'Update article'
             git push -q origin master
