@@ -1,6 +1,10 @@
 #!/bin/bash -e
 
 help() {
+    if [ $# -ge 1 ]; then
+        echo "error: $*" >&2
+        echo "" >&2
+    fi
     cat << EOF >&2
 blog command
     blog command
@@ -10,8 +14,11 @@ command: required one command
     new|n <title>: new article with url-title
     push|p: build and push blog
     compress|c: compress images
+    edit|e: edit found file
+    keyword|k: edit files including specified keyword
     help: show this help
 EOF
+    exit 1
 }
 
 init() {
@@ -71,15 +78,62 @@ compress () {
     popd >/dev/null
 }
 
+__fileselector=""
+fileselector () {
+    if [ $# -eq 0 ]; then
+        echo "could not found specied file" >&2
+        exit 1
+    fi
+    n=1
+    declare -A a
+    if [ $# -gt 1 ]; then
+        p=1
+        for i in $* ; do
+            echo $p: $i
+            a[$p]=$i
+            p=$((p+1))
+        done
+        echo -n "which do you want edit: "
+        read n
+    fi
+    __fileselector=${a[$n]}
+    return 0
+}
+
+edit () {
+    fileselector `find $HOME/blog/_posts -type f | grep "$1"`
+    $EDITOR $__fileselector
+}
+
+editk () {
+    fileselector $(ag -l "$1" "$HOME/blog")
+    $EDITOR $__fileselector
+}
+
 case $1 in
 i|init) init ;;
 n|new) new $2 ;;
 p|push) push $* ;;
 c|compress) compress ;;
+e|edit)
+    shift
+    if [ $# -ge 1 ]; then
+        edit $*
+    else
+        help "not enough edit argument"
+    fi
+    ;;
+k|keyword)
+    shift
+    if [ $# -ge 1 ]; then
+        editk $*
+    else
+        help "not enough keyword"
+    fi
+    ;;
 help) help ;;
 *) 
-    echo "unknown command: $1" 1>&2
-    exit 1
+    help "unknown command: $1"
     ;;
 esac
 

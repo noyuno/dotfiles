@@ -30,6 +30,7 @@ alias ag='ag -S'
 alias agl='ag -S --stats --pager "less -R"'
 alias agh='ag --hidden'
 alias aglh='ag --hidden -S --stats --pager "less -R"'
+alias an='ag --hidden -l'
 
 alias t='tail -F'
 alias mt='multitail'
