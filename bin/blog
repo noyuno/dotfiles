@@ -6,15 +6,17 @@ help() {
         echo "" >&2
     fi
     cat << EOF >&2
-blog command
-    blog command
+blog <command>
+    blog management tool
 
-command: required one command
+<command>:
     init|i: init repository
     new|n <title>: new article with url-title
     push|p: build and push blog
     compress|c: compress images
     edit|e: edit found file
+    show|s: show
+    stop|t: stop service
     keyword|k: edit files including specified keyword
     help: show this help
 EOF
@@ -58,7 +60,7 @@ push() {
         echo "ok"
         echo -n "noyuno.github.io: "
         pushd _site >/dev/null
-            git clean -fdx
+            git clean -fdxq
             git checkout .
             git pull -q
         popd >/dev/null
@@ -95,19 +97,45 @@ fileselector () {
         done
         echo -n "which do you want edit: "
         read n
+        __fileselector=${a[$n]}
+    else
+        __fileselector=$1
     fi
-    __fileselector=${a[$n]}
     return 0
 }
 
 edit () {
-    fileselector `find $HOME/blog/_posts -type f | grep "$1"`
-    $EDITOR $__fileselector
+    pushd $HOME/blog/_posts >/dev/null
+        fileselector `find . -type f | grep "$1"`
+        $EDITOR $__fileselector
+    popd >/dev/null
 }
 
 editk () {
     fileselector $(ag -l "$1" "$HOME/blog")
     $EDITOR $__fileselector
+}
+
+show () {
+    pushd $HOME/blog >/dev/null
+        p=$(ps -x|grep '[j]ekyll serve'|awk '{print $1}')
+        if [ "$p" ]; then
+            echo "service already running, pid=$p" >&2
+        else
+            bundle exec jekyll serve &
+        fi
+        xdg-open 'http://localhost:4000/'
+    popd >/dev/null
+}
+
+stop () {
+    p=$(ps -x|grep '[j]ekyll serve'|awk '{print $1}')
+    if [ "$p" ]; then
+        kill $p
+    else
+        echo "service is not running" >&2
+        exit 1
+    fi
 }
 
 case $1 in
@@ -131,6 +159,8 @@ k|keyword)
         help "not enough keyword"
     fi
     ;;
+s|show) show ;;
+t|stop) stop ;;
 help) help ;;
 *) 
     help "unknown command: $1"

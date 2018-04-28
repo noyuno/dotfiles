@@ -50,13 +50,14 @@ EOF
         scp $tmp/info $server:$dest/log/$date.info
         ssh $server mkdir -p $dest/$date/$src
     fi
-    rsync $args $src $server:$dest/$date/$src
+    rsync $args $src $server:$dest/$date/$src &&:
     if [ ! "$DRYRUN" ]; then
+        ssh $server sync
         ssh $server ln -sfn $date $dest/latest
         if [ "$NEW" ]; then
-            ssh pi 'echo '"$date complete"' | tee -a '"$catalog"
+            ssh $server "echo $date complete | tee -a $catalog"
         else
-            ssh pi 'echo '"$date diff"' | tee -a '"$catalog"
+            ssh $server "echo $date diff | tee -a $catalog"
         fi
     fi
     echo -e "\e[34mFinished\e[m"
