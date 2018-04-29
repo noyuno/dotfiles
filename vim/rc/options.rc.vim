@@ -47,6 +47,7 @@ endfunction
 " Disable modeline.
 set modelines=0
 set nomodeline
+autocmd MyAutoCmd BufRead,BufWritePost *.txt setlocal modelines=5 modeline
 
 " Use clipboard register.
 
@@ -308,7 +309,7 @@ set display=lastline
 " Display an invisible letter with hex format.
 "set display+=uhex
 
-function! WidthPart(str, width) abort "{{{
+function! WidthPart(str, width) abort
   if a:width <= 0
     return ''
   endif
@@ -321,7 +322,7 @@ function! WidthPart(str, width) abort "{{{
   endwhile
 
   return ret
-endfunction"}}}
+endfunction
 
 " For conceal.
 set conceallevel=2 concealcursor=niv
