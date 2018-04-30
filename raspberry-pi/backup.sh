@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+usage=$usage"
+backup.sh
+    backup: configure backup"
+
 backup () {
 cat << EOF | sudo tee /etc/cron.d/backup
 35 04 * * * postgres /home/noyuno/dotfiles/raspberry-pi/pgdump

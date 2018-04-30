@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+usage=$usage"
+owncloud.sh
+    owncloud: install owncloud
+    owncloud_psql: clone repo
+    owncloud_nginx: nginx setting"
+
 owncloud () {
     wget -nv https://download.owncloud.org/download/repositories/production/Debian_9.0/Release.key -O /tmp/Release.key
     sudo apt-key add - < Release.key

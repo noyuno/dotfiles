@@ -33,6 +33,7 @@ declare usage=
 . $HOME/dotfiles/raspberry-pi/owncloud.sh
 . $HOME/dotfiles/raspberry-pi/backup.sh
 . $HOME/dotfiles/raspberry-pi/pleroma.sh
+. $HOME/dotfiles/raspberry-pi/cert.sh
 
 help()
 {
