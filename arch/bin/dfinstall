@@ -93,7 +93,7 @@ ipip()
 
 igem()
 {
-    dfx gem install --user-install neovim github-pages tmuxinator
+    dfx gem install --user-install --no-document neovim github-pages tmuxinator
 }
 
 itrans()

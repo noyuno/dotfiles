@@ -40,13 +40,14 @@ pandoc
 pass
 pdftk
 pv
+python
 python-pip
 python2-pip
 python2-xlsx2csv
-python
 ranger
 rbenv
 rsync
+ruby
 sc
 screenfetch
 shellcheck

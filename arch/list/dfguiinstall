@@ -1,3 +1,4 @@
+#ubuntu-mate-themes
 alsa-utils
 avahi
 cups
@@ -17,6 +18,8 @@ libreoffice-fresh
 libreoffice-fresh-ja
 lightdm
 lightdm-gtk-greeter
+mate
+mate-extra
 mesa
 network-manager-applet
 networkmanager
@@ -31,7 +34,6 @@ system-config-printer
 thunderbird
 thunderbird-i18n-ja
 ttf-inconsolata
-ubuntu-mate-themes
 vlc
 xbindkeys
 xdg-utils

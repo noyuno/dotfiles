@@ -1,10 +1,12 @@
 #!/bin/bash -e
 
-curl -L /tmp/Noto-hinted.zip https://noto-website-2.storage.googleapis.com/pkgs/Noto-hinted.zip >/tmp/Noto-hinted.zip
-sudo mkdir -p /usr/share/fonts/noto
-sudo unzip /tmp/Noto-hinted.zip -d /usr/share/fonts/noto/
-sudo chmod 644 /usr/share/fonts/noto/
-fc-cache -fv
+. $HOME/dotfiles/bin/dffunc
+
+dfx wget -qO /tmp/Noto-hinted.zip https://noto-website-2.storage.googleapis.com/pkgs/Noto-hinted.zip
+dfx sudo mkdir -p /usr/share/fonts/noto
+dfx sudo unzip -o /tmp/Noto-hinted.zip -d /usr/share/fonts/noto/
+dfx sudo chmod 644 /usr/share/fonts/noto/
+dfx fc-cache -fv
 
 cat << EOF | sudo tee /etc/fonts/local.conf
 <?xml version="1.0"?>
@@ -32,5 +34,5 @@ cat << EOF | sudo tee /etc/fonts/local.conf
 </fontconfig>
 EOF
 
-echo Please reboot
+dfout2 Please reboot
 

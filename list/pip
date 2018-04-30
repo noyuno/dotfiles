@@ -7,7 +7,6 @@ libclang-py3
 maybe
 progressbar2
 pylint
-rainbowstream
 virtualenv
 websocket-client
 
