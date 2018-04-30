@@ -1,13 +1,17 @@
 #!/bin/bash -e
 
+usage=$usage"
+pleroma.sh
+    pleroma: install pleroma
+    pleroma_repo: clone repo
+    pleroma_nginx: nginx setting"
+
 pleroma () {
-#echo "deb https://packages.erlang-solutions.com/debian stretch contrib" | sudo tee /etc/apt/sources.list.d/erlang-solutions.list
-#wget https://packages.erlang-solutions.com/debian/erlang_solutions.asc
-#sudo apt-key add erlang_solutions.asc
-#sudo apt update
-#sudo apt install elixir erlang erlang-xmerl
-#
-#
+    echo "deb https://packages.erlang-solutions.com/debian stretch contrib" | sudo tee /etc/apt/sources.list.d/erlang-solutions.list
+    dfx wget -qO /tmp/key.asc https://packages.erlang-solutions.com/debian/erlang_solutions.asc
+    dfx sudo apt-key add erlang_solutions.asc
+    dfx sudo apt update
+    aptinstall elixir erlang erlang-xmerl
 #mix deps.get
 #mix generate_config
 #sudo su postgres -c 'psql -f config/setup_db.psql'
@@ -40,6 +44,8 @@ EOF
 
 pleroma_repo() {
     sudo -u pleroma git clone https://git.pleroma.social/noyuno/pleroma.git
+    sudo -u pleroma git clone https://github.com/noyuno/dotfiles.git
+    sudo -u pleroma git clone https://github.com/noyuno/pleromabot.git
 }
 
 pleroma_nginx () {

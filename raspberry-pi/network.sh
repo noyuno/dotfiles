@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+usage=$usage"
+network.sh
+    network: configure network"
+
 network()
 {
 
