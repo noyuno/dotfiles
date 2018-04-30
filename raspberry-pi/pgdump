@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
-pg_dump gitbucket -f /mnt/karen/backup/psql/gitbucket
-pg_dump pleroma_dev -f /mnt/karen/backup/psql/pleroma_dev
-pg_dump owncloud  -f /mnt/karen/backup/psql/owncloud
-pg_dump postgres  -f /mnt/karen/backup/psql/postgres
+base=/mnt/karen/share/backup/psql
+pg_dump gitbucket     >$base/gitbucket
+pg_dump pleroma_dev   >$base/pleroma_dev
+pg_dump owncloud      >$base/owncloud
+pg_dump postgres      >$base/postgres
 
