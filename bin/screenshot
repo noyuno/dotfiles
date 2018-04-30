@@ -1,0 +1,20 @@
+#!/bin/bash -e
+
+to="$HOME/Desktop/$(date '+%F %T').png"
+clip="xclip -selection clipboard -t image/png"
+
+if [ $# -eq 0 ]; then
+    exit 1
+fi
+while getopts dsaDSAh OPT; do
+    case $OPT in
+        d) maim "$to" ;;
+        s) maim -s "$to" ;;
+        a) maim -i $(xdotool getactivewindow) "$to" ;;
+        D) maim | $clip ;;
+        S) maim -s | $clip ;;
+        A) maim -i $(xdotool getactivewindow) | $clip ;;
+        h) exit 1;;
+    esac
+done
+

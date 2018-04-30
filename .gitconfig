@@ -7,7 +7,7 @@
 	quotepath = false
 	editor = nvim
 	autocrlf = false
-	excludesfile = $HOME/dotfiles/.gitignore
+	excludesfile = /home/noyuno/dotfiles/.gitignore
     attributesFile = $HOME/dotfiles/.gitattributes
 	pager = less -R
 [color]

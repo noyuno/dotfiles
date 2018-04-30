@@ -6,14 +6,34 @@ icon-theme='matefaenzagray'
 gtk-theme='Ambiant-MATE'
 monospace-font-name='Noto Sans Mono CJK JP 10'
 
+[keybindings/custom2]
+action='screenshot -d'
+binding='Print'
+name='take an screenshot'
+
+[keybindings/custom1]
+action='krita'
+binding='<Mod4>k'
+name='krita'
+
+[keybindings/custom4]
+action='screenshot -a'
+binding='<Primary>Print'
+name='take an window screenshot'
+
 [keybindings/custom0]
 action='google-chrome-stable'
 binding='<Mod4>c'
 name='browser'
 
+[keybindings/custom3]
+action='screenshot -s'
+binding='<Shift>Print'
+name='take an region screenshot'
+
 [session]
 idle-delay=120
-session-start=1509090299
+session-start=1524990084
 
 [peripherals/touchpad]
 natural-scroll=true
@@ -32,7 +52,7 @@ model='dell'
 options=['ctrl\tctrl:swapcaps', 'caps\tcaps:ctrl_modifier', 'terminate\tterminate:ctrl_alt_bksp']
 
 [peripherals/keyboard]
-numlock-state='off'
+numlock-state='on'
 
 [peripherals/mouse]
 cursor-size=24
@@ -65,7 +85,11 @@ timeout=120
 slowkeys-enable=false
 
 [background]
+color-shading-type='vertical-gradient'
+primary-color='rgb(88,145,188)'
+picture-options='wallpaper'
 picture-filename='/home/noyuno/Pictures/background.png'
+secondary-color='rgb(60,143,37)'
 
 [font-rendering]
 antialiasing='rgba'
