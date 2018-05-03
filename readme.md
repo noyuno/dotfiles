@@ -69,7 +69,7 @@
 - `background`: Synchronize background wallpaper.
 - `backlight`: Change intel backlght brightness.
 - [`backup`](https://noyuno.github.io/blog/2018-03-17-snapshot): Take an snapshot $HOME directory.
-- `blog`: Create blog post.
+- [`blog`](https://noyuno.github.io/2018-04-28-blog): Write blog articles.
 - [`board`](https://noyuno.github.io/blog/2017/01/01/board/): Show the terminal as electric bulletin board.
 - `color`: 256-color terminal tester.
 - `dconf-dump`: Dump dconf.
@@ -105,7 +105,7 @@
 - `start-offlineimap`: Start `offlineimap` daemon.
 - `today`: Today's word and its meaning.
 - `unicode`: Show unicode name.
-- `upgrade`: Upgrade installed packages.
+- `upgrade`: Upgrade installed apt packages.
 - `weather`: Show weather forecast.
 
 ## Figures

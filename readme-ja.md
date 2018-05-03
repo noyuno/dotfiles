@@ -70,7 +70,7 @@
 - `background`: 壁紙を同期する．
 - `backlight`: Intelバックライトの明るさを変更する．
 - [`backup`](https://noyuno.github.io/blog/2018-03-17-snapshot): $HOME ディレクトリのスナップショットを取る．
-- `blog`: ブログの投稿を作成する．
+- [`blog`](https://noyuno.github.io/2018-04-28-blog): ブログの執筆をする.
 - [`board`](https://noyuno.github.io/blog/2017/01/01/board/): ターミナルに電光掲示板のように表示する．
 - `color`: 256-color端末テスタ．
 - `dconf-dump`: dconfダンパ.
@@ -106,7 +106,7 @@
 - `start-offlineimap`: `offlineimap`デーモンを開始する.
 - `today`: 今日の単語とその意味.
 - `unicode`: ユニコード名を表示する.
-- `upgrade`: インストールされたパッケージを更新する.
+- `upgrade`: インストールされたAPTパッケージを更新する.
 - `weather`: 天気予報を表示する.
 
 ## Windows 10 1607
