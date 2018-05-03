@@ -6,6 +6,8 @@
 - [Home (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
 - [Ubuntu (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
+It is outdated. I recommend the Arch Linux.
+
 ## Commands
 
 Execute on the terminal:

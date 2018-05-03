@@ -6,6 +6,8 @@
 - [Home (English)](https://github.com/noyuno/dotfiles/blob/master/readme.md)
 - [Ubuntu (English))](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
 
+古くなっています．Arch Linuxを推奨します．
+
 ## コマンド
 
 以下を端末で実行してください：

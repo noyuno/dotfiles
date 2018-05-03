@@ -42,6 +42,8 @@
 - [Ubuntu (English)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
 - [Ubuntu (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
+It is outdated. I recommend the Arch Linux.
+
 ## Preferences
 
 - Running these commands will install **NON-FREE SOFTWARES**.

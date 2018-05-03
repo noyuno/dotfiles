@@ -43,6 +43,8 @@
 - [Ubuntu (English)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
 - [Ubuntu (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
+古くなっています．Arch Linuxを推奨します．
+
 ## 外観
 
 - これらのコマンドを実行すると**不自由なソフトウェア**がインストールされます．
