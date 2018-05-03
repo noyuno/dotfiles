@@ -65,7 +65,7 @@
 [fetch]
 	fsckobjects = false
 [credential]
-	helper = cache --timeout=3600000
+	helper = pass
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
