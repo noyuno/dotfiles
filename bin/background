@@ -1,12 +1,25 @@
 #!/bin/bash
 
-if [ "$1" = "push" ]; then
-    scp ~/Pictures/background.png pi:/var/www/html/data/background.png
+srcname=background.png
+src=$HOME/Pictures/$srcname
+dmsrcname=dm-background.png
+dmsrc=/usr/share/pixmaps/$dmsrcname
+dest=pi:/var/www/html/data/
+pull=noyuno.space/data/
+
+if [ $# -eq 0 ]; then
+    wget -qO $src $pull/$srcname
 else
-    wget -qO ~/Pictures/background.png noyuno.space/data/background.png
+    case "$1" in
+    push)   scp $src $dest/$srcname ;;
+    pushdm) scp $dmsrc $dest/$dmsrcname ;;
+    pulldm) sudo wget -qO $dmsrc $pull/$dmsrcname ;;
+    *) echo "$1 Didn't match anything"
+    esac
 fi
+
 which gsettings >/dev/null 2>&1
 if [ $? -eq 0 -a "$DESKTOP_SESSION" ]; then
-    gsettings set org.mate.background picture-filename $HOME/Pictures/background.png
+    gsettings set org.mate.background picture-filename $src
 fi
 

@@ -11,7 +11,7 @@ iinit()
     aptinstall \
         apt-transport-https apt-utils bash wget curl git openssh-client \
         lsb-release software-properties-common \
-        python-software-properties
+        software-properties-common
 
     distribution="$(lsb_release -is | awk '{ print tolower($1) }')"
     release="$(lsb_release -sc)"

@@ -15,6 +15,7 @@ docker
 docx2txt
 expect
 exuberant-ctags
+ffmpeg
 gcalcli
 gettext
 git
@@ -26,7 +27,6 @@ imagemagick
 jq
 keychain
 libacl1-dev
-libav-tools
 libboost-all-dev
 libc++-dev
 libc++abi-dev
@@ -50,7 +50,7 @@ num-utils
 offlineimap
 openssh-client
 pass
-pdftk
+#pdftk
 python-clang-4.0
 python-virtualenv
 python3-dev

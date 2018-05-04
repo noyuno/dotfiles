@@ -196,7 +196,7 @@ fi
 [ "$zsh_version_is_5" = "1" ] && [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # C-s
-stty stop undef
+stty stop undef &&:
 
 # SSH
 #if [ ! -n "${REMOTEHOST}${SSH_CONNECTION}" ]; then

@@ -12,6 +12,10 @@ iyaourt()
     dfx yaourt -S --noconfirm ${packages[@]}
 }
 
+ilightdm () {
+    dfx sudo cp -r $HOME/dotfiles/etc/lightdm /etc
+}
+
 ifont()
 {
     # Powerline fonts
@@ -44,6 +48,7 @@ Install all packages by default.
 commands:
     mate
     yaourt
+    lightdm
 EOF
     ) >&2
     exit 1
@@ -58,6 +63,7 @@ run()
 if [ $# -eq 0 ] ;then
     run iyaourt
     #run ifont
+    run ilightdm
 elif [ "$1" = help ]; then
     help
 else

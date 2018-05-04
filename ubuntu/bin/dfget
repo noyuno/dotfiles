@@ -50,7 +50,7 @@ postclone()
     sudo apt -y install \
         apt-transport-https apt-utils bash wget curl git openssh-client \
         lsb-release software-properties-common \
-        python-software-properties
+        software-properties-common
 }
 
 clone()

@@ -83,7 +83,7 @@ fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # C-s
-stty stop undef
+stty stop undef &&:
 
 PATH=/home/noyuno/go/bin:$PATH
 GOPATH=/home/noyuno/go
