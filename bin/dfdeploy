@@ -117,7 +117,7 @@ fi
 dfx . ~/dotfiles/.zprofile
 dfx . ~/dotfiles/.zsh_aliases '&&:'
 dfx rm -rf ~/.zcompdump
-[ "$existszsh" ] && dfx zsh -c 'source ~/.zshrc'
+[ "$existszsh" ] && dfx zsh -c 'source ~/.zshrc' '&&:'
 
 # ssh
 sshstr()

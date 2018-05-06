@@ -12,6 +12,8 @@ content=$(command wiki -s "$title" | grep -v '^\s*$')
 
 echo "$title" >> "$HOME/.cache/today_history"
 
-echo -e "\e[32m$title\e[m" | xargs board -- 
-echo "$content"
+echo "$content" | GREP_COLOR='01;32' grep -z --color=always "$title" &&:
+if [ $? -eq 1 ]; then
+    echo "$content"
+fi
 

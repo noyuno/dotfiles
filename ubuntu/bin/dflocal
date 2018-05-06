@@ -12,11 +12,11 @@ while [ $# -gt 0 ] ; do
     case "$1" in
         all)
             array=(${array[@]} "dfinstall" "dfguiinstall" "dfsysconf" \
-            "dfdeploy" "dfguiconf" "dfnvim-apt" "dfjava" "dftex" "dfdein")
+            "dfguiconf" "dfnvim-apt" "dfjava" "dftex" "dfdein")
             ;;
         cli)    
             array=(${array[@]} "dfinstall" "dfsysconf" \
-            "dfdeploy" "dfnvim-apt" "dfdein")
+            "dfnvim-apt" "dfdein")
             ;;
         *)
             if [ -e "$HOME/dotfiles/ubuntu/bin/$1" -o "$HOME/dotfiles/bin/$1" ]; then 
@@ -39,6 +39,14 @@ sudo -E grep "$npwt" /etc/sudoers >/dev/null &&:
 if [ $? -ne 0 ]; then
     dfx sudo bash -c "echo '$npwt' >> /etc/sudoers"
     sudoers_add_nopasswd=1
+fi
+
+# set apt proxy
+if [ "$http_proxy" ]; then
+    dfout3 "http_proxy=$http_proxy"
+    cat << EOF | sudo tee -a /etc/apt/apt.conf
+    Acquire::http::proxy "$http_proxy";
+EOF
 fi
 
 i=1

@@ -22,13 +22,8 @@
 3. `git remote set-url origin <your-url>`
 4. `dfchuri`
 5. `git add . && git commit -m Update && git push origin master`
-6. `./dotfiles/DISTRIBUTION/bin/dfinstall`
-7. `./dotfiles/bin/dfdeploy`
-8. As you like
-
-## Start
-
-    git clone https://github.com:noyuno/dotfiles.git ~/dotfiles
+6. [run install/deploy commands](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md#commands)
+7. As you like
 
 ## Distributions
 

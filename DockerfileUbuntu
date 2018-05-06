@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 
 ARG DRYRUN=${DRYRUN}
 ARG QUIET=${QUIET}
+
 RUN apt update && \
     if [ $QUIET ]; then QUIETFLAG="-qq"; fi && \
     apt -y $QUIETFLAG install sudo curl && \
