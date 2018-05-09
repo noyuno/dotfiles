@@ -7,6 +7,9 @@ gitbucket.sh
     gitbucket_psql: psql for gitbucket
     gitbucket_plugins: gitbucket plugins "
 
+declare gittarget=/mnt/karen/git
+declare gituser=git
+
 gitbucket()
 {
     dfx sudo mkdir -p $gittarget/repo
@@ -16,8 +19,9 @@ gitbucket()
 curl -sL \$(curl -s https://api.github.com/repos/gitbucket/gitbucket/releases/latest | \\
     jq -r '.assets[] |select(.name=="gitbucket.war").browser_download_url') \\
     >/tmp/gitbucket.war
+sudo systemctl stop gitbucket.service
 sudo -u git cp /tmp/gitbucket.war $gittarget/gitbucket.war
-sudo systemctl restart gitbucket.service
+sudo systemctl start gitbucket.service
 EOF
     dfx sudo chmod +x $gittarget/update.sh
     if [ ! -e $gittarget/gitbucket.war ]; then
@@ -31,6 +35,9 @@ Description=Git hosting service
 [Service]
 User=git
 ExecStart=$gittarget/run.sh
+Restart = on-failure
+RestartSec = 15s
+StartLimitBurst = 5
 
 [Install]
 WantedBy=multi-user.target
@@ -39,8 +46,8 @@ EOF
     cat << EOF | sudo -u git tee $gittarget/run.sh
 #!/bin/sh -e
 (
-/usr/bin/java -jar /var/git/gitbucket.war --port=8080 \
-    --gitbucket.home=/var/git/repo
+/usr/bin/java -jar $gittarget/gitbucket.war --port=8080 \
+    --gitbucket.home=$gittarget/repo
 ) >>/var/log/gitbucket.log 2>&1
 EOF
     dfx sudo chmod +x $gittarget/run.sh
@@ -58,16 +65,20 @@ EOF
 
     if [ ! -e $gittarget/repo/gitbucket.conf ]; then
         cat << EOF | sudo tee $gittarget/repo/gitbucket.conf
+oidc_authentication=false
 gravatar=false
 notification=false
 useSMTP=false
+skinName=skin-blue
 is_create_repository_option_public=false
 ldap_authentication=false
-ssh=false
+ssh=true
 allow_account_registration=false
-ssh.host=$domain
+ssh.host=git.$domain
+activity_log_limit=10000
 allow_anonymous_access=true
-ssh.port=22
+information=Raspberry Pi Git server. <a href\="//$domain">Go to home</a>
+ssh.port=4023
 base_url=https\://git.$domain
 EOF
     fi
@@ -119,7 +130,7 @@ server {
     
     charset UTF-8;
     charset_types text/css application/json text/plain application/javascript;
-    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Credentials' 'true';
     add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
     add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';

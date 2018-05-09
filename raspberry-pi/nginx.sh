@@ -20,7 +20,7 @@ server {
     include /etc/nginx/mime.types;
     charset UTF-8;
     charset_types text/css application/json text/plain application/javascript;
-    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Credentials' 'true';
     add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
     add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';

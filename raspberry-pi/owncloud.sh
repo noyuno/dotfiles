@@ -72,7 +72,7 @@ server {
     error_page 403 /core/templates/403.php;
     error_page 404 /core/templates/404.php;
 
-    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Credentials' 'true';
     add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
     add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';

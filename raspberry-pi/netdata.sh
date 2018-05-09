@@ -44,6 +44,11 @@ server {
     ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
 
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
+    add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';
+
     location / {
         proxy_set_header X-Forwarded-Host \$host;
         proxy_set_header X-Forwarded-Server \$host;

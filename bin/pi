@@ -3,8 +3,6 @@
 . $HOME/dotfiles/bin/dffunc
 
 declare user=noyuno
-declare gittarget=/var/git
-declare gituser=git
 declare domain=noyuno.space
 declare domain2=noyuno.mydns.jp
 declare mail=noyuno@$domain
