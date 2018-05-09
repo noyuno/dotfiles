@@ -24,7 +24,7 @@ set header_cache      =  ~/.mutt/cache/headers
 set message_cachedir  =  ~/.mutt/cache/bodies
 set certificate_file  =  ~/.mutt/certificates
 set charset = "UTF-8"
-set file_charset="iso-2022-jp:euc-jp:shift_jis:utf-8"
+#set file_charset="iso-2022-jp:euc-jp:shift_jis:utf-8"
 set assumed_charset="iso-2022-jp:euc-jp:shift_jis:utf-8"
 
 set date_format="%y/%m/%d"
@@ -74,6 +74,9 @@ bind index,pager,attach,compose \cu half-up
 #bind index,pager,attach,compose \cf next-page
 # ^bで1ページ上にスクロール
 #bind index,pager,attach,compose \cb previous-page
+
+bind index g noop
+bind pager g noop
 
 # ggで一番上にスクロール
 bind index gg first-entry

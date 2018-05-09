@@ -1,5 +1,5 @@
 
-source "gpg2 -d ~/.mutt/a-passwd.gpg |"
+source "gpg2 -d ~/pass/mutt/a-passwd.gpg |"
 
 set spoolfile         =  "+INBOX"
 set record="+Outbox"

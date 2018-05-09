@@ -44,7 +44,6 @@ pv
 python
 python-pip
 python2-pip
-python2-xlsx2csv
 ranger
 rbenv
 rsync

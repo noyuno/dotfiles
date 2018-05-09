@@ -39,6 +39,11 @@
 
 古くなっています．Arch Linuxを推奨します．
 
+### Windows 10 1803
+
+- Chocolatey
+- `windows/dfinstall.ps1`: Install applications in `windows/packages.config`
+
 ## 外観
 
 - これらのコマンドを実行すると**不自由なソフトウェア**がインストールされます．
@@ -61,13 +66,13 @@
 ## 有用なコマンド
 
 - `anime-check`: このシーズンで設定されたアニメが放送されるか確認する．
-- [`anime`](https://noyuno.github.io/blog/2016/12/09/anime/): アニメ番組表を表示する．
+- [`anime`](https://noyuno.github.io/2016-12-09-anime): アニメ番組表を表示する．
 - `args`: 引数チェッカ．
 - `background`: 壁紙を同期する．
 - `backlight`: Intelバックライトの明るさを変更する．
 - [`backup`](https://noyuno.github.io/blog/2018-03-17-snapshot): $HOME ディレクトリのスナップショットを取る．
 - [`blog`](https://noyuno.github.io/2018-04-28-blog): ブログの執筆をする.
-- [`board`](https://noyuno.github.io/blog/2017/01/01/board/): ターミナルに電光掲示板のように表示する．
+- [`board`](https://noyuno.github.io/2017-01-01-board): ターミナルに電光掲示板のように表示する．
 - `color`: 256-color端末テスタ．
 - `dconf-dump`: dconfダンパ.
 - `dumppass`: `password-store`のパスワードをダンプ.
@@ -92,10 +97,9 @@
 - `now` : 現在時刻を表示する.
 - `panview`: Pandocを用いてHTMLとして閲覧する.
 - `pi`: Raspberry Pi 3用の設定および環境構築コマンド.
-- [`printout`](https://noyuno.github.io/blog/2017/05/15/printout/): ファイルまたは標準入力からの平文テキストを印刷する.
+- [`printout`](https://noyuno.github.io/blog/2017-05-15-printout): ファイルまたは標準入力からの平文テキストを印刷する.
 - `pull`: ホームディレクトリ下のリポジトリをpullする.
-- `rate`: JPY/USD為替レートをグラフで表示する.
-- [`repo`](https://noyuno.github.io/blog/2017/06/25/repo/): 自分のリポジトリを更新する.
+- [`repo`](https://noyuno.github.io/blog/2017-06-25-repo): 自分のリポジトリを更新する.
 - `rinit`: レポート作成用ディレクトリを作成する.
 - `rmdocker`: 名前がつけられていないdockerイメージおよびコンテナを削除する.
 - `rmswap`: Vim/Neovim スワップファイルをZsh補完候補から選択して削除する.
@@ -105,17 +109,12 @@
 - `upgrade`: インストールされたAPTパッケージを更新する.
 - `weather`: 天気予報を表示する.
 
-## Windows 10 1607
-
-- Chocolatey
-- `runvbox.ps1`: Windows上のVirtualBox上のUbuntuを実行する．
-- `windows/dfinstall.ps1`, `windows/dfdeploy.ps1`: Windows Subsystem for Linuxのためのツール．
-
-## 図
+## スクリーンショット
 
 ![fig](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)
 
 上段: anime，中段: ical，下段左: jma, 下段右: weather．
+
 `tmain (tmuxinator)`で見た目が整います．
 
 ## 参考

@@ -12,7 +12,7 @@ mailboxes "+INBOX" \
           "+[Gmail].Starred" \
           "+[Gmail].Trash"
 
-#source "gpg2 -d ~/.mutt/passwd.gpg |"
+#source "gpg2 -d ~/pass/mutt/passwd.gpg |"
 
 #set from=""
 #set realname=""
