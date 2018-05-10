@@ -5,7 +5,11 @@ if [ $# -gt 1 ]; then
     echo "too many arguments" >&2
     exit 1
 elif [ $# -eq 1 ]; then
-    file=$1
+    if [ -d $1 ]; then
+        file=$1/$file
+    else
+        file=$1
+    fi
 fi
 
 new=0
