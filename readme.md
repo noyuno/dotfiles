@@ -43,6 +43,7 @@ It is outdated. I recommend the Arch Linux.
 
 - Chocolatey
 - `windows/dfinstall.ps1`: Install applications in `windows/packages.config`
+- Type `Set-ExecutionPolicy ByPass` in PowerShell before run scripts.
 
 ## Preferences
 
