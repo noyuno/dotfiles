@@ -27,8 +27,10 @@ build()
     if [ -d "$cache" ]; then
         rm -rf "$cache"
     fi
-    echo "building"
+    echo -n "building"
+    n=0
     for f in $(find "$dir" -type f -name "*.desktop"); do
+        n=$((n+1))
         #echo $f
         pname=
         for i in $(seq `grep -ce "^Name=" < "$f"`); do

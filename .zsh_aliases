@@ -2,7 +2,7 @@
 case ${OSTYPE} in
     linux*) 
         alias ls='ls --color -h -N'
-        tstyle='--time-style=long-iso';; #I like color
+        tstyle='--time-style=long-iso';;
     darwin*) alias ls='ls -Gh' ;;
 esac
 alias l='ls -Fh'     #size,show type,human readable
@@ -288,7 +288,7 @@ alias wiki='wiki -s'
 alias ideainit='cp "$HOME/dotfiles/templates/intellij-idea.iml" "$(basename $PWD).iml"'
 
 # sudo
-alias sudo='sudo '
+alias sd='sudo '
 
 # open
 alias xo='xdg-open'
@@ -570,6 +570,7 @@ v() {
                 [ -f "${line/\~/$HOME}" ] && echo "$line"
             done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
 }
+
 # c - browse chrome history
 ch() {
     local cols sep
@@ -589,7 +590,7 @@ ch() {
     awk -F $sep 'NR!=1{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' | \
     fzf --ansi --multi --no-hscroll --tiebreak=begin >/tmp/chrome-history-select
     [ $? -eq 0 ] && sed 's#.*\(https*://\)#\1#' </tmp/chrome-history-select | \
-    xargs google-chrome
+    xargs google-chrome-stable
 }
 
 cb() {
@@ -614,8 +615,7 @@ cb() {
         ' | \
     fzf --ansi --multi --no-hscroll --tiebreak=begin >/tmp/chrome-bookmarks-select
     [ $? -eq 0 ] && sed 's#.*\(https*://\|chrome://\)#\1#' </tmp/chrome-bookmarks-select | \
-    xargs google-chrome
-
+    xargs google-chrome-stable
 }
 
 # open multiple files by tab
@@ -647,5 +647,8 @@ fi
 alias pc='pass -c'
 
 # image minify
-alias pngmin='pngquant -f --ext .png --quality=60'
+alias pngmin='pngquant -f --ext .png --speed 1'
+alias jpgmin='jpegoptim -f -o -m90 -s'
+
+alias dig='drill'
 
