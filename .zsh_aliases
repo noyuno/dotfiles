@@ -655,3 +655,5 @@ pdfpng() {
 
 alias dig='drill'
 
+alias yaourt='yaourt --asdeps --needed'
+

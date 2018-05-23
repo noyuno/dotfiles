@@ -9,7 +9,7 @@ iyaourt()
     while read i; do
         packages=(${packages[@]} $i)
     done < "$DFTMP/data"
-    dfx yaourt -S --noconfirm ${packages[@]}
+    dfx yaourt -S --noconfirm --needed --asdeps ${packages[@]}
 }
 
 ilightdm () {

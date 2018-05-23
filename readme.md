@@ -101,8 +101,8 @@ It is outdated. I recommend the Arch Linux.
 - [`printout`](https://noyuno.github.io/2017-05-15-printout): Print out plain text from file or stdin.
 - `pull`: Pull under all $HOME repository.
 - [`repo`](https://noyuno.github.io/2017-06-25-repo): Synchronize my repositories.
-- `rinit`: Initialize report directory.
-- `rmdocker`: Remove unnamed containers and images.
+- [`rinit`](https://noyuno.github.io/2018-05-24-latex): Initialize report directory.
+- [`rmdocker`](https://noyuno.github.io/2017-10-29-docker): Remove unnamed containers and images.
 - `rmswap`: Remove Vim/Neovim swap file using zsh completion candidates.
 - `start-offlineimap`: Start `offlineimap` daemon.
 - `today`: Today's word and its meaning.

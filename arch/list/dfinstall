@@ -6,6 +6,7 @@ cmake
 colordiff
 cronie
 ctags
+dmidecode
 docx2txt
 exfat-utils
 expect
