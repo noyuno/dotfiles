@@ -9,6 +9,9 @@ else
     todayf=$(date +%Y/%m/%d)
 fi
 
+last=$(find $base -maxdepth 1 -type d | sed "s|^$base/||"|sort -n|tail -n 1)
+lastf=$(date +%Y/%m/%d -d $last)
+
 if [ ! -d $base ]; then
     echo "$base not found." >&2
 fi
@@ -17,7 +20,7 @@ if [ ! -e $today ]; then
     cp -R $base/template $base/$today
 fi
 
-sed -i -e "s|TODAY|$todayf|g" "$base/$today/report.md"
+sed -i -e "s|TODAY|$todayf|g" -e "s|LAST|$lastf|g" "$base/$today/input.md"
 
 cd $base/$today
 exec $SHELL
