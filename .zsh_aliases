@@ -649,6 +649,9 @@ alias pc='pass -c'
 # image minify
 alias pngmin='pngquant -f --ext .png --speed 1'
 alias jpgmin='jpegoptim -f -o -m90 -s'
+pdfpng() {
+    pdftoppm $1 -png -r 350 out
+}
 
 alias dig='drill'
 

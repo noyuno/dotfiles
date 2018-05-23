@@ -1,39 +1,54 @@
-テスト用
-
 # セクション(section)
 
-## subsection
+## サブセクション(subsection)
+
+### サブサブセクション(subsubsection)
+
+
+吾輩は猫である。名前はまだ無い。
+
+どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番｜獰悪な種族であったそうだ。
+\begin{multicols}{2}
+この書生というのは時々我々を捕えて煮て食うという話である
+\footnote{
+寿限無、寿限無
+五劫の擦り切れ
+海砂利水魚の
+水行末 雲来末 風来末
+食う寝る処に住む処
+藪ら柑子の藪柑子
+パイポ　パイポ　パイポのシューリンガン
+シューリンガンのグーリンダイ
+グーリンダイのポンポコピーのポンポコナーの
+長久命の長助
+}
+。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。ただ彼の掌に載せられてスーと持ち上げられた時何だかフワフワした感じがあったばかりである。
+
 
 \begin{itembox}[l]{公式}
 $e^{i \pi} = -1$
 \end{itembox}
 
-### subsubセクション
+\begin{description}
+\item[項目] 説明
+\item[Keyword]\mbox{}\\
+    long description 長い説明
+    long description 長い説明
+    long description 長い説明
+\end{description}
 
-本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文
-
-\begin{multicols}{2}
-二段組\footnote{これはfootnoteである}二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組
-\end{multicols}
-
-- **項目**:説明説明説明説明説明説明
-- **Keyword**:説明説明説明説明説明説明
-
-- 箇条書き
-  - 第2レベル箇条書き
-    - 第3レベル箇条書き
-      - 第4レベル箇条書き
-
-1. 箇条書き
-1. 第2レベル箇条書き
-1. 箇条書き
-
-列A      列B
-------   --------
-アイテム アイテム
-アイテム アイテム
-アイテム アイテム
-アイテム アイテム
+\begin{itemize}
+    \item 箇条書き
+    \begin{itemize}
+        \item 第2レベル箇条書き
+        \begin{itemize}
+            \item 第3レベル箇条書き
+            \begin{itemize}
+                \item 第4レベル箇条書き
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
 
 \begin{table}[H]
 \centering
@@ -44,11 +59,12 @@ c & d \\ \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=8cm]{./sample/1.png}
-\caption{sample figure \label{fig:fi}}
-\end{figure}
+\begin{lstlisting}[language=python,caption=hello code \label{src:hello}]
+while True:
+    print("hello world")
+\end{lstlisting}
+
+\end{multicols}
 
 \begin{figure}[H]
 \begin{minipage}{0.5\hsize}
@@ -64,9 +80,5 @@ c & d \\ \hline
 \caption{2 figures \label{fig:2fig}}
 \end{figure}
 
-
-\begin{lstlisting}[language=python,caption=hello code \label{src:hello}]
-    print("hello world")
-\end{lstlisting}
 
 

@@ -8,5 +8,5 @@ image:
 
 contents
 
-![image]({{page.image}})
+[![image]({{page.image}})]({{page.image}})
 

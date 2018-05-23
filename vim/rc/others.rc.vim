@@ -71,6 +71,7 @@ if !IsWindows()
 endif
 " Always display cursor line
 set cursorline
+set cursorcolumn
 "set cmdheight=1
 set showtabline=1
 set swapfile

@@ -29,7 +29,7 @@
 \usepackage[dvipsnames,dvipdfmx]{xcolor}
 \usepackage{ascmac}
 \usepackage{amsmath}
-\usepackage{bigtabular}
+\usepackage{supertabular}
 \usepackage{multicol}
 \usepackage[subrefformat=parens]{subcaption}
 \captionsetup{compatibility=false}
@@ -38,6 +38,9 @@
 \usepackage{bm}
 \usepackage{here}
 \usepackage{siunitx}
+\usepackage{enumitem}
+\setlist{leftmargin=1zw}
+\setlist[itemize,1]{leftmargin=1zw}
 
 \setlength\intextsep{10.5pt}
 \setlength\textfloatsep{10.5pt}
@@ -56,7 +59,7 @@
 \renewcommand\maketitle[0]{
     \begin{center}
     \hspace{-1em}
-    \fontsize{22}{72}{\textgt{\@title}} \normalsize \\
+    \fontsize{18}{72}{\textgt{\@title}} \normalsize \\
     \vspace{1zh}
     \@date \quad \@author
     \end{center}
@@ -115,9 +118,9 @@
 \renewcommand{\lstlistingname}{List }
 \renewcommand{\refname}{}
 
-\newcommand\figref[1]{Figure~\ref{fig:#1}}
-\newcommand\tabref[1]{Table~\ref{tab:#1}}
-\newcommand\srcref[1]{List~\ref{src:#1}}
+\newcommand\figr[1]{Figure~\ref{fig:#1}}
+\newcommand\tabr[1]{Table~\ref{tab:#1}}
+\newcommand\srcr[1]{List~\ref{src:#1}}
 
 % source code
 \lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single}

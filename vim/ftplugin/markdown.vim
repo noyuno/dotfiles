@@ -1,4 +1,3 @@
-
 nnoremap <leader>ll :<C-u>silent
   \ !make show<CR><C-l>
 
@@ -7,6 +6,4 @@ function! RunShell()
 endfunction
 
 command! RunShell :call RunShell()
-
-runtime! syntax/tex.vim
 

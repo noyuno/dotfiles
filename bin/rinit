@@ -40,11 +40,13 @@ fi
 mkdir -p "$dir"
 
 #cp -R ~/dotfiles/report/*.sty ~/dotfiles/report/*.tex ~/dotfiles/report/Makefile "$dir"
-find ~/dotfiles/report -type f \( -name "*.tex" -o -name "*.sty" -o -name "Makefile" -o -name ".gitignore" \) -not -name reportc.tex | \
+find ~/dotfiles/report -type f \( \
+    -name "*.tex" -o -name "*.sty" -o -name "Makefile" -o -name ".gitignore" \) \
+    -not -name reportc.tex -a -not -name input.tmp.tex | \
     xargs -i cp {} "$dir"
 
 if [ "$md" -eq 0 ]; then
-    touch "$dir/report.md"
-    sed -i 's/\\input{reportc}/%\\input{reportc}/' "$dir/report.tex"
+    touch "$dir/input.md"
+    sed -i 's/\\input{reportc}/%\\input{reportc}/' "$dir/main.tex"
 fi
 
