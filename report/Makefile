@@ -8,6 +8,11 @@ TEX      := $(shell find . -name '*.tex')
 
 %.tmp.tex: %.md
 	pandoc -o $@ $<
+	# fix table
+	sed -i -e 's/\\begin{longtable}/\\vspace{2zh}\\begin{center}\\begin{supertabular}/g' \
+		-e 's/\\end{longtable}/\\end{supertabular}\\end{center}\\vspace{2zh}/' \
+		-e 's/\\endhead//' \
+		$@
 
 %.png: %.gif
 	mogrify -format png $<
