@@ -1,34 +1,28 @@
-LATEXMK := $(shell command -v latexmk 2> /dev/null)
-LATEXMKOPTION :=
-TARGET := report.pdf
-SOURCE := report.tex
-MARKDOWN :=  $(shell find -path ./report.md)
-GIF := $(shell find -path *.gif)
+TARGET   := report.pdf
+TEXNAME  := main.tex
+MARKDOWN := $(shell find . -name '*.md')
+GIF      := $(shell find . -name '*.gif')
+TEX      := $(shell find . -name '*.tex')
 
 .PHONY: build clean distclean show filer
 
-build:
-ifdef MARKDOWN
-	pandoc -o reportc.tex $(MARKDOWN)
-endif
-ifdef GIF
-	mogrify -format png $(GIF)
-	trash $(GIF)
-endif
-ifdef LATEXMK
-	latexmk -pdfdvi $(LATEXMKOPTION) $(SOURCE)
-else
-	uplatex -interaction=batchmode -shell-escape $(SOURCE)
-	dvipdfmx report.dvi
-endif
+%.tmp.tex: %.md
+	pandoc -o $@ $<
+
+%.png: %.gif
+	mogrify -format png $<
+
+$(TARGET): $(TEX) $(GIF:gif=png) $(MARKDOWN:md=tmp.tex)
+	latexmk -pdfdvi $(TEXNAME)
+	mv $(TEXNAME:tex=pdf) $(TARGET)
 
 clean:
-	$(RM) *.aux *.dvi *.log *.fdb_latexmk *.fls *.synctex.gz *.out reportc.tex
+	$(RM) *.aux *.dvi *.log *.fdb_latexmk *.fls *.synctex.gz *.out *.tmp.tex
 
 distclean: clean
 	$(RM) $(TARGET)
 
-show: build
+show: $(TARGET)
 	xdg-open $(TARGET)
 
 filer: build

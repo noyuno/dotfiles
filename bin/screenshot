@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-to="$HOME/Desktop/$(date '+%F %T').png"
+to="$HOME/Desktop/$(date '+%Y%m%d-%H%M%S').png"
 clip="xclip -selection clipboard -t image/png"
 
 if [ $# -eq 0 ]; then

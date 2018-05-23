@@ -1,0 +1,103 @@
+テスト用
+
+\hypertarget{ux30bbux30afux30b7ux30e7ux30f3section}{%
+\section{セクション(section)}\label{ux30bbux30afux30b7ux30e7ux30f3section}}
+
+\hypertarget{subsection}{%
+\subsection{subsection}\label{subsection}}
+
+\begin{itembox}[l]{公式}
+$e^{i \pi} = -1$
+\end{itembox}
+
+\hypertarget{subsubux30bbux30afux30b7ux30e7ux30f3}{%
+\subsubsection{subsubセクション}\label{subsubux30bbux30afux30b7ux30e7ux30f3}}
+
+本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文
+
+\begin{multicols}{2}
+二段組\footnote{これはfootnoteである}二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組二段組
+\end{multicols}
+
+\begin{itemize}
+\item
+  \textbf{項目}:説明説明説明説明説明説明
+\item
+  \textbf{Keyword}:説明説明説明説明説明説明
+\item
+  箇条書き
+
+  \begin{itemize}
+  \tightlist
+  \item
+    第2レベル箇条書き
+
+    \begin{itemize}
+    \tightlist
+    \item
+      第3レベル箇条書き
+
+      \begin{itemize}
+      \tightlist
+      \item
+        第4レベル箇条書き
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  箇条書き
+\item
+  第2レベル箇条書き
+\item
+  箇条書き
+\end{enumerate}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+列A & 列B\tabularnewline
+\midrule
+\endhead
+アイテム & アイテム\tabularnewline
+アイテム & アイテム\tabularnewline
+アイテム & アイテム\tabularnewline
+アイテム & アイテム\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{table}[H]
+\centering
+\caption{sample table \label{tab:ta}}
+\begin{tabular}{|c|c|} \hline
+a & b \\ \hline
+c & d \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{./sample/1.png}
+\caption{sample figure \label{fig:fi}}
+\end{figure}
+
+\begin{figure}[H]
+\begin{minipage}{0.5\hsize}
+    \centering
+    \includegraphics[width=6cm]{./sample/1.png}
+    \subcaption{left \label{fig:2fig1}}
+\end{minipage}
+\begin{minipage}{0.5\hsize}
+    \centering
+    \includegraphics[width=6cm]{./sample/2.png}
+    \subcaption{right \label{fig:2fig2}}
+\end{minipage}
+\caption{2 figures \label{fig:2fig}}
+\end{figure}
+
+\begin{lstlisting}[language=python,caption=hello code \label{src:hello}]
+    print("hello world")
+\end{lstlisting}

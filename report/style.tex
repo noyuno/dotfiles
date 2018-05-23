@@ -51,6 +51,17 @@
 \makeatother
 \setstretch{1.15}
 
+% title
+\makeatletter
+\renewcommand\maketitle[0]{
+    \begin{center}
+    \hspace{-1em}
+    \fontsize{22}{72}{\textgt{\@title}} \normalsize \\
+    \vspace{1zh}
+    \@date \quad \@author
+    \end{center}
+}
+\makeatother
 
 % text decoration
 \makeatletter
