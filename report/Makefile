@@ -3,12 +3,17 @@ LATEXMKOPTION :=
 TARGET := report.pdf
 SOURCE := report.tex
 MARKDOWN :=  $(shell find -path ./report.md)
+GIF := $(shell find -path *.gif)
 
 .PHONY: build clean distclean show filer
 
 build:
 ifdef MARKDOWN
 	pandoc -o reportc.tex $(MARKDOWN)
+endif
+ifdef GIF
+	mogrify -format png $(GIF)
+	trash $(GIF)
 endif
 ifdef LATEXMK
 	latexmk -pdfdvi $(LATEXMKOPTION) $(SOURCE)
@@ -27,5 +32,5 @@ show: build
 	xdg-open $(TARGET)
 
 filer: build
-	caja .
+	xdg-open .
 

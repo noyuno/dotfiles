@@ -88,6 +88,7 @@ export EDITOR=nvim
 export KCODE=u
 export AUTOFEATURE=true
 export XDG_CONFIG_HOME=$HOME/.config
+export VTE_CJK_WIDTH=1
 
 # shellcheck
 export SHELLCHECK_OPTS="-e SC2002 -e SC2016"

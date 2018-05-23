@@ -49,8 +49,10 @@ set printoptions+=paper:A4,number:y
 set printoptions=duplex:short
 command! -nargs=* Printout !printout -q %
 
-if !has('gui_running')
+if has('gui_running')
   set ambiwidth=double
+else
+  set ambiwidth=single
 endif
 
 if has('conceal')

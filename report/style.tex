@@ -39,8 +39,76 @@
 \usepackage{here}
 \usepackage{siunitx}
 
-%\AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}
+\setlength\intextsep{10.5pt}
+\setlength\textfloatsep{10.5pt}
+\setlength\abovecaptionskip{0pt}
 
+\pagestyle{plain}
+
+% page settings
+\makeatletter
+\usepackage[truedimen,top=20truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+\makeatother
+\setstretch{1.15}
+
+
+% text decoration
+\makeatletter
+\renewcommand{\textbf}[1]{{\sffamily#1}}
+\renewcommand{\title}[1]{\gdef\@title{\sffamily#1}}
+\makeatother
+
+% customize section style
+\makeatletter
+\renewcommand{\section}{%
+  \@startsection{section}%
+   {1}%
+   {\z@}%
+   {-3.5ex \@plus -1ex \@minus -.2ex}%
+   {2.3ex \@plus.2ex}%
+   {\sffamily\normalsize}%
+}%
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+{0.1ex}%
+{0.1ex}%
+{\sffamily\normalsize}}
+
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+{0.1ex}%
+{0.1ex}%
+{\sffamily\normalsize}}
+\makeatother
+
+% caption
+\makeatletter
+\long\def\@makecaption#1#2{%
+\vskip\abovecaptionskip
+\iftdir\sbox\@tempboxa{#1\hskip1zw#2}%
+\else\sbox\@tempboxa{#1 #2}%
+\fi
+\ifdim \wd\@tempboxa >\hsize
+    \iftdir #1\hskip1zw#2\relax\par
+    \else #1 #2\relax\par\fi
+\else
+    \global \@minipagefalse
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+\fi
+\vskip\belowcaptionskip}
+
+\@addtoreset{equation}{section}
+\def\theequation{\thesection.\arabic{equation}}
+\makeatother
+
+\renewcommand{\figurename}{Figure }
+\renewcommand{\tablename}{Table }
+\renewcommand{\lstlistingname}{List }
+\renewcommand{\refname}{}
+
+\newcommand\figref[1]{Figure~\ref{fig:#1}}
+\newcommand\tabref[1]{Table~\ref{tab:#1}}
+\newcommand\srcref[1]{List~\ref{src:#1}}
+
+% source code
 \lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single}
 \lstset{%
   language={},
@@ -66,96 +134,4 @@
   caption=\lstname,%
   keepspaces=true%
 }
-
-\setlength\intextsep{10.5pt}
-\setlength\textfloatsep{10.5pt}
-\setlength\abovecaptionskip{0pt}
-
-\pagestyle{plain}
-
-\makeatletter
-\def\section{\@startsection {section}{1}{\z@}{0.1ex}{0.1ex}{\large}}
-\usepackage[truedimen,top=20truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
-\makeatother
-
-% caption
-\makeatletter
-\long\def\@makecaption#1#2{%
-\vskip\abovecaptionskip
-\iftdir\sbox\@tempboxa{#1\hskip1zw#2}%
-\else\sbox\@tempboxa{#1 #2}%
-\fi
-\ifdim \wd\@tempboxa >\hsize
-\iftdir #1\hskip1zw#2\relax\par
-\else #1 #2\relax\par\fi
-\else
-\global \@minipagefalse
-\hbox to\hsize{\hfil\box\@tempboxa\hfil}%
-\fi
-\vskip\belowcaptionskip}
-\makeatother
-
-\makeatletter
-\@addtoreset{equation}{section}
-\def\theequation{\thesection.\arabic{equation}}
-\makeatother
-
-\makeatletter
-\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
-{0.1ex}%
-{0.1ex}%
-{\normalsize}}
-
-\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
-{0.1ex}%
-{0.1ex}%
-{\normalsize}}
-\makeatother
-
-\renewcommand{\figurename}{Figure }
-\renewcommand{\tablename}{Table }
-\renewcommand{\lstlistingname}{List }
-
-\newcommand\figref[1]{Figure~\ref{fig:#1}}
-\newcommand\tabref[1]{Table~\ref{tab:#1}}
-\newcommand\srcref[1]{List~\ref{src:#1}}
-
-\setstretch{1.15}
-\begin{comment}
-% example
-% insert figure
-\begin{figure}[H]
-\centering
-    \includegraphics[width=8cm]{figure/foo.pdf}
-\caption{foo \label{fig:foo}}
-\end{figure}
-
-% insert code
-\lstinputlisting[caption=hello code \lstname \label{src:hello}]{src/hello.cc}
-\begin{lstlisting}
-\end{lstlisting}
-
-% insert table
-\begin{table}[H]
-\centering
-\caption{ \label{}}
-\begin{tabular}{|c|c|c|} \hline
-a & b & c \\ \hline
-d & e & f \\ \hline
-\end{tabular}
-\end{table}
-\end{comment}
-
-\makeatletter
-\renewcommand{\section}{%
-  \@startsection{section}%
-   {1}%
-   {\z@}%
-   {-3.5ex \@plus -1ex \@minus -.2ex}%
-   {2.3ex \@plus.2ex}%
-   {\normalfont\normalsize}%
-}%
-\makeatother
-
-\renewcommand{\refname}{}
 

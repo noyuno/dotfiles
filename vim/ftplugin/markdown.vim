@@ -8,3 +8,5 @@ endfunction
 
 command! RunShell :call RunShell()
 
+runtime! syntax/tex.vim
+
