@@ -288,7 +288,7 @@ alias wiki='wiki -s'
 alias ideainit='cp "$HOME/dotfiles/templates/intellij-idea.iml" "$(basename $PWD).iml"'
 
 # sudo
-alias sd='sudo '
+alias s='sudo '
 
 # open
 alias xo='xdg-open'
@@ -656,4 +656,5 @@ pdfpng() {
 alias dig='drill'
 
 alias yaourt='yaourt --asdeps --needed'
+alias y='yaourt'
 
