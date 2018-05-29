@@ -8,7 +8,7 @@ PNGDEST  := pngout
 .PHONY: build clean distclean show filer png
 
 %.tmp.tex: %.md
-	pandoc -o $@ $<
+	pandoc --listing -o $@ $<
 	# fix table
 	sed -i -e 's/\\begin{longtable}/\\vspace{2zh}\\begin{center}\\begin{supertabular}/g' \
 		-e 's/\\end{longtable}/\\end{supertabular}\\end{center}\\vspace{2zh}/' \
