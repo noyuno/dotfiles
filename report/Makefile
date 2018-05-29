@@ -14,11 +14,7 @@ PNGDEST  := pngout
 		-e 's/\\end{longtable}/\\end{supertabular}\\end{center}\\vspace{2zh}/' \
 		-e 's/\\endhead//' \
 		$@
-	# fix verbatim
-	sed -i -e 's/\\begin{verbatim}/\\begin{lstlisting}/g' \
-		-e 's/\\end{verbatim}/\\end{lstlisting}/g' \
-		$@
-	# fig figure
+	# fix figure
 	sed -i -e 's/\\begin{figure}/\\begin{figure}[H]/g' \
 		-e 's/\\includegraphics/\\includegraphics[width=12cm]/g' \
 		$@
