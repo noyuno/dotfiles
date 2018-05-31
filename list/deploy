@@ -24,7 +24,7 @@ mutt/mutt.rc .muttrc
 # offlineimap
 mutt/.offlineimaprc .offlineimaprc  
 # emacs 
-.emacs.el
+.spacemacs
 # sc
 .scrc
 # git 
