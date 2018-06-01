@@ -15,8 +15,8 @@ PNGDEST  := pngout
 		-e 's/\\endhead//' \
 		$@
 	# fix figure
-	sed -i -e 's/\\begin{figure}/\\begin{figure}[H]/g' \
-		-e 's/\\includegraphics/\\includegraphics[width=12cm]/g' \
+	sed -i -e 's/\\begin{figure}$$/\\begin{figure}[H]/g' \
+		-e 's/\\includegraphics{/\\includegraphics[width=12cm]{/g' \
 		$@
 
 %.png: %.gif

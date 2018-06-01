@@ -51,16 +51,15 @@ This function should only modify configuration layer settings."
      helm
      html
      markdown
-     ;;neotree
+     pdf-tools
      org
      python
-     ;; japanese
+     chrome
+     pandoc
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     ;; spell-checking
      syntax-checking
-     ;; version-control
      )
 
    ;; List of additional packages that will be installed without being
@@ -74,7 +73,6 @@ This function should only modify configuration layer settings."
                                       mozc
                                       mozc-im
                                       mozc-popup
-                                      ;;ddskk
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -374,22 +372,20 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling t
+   dotspacemacs-smooth-scrolling 'nil
 
    ;; Control line numbers activation.
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
    ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
    ;; This variable can also be set to a property list for finer control:
-   ;; '(:relative nil
-   ;;   :disabled-for-modes dired-mode
-   ;;                       doc-view-mode
-   ;;                       markdown-mode
-   ;;                       org-mode
-   ;;                       pdf-view-mode
-   ;;                       text-mode
-   ;;   :size-limit-kb 1000)
-   ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers '(:relative nil
+      :disabled-for-modes dired-mode
+                          doc-view-mode
+                          markdown-mode
+                          org-mode
+                          pdf-view-mode
+                          text-mode
+      :size-limit-kb 1000)
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -491,7 +487,38 @@ before packages are loaded."
     (if (require 'mozc-popup nil t)
         (setq mozc-candidate-style 'popup)
       (setq mozc-candidate-style 'echo-area)))
-  (global-linum-mode 't)
+  (setq make-backup-files nil)
+  (setq delete-auto-save-files t)
+
+  (require 'whitespace)
+  (setq whitespace-style '(face           ; faceで可視化
+                           trailing       ; 行末
+                           tabs           ; タブ
+                           spaces         ; スペース
+                           empty          ; 先頭/末尾の空行
+                           space-mark     ; 表示のマッピング
+                           tab-mark
+                           ))
+  (setq whitespace-display-mappings
+        '((space-mark ?\u3000 [?\u25a1])
+          ;; WARNING: the mapping below has a problem.
+          ;; When a TAB occupies exactly one column, it will display the
+          ;; character ?\xBB at that column followed by a TAB which goes to
+          ;; the next TAB column.
+          ;; If this is a problem for you, please, comment the line below.
+          (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
+  ;; スペースは全角のみを可視化
+  (setq whitespace-space-regexp "\\(\u3000+\\)")
+  (global-whitespace-mode 1)
+
+  (setq scroll-conservatively 1)
+  (setq scroll-margin 3)
+  (font-lock-add-keywords 'markdown-mode
+                          '(("\\\\\\(begin\\|end\\)" . font-lock-keyword-face)
+                            ("{\\(itemize\\|itembox\\|description\\|footnote\\|figure\\|minipage\\|table\\|tabular\\|lstlisting\\|multicols\\)}" . font-lock-variable-name-face)
+                            ("\\\\\\(item\\|hline\\|label\\|centering\\|hsize\\|subcaption\\|caption\\|includegraphics\\|mbox\\)" . font-lock-function-name-face)
+                            )
+                          )
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -523,7 +550,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ddskk cdb ccc yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree mwim multi-term mozc-popup mozc-im mozc move-text mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md fuzzy flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump diminish define-word cython-mode csv-mode company-web web-completion-data company-statistics company-go go-mode company-emoji company-anaconda company column-enforce-mode clean-aindent-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))))
+    (morlock pandoc-mode ox-pandoc pdf-tools tablist mastodon gmail-message-mode ham-mode html-to-markdown flymd edit-server ddskk cdb ccc yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree mwim multi-term mozc-popup mozc-im mozc move-text mmm-mode markdown-toc markdown-mode magit-gitflow magit-gh-pulls macrostep lorem-ipsum live-py-mode linum-relative link-hint indent-guide hydra hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md fuzzy flycheck-pos-tip pos-tip flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav dumb-jump diminish define-word cython-mode csv-mode company-web web-completion-data company-statistics company-go go-mode company-emoji company-anaconda company column-enforce-mode clean-aindent-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
