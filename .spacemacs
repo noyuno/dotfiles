@@ -217,7 +217,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 18
                                :weight normal
                                :width normal)
 
@@ -492,9 +492,6 @@ before packages are loaded."
         (setq mozc-candidate-style 'popup)
       (setq mozc-candidate-style 'echo-area)))
   (global-linum-mode 't)
-  ;;(setq default-input-method "japanese-skk")
-  ;;(global-set-key [hiragana-katakana] (lambda () (interactive) (set-input-method "japanese-skk")))
-  ;;(global-set-key [muhenkan] (lambda () (interactive) (set-input-method "japanese-ascii")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
