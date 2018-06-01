@@ -1,5 +1,3 @@
-# from community/fcitx-mozc and aur/emacs-mozc
-#
 # $Id: PKGBUILD 280411 2018-01-08 07:08:09Z eschwartz $
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor: ponsfoot <cabezon dot hashimoto at gmail dot com>
@@ -165,7 +163,7 @@ package_my-emacs-mozc() {
   pkgdesc="Mozc for Emacs"
   arch=('x86_64')
   groups=('mozc-im')
-  depends=("my-mozc=${pkgver}" 'emacs')
+  depends=("my-fcitx-mozc=${pkgver}" 'emacs')
   replaces=('emacs-mozc-bin')
   conflicts=('emacs-mozc' 'emacs-mozc-bin')
   #install=emacs-mozc.install
