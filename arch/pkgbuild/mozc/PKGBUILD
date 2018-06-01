@@ -1,3 +1,5 @@
+# from community/fcitx-mozc and aur/emacs-mozc
+#
 # $Id: PKGBUILD 280411 2018-01-08 07:08:09Z eschwartz $
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor: ponsfoot <cabezon dot hashimoto at gmail dot com>
