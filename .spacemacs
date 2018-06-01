@@ -492,9 +492,6 @@ before packages are loaded."
         (setq mozc-candidate-style 'popup)
       (setq mozc-candidate-style 'echo-area)))
   (global-linum-mode 't)
-  ;;(setq default-input-method "japanese-skk")
-  ;;(global-set-key [hiragana-katakana] (lambda () (interactive) (set-input-method "japanese-skk")))
-  ;;(global-set-key [muhenkan] (lambda () (interactive) (set-input-method "japanese-ascii")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

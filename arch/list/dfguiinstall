@@ -1,11 +1,9 @@
-#ubuntu-mate-themes
 alsa-utils
 avahi
 cups
 cups-pdf
 fcitx-configtool
 fcitx-gtk3
-fcitx-mozc
 gnome-keyring
 google-chrome
 graphviz
@@ -35,6 +33,7 @@ system-config-printer
 thunderbird
 thunderbird-i18n-ja
 ttf-inconsolata
+ubuntu-mate-themes
 vlc
 xbindkeys
 xdg-utils
