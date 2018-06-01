@@ -664,6 +664,6 @@ alias yc='yaourt -Sc'
 alias yo='yaourt -Qdt'
 alias ym='yaourt -Qet'
 alias ys='yaourt -Ss'
-alias yke='pacman-key --refresh-key'
-alias ykr='pacman-key -r'
+alias yku='sudo pacman-key --refresh-key'
+alias yki='sudo pacman-key -r'
 
