@@ -33,13 +33,13 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(python
-     markdown
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     markdown
      auto-completion
      better-defaults
      csv
@@ -214,7 +214,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("Inconsolata"
                                :size 18
                                :weight normal
                                :width normal)
@@ -478,6 +478,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; font
+  (set-fontset-font t 'japanese-jisx0208 "Noto Sans Mono CJK JP Regular")
+  (add-to-list 'face-font-rescale-alist '(".*CJK.*" . 0.89))
+  
   ;; mozc
   (when (require 'mozc nil t)
     (setq default-input-method "japanese-mozc")

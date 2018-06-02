@@ -26,6 +26,7 @@ imlib2
 intel-ucode
 jq
 keychain
+linux-headers
 mercurial
 moreutils
 multitail
