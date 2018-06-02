@@ -68,14 +68,6 @@ igopackages()
 
 ipip()
 {
-    # system
-    packages=()
-    grep "$HOME/dotfiles/list/pip-system" -v -e '^#' -e '^$' > "$DFTMP/data"
-    while read i; do
-        packages=(${packages[@]} $i)
-    done < "$DFTMP/data"
-    dfx sudo -H pip3 install ${packages[@]}
-    dfx sudo -H pip2 install neovim
     # user
     packages=()
     grep "$HOME/dotfiles/list/pip" -v -e '^#' -e '^$' > "$DFTMP/data"

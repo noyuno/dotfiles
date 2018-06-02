@@ -1,10 +1,15 @@
+ansi2html
 argparse
 arrow
 feedparser
 freetype-py
+gitpython
 icalendar
+ipython
 libclang-py3
 maybe
+neovim
+pip-review
 progressbar2
 pylint
 virtualenv
