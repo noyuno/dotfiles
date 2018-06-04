@@ -342,8 +342,7 @@ csview()
 
 ej()
 {
-    awk 'NR%2{sl=$0;next} {print sl": "$0}' $HOME/.cache/gene/gene.txt | \
-        fzf --reverse -q "^$*"
+    fzf -q "^" +s <$HOME/.cache/gene/ej.txt
 }
 
 # https://github.com/junegunn/dotfiles/blob/c6959cd4f/bashrc
