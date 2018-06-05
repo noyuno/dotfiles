@@ -5,7 +5,7 @@ root: ~/
 
 windows:
   - board:
-      layout: layout fe29,104x47,0,0[104x22,0,0,1,104x12,0,23,6,104x11,0,36{52x11,0,36,8,51x11,53,36,17}]
+      layout: 72a2,103x46,0,0[104x22,0,0,1,104x12,0,23,10,104x11,0,36{51x11,0,36,7,52x11,52,36,8}]
       panes: 
         - screenfetch -t; anime -ok -n 21
         - rainbowstream
