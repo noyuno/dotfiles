@@ -342,8 +342,7 @@ csview()
 
 ej()
 {
-    awk 'NR%2{sl=$0;next} {print sl": "$0}' $HOME/.cache/gene/gene.txt | \
-        fzf --reverse -q "^$*"
+    fzf -q "^" +s <$HOME/.cache/gene/ej.txt
 }
 
 # https://github.com/junegunn/dotfiles/blob/c6959cd4f/bashrc
@@ -655,6 +654,15 @@ pdfpng() {
 
 alias dig='drill'
 
-alias yaourt='yaourt --asdeps --needed'
-alias y='yaourt'
+compdef yaourt=pacman
+alias yi='yaourt --needed -S'
+alias yid='yaourt --asdeps --needed -S'
+alias yr='yaourt -Rs'
+alias yu='yaourt --needed -Syyua'
+alias yc='yaourt -Sc'
+alias yo='yaourt -Qdt'
+alias ym='yaourt -Qet'
+alias ys='yaourt -Ss'
+alias yku='sudo pacman-key --refresh-key'
+alias yki='sudo pacman-key -r'
 

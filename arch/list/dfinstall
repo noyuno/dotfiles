@@ -26,6 +26,7 @@ imlib2
 intel-ucode
 jq
 keychain
+linux-headers
 mercurial
 moreutils
 multitail
@@ -38,6 +39,7 @@ num-utils
 numlockx
 openssh
 otf-ipaexfont
+pacman-contrib
 pandoc
 pass
 pdftk
@@ -58,6 +60,7 @@ tcpdump
 the_silver_searcher
 tig
 tmux
+tootstream
 trash-cli
 ufw
 w3m

@@ -145,6 +145,10 @@ sshstr 'github.com'
 sshstr 'bitbucket.org'
 sshstr 'git.noyuno.space'
 
+if [ ! -d "$HOME/.emacs.d" ]; then
+    git clone --depth 1 -b master https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
+fi
+
 dfout2 "Deployed dotfiles. You need to restart tmux, zsh, vim."
 
 finalize dfdeploy

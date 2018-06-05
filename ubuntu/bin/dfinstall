@@ -106,14 +106,6 @@ iapt()
 
 ipip()
 {
-    dfx sudo -H pip3 install --upgrade pip
-    # system
-    packages=()
-    grep "$HOME/dotfiles/list/pip-system" -v -e '^#' -e '^$' > "$DFTMP/data"
-    while read i; do
-        packages=(${packages[@]} $i)
-    done < "$DFTMP/data"
-    dfx sudo -H pip3 install ${packages[@]}
     # user
     packages=()
     grep "$HOME/dotfiles/list/pip" -v -e '^#' -e '^$' > "$DFTMP/data"

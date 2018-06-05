@@ -18,15 +18,6 @@ ilightdm () {
 
 ifont()
 {
-    # Powerline fonts
-    #if [ -f "$HOME/.local/share/fonts/Inconsolata for Powerline.otf" ]; then
-    #    dfout2 "Powerline fonts have already installed"
-    #else
-    #    dfx git clone "https://github.com/powerline/fonts.git" --depth 1 -b master \
-    #        "$DFTMP/plfonts"
-    #    dfx cd "$DFTMP/plfonts"
-    #    dfx bash install.sh
-    #fi
     # Noto Sans
     if [ -d "$HOME/.local/share/fonts/NSCJKaR" ]; then
         dfout2 "Noto Sans CJK JP Kai fonts have already installed"
@@ -37,6 +28,14 @@ ifont()
         dfx tar Jxf NSCJKaR.tar.xz -C "$HOME/.local/share/fonts/"
     fi
 }
+
+imozc() {
+    cp -af $HOME/dotfiles/arch/pkgbuild/mozc $DFTMP
+    pushd $DFTMP/mozc
+        makepkg --noconfirm -is
+    popd
+}
+
 help()
 {
     (
@@ -46,9 +45,11 @@ Install GUI packages.
 Install all packages by default.
 
 commands:
-    mate
-    yaourt
+    font
     lightdm
+    mate
+    mozc
+    yaourt
 EOF
     ) >&2
     exit 1
@@ -64,6 +65,7 @@ if [ $# -eq 0 ] ;then
     run iyaourt
     #run ifont
     run ilightdm
+    run imozc
 elif [ "$1" = help ]; then
     help
 else
