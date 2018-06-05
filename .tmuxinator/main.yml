@@ -5,11 +5,11 @@ root: ~/
 
 windows:
   - board:
-      layout: 1d50,94x47,0,0[94x22,0,0,40,94x12,0,23,43,94x11,0,36{47x11,0,36,44,46x11,48,36,45}]
+      layout: layout fe29,104x47,0,0[104x22,0,0,1,104x12,0,23,6,104x11,0,36{52x11,0,36,8,51x11,53,36,17}]
       panes: 
         - screenfetch -t; anime -ok -n 21
-        - ical -k -n 11
-        - jma -k
+        - rainbowstream
+        - ical -k -n 10 --no-location --no-description
         - weather -k
   - zsh: 
   - zsh: 

@@ -304,8 +304,17 @@ def main(args):
         if ret == 0:
             ret = dtstart.timestamp()
 
-        output(ev.color + jatitle + bcolors.ENDC + " " + jaloc + " " + \
-            jadesc, end="")
+        o = ev.color
+        if (args.no_location) and (args.no_description):
+            o+=title
+        else:
+            o+=jatitle
+        o+=bcolors.ENDC
+        if not args.no_location:
+            o+=" "+jaloc
+        if not args.no_description:
+            o+=" "+jadesc
+        output(o, end="")
         if len(cals) - 1 == count:
             if args.keep and args.verbose == False:
                 sys.stdout.flush()
@@ -335,6 +344,8 @@ if __name__ == '__main__':
         parser.add_argument("--no-color", action = "store_true")
         parser.add_argument("--verbose", action = "store_true")
         parser.add_argument("--init", action="store_true")
+        parser.add_argument("--no-location", action="store_true")
+        parser.add_argument("--no-description", action="store_true")
         args = parser.parse_args()
 
         if args.count is None: args.count = 20
