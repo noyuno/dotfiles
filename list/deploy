@@ -58,8 +58,6 @@ ranger/highlight.css .config/ranger/highlight.css
 ranger/rc.conf .config/ranger/rc.conf
 ranger/rifle.conf .config/ranger/rifle.conf
 ranger/scope.sh .config/ranger/scope.sh
-# rainbowstream
-.rainbow_config.json
 # fcitx
 fcitx/profile .config/fcitx/profile
 fcitx/config .config/fcitx/config

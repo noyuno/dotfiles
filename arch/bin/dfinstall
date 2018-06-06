@@ -95,6 +95,14 @@ itrans()
     dfx chmod +x "$HOME/bin/trans"
 }
 
+isystem()
+{
+    dfx sudo systemctl stop ntpd
+    dfx sudo ntpdate -v ntp.nict.jp
+    dfx sudo systemctl enable ntpd
+    dfx sudo systemctl start ntpd
+}
+
 help()
 {
     (
@@ -111,6 +119,7 @@ commands:
     pip
     trans
     gem
+    system
 EOF
     ) >&2
     exit 1
@@ -131,6 +140,7 @@ if [ $# -eq 0 ] ;then
     run ipip
     run itrans
     run igem
+    run isystem
 elif [ "$1" = help ]; then
     help
 else
