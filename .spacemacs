@@ -540,6 +540,16 @@ before packages are loaded."
 
   (require 'twittering-mode)
   (setq twittering-use-master-password t)
+  (setq twittering-icon-mode t)
+  (defun twittering-mode-hook-func ()
+    (set-face-bold-p 'twittering-username-face t)
+    (set-face-foreground 'twittering-username-face "DeepSkyBlue3")
+    (set-face-foreground 'twittering-uri-face "gray35")
+    (define-key twittering-mode-map (kbd "<") 'my-beginning-of-buffer)
+    (define-key twittering-mode-map (kbd ">") 'my-end-of-buffer)
+    (define-key twittering-mode-map (kbd "F") 'twittering-favorite))
+
+  (add-hook 'twittering-mode-hook 'twittering-mode-hook-func)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

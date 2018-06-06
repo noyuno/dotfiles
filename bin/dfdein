@@ -15,7 +15,7 @@ clone()
     echo -n "["$((`cat $process`+1))"] "
     dfout3 "clone $i"
     mkdir -p "$cache/$(dirname $i)"
-    git clone -q --depth 1 "https://github.com/$i" "$cache/$i"
+    git clone -q "https://github.com/$i" "$cache/$i"
     echo $((`cat $process`-1)) >$process
 }
 
@@ -27,12 +27,12 @@ pull()
     echo -n "["$((`cat $process`+1))"] "
     dfout3 "pull $i"
     pushd "$cache/$i" >/dev/null
-        git pull -q --depth 1 &&:
+        git pull -q &&:
         if [ $? -ne 0 ]; then
             dfwarn "conflict $i, removing and cloning"
             pushd .. >/dev/null
                 trash $(basename $i)
-                git clone -q --depth 1 "https://github.com/$i" "$cache/$i"
+                git clone -q "https://github.com/$i" "$cache/$i"
             popd >/dev/null
         fi
     popd >/dev/null
