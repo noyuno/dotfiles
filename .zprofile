@@ -23,8 +23,16 @@ insertpath()
     fi
 }
 
+insertldlib()
+{
+    if [ -d "$1" ]; then
+        LD_LIBRARY_PATH="$1:$PATH"
+    fi
+}
+
 # set PATH so it includes user's private bin if it exists
 insertpath "$HOME/bin"
+insertpath "$HOME/local/bin"
 insertpath "$HOME/.local/bin"
 insertpath "$HOME/dotfiles/bin"
 if which lsb_release 1>/dev/null 2>&1; then
@@ -56,6 +64,8 @@ if [ -d "$HOME/.npm" ]; then
     export NPM_PACKAGES="$HOME/.npm"
     insertpath "$NPM_PACKAGES/bin"
 fi
+
+insertldlib "$HOME/local/lib64"
 
 #git
 if [[ "`git --version`" =~ ^git\ version\ 2.*$ ]]; then
