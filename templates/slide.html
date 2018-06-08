@@ -6,13 +6,13 @@
     <style>
     @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
     @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Inconsolata:400,700,400italic);
 
     body { font-family: 'Noto Sans CJK JP Regular'; }
-    h1, h2, h3 {
-        font-weight: normal;
-    }
-    .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    h1, h2, h3 { font-weight: normal; }
+    pre { margin: 0.5em 0 }
+    img { width: 100%; height:100%; }
+    .remark-code, .remark-inline-code { font-family: 'Inconsolata'; font-size: 29px; }
     @page {
         size: 1210px 681px;
         margin: 0;
@@ -27,11 +27,16 @@
             left: 0 !important;
         }
     }
-    .remark-slide-content h1 { font-size:200%; }
-    .remark-slide-content h2 { font-size:150%; }
-    .remark-slide-content h3 { font-size:150%; margin-top:10px; margin-bottom:0px }
-    .remark-slide-content p { font-size:130%; margin: 10px; }
-    .remark-slide-content ul, ol { font-size:130%; margin: 10px }
+    .remark-slide-content h1 { font-size:32pt; }
+    .remark-slide-content h2 { font-size:26pt; }
+    .remark-slide-content h3 { font-size:26pt; margin-top:10px; margin-bottom:0px }
+    .remark-slide-content p { font-size:22pt; margin: 10px; }
+    .remark-slide-content ul, ol { font-size:22pt; margin: 0px }
+    .remark-slide-content li > p { margin: 0; }
+    /*
+       to scale ![:scale 80%](image.png)
+       to math `\(e^{i\pi} = -1\)`
+     */
     </style>
   </head>
   <body>
@@ -41,23 +46,28 @@ class: center, middle
 
 # Title
 
-## Subtitle
-
 ---
 
-## Subtitle
-
-contents
+## A
 
     </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
-    </script>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
     <script>
     remark.macros.scale = function (percentage) {
     var url = this;
     return '<img src="' + url + '" style="width: ' + percentage + '" />';
     };
-      var slideshow = remark.create();
+    var slideshow = remark.create({
+        ratio:'16:9'
+    });
+
+      MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+      });
+      MathJax.Hub.Configured();
     </script>
   </body>
 </html>
