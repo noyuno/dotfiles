@@ -8,9 +8,8 @@ windows:
       layout: 48b0,104x47,0,0[104x30,0,0,1,104x16,0,31{52x16,0,31,8,51x16,53,31,17}]
       panes: 
         - screenfetch -t; anime -ok -n 21
-        - rainbowstream
         - ical -k -n 10 --no-location --no-description
-        - weather -k
+        - sleep 2; weather -k
   - zsh: 
   - zsh: 
   - zsh: 
