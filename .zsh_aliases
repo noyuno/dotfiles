@@ -137,7 +137,6 @@ fi
 
 # tmux
 alias tmux='tmux -2'
-#alias c='tmux save-buffer - | xsel -ib'
 tmain()
 {
     case "$(hostname)" in
@@ -150,13 +149,16 @@ tmain()
 alias mountiso='mount -t iso9660 -o loop'
 
 #git
-which hub 1>/dev/null 2>&1
-[ $? -eq 0 ] && eval "$(hub alias -s)"
+which hub 1>/dev/null 2>&1 && eval "$(hub alias -s)"
 
 alias g='git'
 alias gu='git pull'
-which tig 1>/dev/null 2>&1 &&:
-[ $? -eq 0 ] && alias gs='tig status' || alias gs='git status'
+if which tig 1>/dev/null 2>&1 ; then
+    alias gs='tig status'
+else
+    alias gs='git status'
+fi
+
 gpush()
 {
     [ -z "$@" ] && text="Update" || text="$@"
@@ -354,12 +356,6 @@ gd() {
     [ "$1" ] && cd *$1*
 }
 
-#tx() {
-#  tmux splitw "$*; echo -n Press enter to finish.; read"
-#  tmux select-layout tiled
-#  tmux last-pane
-#}
-
 gitzip() {
     git archive -o $(basename $PWD).zip HEAD
 }
@@ -389,11 +385,10 @@ re() {
 
 # fzf (https://github.com/junegunn/fzf)
 # --------------------------------------------------------------------
-
 # fd - cd to selected directory
-#fdd() {
-#    DIR=`find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf-tmux` && cd "$DIR"
-#}
+fdd() {
+    DIR=`find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf-tmux` && cd "$DIR"
+}
 
 # fda - including hidden directories
 fda() {
@@ -534,12 +529,12 @@ elif [ -d ~/github/iTerm2-Color-Schemes/ ]; then
 fi
 
 ## Switch tmux-sessions
-#fs() {
-#  local session
-#  session=$(tmux list-sessions -F "#{session_name}" | \
-#    fzf-tmux --query="$1" --select-1 --exit-0) && \
-#  tmux switch-client -t "$session"
-#}
+tsw() {
+  local session
+  session=$(tmux list-sessions -F "#{session_name}" | \
+    fzf-tmux --query="$1" --select-1 --exit-0) && \
+  tmux switch-client -t "$session"
+}
 
 # RVM integration
 frb() {
@@ -617,10 +612,12 @@ cb() {
     xargs google-chrome-stable
 }
 
-# open multiple files by tab
-alias vi='nvim -p'
-alias vim='nvim -p'
-alias nvim='nvim -p'
+if which nvim 1>/dev/null 2>&1 ; then
+    # open multiple files by tab
+    alias vi='nvim -p'
+    alias vim='nvim -p'
+    alias nvim='nvim -p'
+fi
 
 # atool
 alias au='aunpack'
