@@ -44,7 +44,9 @@ else
     insertpath "$HOME/dotfiles/arch/bin"
 fi
 case ${OSTYPE} in
-    darwin*) insertpath "$HOME/mac/bin" ;;
+    darwin*)
+        insertpath "$HOME/mac/bin"
+        insertpath "$HOME/nvim-osx64/bin" ;;
 esac
 insertpath "/usr/local/texlive/2015/bin/x86_64-linux"
 insertpath "$HOME/.gem/ruby/2.5.0/bin"
@@ -55,7 +57,6 @@ insertpath "$HOME/.fzf/bin"
 insertpath "$HOME/.npm/bin"
 insertpath "$HOME/.local/redpen/bin"
 insertpath "$HOME/.local/share/miniconda3/bin"
-insertpath "$HOME/nvim-osx64/bin"
 if [ -d "$HOME/go" ]; then
     export GOPATH="$HOME/go"
     insertpath "$GOPATH/bin"
