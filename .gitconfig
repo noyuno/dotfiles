@@ -5,7 +5,6 @@
 	default = simple
 [core]
 	quotepath = false
-	editor = nvim
 	autocrlf = false
 	excludesfile = /home/noyuno/dotfiles/.gitignore_global
     attributesFile = $HOME/dotfiles/.gitattributes
