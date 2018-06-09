@@ -84,11 +84,14 @@ export DISABLE_AUTO_TITLE="false"
 autoload -U colors; colors
 autoload -Uz vcs_info; setopt prompt_subst
 
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{green}s"
-zstyle ':vcs_info:git:*' unstagedstr "%F{green}u"
-zstyle ':vcs_info:*' formats "%F{green}%c%u"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
+gitv=$(git --version|awk '/git/{print $3}'|awk -F. '{print $1}')
+if [ $gitv -ge 2 ]; then
+    zstyle ':vcs_info:git:*' check-for-changes true
+    zstyle ':vcs_info:git:*' stagedstr "%F{green}s"
+    zstyle ':vcs_info:git:*' unstagedstr "%F{green}u"
+    zstyle ':vcs_info:*' formats "%F{green}%c%u"
+    zstyle ':vcs_info:*' actionformats '[%b|%a]'
+fi
 
 preexec(){
     case ${OSTYPE} in
