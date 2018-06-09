@@ -2,38 +2,56 @@
 font-name='Noto Sans CJK JP 10'
 document-font-name='Noto Sans CJK JP 10'
 menus-have-icons=true
-icon-theme='matefaenzagray'
-gtk-theme='Ambiant-MATE'
+icon-theme='matefaenzadark'
+gtk-theme='Ambiant-MATE-Dark'
 monospace-font-name='Noto Sans Mono CJK JP 10'
-
-[keybindings/custom2]
-action='screenshot -d'
-binding='Print'
-name='take an screenshot'
-
-[keybindings/custom1]
-action='krita'
-binding='<Mod4>k'
-name='krita'
-
-[keybindings/custom4]
-action='screenshot -a'
-binding='<Primary>Print'
-name='take an window screenshot'
 
 [keybindings/custom0]
 action='google-chrome-stable'
 binding='<Mod4>c'
 name='browser'
 
+[keybindings/custom1]
+action='krita'
+binding='<Mod4>k'
+name='krita'
+
+[keybindings/custom2]
+action='screenshot -d'
+binding='Print'
+name='take an screenshot'
+
 [keybindings/custom3]
 action='screenshot -s'
 binding='<Shift>Print'
 name='take an region screenshot'
 
+[keybindings/custom4]
+action='screenshot -a'
+binding='<Primary>Print'
+name='take an window screenshot'
+
+[keybindings/custom5]
+action='caja .'
+binding='<Mod4>e'
+name='caja'
+
+[keybindings/custom6]
+action='emacs'
+binding='<Mod4>m'
+name='emacs'
+
+[keybindings/custom7]
+action='mate-panel --run-dialog'
+binding='<Mod4>r'
+name='run dialog'
+
+[applications/terminal]
+exec='mate-terminal'
+
 [session]
 idle-delay=120
-session-start=1524990084
+session-start=1528040450
 
 [peripherals/touchpad]
 natural-scroll=true

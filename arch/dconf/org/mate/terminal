@@ -6,13 +6,16 @@ custom-command='tmux -2'
 title='Terminal'
 use-system-font=false
 use-custom-command=true
-use-theme-colors=false
+backspace-binding='ascii-del'
+delete-binding='escape-sequence'
 default-show-menubar=false
 font='Inconsolata Medium 14'
+allow-bold=true
 bold-color-same-as-fg=true
 bold-color='#000000000000'
 background-color='#1C1C1C1C1C1C'
 cursor-blink-mode='off'
+use-theme-colors=false
 
 [profiles/profile0]
 scrollbar-position='right'
@@ -20,7 +23,7 @@ cursor-shape='block'
 scroll-on-keystroke=true
 default-size-rows=24
 use-theme-colors=false
-custom-command='tmux -2'
+custom-command='sh -c "TERM=xterm-256color tmux"'
 visible-name='zsh'
 use-custom-default-size=false
 login-shell=false
