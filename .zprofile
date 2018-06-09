@@ -96,7 +96,7 @@ fi
 # showterm
 export SHOWTERM_SERVER='http://record.noyuno.mydns.jp'
 
-export EDITOR=nvim
+which nvim 1>/dev/null 2>&1 && export EDITOR=nvim
 export KCODE=u
 export AUTOFEATURE=true
 export XDG_CONFIG_HOME=$HOME/.config
