@@ -46,6 +46,11 @@ action='mate-panel --run-dialog'
 binding='<Mod4>r'
 name='run dialog'
 
+[keybindings/custom8]
+action='mate-system-monitor'
+binding='<Mod4>s'
+name='system monitor'
+
 [applications/terminal]
 exec='mate-terminal'
 
