@@ -43,6 +43,9 @@ if which lsb_release 1>/dev/null 2>&1; then
 else
     insertpath "$HOME/dotfiles/arch/bin"
 fi
+case ${OSTYPE} in
+    darwin*) insertpath "$HOME/mac/bin" ;;
+esac
 insertpath "/usr/local/texlive/2015/bin/x86_64-linux"
 insertpath "$HOME/.gem/ruby/2.5.0/bin"
 insertpath "$HOME/.password-store/bin"

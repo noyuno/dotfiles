@@ -27,6 +27,7 @@ intel-ucode
 jq
 keychain
 linux-headers
+lzip
 mercurial
 moreutils
 multitail
