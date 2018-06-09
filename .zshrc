@@ -220,3 +220,12 @@ which direnv 1>/dev/null 2>&1 && eval "$(direnv hook zsh)"
 # added by travis gem
 [ -f /home/noyuno/.travis/travis.sh ] && source /home/noyuno/.travis/travis.sh
 
+if [[ "$TERM" == "dumb" ]]; then
+    unsetopt zle
+    unsetopt prompt_cr
+    unsetopt prompt_subst
+    unfunction precmd
+    unfunction preexec
+    PS1='$ '
+fi
+

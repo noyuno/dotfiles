@@ -550,6 +550,9 @@ before packages are loaded."
     (define-key twittering-mode-map (kbd "F") 'twittering-favorite))
 
   (add-hook 'twittering-mode-hook 'twittering-mode-hook-func)
+
+  (require 'tramp)
+  (setq tramp-default-method "ssh")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
