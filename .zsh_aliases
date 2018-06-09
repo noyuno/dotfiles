@@ -651,7 +651,7 @@ pdfpng() {
 
 alias dig='drill'
 
-which pacman 1>/dev/null 2>&1 && compdef yaourt=pacman
+which compdef 1>/dev/null 2>&1 && which pacman 1>/dev/null 2>&1 && compdef yaourt=pacman
 alias yi='yaourt --needed -S'
 alias yid='yaourt --asdeps --needed -S'
 alias yr='yaourt -Rs'
