@@ -10,4 +10,5 @@ after=$(df -h | awk '$6=="/" { print $5 } ' | tr -d '%')
 df -h | awk '$6=="/" { print $0 } '
 
 echo "Decreased $((before - after))% of storage."
+echo "To remove all image, type docker system prune -a -f"
 
