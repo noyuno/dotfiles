@@ -10,6 +10,7 @@ run()
     dest="/mnt/karen/share/backup/$(hostname)"
     server=pi
     date=$(date +%Y%m%d-%H%M%S)
+    destlen=$(echo "$dest/$date" | awk '{print length($0)}')
     tmp=/tmp/backup-$date
     log=$dest/log/$date.log
     catalog=$dest/catalog
@@ -41,6 +42,7 @@ src=$src
 server=$server
 dest=$dest
 date=$date
+destlen=$destlen
 catalog=$catalog
 latestbackup=$latestbackup
 log=$log
