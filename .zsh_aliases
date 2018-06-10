@@ -663,3 +663,6 @@ alias ys='yaourt -Ss'
 alias yku='sudo pacman-key --refresh-key'
 alias yki='sudo pacman-key -r'
 
+alias ssh='ssh -XC4'
+
+
