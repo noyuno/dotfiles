@@ -29,14 +29,8 @@ Depending items have to put before install item.
 | `dftex       ` | v     |       | `dfguiinstall` | Install TeX Live.         |
 | `dfdein      ` | v     | v     | `dfdeploy    ` | Get dein.vim plugins.     |
 
-## Extra configuration tool
-
-- `dfchuri`: Change dotfiles' owner (hosting URI, user name and so on).
-- `dfdocker`: dotfiles docker tool.
-- `dfdoctor`: Packages and deployments checker.
-- `dffunc`: Base function.
-- `dfpassword`: Set up RSA and GPG keys.
-- `dfreadme-bin`: Print not discribed command in `readme.md`.
+- `dfinstall` installs [those packages](https://github.com/noyuno/dotfiles/blob/master/arch/list/dfinstall)
+- `dfguiinstall` installs [those packages](https://github.com/noyuno/dotfiles/blob/master/arch/list/dfguiinstall)
 
 ### Environment variables
 
@@ -46,6 +40,15 @@ Depending items have to put before install item.
 ### After installation
 
 - Execute Vim/Neovim, type `:UpdateRemotePlugins` and restart it.
+
+## Extra configuration tool
+
+- `dfchuri`: Change dotfiles' owner (hosting URI, user name and so on).
+- `dfdocker`: dotfiles docker tool.
+- `dfdoctor`: Packages and deployments checker.
+- `dffunc`: Base function.
+- `dfpassword`: Set up RSA and GPG keys.
+- `dfreadme-bin`: Print not discribed command in `readme.md`.
 
 ## Figures
 

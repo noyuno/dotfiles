@@ -8,7 +8,7 @@
 
 ## 要件
 
-- Ubuntuベースのディストリビューション
+- Arch Linux または Ubuntuベースのディストリビューション
 - `apt`
 - `sudo`
 - `bash`
@@ -30,12 +30,10 @@
 ### Arch Linux
 
 - [Arch Linux (English)](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
-- [Arch Linux (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md)
 
 ### Ubuntu
 
 - [Ubuntu (English)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
-- [Ubuntu (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
 古くなっています．Arch Linuxを推奨します．
 
@@ -48,6 +46,10 @@
 
 - これらのコマンドを実行すると**不自由なソフトウェア**がインストールされます．
 - MATE Desktop
+    - コントロール:Equilux
+    - ウィンドウの境界:Equilux
+    - アイコン:MATE-Faenza-Dark
+    - ポインタ:MATE
 - フォント: Inconsolata/Noto Sans CJK JP DemiLight
 - 組版: TeX Live 2015, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
@@ -61,7 +63,7 @@
 | tmux          | Solarized   |            | Zsh  |            | v           |
 | Zsh           |             |            |      |            | v           |
 | Bash          |             |            |      |            |             |
-| Emacs         | Wombat      |            |      |            |             |
+| Emacs (spacemacs) |             |            |      |            | v           |
 
 ## 有用なコマンド
 

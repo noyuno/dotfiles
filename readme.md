@@ -30,12 +30,10 @@
 ### Arch Linux
 
 - [Arch Linux (English)](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
-- [Arch Linux (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md)
 
 ### Ubuntu
 
 - [Ubuntu (English)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
-- [Ubuntu (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu-ja.md)
 
 It is outdated. I recommend the Arch Linux.
 
@@ -49,6 +47,10 @@ It is outdated. I recommend the Arch Linux.
 
 - Running these commands will install **NON-FREE SOFTWARES**.
 - MATE Desktop
+    - Control:Equilux
+    - Window border:Equilux
+    - Icon:MATE-Faenza-Dark
+    - Pointer:MATE
 - Font: Inconsolata/Noto Sans CJK JP DemiLight
 - Typesetting: TeX Live 2017, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
@@ -62,7 +64,7 @@ It is outdated. I recommend the Arch Linux.
 | tmux          | Solarized   |            | Zsh  |            | v           |
 | Zsh           |             |            |      |            | v           |
 | Bash          |             |            |      |            |             |
-| Emacs         | Wombat      |            |      |            |             |
+| Emacs (spacemacs) |             |            |      |            | v           |
 
 ## Useful commands
 

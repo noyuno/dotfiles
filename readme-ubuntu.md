@@ -40,6 +40,15 @@ Depending items have to put before install item.
 | `dfgcp       ` |       |       | `dfinstall   ` | Set up Google Cloud Platform. |
 | `dfdein      ` | v     | v     | `dfdeploy    ` | Get dein.vim plugins.     |
 
+### Environment variables
+
+- `DRYRUN`
+- `QUIET`
+
+### After installation
+
+- Execute Vim/Neovim, type `:UpdateRemotePlugins` and restart it.
+
 ## Extra configuration tool
 
 - `dfchuri`: Change dotfiles' owner (hosting URI, user name and so on).
@@ -50,15 +59,6 @@ Depending items have to put before install item.
 - `dfpassword`: Set up RSA and GPG keys.
 - `dfreadme-bin`: Print not discribed command in `readme.md`.
 - `dfstopservice`: Stop unnecessary service.
-
-### Environment variables
-
-- `DRYRUN`
-- `QUIET`
-
-### After installation
-
-- Execute Vim/Neovim, type `:UpdateRemotePlugins` and restart it.
 
 ## Figures
 
