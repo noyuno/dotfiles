@@ -35,4 +35,18 @@ __MACOSX
 ~$*
 .cache
 Trash
+.gem
+.emacs.d
+.bundle
+cache
+.npm
+.node-gyp
+.hex
+.antigen
+.mix
+.texlive
+.config/google-chrome
+.local/lib/python3.6
+.local/lib/python2.7
+backup
 
