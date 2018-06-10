@@ -49,4 +49,5 @@ cache
 .local/lib/python3.6
 .local/lib/python2.7
 backup
+swap
 
