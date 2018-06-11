@@ -493,6 +493,10 @@ before packages are loaded."
   (set-face-attribute 'default nil :family "Noto Sans Mono CJK JP" :height 120)
   ;; Notoフォントに行間を合わせている都合，これ以上狭くできない．マイナス値の指定もできない
   (setq-default line-spacing 0)
+  ;; (setq-default dotspacemacs-default-font '("Inconsolata"
+  ;;                             :size 18
+  ;;                             :weight normal
+  ;;                             :width normal))
   ;; ab  cd  ef  gh  ij
   ;; あいうえおかきくけ
   ;; abいcdえefかghくij
@@ -573,6 +577,18 @@ before packages are loaded."
 
   (require 'tramp)
   (setq tramp-default-method "ssh")
+
+
+  ;; mode line
+  (setq powerline-default-separator nil)
+  (setq fancy-battery-show-percentage nil)
+  (spacemacs/toggle-mode-line-battery-on)
+
+  (setq display-time-24hr-format t)
+  (setq display-time-format "%m%d(%a)%H%M")
+  (setq display-time-interval 60)
+  (setq display-time-default-load-average nil)
+  (display-time-mode 1)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
