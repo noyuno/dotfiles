@@ -482,18 +482,33 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; font
-  (set-fontset-font t 'japanese-jisx0208 "Noto Sans Mono CJK JP Regular")
-  (add-to-list 'face-font-rescale-alist '(".*CJK.*" . 0.89))
-  
+  (set-fontset-font t 'japanese-jisx0208 "Noto Sans Mono CJK JP:pixelsize=16:spacing=0")
+  ;; とりあえずこれをすると1:2になるうえに行間が日本語が入っても同じになる
+  (set-face-attribute 'default nil :family "Noto Sans Mono CJK JP" :height 120)
+  ;; Notoフォントに行間を合わせている都合，これ以上狭くできない．マイナス値の指定もできない
+  (setq-default line-spacing 0)
+  ;; ab  cd  ef  gh  ij
+  ;; あいうえおかきくけ
+  ;; abいcdえefかghくij
+
   ;; mozc
   (when (require 'mozc nil t)
     (setq default-input-method "japanese-mozc")
     (global-set-key [hiragana-katakana] (lambda () (interactive) (set-input-method "japanese-mozc")))
     (global-set-key [muhenkan] (lambda () (interactive) (set-input-method "japanese-ascii")))
     (defvar mozc-candidate-style) ;; avoid compile error
+    (set-face-attribute 'mozc-preedit-face 'nil :background 'nil :foreground 'nil)
+    (set-face-attribute 'mozc-preedit-selected-face 'nil :background "sea green" :foreground "black")
+    (set-face-attribute 'mozc-cand-overlay-even-face 'nil :background "dark slate gray" :foreground "white")
+    (set-face-attribute 'mozc-cand-overlay-odd-face 'nil :background "dark slate gray" :foreground "white")
+    (set-face-attribute 'mozc-cand-overlay-focused-face 'nil :background "sea green" :foreground "black")
+    (set-face-attribute 'mozc-cand-overlay-footer-face 'nil :background "sea green" :foreground "black")
+    (set-face-attribute 'mozc-cand-overlay-description-face 'nil :background "dark slate gray" :foreground "white")
     (if (require 'mozc-popup nil t)
         (setq mozc-candidate-style 'popup)
-      (setq mozc-candidate-style 'echo-area)))
+      (setq mozc-candidate-style 'echo-area)
+      ))
+
   (setq make-backup-files nil)
   (setq delete-auto-save-files t)
 
