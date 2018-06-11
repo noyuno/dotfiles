@@ -585,7 +585,7 @@ before packages are loaded."
   (spacemacs/toggle-mode-line-battery-on)
 
   (setq display-time-24hr-format t)
-  (setq display-time-format "%m%d(%a)%H%M")
+  (setq display-time-format "%m%d%a%H%M")
   (setq display-time-interval 60)
   (setq display-time-default-load-average nil)
   (display-time-mode 1)
