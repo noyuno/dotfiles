@@ -481,6 +481,12 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; cursor color
+  ;; (set-cursor-color "royal blue")
+  ;;(set-face-attribute 'spaceline-unmodified nil :background "royal blue" :foreground "white")
+  ;; mode color
+  (set-face-attribute 'spacemacs-normal-face 'nil :background "sea green" :foreground "white")
   ;; font
   (set-fontset-font t 'japanese-jisx0208 "Noto Sans Mono CJK JP:pixelsize=16:spacing=0")
   ;; とりあえずこれをすると1:2になるうえに行間が日本語が入っても同じになる
@@ -503,7 +509,6 @@ before packages are loaded."
     (set-face-attribute 'mozc-cand-overlay-odd-face 'nil :background "dark slate gray" :foreground "white")
     (set-face-attribute 'mozc-cand-overlay-focused-face 'nil :background "sea green" :foreground "black")
     (set-face-attribute 'mozc-cand-overlay-footer-face 'nil :background "sea green" :foreground "black")
-    (set-face-attribute 'mozc-cand-overlay-description-face 'nil :background "dark slate gray" :foreground "white")
     (if (require 'mozc-popup nil t)
         (setq mozc-candidate-style 'popup)
       (setq mozc-candidate-style 'echo-area)
