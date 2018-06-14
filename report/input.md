@@ -80,5 +80,10 @@ while True:
 \caption{2 figures \label{fig:2fig}}
 \end{figure}
 
+~~~python
+while True:
+    print("good bye world")
+~~~
 
+関数は`def !"'*func():`で定義され，クラスは`class {, }cla:`で定義される．
 

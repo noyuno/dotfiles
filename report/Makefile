@@ -18,6 +18,13 @@ PNGDEST  := pngout
 	sed -i -e 's/\\begin{figure}$$/\\begin{figure}[H]/g' \
 		-e 's/\\includegraphics{/\\includegraphics[width=12cm]{/g' \
 		$@
+	# fix inline listing
+	sed -i -e 's/\\passthrough{\\lstinline\!\([^!]*\)\!}/\\texttt{\1}/g' \
+		-e 's/\\passthrough{\\lstinline"\([^"]*\)"}/\\texttt{\1}/g' \
+		-e 's/\\passthrough{\\lstinline'"'"'\([^'"'"']*\)'"'"'}/\\texttt{\1}/g' \
+		-e 's/\\passthrough{\\lstinline\*\([^*]*\)\*}/\\texttt{\1}/g' \
+		-e 's/\\passthrough{\\lstinline,\([^,]*\),}/\\texttt{\1}/g' \
+		$@
 
 %.png: %.gif
 	mogrify -format png $<
