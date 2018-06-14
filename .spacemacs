@@ -466,6 +466,17 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  ;;--------------------------------------------------------
+  ;; tabbar
+  ;;--------------------------------------------------------
+  ;; 画像をつかわない
+  (setq tabbar-use-images nil) 
+  ;; 左に表示されるボタンを無効化
+  (dolist (btn '(tabbar-buffer-home-button
+                 tabbar-scroll-left-button
+                 tabbar-scroll-right-button))
+    (set btn (cons (cons "" nil)
+                   (cons "" nil))))
   )
 
 (defun dotspacemacs/user-load ()
@@ -589,6 +600,31 @@ before packages are loaded."
   (setq display-time-interval 60)
   (setq display-time-default-load-average nil)
   (display-time-mode 1)
+
+  ;;--------------------------------------------------------
+  ;; tabbar
+  ;;--------------------------------------------------------
+  ;; グループ化しない
+  (setq tabbar-buffer-groups-function nil)
+  ;; CTRL-Nで次のタブ
+  (define-key evil-normal-state-map (kbd "C-n") 'tabbar-forward-tab)
+  ;; CTRL-Pで前のタブ
+  (define-key evil-normal-state-map (kbd "C-p") 'tabbar-backward-tab)
+  ;; タブに表示するバッファをフィルタするカスタム関数
+  (defun my-tabbar-buffer-list ()
+    (delq nil
+          (mapcar #'(lambda (b)
+                      (cond
+                       ((eq (current-buffer) b) b)
+                       ((buffer-file-name b) b)
+                       ((char-equal ?\  (aref (buffer-name b) 0)) nil)
+                       ;;((equal "*scratch*" (buffer-name b)) b)
+                       ((char-equal ?* (aref (buffer-name b) 0)) nil)
+                       ((buffer-live-p b) b)))
+                  (buffer-list))))
+  ;; カスタム関数を登録
+  (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
