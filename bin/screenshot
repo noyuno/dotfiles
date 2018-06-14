@@ -4,8 +4,13 @@ to="$HOME/Desktop/$(date '+%Y%m%d-%H%M%S').png"
 clip="xclip -selection clipboard -t image/png"
 
 if [ $# -eq 0 ]; then
+    zenity --error --text "require one argument"
     exit 1
 fi
+if ! which maim 1>/dev/null 2>&1 ; then
+    zenity --error --text "maim command not found"
+fi
+
 while getopts dsaDSAh OPT; do
     case $OPT in
         d) maim "$to" ;;
