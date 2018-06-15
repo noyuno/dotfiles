@@ -41,12 +41,7 @@ iyaourt()
         exit 1
     fi
     dfx sudo pacman -Syyu --noconfirm
-    grep "$HOME/dotfiles/arch/list/dfinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
-    packages=()
-    while read i; do
-        packages=(${packages[@]} $i)
-    done < "$DFTMP/data"
-    dfx yaourt -S --noconfirm --needed --asdeps ${packages[@]}
+    $HOME/dotfiles/arch/bin/yp cli
 }
 
 iudisks() {

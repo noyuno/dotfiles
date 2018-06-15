@@ -4,12 +4,7 @@
 
 iyaourt()
 {
-    packages=()
-    grep "$HOME/dotfiles/arch/list/dfguiinstall" -v -e '^#' -e '^$' > "$DFTMP/data"
-    while read i; do
-        packages=(${packages[@]} $i)
-    done < "$DFTMP/data"
-    dfx yaourt -S --noconfirm --needed --asdeps ${packages[@]}
+    $HOME/dotfiles/arch/bin/yp gui tex java vmware steam
 }
 
 ilightdm () {
@@ -57,8 +52,8 @@ EOF
 
 run()
 {
-    dfout2 "dfguiinstall: $1"
-    eval "$1"
+    dfout2 "dfguiinstall: $*"
+    eval $*
 }
 
 if [ $# -eq 0 ] ;then

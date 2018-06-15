@@ -9,9 +9,8 @@ Include = /etc/pacman.d/mirrorlist
 EOF
 fi
 yaourt -Syu --noconfirm
-yaourt -S --noconfirm steam nvidia lib32-nvidia-libgl nvidia-settings \
-    lib32-libxtst lib32-gtk2 lib32-libpulse lib32-gdk-pixbuf2 lib32-libva \
-    lib32-libvdpau lib32-openal
+. $HOME/dotfiles/arch/list/packages
+yaourt -S --noconfirm $steam
 sudo nvidia-xconfig
 echo "Please reboot before playing"
 

@@ -46,6 +46,24 @@ checkapt()
     total=$((total + check_ret))
 }
 
+checkarch()
+{
+    check_ret=0
+    while [ $# -gt 0 ]; do
+        name=$1
+        shift
+        . $HOME/dotfiles/arch/list/packages
+        pp=$(eval echo '${'$name'[@]}')
+        for p in $pp ; do
+            if ! yaourt -Qi $p 1>/dev/null 2>&1 ; then
+                echo "[ not installed ] $name: $p"
+                check_ret=$((check_ret + 1))
+            fi
+        done
+    done
+    total=$((total + check_ret))
+}
+
 checkpip()
 {
     check_ret=0
@@ -121,6 +139,7 @@ if [ "$1" ]; then
     a="$1"
     case "$a" in
     dfinstall|dfguiinstall) checkapt $a ;;
+    arch) checkarch cli gui vmware tex steam java laptop paint ;;
     pip) checkpip pip ;;
     dfdeploy) checklink deploy ;;
     dein)
@@ -131,8 +150,14 @@ if [ "$1" ]; then
     *) echo -e "$a Didn't match anything\ndfinstall|dfguiinstall|pip|dfdeploy|dein" >&2; exit 1 ;;
     esac
 else
-    checkapt dfinstall
-    checkapt dfguiinstall
+    case "$dist" in
+    ubuntu)
+        checkapt dfinstall
+        checkapt dfguiinstall
+        ;;
+    arch)
+        checkarch cli gui vmware tex steam java laptop paint
+    esac
     checkpip pip
     checklink deploy
     checkdein dein.toml

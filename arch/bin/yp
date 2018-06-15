@@ -1,0 +1,21 @@
+#!/bin/bash -e
+
+. $HOME/dotfiles/bin/dffunc
+
+if [ $# -ne 1 ] ; then
+    echo "requires argument" >&2
+    exit 1
+fi
+
+i()
+{
+    name=$1
+    . $HOME/dotfiles/arch/list/packages
+    dfx yaourt -S --noconfirm --needed --asdeps $(eval echo '${'$name'[@]}')
+}
+
+while [ $# -gt 0 ]; do
+    i $1
+    shift
+done
+
