@@ -16,7 +16,9 @@ After=mnt-karen.mount
 ExecStart=/home/noyuno/dotfiles/raspberry-pi/spindown.sh sda 600
 KillMode=process
 Type=simple
-Restart=no
+Restart=always
+RestartSec=30s
+
 
 [Install]
 WantedBy=multi-user.target
