@@ -672,5 +672,15 @@ alias nlsort='awk "{print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
 alias nl200='awk "{i=length(\$0); if(i>=200)print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
 alias nl255='awk "{i=length(\$0); if(i>=255)print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
 
+# fix usbmuxd bug
 alias charge='sudo systemctl start usbmuxd'
+
+# fix vmware bug
+vmwarefix()
+{
+    sudo modprobe vmmon
+    sudo modprobe vmw_vmci
+    sudo modprobe vmnet
+    sudo vmware-networks --start
+}
 
