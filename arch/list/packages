@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
 cli=(atool bc boost clang cmake colordiff cronie ctags dmidecode docx2txt    \
-    exfat-utils expect findutils fzf gettext git git-lfs git-secrets go      \
+    ethtool exfat-utils expect findutils fzf gettext git git-lfs git-secrets \
+    go      \
     gvfs-smb highlight htop hub imagemagick imlib2 intel-ucode jq keychain   \
     linux-headers lzip mercurial moreutils multitail neomutt neovim npm      \
     ntfs-3g ntp num-utils numlockx openssh otf-ipaexfont pacman-contrib      \

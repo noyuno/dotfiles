@@ -14,7 +14,7 @@ run()
     tmp=/tmp/backup-$date
     log=$dest/log/$date.log
     catalog=$dest/catalog
-    args="-a -z -C --delay-updates --info=progress2 -h
+    args="-a -A -z -C --delay-updates --info=progress2 -h
         --remote-option=--log-file=$dest/log/$date.log --exclude-from $HOME/dotfiles/list/snapshot-ignore"
     #latestbackup=$(ssh pi find $dest -maxdepth 1 -type d -name `date +%Y%m`"\*" | sort -r | head -n 1)
     ssh pi touch $dest/catalog

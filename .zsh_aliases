@@ -656,7 +656,14 @@ alias y='yaourt'
 alias yi='yaourt --needed -S'
 alias yid='yaourt --asdeps --needed -S'
 alias yr='yaourt -Rs'
-alias yu='yaourt --needed -Syyua'
+yu()
+{
+    yaourt -Syy
+    yaourt -Qu
+    echo -n "type enter to upgrade: "
+    read
+    yaourt --needed -Sua --noconfirm
+}
 alias yc='yaourt -Sc'
 alias yo='yaourt -Qdt'
 alias ym='yaourt -Qet'
