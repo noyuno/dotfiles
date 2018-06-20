@@ -75,4 +75,6 @@ autostart .config/autostart
 .mecabrc
 # applications
 #applications .local/share/applications
+# vscode
+vscode .config/Code/User
 

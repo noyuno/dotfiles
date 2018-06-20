@@ -1,0 +1,13 @@
+{
+    "editor.fontFamily": "Inconsolata, 'Noto Sans Mono CJK JP'",
+    "editor.fontSize": 16,
+    "workbench.iconTheme": "eq-material-theme-icons-ocean",
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.defaultDateStyle": "absolute",
+    "gitlens.defaultDateFormat": "YYYY/MM/DD hh:mm",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "materialTheme.fixIconsRunning": false,
+
+}

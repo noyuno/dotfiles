@@ -1,7 +1,7 @@
 [general]
 toplevel-id-list=['top']
 history-mate-run=['pluma', 'firefox', 'vlc']
-object-id-list=['menu-bar', 'notification-area', 'clock', 'object-0', 'object-2', 'object-3']
+object-id-list=['menu-bar', 'notification-area', 'clock', 'object-0', 'object-2', 'object-3', 'object-1', 'object-4', 'object-5', 'object-6', 'object-7']
 
 [toplevels/top]
 expand=true
@@ -9,17 +9,26 @@ orientation='top'
 screen=0
 size=24
 
-[objects/object-2]
-applet-iid='CommandAppletFactory::CommandApplet'
+[objects/object-4]
+applet-iid='CharpickerAppletFactory::CharpickerApplet'
 toplevel-id='top'
-position=1550
+position=1552
 object-type='applet'
 panel-right-stick=false
 
-[objects/object-2/prefs]
-interval=1
-show-icon=false
-command='keystate'
+[objects/object-5]
+applet-iid='CharpickerAppletFactory::CharpickerApplet'
+toplevel-id='top'
+position=1552
+object-type='applet'
+panel-right-stick=false
+
+[objects/object-6]
+applet-iid='CharpickerAppletFactory::CharpickerApplet'
+toplevel-id='top'
+position=1535
+object-type='applet'
+panel-right-stick=false
 
 [objects/clock]
 applet-iid='ClockAppletFactory::ClockApplet'
@@ -34,13 +43,22 @@ expand-locations=false
 format='24-hour'
 custom-format=''
 
-[objects/notification-area]
-applet-iid='NotificationAreaAppletFactory::NotificationArea'
-locked=false
+[objects/object-7]
+applet-iid='NetspeedAppletFactory::NetspeedApplet'
 toplevel-id='top'
-position=1615
+position=1529
 object-type='applet'
 panel-right-stick=false
+
+[objects/object-7/prefs]
+show-sum=true
+show-bits=false
+device='enp5s0'
+auto-change-device=true
+short-unit=true
+change-icon=true
+show-icon=false
+show-quality-icon=true
 
 [objects/menu-bar]
 locked=true
@@ -48,12 +66,39 @@ toplevel-id='top'
 position=0
 object-type='menu-bar'
 
+[objects/notification-area]
+applet-iid='NotificationAreaAppletFactory::NotificationArea'
+locked=false
+toplevel-id='top'
+position=1699
+object-type='applet'
+panel-right-stick=false
+
 [objects/object-0]
 applet-iid='WnckletFactory::WindowListApplet'
 toplevel-id='top'
-position=279
+position=280
 object-type='applet'
 panel-right-stick=false
+
+[objects/object-1]
+launcher-location='/usr/local/share/applications/vmware-player.desktop'
+toplevel-id='top'
+position=-1
+object-type='launcher'
+panel-right-stick=false
+
+[objects/object-2]
+applet-iid='CommandAppletFactory::CommandApplet'
+toplevel-id='top'
+position=1636
+object-type='applet'
+panel-right-stick=false
+
+[objects/object-2/prefs]
+interval=1
+show-icon=false
+command='keystate'
 
 [objects/object-3]
 toplevel-id='top'
