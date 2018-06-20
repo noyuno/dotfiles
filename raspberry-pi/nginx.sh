@@ -14,8 +14,8 @@ proxy_cache_path /var/lib/nginx/cache levels=1:2 keys_zone=cache:512m inactive=1
 server_tokens off;
 server_names_hash_bucket_size 64;
 
-limit_req_zone \$binary_remote_addr zone=one:10m rate=300r/s;
-limit_req zone=one burst=300 nodelay;
+#limit_req_zone \$binary_remote_addr zone=one:1m rate=300r/s;
+#limit_req zone=one burst=300 nodelay;
 
 server {
     listen 443 ssl;

@@ -91,4 +91,5 @@ If no command is given, will run below commands.
 - 8081: showterm
 (- 8082: slack)
 - 8125: netdata
+- 6379: redis
 
