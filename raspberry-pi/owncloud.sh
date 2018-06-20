@@ -118,6 +118,10 @@ server {
     add_header X-Download-Options noopen;
     add_header X-Permitted-Cross-Domain-Policies none;
 
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Methods' 'POST, GET, OPTIONS' always;
+    add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type' always;
+
     # Path to the root of your installation
     root /var/www/owncloud/;
 
@@ -140,7 +144,7 @@ server {
     }
 
     # set max upload size
-    client_max_body_size 512M;
+    client_max_body_size 10G;
     fastcgi_buffers 8 4K;                     # Please see note 1
     fastcgi_ignore_headers X-Accel-Buffering; # Please see note 2
 
@@ -180,6 +184,7 @@ server {
         fastcgi_pass php-handler;
         fastcgi_intercept_errors on;
         fastcgi_request_buffering off; #Available since NGINX 1.7.11
+
     }
 
     location ~ ^/(?:updater|ocs-provider)(?:$|/) {

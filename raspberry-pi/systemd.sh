@@ -22,13 +22,14 @@ service()
         ntp
         php5-fpm
         postgresql
+        redis
         rsyslog
         showterm
         slack
         smbd
+        spindown
         ssh
         ufw
-        spindown
         )
 
     a=$(sudo systemctl list-units --type service)
