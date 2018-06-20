@@ -691,3 +691,5 @@ vmwarefix()
     sudo vmware-networks --start
 }
 
+alias megurubot='echo "toot @megurubot update" | tootstream'
+

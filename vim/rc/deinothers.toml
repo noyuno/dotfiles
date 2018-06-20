@@ -199,4 +199,6 @@ repo = 'itchyny/vim-cursorword'
 repo='kchmck/vim-coffee-script'
 on_ft='coffee'
 
+[[plugins]]
+repo = 'elixir-editors/vim-elixir'
 
