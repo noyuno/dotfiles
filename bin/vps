@@ -15,7 +15,7 @@ declare package=(oracle-java8-jdk nginx fcgiwrap postgresql samba \
         rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl \
         librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
         libconfig-general-perl libio-socket-ssl-perl wiringpi etckeeper \
-        letsencrypt python-certbot-nginx)
+        letsencrypt python-certbot-nginx certbot)
 declare certdomain="
     -d $domain
     -d www.$domain
