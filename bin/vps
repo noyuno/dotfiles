@@ -30,6 +30,7 @@ declare usage=
 . $HOME/dotfiles/$base/systemd.sh
 . $HOME/dotfiles/$base/mail.sh
 . $HOME/dotfiles/$base/backup.sh
+. $HOME/dotfiles/$base/cert.sh
 
 help()
 {
