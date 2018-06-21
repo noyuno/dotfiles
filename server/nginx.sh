@@ -111,7 +111,10 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
     return 444;
 }
+EOF
 
+    if [ "y$domain2" != "y" ]; then
+        cat <<EOF | sudo tee -a /etc/nginx/sites-available/00-root.conf
 server {
     listen 80;
     server_name $domain2 git.$domain2 status.$domain2 dir.$domain2 record.$domain2;
@@ -123,6 +126,7 @@ server {
     return 301 https://$domain\$request_uri;
 }
 EOF
+    fi
 
     dfx sudo ln -sfnv /etc/nginx/sites-available/00-root.conf \
         /etc/nginx/sites-enabled/00-root.conf
@@ -133,7 +137,9 @@ EOF
     dfx sudo ufw allow 443
     dfx sudo systemctl reload nginx.service
     dfx sudo chown -R $user:$user /var/www/html
-    dfx /var/www/html/bin/chown
+    if [ -f /var/www/html/bin/chown ]; then
+        dfx /var/www/html/bin/chown
+    fi
 }
 
 export -f nginx
