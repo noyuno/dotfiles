@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+. $HOME/dotfiles/bin/dffunc
+
 usage=$usage"
 general.sh
     ainstall: apt install
