@@ -15,7 +15,7 @@ ainstall()
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
     aptinstall oracle-java8-jdk nginx fcgiwrap postgresql samba \
-        php5 php-pgsql php-gd php-fpm php-curl \
+        php php-pgsql php-gd php-fpm php-curl \
         rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl \
         librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
         libconfig-general-perl libio-socket-ssl-perl wiringpi etckeeper \
