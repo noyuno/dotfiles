@@ -7,9 +7,6 @@ gitbucket.sh
     gitbucket_psql: psql for gitbucket
     gitbucket_plugins: gitbucket plugins "
 
-declare gittarget=/var/git
-declare gituser=git
-
 gitbucket()
 {
     dfx sudo mkdir -p $gittarget/repo

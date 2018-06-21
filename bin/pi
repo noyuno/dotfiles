@@ -8,30 +8,37 @@ declare domain2=noyuno.mydns.jp
 declare mail=noyuno@$domain
 declare pdata=/var/postgresql/data
 declare showterm=/var/www/showterm
+declare base=server
+declare package=(
+    oracle-java8-jdk nginx fcgiwrap postgresql \
+        php php-pgsql php-gd php-fpm php-curl \
+        rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl \
+        librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
+        libconfig-general-perl libio-socket-ssl-perl etckeeper jq)
 declare usage=
 
-. $HOME/dotfiles/raspberry-pi/general.sh
-. $HOME/dotfiles/raspberry-pi/network.sh
-. $HOME/dotfiles/raspberry-pi/gitbucket.sh
-. $HOME/dotfiles/raspberry-pi/kanboard.sh
-. $HOME/dotfiles/raspberry-pi/localnet.sh
-. $HOME/dotfiles/raspberry-pi/netdata.sh
-. $HOME/dotfiles/raspberry-pi/nginx.sh
-. $HOME/dotfiles/raspberry-pi/anime.sh
-. $HOME/dotfiles/raspberry-pi/showterm.sh
-. $HOME/dotfiles/raspberry-pi/vuls.sh
-. $HOME/dotfiles/raspberry-pi/nodejs.sh
-. $HOME/dotfiles/raspberry-pi/python.sh
-. $HOME/dotfiles/raspberry-pi/jma.sh
-. $HOME/dotfiles/raspberry-pi/systemd.sh
-. $HOME/dotfiles/raspberry-pi/mail.sh
-. $HOME/dotfiles/raspberry-pi/slack.sh
-. $HOME/dotfiles/raspberry-pi/display.sh
-. $HOME/dotfiles/raspberry-pi/disk.sh
-. $HOME/dotfiles/raspberry-pi/owncloud.sh
-. $HOME/dotfiles/raspberry-pi/backup.sh
-. $HOME/dotfiles/raspberry-pi/pleroma.sh
-. $HOME/dotfiles/raspberry-pi/cert.sh
+. $HOME/dotfiles/$base/general.sh
+. $HOME/dotfiles/$base/network.sh
+. $HOME/dotfiles/$base/gitbucket.sh
+. $HOME/dotfiles/$base/kanboard.sh
+. $HOME/dotfiles/$base/localnet.sh
+. $HOME/dotfiles/$base/netdata.sh
+. $HOME/dotfiles/$base/nginx.sh
+. $HOME/dotfiles/$base/anime.sh
+. $HOME/dotfiles/$base/showterm.sh
+. $HOME/dotfiles/$base/vuls.sh
+. $HOME/dotfiles/$base/nodejs.sh
+. $HOME/dotfiles/$base/python.sh
+. $HOME/dotfiles/$base/jma.sh
+. $HOME/dotfiles/$base/systemd.sh
+. $HOME/dotfiles/$base/mail.sh
+. $HOME/dotfiles/$base/slack.sh
+. $HOME/dotfiles/$base/display.sh
+. $HOME/dotfiles/$base/disk.sh
+. $HOME/dotfiles/$base/owncloud.sh
+. $HOME/dotfiles/$base/backup.sh
+. $HOME/dotfiles/$base/pleroma.sh
+. $HOME/dotfiles/$base/cert.sh
 
 help()
 {
