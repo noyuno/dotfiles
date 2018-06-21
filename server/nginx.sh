@@ -133,6 +133,9 @@ EOF
     if [ -e /etc/nginx/sites-available/default ]; then
         dfx sudo mv /etc/nginx/sites-available/default ~/nginx-default-old
     fi
+    if [ -e /etc/nginx/sites-enabled/default ]; then
+        dfx sudo mv /etc/nginx/sites-enabled/default ~/nginx-default-enabled-old
+    fi
     dfx sudo ufw allow 80
     dfx sudo ufw allow 443
     dfx sudo systemctl reload nginx.service
