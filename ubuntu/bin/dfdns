@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. $HOME/dotfiles/ubuntu/bin/dffunc
+. $HOME/dotfiles/bin/dffunc
 require dfinstall
 
 aptinstall unbound

@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+if which lsb_release 1>/dev/null 2>&1; then
+    case "$(lsb_release -is)" in
+        Ubuntu|Raspbian|Debian) . "$HOME/dotfiles/ubuntu/bin/dffunc" ;;
+    esac
+fi
+
 dfout1()
 {
     printf "\e[1;37m\e[44m%s\e[0m\n" "$*"

@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. ~/dotfiles/ubuntu/bin/dffunc
+. ~/dotfiles/bin/dffunc
 
 if [ $# -eq 0 ]; then
     dfout3 "required least 1 argument."

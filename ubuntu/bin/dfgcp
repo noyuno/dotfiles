@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. $HOME/dotfiles/ubuntu/bin/dffunc
+. $HOME/dotfiles/bin/dffunc
 require dfinstall
 
 export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"

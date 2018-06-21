@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 APTFLAG="-qq"
-. "$HOME/dotfiles/ubuntu/bin/dffunc"
+. "$HOME/dotfiles/bin/dffunc"
 
 
 if [ $# -eq 1 ]; then

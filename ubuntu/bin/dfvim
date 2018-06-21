@@ -3,7 +3,7 @@
 #CFLAGS='-g -O0' CPPFLAGS='-I/usr/include/python3.3m -I/usr/include/i386-linux-gnu/python3.3m' \
 #CPPFLAGS='-I/usr/include/python3.3m -I/usr/include/i386-linux-gnu/python3.3m' \
 
-. ~/dotfiles/ubuntu/bin/dffunc
+. ~/dotfiles/bin/dffunc
 require dfdeploy
 
 link()

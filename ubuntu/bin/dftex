@@ -1,5 +1,5 @@
 #!/bin/bash -e
-. ~/dotfiles/ubuntu/bin/dffunc 
+. ~/dotfiles/bin/dffunc 
 require dfguiinstall
 
 aptinstall \
