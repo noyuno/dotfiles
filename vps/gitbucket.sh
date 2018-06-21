@@ -7,12 +7,14 @@ gitbucket.sh
     gitbucket_psql: psql for gitbucket
     gitbucket_plugins: gitbucket plugins "
 
-declare gittarget=/mnt/karen/git
+declare gittarget=/var/git
 declare gituser=git
 
 gitbucket()
 {
     dfx sudo mkdir -p $gittarget/repo
+    dfx useradd $gituser &&:
+    dfx sudo chown -R $gituser.$gituser $gittarget
     cd $gittarget
     cat << EOF | sudo -u git tee $gittarget/update.sh
 #!/bin/bash -e
@@ -25,7 +27,7 @@ sudo systemctl start gitbucket.service
 EOF
     dfx sudo chmod +x $gittarget/update.sh
     if [ ! -e $gittarget/gitbucket.war ]; then
-        dfx $gittarget/update
+        dfx $gittarget/update.sh
     fi
 
     cat << EOF | sudo tee /etc/systemd/system/gitbucket.service

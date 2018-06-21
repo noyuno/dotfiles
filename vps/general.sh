@@ -14,12 +14,11 @@ ainstall()
 {
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
-    aptinstall oracle-java8-jdk nginx fcgiwrap postgresql samba \
+    aptinstall oracle-java8-jdk nginx fcgiwrap postgresql \
         php php-pgsql php-gd php-fpm php-curl \
         rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl \
         librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
-        libconfig-general-perl libio-socket-ssl-perl wiringpi etckeeper \
-        letsencrypt python-certbot-nginx
+        libconfig-general-perl libio-socket-ssl-perl etckeeper jq
 }
 
 network()
@@ -39,25 +38,12 @@ motd()
     fi
 }
 
-ssl()
-{
-    erepo=certbot
-    if [ ! -d ~/$erepo ]; then
-        dfx git clone "https://github.com/$erepo/$erepo.git" ~/$erepo
-    fi
-    dfx pushd ~/$erepo
-        dfx sudo ./letsencrypt-auto certonly --webroot -w /var/www/html \
-            -d git.$domain -m $mail --agree-tos
-    dfx popd
-
-}
-
 psql()
 {
     if [ ! -d $pdata ]; then
         dfx sudo mkdir -p $pdata
         dfx sudo chown postgres:postgres $pdata
-        dfx sudo -u postgres /usr/lib/postgresql/9.4/bin/initdb -D $pdata -E UTF8 --no-locale
+        dfx sudo -u postgres /usr/lib/postgresql/10/bin/initdb -D $pdata -E UTF8 --no-locale
     fi
 
     sudo systemctl restart postgresql.service
@@ -67,6 +53,5 @@ export -f ainstall
 export -f network
 export -f timezone
 export -f motd
-export -f ssl
 export -f psql
 

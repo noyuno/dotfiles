@@ -8,6 +8,8 @@ declare domain=v.noyuno.space
 declare mail=noyuno@$domain
 declare pdata=/var/postgresql/data
 declare base=vps
+declare gittarget=/var/git
+declare gituser=git
 declare usage=
 
 . $HOME/dotfiles/$base/general.sh
