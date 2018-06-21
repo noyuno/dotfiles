@@ -1,0 +1,51 @@
+#!/bin/bash -e
+
+. $HOME/dotfiles/bin/dffunc
+
+declare user=noyuno
+declare host=v
+declare domain=v.noyuno.space
+declare mail=noyuno@$domain
+declare pdata=/var/postgresql/data
+declare base=vps
+declare usage=
+
+. $HOME/dotfiles/$base/general.sh
+. $HOME/dotfiles/$base/gitbucket.sh
+. $HOME/dotfiles/$base/nginx.sh
+. $HOME/dotfiles/$base/systemd.sh
+. $HOME/dotfiles/$base/mail.sh
+. $HOME/dotfiles/$base/backup.sh
+
+help()
+{
+    cat << EOF
+vps: VPS tools
+$usage
+EOF
+    exit 1
+}
+
+if [ "$(hostname)" != "$domain" ]; then
+    echo "this command is $domain only" 1>&2
+    exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    help
+fi
+
+if [ "$1" = "install" ]; then
+    ainstall
+    motd
+    timezone
+    ssl
+    nginx
+    psql
+    gitbucket_psql
+    gitbucket
+    gitbucket_nginx
+else
+    eval $*
+fi
+
