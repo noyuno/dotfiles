@@ -62,6 +62,7 @@ $CONFIG = array (
     'host' => 'localhost',
     'port' => 6379,
   ),
+  'files_external_allow_create_new_local' => 'true'
 );
 EOF
 
