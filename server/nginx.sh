@@ -32,8 +32,8 @@ server {
     gzip_types text/html text/css application/javascript application/json;
 
     ssl on;
-    ssl_certificate /etc/letsencrypt/live/$rootdomain-0001/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$rootdomain-0001/privkey.pem;
+
+    $certfile
 
     root /var/www/html;
     
@@ -128,8 +128,9 @@ server {
     listen 443 default_server;
     ssl on;
     server_name _;
-    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
+
+    $certfile
+
     return 444;
 }
 EOF

@@ -23,6 +23,10 @@ declare package=(oracle-java8-jdk nginx fcgiwrap postgresql samba \
 #    -d git.$domain
 #    -d dir.$domain
 #"
+declare certfile="
+    ssl_certificate /etc/letsencrypt/live/$rootdomain-0001/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$rootdomain-0001/privkey.pem;
+"
 declare usage=
 
 . $HOME/dotfiles/$base/general.sh

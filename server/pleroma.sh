@@ -71,8 +71,7 @@ server {
     ssl on;
     ssl_session_timeout 5m;
 
-    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
+    $certfile
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";

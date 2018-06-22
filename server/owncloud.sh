@@ -106,8 +106,7 @@ server {
     listen 443 ssl http2;
     server_name dir.$domain;
 
-    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
+    $certfile
 
     # Add headers to serve security related headers
     # Before enabling Strict-Transport-Security headers please read into this topic first.

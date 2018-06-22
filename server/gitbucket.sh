@@ -124,8 +124,8 @@ server {
     server_name git.$domain;
     
     ssl on;
-    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
+
+    $certfile
     
     charset UTF-8;
     charset_types text/css application/json text/plain application/javascript;
@@ -172,21 +172,6 @@ server {
         deny all;
     }
 }
-
-#server {
-#    listen 443 ssl;
-#    server_name git.$domain;
-#    charset UTF-8;
-#
-#    ssl on;
-#    ssl_certificate /etc/ssl/myca/server.crt;
-#    ssl_certificate_key /etc/ssl/myca/private/server.key;
-#    
-#    location / {
-#        proxy_pass http://git.$domain:80/;
-#        proxy_redirect default;
-#    }
-#}
 EOF
     dfx sudo ln -sfnv /etc/nginx/sites-available/gitbucket.conf \
         /etc/nginx/sites-enabled/gitbucket.conf
