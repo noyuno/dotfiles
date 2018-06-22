@@ -18,8 +18,8 @@ declare package=(oracle-java8-jdk nginx fcgiwrap postgresql samba \
         libconfig-general-perl libio-socket-ssl-perl wiringpi etckeeper \
         letsencrypt python-certbot-nginx certbot)
 declare certfile="
-    ssl_certificate /etc/letsencrypt/live/$rootdomain-0001/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$rootdomain-0001/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$rootdomain-0002/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$rootdomain-0002/privkey.pem;
 "
 declare certdir="
     location ~ /.well-known/acme-challenge/ {
