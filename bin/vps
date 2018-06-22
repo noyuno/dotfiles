@@ -5,6 +5,7 @@
 declare user=noyuno
 declare host=v
 declare domain=v.noyuno.space
+declare rootdomain=noyuno.space
 declare mail=noyuno@$domain
 declare pdata=/var/postgresql/data
 declare base=server
