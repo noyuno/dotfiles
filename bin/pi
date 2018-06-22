@@ -33,6 +33,18 @@ declare certfile="
     ssl_certificate /etc/letsencrypt/live/$rootdomain-0001/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$rootdomain-0001/privkey.pem;
 "
+declare certdir="
+    location ~ /.well-known/acme-challenge/ {
+        root /var/www/cert/;
+    }
+"
+declare gradeup="
+    $certdir
+    location / {
+        return 301 https://\$host\$request_uri;
+    }
+"
+
 declare usage=
 
 . $HOME/dotfiles/$base/general.sh

@@ -117,8 +117,9 @@ gitbucket_nginx()
 server {
     listen 80;
     server_name git.$domain;
-    return 301 https://\$host\$request_uri;
+    $gradeup
 }
+
 server {
     listen 443 ssl;
     server_name git.$domain;

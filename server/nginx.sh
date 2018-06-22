@@ -93,35 +93,18 @@ server {
 server {
     listen 80;
     server_name $domain;
-EOF
-
-    if [ "y$certdomain" = "y" ]; then
-        # child server
-        cat <<EOF|sudo tee -a /etc/nginx/sites-available/00-root.conf
-    location ~ /.well-known/acme-challenge/ {
-        proxy_pass http://$rootdomain:80;
-    }
-EOF
-    else
-        # cert server
-        cat <<EOF|sudo tee -a /etc/nginx/sites-available/00-root.conf
-    location ~ /.well-known/acme-challenge/ {
-        root /var/www/cert/;
-    }
-EOF
-    fi
-
-    cat <<EOF | sudo tee -a /etc/nginx/sites-available/00-root.conf
-    location / {
-        return 301 https://$domain\$request_uri;
-    }
+    $gradeup
 }
 
 
 server {
     listen 80 default_server;
     server_name _;
-    return 444;
+    
+    $certdir
+    location / {
+        return 444;
+    }
 }
 
 server {
@@ -130,7 +113,6 @@ server {
     server_name _;
 
     $certfile
-
     return 444;
 }
 EOF

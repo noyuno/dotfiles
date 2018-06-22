@@ -17,15 +17,20 @@ declare package=(oracle-java8-jdk nginx fcgiwrap postgresql samba \
         librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
         libconfig-general-perl libio-socket-ssl-perl wiringpi etckeeper \
         letsencrypt python-certbot-nginx certbot)
-#declare certdomain="
-#    -d $domain
-#    -d www.$domain
-#    -d git.$domain
-#    -d dir.$domain
-#"
 declare certfile="
     ssl_certificate /etc/letsencrypt/live/$rootdomain-0001/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$rootdomain-0001/privkey.pem;
+"
+declare certdir="
+    location ~ /.well-known/acme-challenge/ {
+        proxy_pass http://$rootdomain:80;
+    }
+"
+declare gradeup="
+    $certdir
+    location / {
+        return 301 https://\$host\$request_uri;
+    }
 "
 declare usage=
 

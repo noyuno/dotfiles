@@ -90,16 +90,7 @@ upstream php-handler {
 server {
     listen 80;
     server_name dir.$domain;
-
-    # For Lets Encrypt, this needs to be served via HTTP
-    location /.well-known/acme-challenge/ {
-        root /var/www/owncloud; # Specify here where the challenge file is placed
-    }
-
-    # enforce https
-    location / {
-        return 301 https://\$server_name\$request_uri;
-    }
+    $gradeup
 }
 
 server {
