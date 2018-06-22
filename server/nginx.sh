@@ -32,8 +32,8 @@ server {
     gzip_types text/html text/css application/javascript application/json;
 
     ssl on;
-    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$domain-0001/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$domain-0001/privkey.pem;
 
     root /var/www/html;
     
@@ -102,6 +102,13 @@ EOF
         proxy_pass http://$rootdomain:80;
     }
 EOF
+    else
+        # cert server
+        cat <<EOF|sudo tee -a /etc/nginx/sites-available/00-root.conf
+    location ~ /.well-known/acme-challenge/ {
+        root /var/www/cert/;
+    }
+EOF
     fi
 
     cat <<EOF | sudo tee -a /etc/nginx/sites-available/00-root.conf
@@ -157,6 +164,7 @@ EOF
     if [ -f /var/www/html/bin/chown ]; then
         dfx /var/www/html/bin/chown
     fi
+    dfx sudo mkdir -p /var/www/cert
 }
 
 export -f nginx

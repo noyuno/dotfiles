@@ -1,0 +1,15 @@
+#!/bin/bash -ex
+
+set -ex
+
+desthost=v.noyuno.space
+dir=/etc/letsencrypt/noyuno.space-0001
+destdir=/home/noyuno/cert.recv
+
+systemctl reload nginx
+
+sudo -u noyuno scp -P 4022 \
+    $dir/fullchain.pem \
+    $dir/privkey.pem   \
+    $desthost:$destdir
+
