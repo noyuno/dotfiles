@@ -152,3 +152,15 @@ EOF
 
 export -f nginx
 
+nginx_all() {
+    nginx
+    pleroma_nginx
+    owncloud_nginx
+    gitbucket_nginx
+    netdata_nginx
+}
+
+export -f nginx_all
+
+
+
