@@ -5,6 +5,7 @@
 declare user=noyuno
 declare domain=noyuno.space
 declare rootdomain=noyuno.space
+declare gitdomain=git.noyuno.space
 declare domain2=noyuno.mydns.jp
 declare mail=noyuno@$domain
 declare pdata=/var/postgresql/data
@@ -22,11 +23,11 @@ declare certdomain="
         -d $domain
         -d dir.$domain
         -d git.$domain
+        -d git2.$domain
         -d status.$domain
         -d www.$domain
         -d mail.$domain
         -d v.$domain
-        -d git.v.$domain
         -d s.$domain
         "
 declare certfile="

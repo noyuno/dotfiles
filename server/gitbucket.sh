@@ -73,12 +73,12 @@ is_create_repository_option_public=false
 ldap_authentication=false
 ssh=true
 allow_account_registration=false
-ssh.host=git.$domain
+ssh.host=$gitdomain
 activity_log_limit=10000
 allow_anonymous_access=true
 information=Raspberry Pi Git server. <a href\="//$domain">Go to home</a>
 ssh.port=4023
-base_url=https\://git.$domain
+base_url=https\://$gitdomain
 EOF
     fi
     if [ ! -e $gittarget/repo/database.conf ]; then
@@ -116,13 +116,13 @@ gitbucket_nginx()
 
 server {
     listen 80;
-    server_name git.$domain;
+    server_name $gitdomain;
     $upgrade
 }
 
 server {
     listen 443 ssl;
-    server_name git.$domain;
+    server_name $gitdomain;
     
     ssl on;
 
