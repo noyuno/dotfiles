@@ -15,7 +15,7 @@ cert() {
 
 cert_update () {
     cat << EOF | sudo tee /etc/cron.d/cert
-16 3 * * * root /usr/bin/certbot renew --webroot-path /var/www/cert/ --nointeractive --renew-hook /home/noyuno/dotfiles/server/cert-deploy
+16 3 * * * root /usr/bin/certbot renew --webroot-path /var/www/cert/ --nointeractive --renew-hook /home/noyuno/cert/deploy
 EOF
 }
 
