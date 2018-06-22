@@ -2,6 +2,7 @@
 
 dir=/home/noyuno/cert.recv
 mkdir -p $dir
+touch $dir/trig
 
 move() {
     if [ -e $1 ]; then
@@ -12,6 +13,5 @@ move() {
 while inotifywait -e MODIFY -e CREATE $dir/finish ; do
     move fullchain.pem
     move privkey.pem
-    rm $dir/finish
 done
 
