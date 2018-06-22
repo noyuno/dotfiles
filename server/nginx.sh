@@ -93,7 +93,7 @@ server {
 server {
     listen 80;
     server_name $domain;
-    $gradeup
+    $upgrade
 }
 
 

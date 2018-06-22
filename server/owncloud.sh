@@ -90,7 +90,7 @@ upstream php-handler {
 server {
     listen 80;
     server_name dir.$domain;
-    $gradeup
+    $upgrade
 }
 
 server {

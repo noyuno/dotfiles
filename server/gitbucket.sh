@@ -117,7 +117,7 @@ gitbucket_nginx()
 server {
     listen 80;
     server_name git.$domain;
-    $gradeup
+    $upgrade
 }
 
 server {

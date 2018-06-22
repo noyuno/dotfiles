@@ -63,7 +63,7 @@ proxy_cache_path /tmp/pleroma-media-cache levels=1:2 keys_zone=pleroma_media_cac
 server {
     listen         80;
     server_name    s.$domain;
-    $gradeup
+    $upgrade
 }
 
 server {

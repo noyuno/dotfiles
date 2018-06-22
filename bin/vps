@@ -26,7 +26,7 @@ declare certdir="
         proxy_pass http://$rootdomain:80;
     }
 "
-declare gradeup="
+declare upgrade="
     $certdir
     location / {
         return 301 https://\$host\$request_uri;

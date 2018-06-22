@@ -68,7 +68,7 @@ server {
 server {
     listen 80;
     server_name status.$domain;
-    return 301 https://status.$domain\$request_uri;
+    $upgrade
 }
 EOF
     dfx sudo ln -sfnv /etc/nginx/sites-available/netdata.conf \

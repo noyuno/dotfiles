@@ -38,7 +38,7 @@ declare certdir="
         root /var/www/cert/;
     }
 "
-declare gradeup="
+declare upgrade="
     $certdir
     location / {
         return 301 https://\$host\$request_uri;
