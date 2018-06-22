@@ -9,7 +9,7 @@ nginx()
 
     sudo domainname $domain
     cat << EOF | sudo tee /etc/nginx/sites-available/00-root.conf
-proxy_cache_path /var/lib/nginx/cache levels=1:2 keys_zone=cache:512m inactive=1d  max_size=5g;
+proxy_cache_path /var/lib/nginx/cache levels=1:2 keys_zone=cache:150m inactive=1d  max_size=5g;
 
 server_tokens off;
 server_names_hash_bucket_size 64;

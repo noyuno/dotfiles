@@ -196,11 +196,14 @@ EOF
 gitbucket_plugins()
 {
     plugins=$gittarget/repo/plugins
-    dfx sudo mkdir -p $plugins
-    dfx sudo wget -qO $plugins/gist-2.12-4.8.0.jar \
-        https://github.com/gitbucket/gitbucket-gist-plugin/releases/download/4.8.0/gitbucket-gist-plugin_2.12-4.8.0.jar
-    dfx sudo wget -qO $plugins/network-1.4.jar \
-        https://github.com/mrkm4ntr/gitbucket-network-plugin/releases/download/1.4/gitbucket-network-plugin_2.12-1.4.jar
+    dfx sudo -u git mkdir -p $plugins
+    dfx sudo -u git wget -qO $plugins/gist-2.12-4.8.0.jar \
+        https://github.com/gitbucket/gitbucket-gist-plugin/releases/download/4.15.0/gitbucket-gist-plugin-gitbucket_4.25.0-4.15.0.jar
+    dfx sudo -u git wget -qO $plugins/network-1.4.jar \
+        https://github.com/mrkm4ntr/gitbucket-network-plugin/releases/download/1.5/gitbucket-network-plugin_2.12-1.5.jar
+    dfx sudo -u git wget -qO $plugins/mirror-1.0.2.jar \
+        https://github.com/alexandremenif/gitbucket-mirror-plugin/releases/download/1.0.2/gitbucket-mirror-plugin-assembly-1.0.2.jar
+
     #dfx sudo wget -qO $plugins/pages-1.1.jar \
     #    https://github.com/gitbucket/gitbucket-pages-plugin/releases/download/v1.1/pages-plugin_2.12-1.1.jar
 
