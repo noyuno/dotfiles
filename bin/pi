@@ -32,6 +32,7 @@ declare certdomain="
         -d mail.$domain
         -d dns.$domain
         -d v.$domain
+        -d s.$domain
         "
 declare certfile="
     ssl_certificate /etc/letsencrypt/live/$rootdomain-0001/fullchain.pem;
