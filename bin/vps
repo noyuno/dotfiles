@@ -12,6 +12,7 @@ declare pdata=/var/postgresql/data
 declare base=server
 declare gittarget=/var/git
 declare gituser=git
+declare leno=$(cat /home/noyuno/dotfiles/server/letsencrypt-no)
 declare package=(oracle-java8-jdk nginx fcgiwrap postgresql samba \
         php5 php5-pgsql php5-gd php5-fpm php5-curl \
         rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl \
@@ -19,8 +20,8 @@ declare package=(oracle-java8-jdk nginx fcgiwrap postgresql samba \
         libconfig-general-perl libio-socket-ssl-perl wiringpi etckeeper \
         letsencrypt python-certbot-nginx certbot)
 declare certfile="
-    ssl_certificate /etc/letsencrypt/live/$rootdomain-0009/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$rootdomain-0009/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$rootdomain-$leno/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$rootdomain-$leno/privkey.pem;
 "
 declare certdir="
     location ~ /.well-known/acme-challenge/ {
