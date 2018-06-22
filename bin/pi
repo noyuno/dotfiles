@@ -30,7 +30,6 @@ declare certdomain="
         -d www.$domain
         -d blog.$domain
         -d mail.$domain
-        -d dns.$domain
         -d v.$domain
         -d s.$domain
         "
