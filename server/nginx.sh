@@ -93,7 +93,21 @@ server {
 server {
     listen 80;
     server_name $domain;
-    return 301 https://$domain\$request_uri;
+EOF
+
+    if [ "y$certdomain" = "y" ]; then
+        # child server
+        cat <<EOF|sudo tee -a /etc/nginx/sites-available/00-root.conf
+    location ~ /.well-known/acme-challenge/ {
+        proxy_pass http://$rootdomain:80;
+    }
+EOF
+    fi
+
+    cat <<EOF | sudo tee -a /etc/nginx/sites-available/00-root.conf
+    location / {
+        return 301 https://$domain\$request_uri;
+    }
 }
 
 
