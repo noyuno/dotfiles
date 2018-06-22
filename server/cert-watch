@@ -5,7 +5,7 @@ mkdir -p $dir
 touch $dir/trig
 
 move() {
-    if [ -e $1 ]; then
+    if [ -e "$1" ]; then
         mv $dir/$1 /etc/letsencrypt/noyuno.space-0001/$1
     fi
 }
