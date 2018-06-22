@@ -38,10 +38,17 @@ declare usage=
 
 . $HOME/dotfiles/$base/general.sh
 . $HOME/dotfiles/$base/gitbucket.sh
+. $HOME/dotfiles/$base/netdata.sh
 . $HOME/dotfiles/$base/nginx.sh
+. $HOME/dotfiles/$base/vuls.sh
+. $HOME/dotfiles/$base/nodejs.sh
+. $HOME/dotfiles/$base/python.sh
 . $HOME/dotfiles/$base/systemd.sh
 . $HOME/dotfiles/$base/mail.sh
+. $HOME/dotfiles/$base/slack.sh
+. $HOME/dotfiles/$base/owncloud.sh
 . $HOME/dotfiles/$base/backup.sh
+. $HOME/dotfiles/$base/pleroma.sh
 . $HOME/dotfiles/$base/cert.sh
 
 help()
