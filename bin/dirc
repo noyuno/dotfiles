@@ -1,17 +1,26 @@
 #!/bin/bash -e
 
-total=$(ls -aU1 | wc -l)
-files=$(command ls -aFU1 | command grep -v /)
+cnormal="\e[32m"
+chidden="\x1b[38;05;8m"
+cfiles="\e[m"
+cdirs="\e[34m"
+ctotal="\e[m"
+creset="\e[m"
+
+list=$(ls -aFU1)
+total=$(echo "$list" | wc -l)
+files=$(echo "$list" | command grep -v /)
 filescount=$(echo "$files" | command wc -l)
 fileshiddencount=$(echo "$files" | command grep '^\.' | command wc -l)
 filesnormalcount=$((filescount - fileshiddencount))
-dirs=$(command ls -aFU1 | command grep /)
+dirs=$(echo "$list" | command grep /)
 dirscount=$(echo "$dirs" | command wc -l)
 dirshiddencount=$(echo "$dirs" | command grep '^\.' | command wc -l)
 dirsnormalcount=$((dirscount - dirshiddencount))
-printf "%d (\e[32m%d\e[m \e[30m%d\e[m) " $filescount $filesnormalcount $fileshiddencount
-printf "\e[34m%d (\e[32m%d\e[m \e[30m%d\e[34m) \e[m" $dirscount $dirsnormalcount $dirshiddencount
-printf "%d (\e[32m%d\e[m \e[30m%d\e[m) " $total \
-    $((filesnormalcount + dirsnormalcount)) $((fileshiddencount + dirshiddencount))
+normal=$((filesnormalcount + dirsnormalcount))
+hidden=$((fileshiddencount + dirshiddencount))
+echo -ne "$cfiles$filescount$creset($cnormal$filesnormalcount $chidden$fileshiddencount$creset) \
+$cdirs$dirscount$creset($cnormal$dirsnormalcount $chidden$dirshiddencount$creset) \
+$ctotal$total$creset($cnormal$normal $chidden$hidden$creset) "
 command ls -al . | awk '{ total += $5 }; END { printf("%dMB\n", int(total/1024/1024)) }'
 

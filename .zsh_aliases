@@ -692,4 +692,5 @@ vmwarefix()
 }
 
 alias megurubot='echo "toot @megurubot update" | tootstream'
+alias port='sudo netstat -luntp'
 

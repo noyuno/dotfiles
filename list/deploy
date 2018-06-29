@@ -77,4 +77,7 @@ autostart .config/autostart
 #applications .local/share/applications
 # vscode
 vscode .config/Code/User
+# cerebro
+cerebro/config.json .config/Cerebro/config.json
+cerebro/package.json .config/Cerebro/plugins/package.json
 
