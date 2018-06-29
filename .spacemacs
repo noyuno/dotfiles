@@ -213,7 +213,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
-   dotspacemacs-colorize-cursor-according-to-state t
+   dotspacemacs-colorize-cursor-according-to-state nil
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
@@ -624,7 +624,10 @@ before packages are loaded."
                   (buffer-list))))
   ;; カスタム関数を登録
   (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
-
+  ;; escapeキーをjjでも行える
+  (setq-default evil-escape-key-sequence "jj")
+  ;; このままではjjを打つのに特殊な技能が必要なほどシビアなので多少遅く入力してもescapeとするようにする
+  (setq-default evil-escape-delay 0.2)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -5,7 +5,7 @@
 declare user=noyuno
 declare domain=noyuno.space
 declare rootdomain=noyuno.space
-declare gitdomain=git.noyuno.space
+declare gitdomain=git2.$rootdomain
 declare domain2=noyuno.mydns.jp
 declare mail=noyuno@$domain
 declare pdata=/var/postgresql/data
