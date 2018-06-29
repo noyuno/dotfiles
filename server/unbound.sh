@@ -14,3 +14,9 @@ EOF
     dfx sudo systemctl start unbound
 }
 
+unbound_updater () {
+    cat << EOF | sudo tee /etc/cron.d/update-unbound
+*/5 * * * * root /home/noyuno/dotfiles/server/update-unbound
+EOF
+}
+

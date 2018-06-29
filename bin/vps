@@ -50,6 +50,7 @@ declare usage=
 . $HOME/dotfiles/$base/backup.sh
 . $HOME/dotfiles/$base/pleroma.sh
 . $HOME/dotfiles/$base/cert.sh
+. $HOME/dotfiles/$base/unbound.sh
 
 help()
 {

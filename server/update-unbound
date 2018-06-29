@@ -1,0 +1,21 @@
+#!/bin/bash -e
+
+control=/usr/sbin/unbound-control
+serverip=208.167.242.162 # ip address only
+ip=$(curl -s ipinfo.io | jq ".ip" -r)
+
+register () {
+    $control -s $serverip local_data_remove "$1"
+    $control -s $serverip local_data "$1 IN A $ip"
+    $control -s $serverip local_zone_remove "$1"
+    $control -s $serverip local_zone "$1" redirect
+}
+
+logger -i -t update-unbound "updating ip address $ip to name server"
+
+register pi.noyuno.space.
+register git2.noyuno.space.
+register s.noyuno.space.
+register status.noyuno.space.
+register dir.noyuno.space.
+

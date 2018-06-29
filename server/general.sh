@@ -65,6 +65,10 @@ ddns()
 EOF
 }
 
+ufw () {
+    dfx sudo ufw allow in from 192.168.11.1 to 192.168.11.0/24
+}
+
 export -f ainstall
 export -f network
 export -f timezone
