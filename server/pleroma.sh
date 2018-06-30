@@ -140,7 +140,6 @@ server {
     }
 }
 EOF
-
     dfx sudo ln -sfnv /etc/nginx/sites-available/pleroma.conf \
         /etc/nginx/sites-enabled/pleroma.conf
     dfx sudo systemctl reload nginx.service
