@@ -3,7 +3,8 @@
 . $HOME/dotfiles/bin/dffunc
 
 declare user=noyuno
-declare domain=noyuno.space
+declare host=$HOST
+declare domain=$HOST.noyuno.space
 declare rootdomain=noyuno.space
 declare gitdomain=git2.$rootdomain
 declare domain2=noyuno.mydns.jp

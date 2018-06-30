@@ -57,13 +57,6 @@ server {
         deny all;
     }
 
-    location /jma/subscriber {
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME /var/www/html/jma/subscriber.php;
-        include fastcgi_params;
-    }
-
     location ~ \.php$ {
         root /var/www/html;
         try_files \$uri =404;
@@ -116,6 +109,82 @@ server {
     return 444;
 }
 EOF
+
+    if [ "y$rootdomain_endpoint" != "y" ]; then
+        cat << EOF | sudo tee /etc/nginx/sites-available/00-root.conf
+server {
+    listen 443 ssl;
+    server_name $rootdomain localhost;
+    include /etc/nginx/mime.types;
+    charset UTF-8;
+    charset_types text/css application/json text/plain application/javascript;
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
+    add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';
+    
+    gzip on;
+    gzip_types text/html text/css application/javascript application/json;
+
+    ssl on;
+
+    $certfile
+
+    root /var/www/html;
+    
+    location ~ .*\.(jpe?g|gif|png|css|js|ico|woff) {
+        expires 7d;
+    }
+
+    location ~ /\.git {
+        deny all;
+    }
+
+    location /log {
+        deny all;
+    }
+
+    location ~ /secret {
+        deny all;
+    }
+
+    location /bin {
+        deny all;
+    }
+
+    location ~ \.php$ {
+        root /var/www/html;
+        try_files \$uri =404;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ \.cgi$ {
+        root /var/www/html;
+        try_files \$uri =404;
+        fastcgi_pass unix:/var/run/fcgiwrap.socket;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+    
+    location /cgi {
+        root /var/www/html;
+        try_files \$uri =404;
+        fastcgi_pass unix:/var/run/fcgiwrap.socket;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+
+server {
+    listen 80;
+    server_name $rootdomain;
+    $upgrade
+}
+EOF
+    fi
 
     if [ "y$domain2" != "y" ]; then
         cat <<EOF | sudo tee -a /etc/nginx/sites-available/00-root.conf

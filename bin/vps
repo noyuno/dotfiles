@@ -3,9 +3,10 @@
 . $HOME/dotfiles/bin/dffunc
 
 declare user=noyuno
-declare host=v
-declare domain=v.noyuno.space
+declare host=$HOST
+declare domain=$host.noyuno.space
 declare rootdomain=noyuno.space
+declare rootdomain_endpoint=1
 declare gitdomain=git.$rootdomain
 declare mail=noyuno@$domain
 declare pdata=/var/postgresql/data
