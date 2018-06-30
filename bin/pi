@@ -14,6 +14,8 @@ declare showterm=/var/www/showterm
 declare base=server
 declare gittarget=/mnt/karen/git
 declare gituser=git
+declare distribution=debian
+declare codename=stretch
 declare leno=$(cat /home/noyuno/dotfiles/server/letsencrypt-no)
 declare package=(
     oracle-java8-jdk nginx fcgiwrap postgresql \
@@ -21,24 +23,13 @@ declare package=(
         rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl \
         librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
         libconfig-general-perl libio-socket-ssl-perl etckeeper jq)
-declare certdomain="
-        -d $domain
-        -d dir.$domain
-        -d git.$domain
-        -d git2.$domain
-        -d status.$domain
-        -d www.$domain
-        -d mail.$domain
-        -d v.$domain
-        -d s.$domain
-        "
 declare certfile="
     ssl_certificate /etc/letsencrypt/live/$rootdomain-$leno/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$rootdomain-$leno/privkey.pem;
 "
 declare certdir="
     location ~ /.well-known/acme-challenge/ {
-        root /var/www/cert/;
+        proxy_pass http://$rootdomain:80;
     }
 "
 declare upgrade="

@@ -7,9 +7,9 @@ pleroma.sh
     pleroma_nginx: nginx setting"
 
 pleroma () {
-    echo "deb https://packages.erlang-solutions.com/debian stretch contrib" | sudo tee /etc/apt/sources.list.d/erlang-solutions.list
+    echo "deb https://packages.erlang-solutions.com/$distribution $codename contrib" | sudo tee /etc/apt/sources.list.d/erlang-solutions.list
     dfx wget -qO /tmp/key.asc https://packages.erlang-solutions.com/debian/erlang_solutions.asc
-    dfx sudo apt-key add erlang_solutions.asc
+    dfx sudo apt-key add /tmp/key.asc
     dfx sudo apt update
     aptinstall elixir erlang erlang-xmerl
 #mix deps.get
@@ -40,12 +40,23 @@ StartLimitBurst=5
 WantedBy=multi-user.target
 Alias=pleroma.service
 EOF
+    
+    dfx sudo mkdir -p /var/pleroma
+    if ! id pleroma ; then
+        dfx sudo useradd -d /var/pleroma -s /bin/zsh pleroma
+    fi
+    dfx sudo chown -R pleroma.pleroma /var/pleroma
 }
 
 pleroma_repo() {
-    sudo -u pleroma git clone https://git.pleroma.social/noyuno/pleroma.git
-    sudo -u pleroma git clone https://github.com/noyuno/dotfiles.git
-    sudo -u pleroma git clone https://github.com/noyuno/pleromabot.git
+    dfx sudo mkdir -p /var/pleroma
+    if ! id pleroma ; then
+        dfx sudo useradd -d /var/pleroma -s /bin/zsh pleroma
+    fi
+    dfx sudo chown -R pleroma.pleroma /var/pleroma
+    sudo -u pleroma git clone https://git.pleroma.social/noyuno/pleroma.git /var/pleroma/pleroma
+    sudo -u pleroma git clone https://github.com/noyuno/dotfiles.git /var/pleroma/dotfiles
+    sudo -u pleroma git clone https://github.com/noyuno/pleromabot.git /var/pleroma/pleromabot
 }
 
 pleroma_nginx () {

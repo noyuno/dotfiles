@@ -19,6 +19,7 @@ server_names_hash_bucket_size 64;
 
 server {
     listen 443 ssl;
+    listen [::]:443 ssl;
     server_name $domain localhost;
     include /etc/nginx/mime.types;
     charset UTF-8;
@@ -85,6 +86,7 @@ server {
 
 server {
     listen 80;
+    listen [::]:80;
     server_name $domain;
     $upgrade
 }
@@ -92,6 +94,7 @@ server {
 
 server {
     listen 80 default_server;
+    listen [::]:80 default_server;
     server_name _;
     
     $certdir
@@ -102,6 +105,7 @@ server {
 
 server {
     listen 443 default_server;
+    listen [::]:443 default_server;
     ssl on;
     server_name _;
 
@@ -111,9 +115,10 @@ server {
 EOF
 
     if [ "y$rootdomain_endpoint" != "y" ]; then
-        cat << EOF | sudo tee /etc/nginx/sites-available/00-root.conf
+        cat << EOF | sudo tee -a /etc/nginx/sites-available/00-root.conf
 server {
     listen 443 ssl;
+    listen [::]:443 ssl;
     server_name $rootdomain localhost;
     include /etc/nginx/mime.types;
     charset UTF-8;
@@ -180,6 +185,7 @@ server {
 
 server {
     listen 80;
+    listen [::]:80;
     server_name $rootdomain;
     $upgrade
 }
@@ -190,11 +196,13 @@ EOF
         cat <<EOF | sudo tee -a /etc/nginx/sites-available/00-root.conf
 server {
     listen 80;
+    listen [::]:80;
     server_name $domain2 git.$domain2 status.$domain2 dir.$domain2 record.$domain2;
     return 301 https://$domain\$request_uri;
 }
 server {
     listen 443;
+    listen [::]:443;
     server_name $domain2 git.$domain2 status.$domain2 dir.$domain2 record.$domain2;
     return 301 https://$domain\$request_uri;
 }

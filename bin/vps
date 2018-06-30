@@ -3,7 +3,7 @@
 . $HOME/dotfiles/bin/dffunc
 
 declare user=noyuno
-declare host=$HOST
+declare host=v
 declare domain=$host.noyuno.space
 declare rootdomain=noyuno.space
 declare rootdomain_endpoint=1
@@ -13,6 +13,8 @@ declare pdata=/var/postgresql/data
 declare base=server
 declare gittarget=/var/git
 declare gituser=git
+declare distribution=ubuntu
+declare codename=bionic
 declare leno=$(cat /home/noyuno/dotfiles/server/letsencrypt-no)
 declare package=(oracle-java8-jdk nginx fcgiwrap postgresql samba \
         php5 php5-pgsql php5-gd php5-fpm php5-curl \
@@ -20,13 +22,27 @@ declare package=(oracle-java8-jdk nginx fcgiwrap postgresql samba \
         librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
         libconfig-general-perl libio-socket-ssl-perl wiringpi etckeeper \
         letsencrypt python-certbot-nginx certbot)
+declare certdomain="
+        -d $rootdomain
+        -d dir.$rootdomain
+        -d git.$rootdomain
+        -d git1.$rootdomain
+        -d git2.$rootdomain
+        -d status.$rootdomain
+        -d www.$rootdomain
+        -d mail.$rootdomain
+        -d v.$rootdomain
+        -d vps.$rootdomain
+        -d pi.$rootdomain
+        -d s.$rootdomain
+        "
 declare certfile="
     ssl_certificate /etc/letsencrypt/live/$rootdomain-$leno/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$rootdomain-$leno/privkey.pem;
 "
 declare certdir="
     location ~ /.well-known/acme-challenge/ {
-        proxy_pass http://$rootdomain:80;
+        root /var/www/cert/;
     }
 "
 declare upgrade="
