@@ -73,7 +73,7 @@ proxy_cache_path /tmp/pleroma-media-cache levels=1:2 keys_zone=pleroma_media_cac
 
 server {
     listen         80;
-    server_name    s.$domain;
+    server_name    s.$rootdomain;
     $upgrade
 }
 
@@ -88,7 +88,7 @@ server {
     ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
     ssl_prefer_server_ciphers on;
 
-    server_name s.$domain;
+    server_name s.$rootdomain;
     error_page 503 /503;
     error_page 502 =503 /503;
 
@@ -140,7 +140,6 @@ server {
     }
 }
 EOF
-
     dfx sudo ln -sfnv /etc/nginx/sites-available/pleroma.conf \
         /etc/nginx/sites-enabled/pleroma.conf
     dfx sudo systemctl reload nginx.service

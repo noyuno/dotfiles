@@ -230,6 +230,14 @@ EOF
 export -f nginx
 
 nginx_all() {
+    sudo rm -f \
+        /etc/nginx/sites-enabled/00-root.conf \
+        /etc/nginx/sites-enabled/gitbucket.conf \
+        /etc/nginx/sites-enabled/70-owncloud.conf \
+        /etc/nginx/sites-enabled/kanboard.conf \
+        /etc/nginx/sites-enabled/netdata.conf \
+        /etc/nginx/sites-enabled/pleroma.conf \
+        /etc/nginx/sites-enabled/showterm.conf
     nginx
     pleroma_nginx
     owncloud_nginx

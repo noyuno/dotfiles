@@ -89,13 +89,13 @@ upstream php-handler {
 
 server {
     listen 80;
-    server_name dir.$domain;
+    server_name dir.$rootdomain;
     $upgrade
 }
 
 server {
     listen 443 ssl http2;
-    server_name dir.$domain;
+    server_name dir.$rootdomain;
 
     $certfile
 
