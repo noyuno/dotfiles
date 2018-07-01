@@ -3,8 +3,8 @@
 . $HOME/dotfiles/bin/dffunc
 
 declare user=noyuno
-declare host=$HOST
-declare domain=$HOST.noyuno.space
+declare host=pi
+declare domain=$host.noyuno.space
 declare rootdomain=noyuno.space
 declare gitdomain=git2.$rootdomain
 declare domain2=noyuno.mydns.jp
@@ -17,6 +17,11 @@ declare gituser=git
 declare distribution=debian
 declare codename=stretch
 declare leno=$(cat /home/noyuno/dotfiles/server/letsencrypt-no)
+if [ "$leno" != "" ]; then
+    leno=$rootdomain-$lero
+else
+    leno=$rootdomain
+fi
 declare package=(
     oracle-java8-jdk nginx fcgiwrap postgresql \
         php php-pgsql php-gd php-fpm php-curl \
@@ -24,8 +29,8 @@ declare package=(
         librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl \
         libconfig-general-perl libio-socket-ssl-perl etckeeper jq)
 declare certfile="
-    ssl_certificate /etc/letsencrypt/live/$rootdomain-$leno/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$rootdomain-$leno/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$leno/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$leno/privkey.pem;
 "
 declare certdir="
     location ~ /.well-known/acme-challenge/ {
