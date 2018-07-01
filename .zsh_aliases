@@ -649,7 +649,7 @@ pdfpng() {
     pdftoppm $1 -png -r 350 out
 }
 
-alias dig='drill'
+which drill >/dev/null 2>&1 && alias dig='drill'
 
 which compdef 1>/dev/null 2>&1 && which pacman 1>/dev/null 2>&1 && compdef yaourt=pacman
 alias y='yaourt'
