@@ -3,7 +3,7 @@
 . "$HOME/dotfiles/bin/dffunc"
 
 name=$(git config --global user.name)
-jsonurl=http://noyuno.space/static/repo.json
+jsonurl=http://pi.noyuno.space/static/repo.json
 outtmp=$DFTMP/out
 namelength=18
 if [ "$1" ]; then
@@ -207,7 +207,7 @@ update_repo()
 
 # pi
 json="$DFTMP/repo.json"
-curl -sL "$jsonurl" > "$json"
+curl -sLf "$jsonurl" > "$json" || echo "$jsonurl returned 404 not found" >&2
 primaryrepo=$(jq -r .primary "$json")
 update_repo2 '.repositories[] | select(.name=="'$primaryrepo'")'
 update_repo
