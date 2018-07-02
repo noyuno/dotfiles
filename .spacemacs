@@ -524,11 +524,11 @@ before packages are loaded."
     (global-set-key [muhenkan] (lambda () (interactive) (set-input-method "japanese-ascii")))
     (defvar mozc-candidate-style) ;; avoid compile error
     (set-face-attribute 'mozc-preedit-face 'nil :background 'nil :foreground 'nil)
-    (set-face-attribute 'mozc-preedit-selected-face 'nil :background "sea green" :foreground "black")
-    (set-face-attribute 'mozc-cand-overlay-even-face 'nil :background "dark slate gray" :foreground "white")
-    (set-face-attribute 'mozc-cand-overlay-odd-face 'nil :background "dark slate gray" :foreground "white")
-    (set-face-attribute 'mozc-cand-overlay-focused-face 'nil :background "sea green" :foreground "black")
-    (set-face-attribute 'mozc-cand-overlay-footer-face 'nil :background "sea green" :foreground "black")
+    (set-face-attribute 'mozc-preedit-selected-face 'nil :background "SlateBlue2" :foreground "black")
+    (set-face-attribute 'mozc-cand-overlay-even-face 'nil :background "SlateBlue4" :foreground "white")
+    (set-face-attribute 'mozc-cand-overlay-odd-face 'nil :background "SlateBlue4" :foreground "white")
+    (set-face-attribute 'mozc-cand-overlay-focused-face 'nil :background "SlateBlue2" :foreground "black")
+    (set-face-attribute 'mozc-cand-overlay-footer-face 'nil :background "SlateBlue2" :foreground "black")
     (if (require 'mozc-popup nil t)
         (setq mozc-candidate-style 'popup)
       (setq mozc-candidate-style 'echo-area)
@@ -623,9 +623,13 @@ before packages are loaded."
                        ((eq (current-buffer) b) b)
                        ((buffer-file-name b) b)
                        ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-                       ((equal "*scratch*" (buffer-name b)) b)
-                       ((string-prefix-p "*terminal" (buffer-name b)) b)
-                       ((char-equal ?* (aref (buffer-name b) 0)) nil)
+                       ((equal "*Quail Completions*" (buffer-name b)) nil)
+                       ((equal "*dotfile-test-results*" (buffer-name b)) nil)
+                       ((equal "*helm M-x*" (buffer-name b)) nil)
+                       ((equal "*helm find files*" (buffer-name b)) nil)
+                       ((equal "*spacemacs*" (buffer-name b)) nil)
+                       ((equal "*Messages*" (buffer-name b)) nil)
+                       ((equal "*helm mini*" (buffer-name b)) nil)
                        ((buffer-live-p b) b)))
                   (buffer-list))))
   ;; カスタム関数を登録
@@ -635,6 +639,10 @@ before packages are loaded."
   (setq-default evil-escape-key-sequence "jj")
   ;; このままではjjを打つのに特殊な技能が必要なほどシビアなので多少遅く入力してもescapeとするようにする
   (setq-default evil-escape-delay 0.2)
+
+  ;; neotree
+  (setq neo-window-fixed-size nil)
+  (setq neo-window-width 18)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

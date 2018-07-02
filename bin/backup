@@ -16,9 +16,9 @@ run()
     catalog=$dest/catalog
     args="-a -A -z -C --delay-updates --info=progress2 -h
         --remote-option=--log-file=$dest/log/$date.log --exclude-from $HOME/dotfiles/list/snapshot-ignore"
-    #latestbackup=$(ssh pi find $dest -maxdepth 1 -type d -name `date +%Y%m`"\*" | sort -r | head -n 1)
+    #latestbackup=$(ssh $server find $dest -maxdepth 1 -type d -name `date +%Y%m`"\*" | sort -r | head -n 1)
     ssh $server "mkdir -p $dest ; touch $dest/catalog"
-    latestbackup=$(ssh pi cat $catalog | tail -n 1 | awk -F' ' '{print $1}')
+    latestbackup=$(ssh $server cat $catalog | tail -n 1 | awk -F' ' '{print $1}')
     if [ ! "$NEW" -a "$latestbackup" ]; then
         args=$args" --link-dest $dest/$latestbackup/$src"
     fi
