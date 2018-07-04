@@ -32,7 +32,7 @@ server {
     listen 443 ssl;
 
     # the virtual host name of this
-    server_name status.$domain;
+    server_name $netdatadomain;
 
     charset UTF-8;
     charset_types text/css application/json text/plain application/javascript;
@@ -67,7 +67,7 @@ server {
 
 server {
     listen 80;
-    server_name status.$domain;
+    server_name $netdatadomain;
     $upgrade
 }
 EOF
