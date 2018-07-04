@@ -19,7 +19,7 @@ declare distribution=debian
 declare codename=stretch
 declare leno=$(cat /home/noyuno/dotfiles/server/letsencrypt-no)
 if [ "$leno" != "" ]; then
-    leno=$rootdomain-$lero
+    leno=$rootdomain-$leno
 else
     leno=$rootdomain
 fi
@@ -70,6 +70,22 @@ declare usage=
 . $HOME/dotfiles/$base/pleroma.sh
 . $HOME/dotfiles/$base/cert.sh
 . $HOME/dotfiles/$base/unbound.sh
+
+nginx_all() {
+    sudo rm -f \
+        /etc/nginx/sites-enabled/00-root.conf \
+        /etc/nginx/sites-enabled/gitbucket.conf \
+        /etc/nginx/sites-enabled/70-owncloud.conf \
+        /etc/nginx/sites-enabled/kanboard.conf \
+        /etc/nginx/sites-enabled/netdata.conf \
+        /etc/nginx/sites-enabled/pleroma.conf \
+        /etc/nginx/sites-enabled/showterm.conf
+    nginx
+    pleroma_nginx
+    owncloud_nginx
+    gitbucket_nginx
+    netdata_nginx
+}
 
 help()
 {

@@ -17,7 +17,7 @@ declare distribution=ubuntu
 declare codename=bionic
 declare leno=$(cat /home/noyuno/dotfiles/server/letsencrypt-no)
 if [ "$leno" != "" ]; then
-    leno=$rootdomain-$lero
+    leno=$rootdomain-$leno
 else
     leno=$rootdomain
 fi
@@ -33,7 +33,8 @@ declare certdomain="
         -d git.$rootdomain
         -d git1.$rootdomain
         -d git2.$rootdomain
-        -d status.$rootdomain
+        -d pigit.$rootdomain
+        -d pistatus.$rootdomain
         -d www.$rootdomain
         -d mail.$rootdomain
         -d v.$rootdomain
@@ -73,6 +74,21 @@ declare usage=
 . $HOME/dotfiles/$base/pleroma.sh
 . $HOME/dotfiles/$base/cert.sh
 . $HOME/dotfiles/$base/unbound.sh
+
+nginx_all() {
+    sudo rm -f \
+        /etc/nginx/sites-enabled/00-root.conf \
+        /etc/nginx/sites-enabled/gitbucket.conf \
+        /etc/nginx/sites-enabled/70-owncloud.conf \
+        /etc/nginx/sites-enabled/kanboard.conf \
+        /etc/nginx/sites-enabled/netdata.conf \
+        /etc/nginx/sites-enabled/pleroma.conf \
+        /etc/nginx/sites-enabled/showterm.conf
+    nginx
+    pleroma_nginx
+    owncloud_nginx
+    gitbucket_nginx
+}
 
 help()
 {
