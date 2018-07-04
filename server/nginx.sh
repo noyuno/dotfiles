@@ -98,9 +98,9 @@ server {
     server_name _;
     
     $certdir
-    location / {
-        return 444;
-    }
+
+    root /var/www/html;
+    try_files /domain-404.html =404;
 }
 
 server {
@@ -110,7 +110,9 @@ server {
     server_name _;
 
     $certfile
-    return 444;
+
+    root /var/www/html;
+    try_files /domain-404.html =404;
 }
 EOF
 
