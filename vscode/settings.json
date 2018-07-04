@@ -9,5 +9,5 @@
     "gitlens.defaultDateFormat": "YYYY/MM/DD hh:mm",
     "liveServer.settings.donotShowInfoMsg": true,
     "materialTheme.fixIconsRunning": false,
-
+    "window.restoreWindows": "none",
 }
