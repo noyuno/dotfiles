@@ -1,10 +1,11 @@
-# Raspberry Pi 3 settings tool
+# Server setting tools
 
 [dotfiles](https://github.com/noyuno/dotfiles/blob/master/readme.md)
 
 ## Usage
 
     pi [commands]
+    vps [commands]
 
 commands
 
@@ -34,7 +35,7 @@ commands
     vuls
     scan
 
-If no command is given, will run below commands.
+If no command is given, `pi/vps` will run below commands.
 
     install
     motd
@@ -65,15 +66,9 @@ If no command is given, will run below commands.
 
 [`bin/pi`](https://github.com/noyuno/dotfiles/blob/master/bin/pi)
 
-    declare user=noyuno
-    declare gittarget=/var/git
-    declare gituser=git
-    declare domain=noyuno.space
-    declare mail=noyuno@$domain
-    declare pdata=/var/postgresql/data
-    declare showterm=/var/www/showterm
+[`bin/vps`](https://github.com/noyuno/dotfiles/blob/master/bin/vps)
 
-## Ports
+## Ports memo
 
 - 25: postfix
 - 80: nginx(public)
