@@ -642,7 +642,7 @@ before packages are loaded."
 
   ;; neotree
   (setq neo-window-fixed-size nil)
-  (setq neo-window-width 18)
+  (setq neo-window-width 25)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -1,0 +1,11 @@
+--- adapter.py.orig	2018-07-06 15:51:59.423509074 +0900
++++ /usr/lib/python3.6/site-packages/cachecontrol/adapter.py	2018-07-06 15:52:42.963510707 +0900
+@@ -104,7 +104,7 @@ class CacheControlAdapter(HTTPAdapter):
+                         self.controller.cache_response, request, response
+                     ),
+                 )
+-                if response.chunked:
++                if hasattr(response, 'chunked') and response.chunked:
+                     super_update_chunk_length = response._update_chunk_length
+ 
+                     def _update_chunk_length(self):
