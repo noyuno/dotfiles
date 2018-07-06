@@ -1,0 +1,9 @@
+--- usbmuxd.service.orig	2018-07-06 16:55:28.506985248 +0900
++++ /lib/systemd/system/usbmuxd.service	2018-07-06 16:40:41.670285325 +0900
+@@ -5,3 +5,6 @@ Documentation=man:usbmuxd(8)
+ [Service]
+ ExecStart=/usr/bin/usbmuxd --user usbmux --systemd
+ PIDFile=/usr/var/run/usbmuxd.pid
++Restart=always
++RestartSec=1s
++
