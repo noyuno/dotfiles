@@ -2,8 +2,16 @@
 
 . $HOME/dotfiles/bin/dffunc
 
+case "$(hostname)" in
+    v.*|k.*)
+        declare host=$(hostname | awk -F. '{print $1}')
+        ;;
+    *)
+        echo "server only command" 1>&2
+        exit 1
+esac
+
 declare user=noyuno
-declare host=v
 declare domain=$host.noyuno.space
 declare rootdomain=noyuno.space
 declare rootdomain_endpoint=1
@@ -98,11 +106,6 @@ $usage
 EOF
     exit 1
 }
-
-if [ "$(hostname)" != "$domain" ]; then
-    echo "this command is $domain only" 1>&2
-    exit 1
-fi
 
 if [ $# -eq 0 ]; then
     help

@@ -674,7 +674,8 @@ alias yku='sudo pacman-key --refresh-key'
 alias yki='sudo pacman-key -r'
 alias ykg='gpg --keyserver http://pgp.mit.edu --recv-key'
 
-alias ssh='ssh -XC4'
+#alias ssh='ssh -XC4'
+alias ssh='ssh -A'
 
 alias nlmax='awk "{i=length(\$0); if(m<i){m=i; t=\$0} } END{print t\"^\"m}"'
 alias nlsort='awk "{print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
