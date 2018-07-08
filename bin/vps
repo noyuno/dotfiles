@@ -30,7 +30,8 @@ else
     leno=$rootdomain
 fi
 declare package=(oracle-java8-jdk nginx fcgiwrap postgresql etckeeper \
-        letsencrypt python-certbot-nginx certbot glances zsh)
+        letsencrypt python-certbot-nginx certbot glances zsh trash-cli \
+        silversearcher-ag jq tig)
 declare certdomain="
         -d $rootdomain
         -d dir.$rootdomain

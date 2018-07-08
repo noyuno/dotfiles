@@ -15,6 +15,8 @@ ainstall()
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 select true'
     dfx sudo debconf-set-selections '<<<' 'debconf shared/accepted-oracle-license-v1-1 seen true'
     yes | sudo add-apt-repository ppa:webupd8team/java
+    aptupdate
+    aptupgrade
     aptinstall ${package[@]}
 }
 
