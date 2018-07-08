@@ -29,7 +29,7 @@ if [ "$leno" != "" ]; then
 else
     leno=$rootdomain
 fi
-declare package=(oracle-java8-jdk nginx fcgiwrap postgresql etckeeper \
+declare package=(default-jdk nginx fcgiwrap postgresql etckeeper \
         letsencrypt python-certbot-nginx certbot glances zsh trash-cli \
         silversearcher-ag jq tig)
 declare certdomain="
@@ -79,6 +79,7 @@ declare usage=
 . $HOME/dotfiles/$base/pleroma.sh
 . $HOME/dotfiles/$base/cert.sh
 . $HOME/dotfiles/$base/unbound.sh
+. $HOME/dotfiles/$base/minecraft.sh
 
 nginx_all() {
     sudo rm -f \
