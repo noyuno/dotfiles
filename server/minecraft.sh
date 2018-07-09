@@ -40,3 +40,58 @@ EOF
 
 }
 
+dynmap_nginx() {
+    cat << EOF | sudo tee /etc/nginx/sites-available/dynmap.conf
+
+server {
+    listen 80;
+    server_name mc.$rootdomain;
+    $upgrade
+}
+
+server {
+    listen 443 ssl;
+    server_name mc.$rootdomain;
+    
+    ssl on;
+
+    $certfile
+    
+    charset UTF-8;
+    charset_types text/css application/json text/plain application/javascript;
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
+    add_header 'Access-Control-Allow-Method' 'GET, POST, OPTIONS, PUT, DELETE';
+    proxy_set_header Host \$http_host;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    proxy_redirect off;
+    proxy_max_temp_file_size 0;
+
+    location /.well-known {
+        alias /var/www/html/.well-known;
+    }
+
+    location ^~ /map/ {
+        rewrite /map/(.*) /\$1 break;
+        proxy_pass http://localhost:8123;
+        proxy_connect_timeout   150;
+        proxy_send_timeout      100;
+        proxy_read_timeout      100;
+        proxy_buffers           4 32k;
+        client_max_body_size    500m; # Big number is we can post big commits.
+        client_body_buffer_size 128k;
+    }
+
+    location / {
+        root /var/www/html/minecraft;
+    }
+}
+EOF
+    dfx sudo ln -sfnv /etc/nginx/sites-available/dynmap.conf \
+        /etc/nginx/sites-enabled/dynmap.conf
+    dfx sudo systemctl reload nginx.service
+
+}
+
