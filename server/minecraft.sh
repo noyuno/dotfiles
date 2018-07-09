@@ -53,7 +53,7 @@ EOF
 
 minecraft_backup() {
     cat << EOF | sudo tee /etc/cron.d/minecraft-backup
-36 3,15 * * * root $mcdir/backup.sh
+36 3 * * * root $mcdir/backup.sh
 EOF
     cat << EOF | tee $mcdir/backup.sh
 #!/bin/bash -ex
@@ -66,12 +66,15 @@ sync
 sudo -u noyuno cp -r $mcdir/server $mcdir/server.bak
 systemctl start minecraft
 d=\$($HOME/dotfiles/bin/now)
-opt="-p 4022 -i ~/.ssh/mcbackup"
-sudo -u noyuno ssh \$opt mcbackup@pi.noyuno.space -- \
-    "mkdir -p /mnt/karen/share/backup/k/minecraft/\$d"
-sudo -u noyuno rsync -a -A -z -C --delay-updates --info=progress2 -h --info=name0 \
-    -e "ssh \$opt" \
-    $mcdir/server.bak/ mcbackup@pi.noyuno.space:/mnt/karen/share/backup/k/minecraft/\$d/
+sudo -u noyuno tar cf server.tar.gz server.bak
+sudo -u noyuno tar cf optout.tar.gz server/world server/world_nether server/world_the_end
+#opt="-p 4022 -i ~/.ssh/mcbackup"
+sudo -u noyuno scp -P 4022 -i ~/.ssh/mcbackup server.tar.gz \
+    mcbackup@pi.noyuno.space:/mnt/karen/share/backup/k/minecraft/\$d.tar.gz
+sudo -u noyuno mv optout.tar.gz /var/www/html/minecraft/data/optout.tar.gz
+#sudo -u noyuno rsync -a -A -z -C --delay-updates --info=progress2 -h --info=name0 \
+#    -e "ssh \$opt" \
+#    $mcdir/server.bak/ mcbackup@pi.noyuno.space:/mnt/karen/share/backup/k/minecraft/\$d/
 
 EOF
 
