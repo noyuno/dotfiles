@@ -4,9 +4,10 @@ usage=$usage"
 minecraft.sh
     minecraft: sandbox video game"
 
+mcdir=$HOME/minecraft
+
 minecraft ()
 {
-    mcdir=$HOME/minecraft
     mkdir $mcdir
     wget -O $mcdir/server.jar \
         "https://launcher.mojang.com/mc/game/1.12.2/server/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar"
@@ -38,6 +39,43 @@ EOF
     dfx sudo systemctl enable minecraft
     dfx sudo systemctl start minecraft
 
+}
+
+spigot() {
+    cat << EOF | tee $mcdir/run.sh
+#!/bin/bash -e
+
+pushd server >/dev/null
+    java -Xmx1024M -Xms1024M -jar spigot-1.12.2.jar nogui
+popd >/dev/null
+EOF
+}
+
+minecraft_backup() {
+    cat << EOF | sudo tee /etc/cron.d/minecraft-backup
+36 3,15 * * * root $mcdir/backup.sh
+EOF
+    cat << EOF | tee $mcdir/backup.sh
+#!/bin/bash -ex
+
+set -ex
+
+sudo -u noyuno rm -rf $mcdir/server.bak
+systemctl stop minecraft
+sync
+sudo -u noyuno cp -r $mcdir/server $mcdir/server.bak
+systemctl start minecraft
+d=\$($HOME/dotfiles/bin/now)
+opt="-p 4022 -i ~/.ssh/mcbackup"
+sudo -u noyuno ssh \$opt mcbackup@pi.noyuno.space -- \
+    "mkdir -p /mnt/karen/share/backup/k/minecraft/\$d"
+sudo -u noyuno rsync -a -A -z -C --delay-updates --info=progress2 -h --info=name0 \
+    -e "ssh \$opt" \
+    $mcdir/server.bak/ mcbackup@pi.noyuno.space:/mnt/karen/share/backup/k/minecraft/\$d/
+
+EOF
+
+    chmod +x $mcdir/backup.sh
 }
 
 dynmap_nginx() {
