@@ -29,7 +29,7 @@ if [ "$leno" != "" ]; then
 else
     leno=$rootdomain
 fi
-declare package=(openjdk-11-jre-headless nginx fcgiwrap postgresql etckeeper \
+declare package=(oracle-java8-installer nginx fcgiwrap postgresql etckeeper \
         letsencrypt python-certbot-nginx certbot glances zsh trash-cli \
         silversearcher-ag jq tig)
 declare certdomain="
