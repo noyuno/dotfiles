@@ -2,6 +2,7 @@
 
 . $HOME/dotfiles/bin/dffunc
 
+declare rootdomain=noyuno.space
 case "$(hostname -f)" in
     k.*)
         declare host=$(hostname -f | awk -F. '{print $1}')
@@ -22,9 +23,19 @@ case "$(hostname -f)" in
             -d pi.$rootdomain
             -d s.$rootdomain
         "
+        declare certdir="
+            location ^~ /.well-known/acme-challenge/ {
+                root /var/www/cert/;
+            }
+        "
         ;;
     v.*)
         declare host=$(hostname -f | awk -F. '{print $1}')
+        declare certdir="
+            location ~ /.well-known/acme-challenge/ {
+                proxy_pass http://$rootdomain:80;
+            }
+        "
         ;;
     *)
         echo "server only command" 1>&2
@@ -33,7 +44,6 @@ esac
 
 declare user=noyuno
 declare domain=$host.noyuno.space
-declare rootdomain=noyuno.space
 declare rootdomain_endpoint=1
 declare gitdomain=git.$rootdomain
 declare mail=noyuno@$domain
@@ -55,11 +65,6 @@ declare package=(oracle-java8-installer nginx fcgiwrap postgresql etckeeper \
 declare certfile="
     ssl_certificate /etc/letsencrypt/live/$leno/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$leno/privkey.pem;
-"
-declare certdir="
-    location ^~ /.well-known/acme-challenge/ {
-        root /var/www/cert/;
-    }
 "
 declare upgrade="
     $certdir
