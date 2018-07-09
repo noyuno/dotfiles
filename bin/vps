@@ -3,7 +3,27 @@
 . $HOME/dotfiles/bin/dffunc
 
 case "$(hostname -f)" in
-    v.*|k.*)
+    k.*)
+        declare host=$(hostname -f | awk -F. '{print $1}')
+        declare certdomain="
+            -d $rootdomain
+            -d dir.$rootdomain
+            -d git.$rootdomain
+            -d git1.$rootdomain
+            -d git2.$rootdomain
+            -d pigit.$rootdomain
+            -d pistatus.$rootdomain
+            -d www.$rootdomain
+            -d mail.$rootdomain
+            -d v.$rootdomain
+            -d k.$rootdomain
+            -d mc.$rootdomain
+            -d vps.$rootdomain
+            -d pi.$rootdomain
+            -d s.$rootdomain
+        "
+        ;;
+    v.*)
         declare host=$(hostname -f | awk -F. '{print $1}')
         ;;
     *)
@@ -32,29 +52,12 @@ fi
 declare package=(oracle-java8-installer nginx fcgiwrap postgresql etckeeper \
         letsencrypt python-certbot-nginx certbot glances zsh trash-cli \
         silversearcher-ag jq tig)
-declare certdomain="
-        -d $rootdomain
-        -d dir.$rootdomain
-        -d git.$rootdomain
-        -d git1.$rootdomain
-        -d git2.$rootdomain
-        -d pigit.$rootdomain
-        -d pistatus.$rootdomain
-        -d www.$rootdomain
-        -d mail.$rootdomain
-        -d v.$rootdomain
-        -d k.$rootdomain
-        -d mc.$rootdomain
-        -d vps.$rootdomain
-        -d pi.$rootdomain
-        -d s.$rootdomain
-        "
 declare certfile="
     ssl_certificate /etc/letsencrypt/live/$leno/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$leno/privkey.pem;
 "
 declare certdir="
-    location ~ /.well-known/acme-challenge/ {
+    location ^~ /.well-known/acme-challenge/ {
         root /var/www/cert/;
     }
 "
