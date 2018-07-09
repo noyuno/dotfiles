@@ -2,9 +2,9 @@
 
 . $HOME/dotfiles/bin/dffunc
 
-case "$(hostname)" in
+case "$(hostname -f)" in
     v.*|k.*)
-        declare host=$(hostname | awk -F. '{print $1}')
+        declare host=$(hostname -f | awk -F. '{print $1}')
         ;;
     *)
         echo "server only command" 1>&2
