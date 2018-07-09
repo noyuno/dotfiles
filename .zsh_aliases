@@ -697,4 +697,5 @@ vmwarefix()
 alias megurubot='echo "toot @megurubot update" | tootstream'
 alias port='sudo netstat -luntp'
 which unar 1>/dev/null 2>&1 && alias unzip='unar'
+alias sss='sudo systemctl status'
 

@@ -10,21 +10,24 @@ gitbucket.sh
 gitbucket()
 {
     dfx sudo mkdir -p $gittarget/repo
-    dfx useradd $gituser &&:
+    dfx sudo useradd $gituser &&:
     dfx sudo chown -R $gituser.$gituser $gittarget
     cd $gittarget
     cat << EOF | sudo -u git tee $gittarget/update.sh
 #!/bin/bash -e
-curl -sL \$(curl -s https://api.github.com/repos/gitbucket/gitbucket/releases/latest | \\
+curl -sLf \$(curl -sLf https://api.github.com/repos/gitbucket/gitbucket/releases/latest | \\
     jq -r '.assets[] |select(.name=="gitbucket.war").browser_download_url') \\
     >/tmp/gitbucket.war
-sudo systemctl stop gitbucket.service
+sudo systemctl stop gitbucket.service &&:
 sudo -u git cp /tmp/gitbucket.war $gittarget/gitbucket.war
 sudo systemctl start gitbucket.service
 EOF
     dfx sudo chmod +x $gittarget/update.sh
     if [ ! -e $gittarget/gitbucket.war ]; then
-        dfx $gittarget/update.sh
+        curl -sLf $(curl -sLf https://api.github.com/repos/gitbucket/gitbucket/releases/latest | \\
+            jq -r '.assets[] |select(.name=="gitbucket.war").browser_download_url') \\
+            >/tmp/gitbucket.war
+        sudo -u git cp /tmp/gitbucket.war $gittarget/gitbucket.war
     fi
 
     cat << EOF | sudo tee /etc/systemd/system/gitbucket.service

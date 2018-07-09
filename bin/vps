@@ -43,6 +43,8 @@ declare certdomain="
         -d www.$rootdomain
         -d mail.$rootdomain
         -d v.$rootdomain
+        -d k.$rootdomain
+        -d mc.$rootdomain
         -d vps.$rootdomain
         -d pi.$rootdomain
         -d s.$rootdomain
