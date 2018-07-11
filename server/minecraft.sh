@@ -46,7 +46,7 @@ spigot() {
 #!/bin/bash -e
 
 pushd server >/dev/null
-    java -Xmx1024M -Xms1024M -jar spigot-1.12.2.jar nogui
+    /usr/bin/java -Xmx1024M -Xms1024M -jar spigot-1.12.2.jar nogui --noconsole
 popd >/dev/null
 EOF
 }
