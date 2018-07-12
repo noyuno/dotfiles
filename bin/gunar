@@ -3,7 +3,7 @@
 length=$#
 while [ $# -gt 0 ]; do
     mate-terminal -t "gunar $1 ($(($length - $# + 1)) of $length)" \
-        --working-directory="$(dirname $1)" \
+        --working-directory="$(dirname "$1")" \
         -e "gunar-internal '$1'"
     shift
 done
