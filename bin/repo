@@ -78,6 +78,8 @@ _update_repo()
                 localhead=$(git branch -va --no-color | awk '/^*/{print $3}')
                 remotehead=$(git branch -va --no-color | awk '/remotes\/'$remote_name'\/master/{print $2}')
                 if [ "$localhead" = "$remotehead" ]; then
+                    # fetch LFS objects
+                    git lfs fetch 1>/dev/null &&:
                     return 0
                 else
                     return 4
