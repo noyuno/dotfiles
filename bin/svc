@@ -21,6 +21,7 @@ if [ ! -e $today ]; then
 fi
 
 sed -i -e "s|TODAY|$todayf|g" -e "s|LAST|$lastf|g" "$base/$today/input.md"
+sed -i -e "s|TODAY|$today|g"  -e "s|LAST|$last|g"  "$base/$today/Makefile"
 
 cd $base/$today
 exec $SHELL
