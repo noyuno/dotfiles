@@ -9,5 +9,9 @@
     "gitlens.defaultDateFormat": "YYYY/MM/DD hh:mm",
     "liveServer.settings.donotShowInfoMsg": true,
     "materialTheme.fixIconsRunning": false,
-    "window.restoreWindows": "none",
+    "window.restoreWindows": "none", 
+    "window.title": "${activeEditorLong}",
+    "editor.wordWrap": "on",
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "files.autoGuessEncoding":true
 }
