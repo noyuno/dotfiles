@@ -262,7 +262,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, `J' and `K' move lines up and down when in visual mode.
    ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
+   dotspacemacs-visual-line-move-text t
 
    ;; If non-nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
    ;; (default nil)
@@ -528,7 +528,10 @@ before packages are loaded."
     (set-face-attribute 'mozc-cand-overlay-odd-face 'nil :background "SlateBlue4" :foreground "white")
     (set-face-attribute 'mozc-cand-overlay-focused-face 'nil :background "SlateBlue1" :foreground "black")
     (set-face-attribute 'mozc-cand-overlay-footer-face 'nil :background "SlateBlue1" :foreground "black")
-    (set-face-attribute 'show-paren-mismatch 'nil :background "SlateBlue1" :foreground "black")
+    ;; 変換　アクティブ語
+    (set-face-attribute 'show-paren-mismatch 'nil :background "SlateBlue1" :foreground "black" :underline t)
+    ;; 変換　非アクティブ語
+    (set-face-attribute 'mozc-preedit-face 'nil :background "SlateBlue4" :foreground "white" :underline nil)
     (if (require 'mozc-popup nil t)
         (setq mozc-candidate-style 'popup)
       (setq mozc-candidate-style 'echo-area)
@@ -599,6 +602,10 @@ before packages are loaded."
   (setq powerline-default-separator nil)
   (setq fancy-battery-show-percentage nil)
   (spacemacs/toggle-mode-line-battery-on)
+  (spaceline-toggle-org-clock-off)
+  (spaceline-toggle-battery-off)
+  (spaceline-toggle-version-control-off)
+  (spaceline-toggle-buffer-size-off)
 
   (setq display-time-24hr-format t)
   (setq display-time-format "%m%d%a%H%M")
@@ -649,7 +656,23 @@ before packages are loaded."
           ((shift) . 1)
           ((control) . 5)
           ))
+
+  ;; mode-line (powerline)
+  (spaceline-define-segment buffer-encoding-abbrev
+    "The line ending convention used in the buffer."
+    (let ((buf-coding (format "%s" buffer-file-coding-system)))
+      (list (replace-regexp-in-string "-with-signature\\|-unix\\|-dos\\|-mac" "" buf-coding)
+            (concat (and (string-match "with-signature" buf-coding) "ⓑ")
+                    (and (string-match "unix"           buf-coding) "ⓤ")
+                    (and (string-match "dos"            buf-coding) "ⓓ")
+                    (and (string-match "mac"            buf-coding) "ⓜ")
+                    )))
+    :separator "")
+
+  (when (window-system)
+    (setq frame-title-format '("" (:eval (if (buffer-file-name) " %f" " %b"))) ) )
   )
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
