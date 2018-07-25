@@ -34,7 +34,6 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ;;twitter
      auto-completion
      better-defaults
      chrome
@@ -524,11 +523,12 @@ before packages are loaded."
     (global-set-key [muhenkan] (lambda () (interactive) (set-input-method "japanese-ascii")))
     (defvar mozc-candidate-style) ;; avoid compile error
     (set-face-attribute 'mozc-preedit-face 'nil :background 'nil :foreground 'nil)
-    (set-face-attribute 'mozc-preedit-selected-face 'nil :background "SlateBlue2" :foreground "black")
+    (set-face-attribute 'mozc-preedit-selected-face 'nil :background "SlateBlue1" :foreground "black")
     (set-face-attribute 'mozc-cand-overlay-even-face 'nil :background "SlateBlue4" :foreground "white")
     (set-face-attribute 'mozc-cand-overlay-odd-face 'nil :background "SlateBlue4" :foreground "white")
-    (set-face-attribute 'mozc-cand-overlay-focused-face 'nil :background "SlateBlue2" :foreground "black")
-    (set-face-attribute 'mozc-cand-overlay-footer-face 'nil :background "SlateBlue2" :foreground "black")
+    (set-face-attribute 'mozc-cand-overlay-focused-face 'nil :background "SlateBlue1" :foreground "black")
+    (set-face-attribute 'mozc-cand-overlay-footer-face 'nil :background "SlateBlue1" :foreground "black")
+    (set-face-attribute 'show-paren-mismatch 'nil :background "SlateBlue1" :foreground "black")
     (if (require 'mozc-popup nil t)
         (setq mozc-candidate-style 'popup)
       (setq mozc-candidate-style 'echo-area)
