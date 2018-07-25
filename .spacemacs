@@ -386,10 +386,10 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-line-numbers '(:relative nil
       :disabled-for-modes dired-mode
                           doc-view-mode
-                          markdown-mode
+                          ;;markdown-mode
                           org-mode
                           pdf-view-mode
-                          text-mode
+                          ;;text-mode
       :size-limit-kb 1000)
 
    ;; Code folding method. Possible values are `evil' and `origami'.
@@ -643,6 +643,12 @@ before packages are loaded."
   ;; neotree
   (setq neo-window-fixed-size nil)
   (setq neo-window-width 25)
+
+  (setq mouse-wheel-scroll-amount
+        '(1
+          ((shift) . 1)
+          ((control) . 5)
+          ))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
