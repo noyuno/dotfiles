@@ -677,6 +677,10 @@ before packages are loaded."
   (define-key evil-motion-state-map "<down>" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+  (define-key evil-visual-state-map "<up>" 'evil-previous-visual-line)
+  (define-key evil-visual-state-map "<down>" 'evil-next-visual-line)
+  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
 
   )
 
