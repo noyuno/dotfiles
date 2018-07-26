@@ -669,8 +669,15 @@ before packages are loaded."
                     )))
     :separator "")
 
+
   (when (window-system)
-    (setq frame-title-format '("" (:eval (if (buffer-file-name) " %f" " %b"))) ) )
+    (setq frame-title-format '("" (:eval (if (buffer-file-name) "%f" "%b"))) ) )
+
+  (define-key evil-motion-state-map "<up>" 'evil-previous-visual-line)
+  (define-key evil-motion-state-map "<down>" 'evil-next-visual-line)
+  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+
   )
 
 
