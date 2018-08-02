@@ -114,3 +114,6 @@ export GPG_TTY=$(tty)
 export LESS="-x4"
 export QT_QPA_PLATFORMTHEME='gtk2'
 
+# AUR helper command
+export AURHELPER=yay
+

@@ -41,6 +41,8 @@ if [ $? -ne 0 ]; then
 fi
 
 PATH=$HOME/dotfiles/arch/bin:$HOME/dotfiles/bin:$PATH
+[ ! "$AURHELPER" ] && AURHELPER=yay
+
 i=1
 for e in "${array[@]}"; do
     cd ~

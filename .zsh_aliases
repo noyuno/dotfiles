@@ -666,13 +666,13 @@ yu()
     read
     yaourt --needed -Sua --noconfirm
 }
-alias yc='yaourt -Sc'
-alias yo='yaourt -Qdt'
-alias ym='yaourt -Qet'
-alias ys='yaourt -Ss'
-alias yku='sudo pacman-key --refresh-key'
-alias yki='sudo pacman-key -r'
-alias ykg='gpg --keyserver http://pgp.mit.edu --recv-key'
+alias ac="$AURHELPER -Sc"
+alias ao="$AURHELPER -Qdt"
+alias am="$AURHELPER -Qet"
+alias as="$AURHELPER -Ss"
+alias aku='sudo pacman-key --refresh-key'
+alias aki='sudo pacman-key -r'
+alias akg='gpg --keyserver http://pgp.mit.edu --recv-key'
 
 #alias ssh='ssh -XC4'
 alias ssh='ssh -A'

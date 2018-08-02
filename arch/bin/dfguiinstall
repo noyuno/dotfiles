@@ -2,7 +2,7 @@
 
 . $HOME/dotfiles/bin/dffunc
 
-iyaourt()
+ipackage()
 {
     $HOME/dotfiles/arch/bin/yp gui tex java vmware steam
 }
@@ -44,7 +44,7 @@ commands:
     lightdm
     mate
     mozc
-    yaourt
+    package
 EOF
     ) >&2
     exit 1
@@ -57,7 +57,7 @@ run()
 }
 
 if [ $# -eq 0 ] ;then
-    run iyaourt
+    run ipackage
     #run ifont
     run ilightdm
     run imozc

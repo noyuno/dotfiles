@@ -8,9 +8,9 @@ if ! grep '^\[multilib\]' /etc/pacman.conf; then
 Include = /etc/pacman.d/mirrorlist
 EOF
 fi
-yaourt -Syu --noconfirm
+$AURHELPER -Syu --noconfirm
 . $HOME/dotfiles/arch/list/packages
-yaourt -S --noconfirm $steam
+$AURHELPER -S --noconfirm $steam
 sudo nvidia-xconfig
 echo "Please reboot before playing"
 

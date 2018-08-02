@@ -11,7 +11,7 @@ i()
 {
     name=$1
     . $HOME/dotfiles/arch/list/packages
-    dfx yaourt -S --noconfirm --needed --asdeps $(eval echo '${'$name'[@]}')
+    dfx $AURHELPER -S --noconfirm --needed --asdeps $(eval echo '${'$name'[@]}')
 }
 
 while [ $# -gt 0 ]; do

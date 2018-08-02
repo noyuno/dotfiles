@@ -12,7 +12,12 @@ Server = http://repo.archlinux.fr/$arch
 EOF
     fi
     dfx sudo pacman -Syu --noconfirm
-    dfx sudo pacman -S yaourt --noconfirm
+    #dfx sudo pacman -S $AURHELPER --noconfirm
+    # yay
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    pushd /tmp/yay
+        makepkg -is
+    popd
 }
 
 ikey()
@@ -34,10 +39,10 @@ ikey()
     return 0
 }
 
-iyaourt()
+ipackage()
 {
-    if ! which yaourt 1>/dev/null 2>&1; then
-        echo "yaourt has not installed. Please type dfyaourt to install it."
+    if ! which $AURHELPER 1>/dev/null 2>&1; then
+        echo "$AURHELPER has not installed. Please type dfAURHELPER to install it."
         exit 1
     fi
     dfx sudo pacman -Syyu --noconfirm
@@ -109,7 +114,7 @@ Install all packages by default.
 commands:
     key
     setup
-    yaourt
+    package
     gopackages
     pip
     trans
@@ -129,7 +134,7 @@ run()
 if [ $# -eq 0 ] ;then
     run isetup
     run ikey &&:
-    run iyaourt
+    run ipackage
     run iudisks
     run igopackages
     run ipip
