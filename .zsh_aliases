@@ -651,20 +651,20 @@ pdfpng() {
 
 which drill >/dev/null 2>&1 && alias dig='drill'
 
-which compdef 1>/dev/null 2>&1 && which pacman 1>/dev/null 2>&1 && compdef yaourt=pacman
-alias y='yaourt'
-alias yi='yaourt --needed -S'
-alias yid='yaourt --asdeps --needed -S'
-alias yr='yaourt -Rs'
-yu()
+which compdef 1>/dev/null 2>&1 && which pacman 1>/dev/null 2>&1 && compdef $AURHELPER=pacman
+alias a="$AURHELPER"
+alias ai="$AURHELPER --needed -S"
+alias aid="$AURHELPER --asdeps --needed -S"
+alias ar="$AURHELPER -Rs"
+aup()
 {
-    yaourt -Syy
-    yaourt -Qu
+    $AURHELPER -Syy
+    $AURHELPER -Qu
     echo -n "last full upgrade: "
     grep "full system upgrade" </var/log/pacman.log|tail -n 1|awk -F] '{gsub("\\[","",$1);print $1}'
     echo -n "type enter to upgrade: "
     read
-    yaourt --needed -Sua --noconfirm
+    $AURHELPER --needed -Sua --noconfirm
 }
 alias ac="$AURHELPER -Sc"
 alias ao="$AURHELPER -Qdt"
