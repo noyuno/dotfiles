@@ -2,7 +2,7 @@
 
 . $HOME/dotfiles/bin/dffunc
 
-$AURHELPER -S --noconfirm xf86-video-vmware open-vm-tools
+$AURHELPER -S --noconfirm --needed xf86-video-vmware open-vm-tools
 pushd ~
     if [ ! -d vmware-tools-patches ]; then
         dfx git clone https://github.com/rasa/vmware-tools-patches.git
