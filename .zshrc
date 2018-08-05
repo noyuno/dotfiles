@@ -76,7 +76,6 @@ export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30
 # ZLS_COLORS
 export ZLS_COLORS=$LS_COLORS
 export CLICOLOR=true
-#zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:default' menu select=1
 
 ### Prompt ###
@@ -130,18 +129,12 @@ if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
 [ -f "$HOME/.zsh_aliases" ] && . $HOME/.zsh_aliases
 
 function cd() {
-    builtin cd $@
-    if [ $? -eq 0 ]; then
-        dirc
-        if [ $(ls -U1 | wc -l) -lt 50 ]; then
-            case ${OSTYPE} in
-                linux*) ls --color -N ;;
-                darwin*) ls -G ;;
-                *) ls ;;
-            esac && \
-            [ "$TMUX" ] && tmux refresh-client -S
-        fi
-    fi
+    builtin cd $@ && \
+        dirc && \
+        [ $(ls -U1 | wc -l) -lt 50 ] && \
+        ls && \
+        [ "$TMUX" ] && \
+        tmux refresh-client -S
 }
 
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -185,13 +178,6 @@ linux*)
     ;;
 esac
 
-
-# colorscheme
-if [ "$TERM" != linux ]; then
-    #eval `dircolors ~/dotfiles/dircolors.256dark`
-#    terminalcolors.py color_mapping ~/dotfiles/vim/colors/hybrid.vim
-fi 
-
 if [ ~/dotfiles/.zshrc -nt ~/.zshrc.zwc ]; then
     zcompile ~/.zshrc 
 fi 
@@ -200,13 +186,6 @@ fi
 
 # C-s
 stty stop undef &&:
-
-# SSH
-#if [ ! -n "${REMOTEHOST}${SSH_CONNECTION}" ]; then
-#    if [ -x /usr/bin/keychain -a ! -e "$HOME/.keychain/$(hostname)-sh" ]; then
-#        /usr/bin/keychain --quiet --clear $HOME/.ssh/id_rsa
-#    fi
-#fi
 
 PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
