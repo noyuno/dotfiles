@@ -1,0 +1,25 @@
+#!/bin/bash -e
+
+. $HOME/dotfiles/bin/dffunc
+
+$AURHELPER -S --noconfirm xf86-video-vmware open-vm-tools
+pushd ~
+    if [ ! -d vmware-tools-patches ]; then
+        dfx git clone https://github.com/rasa/vmware-tools-patches.git
+        pushd vmware-tools-patches
+            dfx sudo ./patched-open-vm-tools.sh
+        popd
+    fi
+popd
+
+mnt() {
+    name=$1
+    sudo mkdir -p /mnt/$name
+    dfx sudo vmhgfs-fuse -o allow_other -o auto_unmount .host:/$name /mnt/$name
+}
+
+mnt noyuno
+mnt c
+mnt d
+
+

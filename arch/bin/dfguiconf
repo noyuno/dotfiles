@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. ~/dotfiles/ubuntu/bin/dffunc
+. ~/dotfiles/bin/dffunc
 
 dfx . ~/dotfiles/bin/mate-terminal-colorscheme-hybrid
 dfx xdg-mime default google-chrome.desktop application/pdf

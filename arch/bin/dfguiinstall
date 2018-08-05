@@ -5,10 +5,12 @@
 ipackage()
 {
     $HOME/dotfiles/arch/bin/yp gui tex java vmware steam
+    dfx sudo archlinux-java set java-10-jdk
 }
 
 ilightdm () {
     dfx sudo cp -r $HOME/dotfiles/etc/lightdm /etc
+    dfx sudo systemctl enable lightdm
 }
 
 ifont()
@@ -25,8 +27,8 @@ ifont()
 }
 
 imozc() {
-    cp -af $HOME/dotfiles/arch/pkgbuild/mozc $DFTMP
-    pushd $DFTMP/mozc
+    #cp -af $HOME/dotfiles/arch/pkgbuild/mozc $DFTMP
+    pushd $HOME/dotfiles/arch/pkgbuild/mozc
         makepkg --noconfirm -is
     popd
 }

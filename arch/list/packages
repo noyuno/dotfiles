@@ -4,12 +4,13 @@ cli=(atool bc boost clang cmake colordiff cronie ctags dmidecode docx2txt    \
     ethtool exfat-utils expect findutils fzf gettext git git-lfs git-secrets \
     go      \
     gvfs-smb highlight htop hub imagemagick imlib2 intel-ucode jq keychain   \
-    linux-headers mercurial moreutils multitail neomutt neovim npm      \
-    ntfs-3g ntp num-utils numlockx openssh otf-ipaexfont pacman-contrib      \
-    pandoc pass pdftk pngquant pv python python-pip python2-pip ranger rbenv \
+    linux-headers mercurial moreutils multitail neomutt neovim npm           \
+    ntfs-3g ntp num-utils numlockx nodejs-lts-carbon openssh otf-ipaexfont   \
+    pacman-contrib pandoc pass pdftk pngquant pv python python-pip           \
+    python2-pip ranger rbenv \
     rsync ruby sc screenfetch shellcheck sqlite tcpdump the_silver_searcher  \
-    tig tmux trash-cli ufw unar w3m wget whois xorg-xrandr zsh)
-gui=(alsa-utils avahi cerebro cups cups-pdf gnome-keyring google-chrome      \
+    tig tmux trash-cli ufw unarchiver w3m wget whois xorg-xrandr zsh)
+gui=(alsa-utils avahi cups cups-pdf gnome-keyring google-chrome      \
     graphviz gtk3-print-backends gufw libdvdcss                              \
     libreoffice-fresh libreoffice-fresh-ja lightdm lightdm-gtk-greeter maim  \
     mate mate-extra mesa nss-mdns                                            \
@@ -22,7 +23,7 @@ tex=(texlive-langjapanese texlive-core texlive-latexextra texlive-science texliv
 steam=(steam nvidia lib32-nvidia-libgl nvidia-settings \
     lib32-libxtst lib32-gtk2 lib32-libpulse lib32-gdk-pixbuf2 lib32-libva \
     lib32-libvdpau lib32-openal)
-java=(jdk9-openjdk intellij-idea-community-edition)
+java=(jdk intellij-idea-community-edition)
 laptop=(network-manager-applet networkmanager)
 paint=(krita xf86-input-wacom)
 

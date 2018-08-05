@@ -3,7 +3,7 @@
 . ~/dotfiles/bin/dffunc
 
 if [ $# -eq 0 ]; then
-    dfout3 "required least 1 argument."
+    dfout3 "require least 1 argument."
     exit 1
 fi 
 
@@ -40,9 +40,8 @@ if [ $? -ne 0 ]; then
     sudoers_add_nopasswd=1
 fi
 
-PATH=$HOME/dotfiles/arch/bin:$HOME/dotfiles/bin:$PATH
-[ ! "$AURHELPER" ] && AURHELPER=yay
-
+export PATH=$HOME/dotfiles/arch/bin:$HOME/dotfiles/bin:$PATH
+[ ! "$AURHELPER" ] && export AURHELPER=yay
 i=1
 for e in "${array[@]}"; do
     cd ~

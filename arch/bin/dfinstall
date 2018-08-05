@@ -14,10 +14,12 @@ EOF
     dfx sudo pacman -Syu --noconfirm
     #dfx sudo pacman -S $AURHELPER --noconfirm
     # yay
-    git clone https://aur.archlinux.org/yay.git /tmp/yay
-    pushd /tmp/yay
-        makepkg -is
-    popd
+    if ! which $AURHELPER ; then
+	git clone https://aur.archlinux.org/yay.git /tmp/yay
+    	pushd /tmp/yay
+            makepkg -is
+        popd
+    fi
 }
 
 ikey()
@@ -42,7 +44,7 @@ ikey()
 ipackage()
 {
     if ! which $AURHELPER 1>/dev/null 2>&1; then
-        echo "$AURHELPER has not installed. Please type dfAURHELPER to install it."
+        echo "$AURHELPER has not installed. Please install it."
         exit 1
     fi
     dfx sudo pacman -Syyu --noconfirm

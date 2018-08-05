@@ -2,8 +2,13 @@
 
 . $HOME/dotfiles/bin/dffunc
 
-if [ $# -ne 1 ] ; then
-    echo "requires argument" >&2
+if [ $# -eq 0 ] ; then
+    echo "require argument" >&2
+    exit 1
+fi
+
+if [ ! "$AURHELPER" ]; then
+    echo "\$AURHELPER is not set" >&2
     exit 1
 fi
 

@@ -38,7 +38,7 @@ insertpath "$HOME/dotfiles/bin"
 if which lsb_release 1>/dev/null 2>&1; then
     case "$(lsb_release -is)" in
         Ubuntu|Raspbian|Debian) insertpath "$HOME/dotfiles/ubuntu/bin" ;;
-        "Arch Linux") insertpath "$HOME/dotfiles/arch/bin" ;;
+        Arch*) insertpath "$HOME/dotfiles/arch/bin" ;;
     esac
 else
     insertpath "$HOME/dotfiles/arch/bin"
