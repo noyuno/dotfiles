@@ -1,13 +1,11 @@
+case ${OSTYPE} in
+    linux*) 
+        alias ls='ls --color -h -N'
+        tstyle='--time-style=long-iso';;
+    darwin*) alias ls='ls -Gh' ;;
+esac
 if which exa >/dev/null 2>&1; then
     alias ls='exa'
-else
-    # ls, the common ones I use a lot shortened for rapid fire usage
-    case ${OSTYPE} in
-        linux*) 
-            alias ls='ls --color -h -N'
-            tstyle='--time-style=long-iso';;
-        darwin*) alias ls='ls -Gh' ;;
-    esac
 fi
 alias l='ls -Fh'     #size,show type,human readable
 alias la='ls -AFh'   #long list,show almost all,show type,human readable
