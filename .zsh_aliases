@@ -622,7 +622,7 @@ if which nvim 1>/dev/null 2>&1 ; then
 fi
 
 # atool
-alias au='aunpack'
+#alias au='aunpack'
 
 # TeX
 alias te='cat report.log | grep Error -A8 -n'
@@ -658,7 +658,7 @@ alias a="$AURHELPER"
 alias ai="$AURHELPER --needed -S"
 alias aid="$AURHELPER --asdeps --needed -S"
 alias ar="$AURHELPER -Rs"
-aup()
+au()
 {
     $AURHELPER -Syy
     $AURHELPER -Qu
@@ -679,10 +679,10 @@ alias akg='gpg --keyserver http://pgp.mit.edu --recv-key'
 #alias ssh='ssh -XC4'
 alias ssh='ssh -A'
 
-alias nlmax='awk "{i=length(\$0); if(m<i){m=i; t=\$0} } END{print t\"^\"m}"'
-alias nlsort='awk "{print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
-alias nl200='awk "{i=length(\$0); if(i>=200)print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
-alias nl255='awk "{i=length(\$0); if(i>=255)print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
+alias lmax='awk "{i=length(\$0); if(m<i){m=i; t=\$0} } END{print m\" \"t}"'
+alias lsort='awk "{print length(\$0)\" \"\$0}"|sort -t" " -n'
+#alias nl200='awk "{i=length(\$0); if(i>=200)print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
+#alias nl255='awk "{i=length(\$0); if(i>=255)print \$0\"^\"length(\$0)}"|sort -k2 -t^ -n'
 
 # fix usbmuxd bug
 alias charge='sudo systemctl start usbmuxd'
