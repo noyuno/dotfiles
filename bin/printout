@@ -10,6 +10,7 @@ Usage: $name [-gmpq] [filename]
 -m: Mincho (serif) style
 -p: preview
 -q: quiet
+-d: duplex
 filename: filename. Read from stdin if not given.
 EOF
     } 1>&2
@@ -20,14 +21,16 @@ gothic=
 mincho=
 dryrun=
 quiet=
+duplex=
 
-while getopts gmpqh opt; do
+while getopts gmpqdh opt; do
     case $opt in
     h) help ;;
     g) gothic=1 ;;
     m) mincho=1 ;;
     p) dryrun=1 ;;
     q) quiet=1 ;;
+    d) duplex=1 ;;
     esac
 done
 
@@ -48,17 +51,18 @@ fi
 tmp=$(mktemp -d)
 
 cp -R ~/dotfiles/report/*.sty ~/dotfiles/report/*.tex ~/dotfiles/report/Makefile $tmp
-cp -R ~/dotfiles/plain/*.tex $tmp
+rm -f $tmp/input.md $tmp/input.tmp.tex
+cp -fR ~/dotfiles/plain/*.tex $tmp
 cd $tmp
-echo "$text" |
-sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/$/　<br>/' |
-pandoc -f html -t latex -o plain.tex
-sed -i 's|\[2\\baselineskip\]|\[1\\baselineskip\]|' plain.tex
+echo "$text" | \
+    sed -e 's/\&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/$/　<br>/' | \
+    pandoc -f html -t latex -o input.tmp.tex
+sed -i 's|\[2\\baselineskip\]|\[1\\baselineskip\]|' input.tmp.tex
 
 # replace variables
-sed -i 's|FILENAME|'$file'|' report.tex
+sed -i 's|FILENAME|'$file'|' main.tex
 if [ "$mincho" ]; then
-    sed -i 's/.*SANS-SERIF/%&/' report.tex
+    sed -i 's/.*SANS-SERIF/%&/' main.tex
 fi
 
 run()
@@ -67,7 +71,11 @@ run()
         make show LATEXMKOPTION=-quiet
     else
         make LATEXMKOPTION=-quiet
-        lpr report.pdf
+        if [ "$duplex" ]; then
+            lpr -o Duplex=DuplexTumble report.pdf
+        else
+            lpr report.pdf
+        fi
     fi
     make clean
 }

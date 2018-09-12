@@ -2,9 +2,19 @@
 
 base=$HOME/pass
 
-for i in $(find $base -type f -name '*.gpg'); do
-    name=${i##$base/}
-    echo -n $name': '
-    gpg2 -qd $i
-done
+pushd $base >/dev/null
+    for i in $(find . -type d \( \
+        -name "vc" \
+        -o -name "mutt" \
+        -o -name ".mutt" \
+        -o -name ".offlineimap" \
+        -o -name "ssh" \
+        \) -prune -o -type f -name '*.gpg' | sort); do
+        name=${i#./}
+        if [ -f $name ]; then
+            echo -n $name': '
+            gpg2 -qd $name
+        fi
+    done
+popd >/dev/null
 
