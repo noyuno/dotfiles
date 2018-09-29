@@ -3,7 +3,6 @@
   "dependencies": {
     "cerebro-open-web": "1.0.0",
     "cerebro-basic-apps": "1.0.11",
-    "cerebro-converter": "1.0.7",
     "cerebro-math": "1.0.0",
     "cerebro-google": "1.0.1",
     "cerebro-files-nav": "1.0.4",
@@ -17,6 +16,7 @@
     "cerebro-screenshot": "0.1.0",
     "cerebro-google-maps": "1.0.0",
     "cerebro-weather": "1.1.1",
-    "cerebro-goto-folder-linux": "0.2.1"
+    "cerebro-goto-folder-linux": "0.2.1",
+    "cerebro-converter": "1.0.9"
   }
 }

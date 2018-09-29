@@ -11,9 +11,11 @@ pushd $base >/dev/null
         -o -name "ssh" \
         \) -prune -o -type f -name '*.gpg' | sort); do
         name=${i#./}
+        name2=${name%.gpg}
         if [ -f $name ]; then
-            echo -n $name': '
-            gpg2 -qd $name
+            echo -n $name2','
+            gpg2 -qd $name | tr -d '\n'
+            echo
         fi
     done
 popd >/dev/null
