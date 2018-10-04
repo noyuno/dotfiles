@@ -3,7 +3,7 @@
 . "$HOME/dotfiles/bin/dffunc"
 
 name=$(git config --global user.name)
-jsonurl=http://pi.noyuno.space/static/repo.json
+jsonurl=https://k.noyuno.space/static/repo.json
 outtmp=$DFTMP/out
 namelength=18
 if [ "$1" ]; then
