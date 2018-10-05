@@ -8,7 +8,7 @@ if which exa >/dev/null 2>&1; then
     alias ls='exa'
 fi
 alias l='ls -Fh'     #size,show type,human readable
-alias la='ls -AFh'   #long list,show almost all,show type,human readable
+alias la='ls -aFh'   #long list,show almost all,show type,human readable
 alias lr='ls -tRFh'   #sorted by date,recursive,show type,human readable
 alias lt='ls -ltFh '"$tstyle"   #long list,sorted by date,show type,human readable
 alias ll='ls -lFh '"$tstyle" # show with long

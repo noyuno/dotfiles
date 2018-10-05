@@ -89,31 +89,31 @@ if [ $vbox -eq 0 -o $vmware -eq 0 ]; then
     [ -d /media/Share ] &&        dfx ln -sfnv /media/Share "$HOME/vs"
 fi
 
-xmv デスクトップ Desktop
-xmv ダウンロード Downloads
-xmv テンプレート Templates
-xmv 公開 Public
-xmv ドキュメント Documents
-xmv ミュージック Music
-xmv 音楽 Music
-xmv ピクチャ Pictures
-xmv 画像 Pictures
-xmv ビデオ Videos
-dfx mkdir -p ~/Mail/Gmail
-dfx mkdir -p ~/Mail/a
-dfx mkdir -p ~/Applications
-dfx mkdir -p ~/bin
+if [ -e "$HOME/.config/dconf" ]; then
+    xmv デスクトップ Desktop
+    xmv ダウンロード Downloads
+    xmv テンプレート Templates
+    xmv 公開 Public
+    xmv ドキュメント Documents
+    xmv ミュージック Music
+    xmv 音楽 Music
+    xmv ピクチャ Pictures
+    xmv 画像 Pictures
+    xmv ビデオ Videos
+    dfx mkdir -p ~/Mail/Gmail
+    dfx mkdir -p ~/Mail/a
+    dfx mkdir -p ~/Applications
+    dfx mkdir -p ~/bin
+fi
 
-which zsh &&:
-[ $? -eq 0 ] && existszsh=1
+which zsh >/dev/null 2>&1 && existszsh=1
 
 if [ "$existszsh" ]; then
     if id | grep sudo; then
         dfx sudo chsh "$(whoami)" -s /bin/zsh
     fi
+    dfx zsh -c 'zcompile ~/.zshrc'
 fi
-
-[ "$existszsh" ] && dfx zsh -c 'zcompile ~/.zshrc'
 dfx . ~/dotfiles/.zprofile
 dfx . ~/dotfiles/.zsh_aliases '&&:'
 dfx rm -rf ~/.zcompdump
@@ -149,6 +149,7 @@ if [ ! -d "$HOME/.emacs.d" ]; then
     git clone --depth 1 -b master https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
 fi
 
-dfout2 "Deployed dotfiles. You need to restart tmux, zsh, vim."
+dfout2 "Deployed dotfiles. Restart applications."
 
 finalize dfdeploy
+

@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+
+if [ $# -eq 0 ]; then
+    gsettings get org.mate.session.required-components windowmanager
+else
+    wm=$1
+    case $wm in
+        marco|compiz) e=1 ;;
+        *) e=0  ;;
+    esac
+    if [ "$e" != "1" ]; then
+        echo "missing window manager name (marco, compiz)" >&2
+        exit 1
+    fi
+    gsettings set org.mate.session.required-components windowmanager $wm
+fi
+
