@@ -667,7 +667,6 @@ au()
     echo -n "type enter to upgrade: "
     read
     $AURHELPER --needed -Su --noconfirm
-    $AURHELPER --needed -Sua --noconfirm
 }
 alias ac="$AURHELPER -Sc"
 alias ao="$AURHELPER -Qdt"
