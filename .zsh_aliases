@@ -666,6 +666,7 @@ au()
     grep "full system upgrade" </var/log/pacman.log|tail -n 1|awk -F] '{gsub("\\[","",$1);print $1}'
     echo -n "type enter to upgrade: "
     read
+    $AURHELPER --needed -Su --noconfirm
     $AURHELPER --needed -Sua --noconfirm
 }
 alias ac="$AURHELPER -Sc"

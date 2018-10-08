@@ -61,7 +61,7 @@ else
 fi
 declare package=(oracle-java8-installer nginx fcgiwrap postgresql etckeeper \
         letsencrypt python-certbot-nginx certbot glances zsh trash-cli \
-        silversearcher-ag jq tig)
+        silversearcher-ag jq tig python3-pip npm)
 declare certfile="
     ssl_certificate /etc/letsencrypt/live/$leno/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$leno/privkey.pem;
@@ -90,6 +90,7 @@ declare usage=
 . $HOME/dotfiles/$base/cert.sh
 . $HOME/dotfiles/$base/unbound.sh
 . $HOME/dotfiles/$base/minecraft.sh
+. $HOME/dotfiles/$base/anime.sh
 
 nginx_all() {
     sudo rm -f \
