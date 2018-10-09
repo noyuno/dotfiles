@@ -19,8 +19,18 @@ i()
     dfx $AURHELPER -S --noconfirm --needed $(eval echo '${'$name'[@]}')
 }
 
+p()
+{
+    name=$1
+    . $HOME/dotfiles/arch/list/packages
+    dfx sudo pip3 install $(eval echo '${'$name'[@]}')
+}
+
 while [ $# -gt 0 ]; do
-    i $1
+    case $1 in
+        pip3) p $1 ;;
+        *)    i $1 ;;
+    esac
     shift
 done
 
