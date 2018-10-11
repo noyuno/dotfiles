@@ -26,4 +26,4 @@ steam=(steam nvidia lib32-nvidia-libgl nvidia-settings \
 java=(jdk intellij-idea-community-edition)
 laptop=(network-manager-applet networkmanager)
 paint=(krita xf86-input-wacom)
-pip3=(icalendar arrow progressbar feedparser)
+pip3=(icalendar arrow progressbar2 feedparser neovim virtualenv websocket-client)
