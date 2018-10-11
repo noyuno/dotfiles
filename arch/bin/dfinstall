@@ -70,14 +70,8 @@ igopackages()
 
 ipip()
 {
-    # user
-    packages=()
-    grep "$HOME/dotfiles/list/pip" -v -e '^#' -e '^$' > "$DFTMP/data"
-    while read i; do
-        packages=(${packages[@]} $i)
-    done < "$DFTMP/data"
+    $HOME/dotfiles/arch/bin/yp pip
     set +e
-    dfx pip3 install --user ${packages[@]}
     # patch
     [ -f "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" ] && \
         dfx patch -u "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" \
