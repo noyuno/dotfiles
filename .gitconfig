@@ -36,7 +36,7 @@
     st = status -uno
     d = diff
     wd = diff --word-diff=color --unified=1
-    ch = checkout
+    co = checkout
     b = branch
     f = fetch
     i = init 

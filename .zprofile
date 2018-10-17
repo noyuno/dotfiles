@@ -81,6 +81,12 @@ else
         "$HOME/.gitconfig.legacy"
     ln -sf "$HOME/.gitconfig.legacy" "$HOME/.gitconfig"
 fi
+# for server
+if [ "$SSH_CONNECTION" ]; then
+    cp $HOME/dotfiles/.gitconfig $HOME/.gitconfig.server
+    ln -sf $HOME/.gitconfig.server $HOME/.gitconfig
+    git config --global credential.helper "cache --timeout 1209600" # 2 weeks
+fi
 
 # fcitx on X11 Forwarding
 #which fcitx 1>/dev/null 2>&1
