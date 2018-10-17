@@ -51,6 +51,11 @@ action='mate-system-monitor'
 binding='<Mod4>s'
 name='system monitor'
 
+[keybindings/custom9]
+action='mate-terminal'
+binding='<Mod4>t'
+name='mate-terminal'
+
 [applications/terminal]
 exec='mate-terminal'
 
