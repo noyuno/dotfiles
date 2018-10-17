@@ -40,7 +40,7 @@ clean_list=0
 aptupdate()
 {
     if [ $clean_list -eq 0 ]; then
-        dfx sudo apt $APTFLAG update
+        dfx sudo apt --allow-releaseinfo-change $APTFLAG update
         clean_list=1
     fi
 }
