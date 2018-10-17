@@ -4,7 +4,7 @@
 
 name=$(git config --global user.name)
 jsonurl=https://k.noyuno.space/static/repo.json
-outtmp=$DFTMP/out
+outtmp=$DFTMP/repo.log
 namelength=18
 if [ "$1" ]; then
     base="$1"
@@ -212,6 +212,11 @@ json="$DFTMP/repo.json"
 curl -sLf "$jsonurl" > "$json" || echo "$jsonurl returned 404 not found" >&2
 primaryrepo=$(jq -r .primary "$json")
 update_repo2 '.repositories[] | select(.name=="'$primaryrepo'")'
+if [ -x "$base/$primaryrepo/.repo-hook" ]; then
+    pushd "$base/$primaryrepo" >/dev/null
+        ./.repo-hook
+    popd >/dev/null
+fi
 update_repo
 
 wait
