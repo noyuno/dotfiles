@@ -26,6 +26,12 @@ EOF
 init() {
     git clone git@github.com:noyuno/blog.git $HOME/blog
     git clone git@github.com:noyuno/noyuno.github.io.git $HOME/blog/_site
+    pushd $HOME/blog >/dev/null
+        if which bundle >/dev/null 2>&1 ; then
+            gem install bundle
+        fi
+        bundle install
+    popd >/dev/null
 }
 
 new() {
