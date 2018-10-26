@@ -139,10 +139,10 @@ fi
 
 # tmux
 alias tmux='tmux -2'
-tmain()
+tm()
 {
     case "$(hostname)" in
-        lap*) tmuxinator start laptop ;;
+        l*)   tmuxinator start laptop ;;
         *)    tmuxinator start main
     esac
 }
