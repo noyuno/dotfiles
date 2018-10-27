@@ -1,11 +1,30 @@
 #!/bin/bash +e
 
+outdir() {
+    archive=$1
+    ext=$2
+    out=$(echo "$archive" | sed 's|'"$ext"'$||')
+    if [ "$archive" != "$out" ]; then
+        echo "$out"
+    fi
+}
+
 set +e
-unar -- "$@"
+exts=(.tar.gz .tar.xz .zip .rar .7z .tar .gzip .gz .cab .iso .deb .lzh .xz .lzma)
+archive="$@"
+unar -k skip -- "$archive"
 ret=$?
 echo -e "\nexited unar with code $ret. "
 if [ $ret -eq 0 ]; then
-    sleep 2
+    for ext in ${exts[@]}; do
+        out=$(outdir "$archive" "$ext")
+        if [ -x "$out" ]; then
+            echo "$PWD * $out"
+            xdg-open "$out"
+            sleep 1
+            exit $ret
+        fi
+    done
 else
     echo -n "type enter to exit:"
     read
