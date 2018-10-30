@@ -2,8 +2,9 @@ FROM base/archlinux
 
 ARG DRYRUN=${DRYRUN}
 ARG QUIET=${QUIET}
+ARG NOSYSTEMD=1
 run pacman -Syu --noconfirm && \
-    pacman --noconfirm -S base base-devel && \
+    pacman --noconfirm -S base-devel && \
     groupadd sudo && \
     echo '%sudo ALL=(ALL:ALL) ALL' >> /etc/sudoers && \
     useradd user -d /home/user -p '' -s /bin/bash && \

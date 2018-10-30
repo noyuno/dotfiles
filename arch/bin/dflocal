@@ -11,8 +11,7 @@ array=()
 while [ $# -gt 0 ] ; do 
     case "$1" in
         all)
-            array=(${array[@]} "dfinstall" "dfguiinstall" \
-            "dfdeploy" "dfguiconf" "dffont" "dfyuyo-dark" "dftex" "dfdein")
+            array=(${array[@]} "dfinstall" "dfguiinstall" "dfdeploy")
             ;;
         cli)    
             array=(${array[@]} "dfinstall" "dfdeploy" "dfdein")

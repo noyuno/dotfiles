@@ -4,8 +4,8 @@
 
 ipackage()
 {
-    $HOME/dotfiles/arch/bin/yp gui tex java vmware steam
-    dfx sudo archlinux-java set java-10-jdk
+    $HOME/dotfiles/arch/bin/yp gui tex java vmware
+    dfx sudo archlinux-java set java-11-jdk
 }
 
 ilightdm () {
@@ -33,6 +33,41 @@ imozc() {
     popd
 }
 
+isteam() {
+    if ! grep '^\[multilib\]' /etc/pacman.conf; then
+        cat << EOF | sudo tee -a /etc/pacman.conf
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+EOF
+    fi
+
+    gb=$(lspci -k | grep -E "(VGA|3D)")
+    if echo "$gb" | grep "NVIDIA" >/dev/null; then
+        # nVidia graphic card
+        $HOME/dotfiles/arch/bin/yp steam_nvidia
+        sudo nvidia-xconfig
+        dfout2 "Please reboot before playing"
+    elif echo "$gb" | grep "AMD" >/dev/null; then
+        # AMD graphic card
+        :
+        dfwarn "AMD graphic board has not supported"
+    fi
+}
+
+itheme() {
+    pushd $DFTMP >/dev/null
+        wget -q https://launchpad.net/ubuntu/+archive/primary/+files/yuyo-gtk-theme_0.3.tar.gz
+        tar xf yuyo-gtk-theme_0.3.tar.gz
+        sudo cp -r yuyo-gtk-theme-0.3/Yuyo-Dark /usr/share/themes
+    popd >/dev/null
+}
+
+iconf() {
+    dfx . ~/dotfiles/bin/mate-terminal-colorscheme-hybrid
+    dfx xdg-mime default google-chrome.desktop application/pdf
+    dfx xdg-mime default caja.desktop inode/directory
+}
+
 help()
 {
     (
@@ -47,6 +82,9 @@ commands:
     mate
     mozc
     package
+    steam
+    theme
+    conf
 EOF
     ) >&2
     exit 1
@@ -63,6 +101,9 @@ if [ $# -eq 0 ] ;then
     #run ifont
     run ilightdm
     run imozc
+    run isteam
+    run itheme
+    run iconf
 elif [ "$1" = help ]; then
     help
 else

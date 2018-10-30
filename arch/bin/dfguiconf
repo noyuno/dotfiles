@@ -1,8 +1,0 @@
-#!/bin/bash -e
-
-. ~/dotfiles/bin/dffunc
-
-dfx . ~/dotfiles/bin/mate-terminal-colorscheme-hybrid
-dfx xdg-mime default google-chrome.desktop application/pdf
-dfx xdg-mime default caja.desktop inode/directory
-

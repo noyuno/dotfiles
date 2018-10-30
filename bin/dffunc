@@ -6,27 +6,33 @@ if which lsb_release 1>/dev/null 2>&1; then
     esac
 fi
 
+dflog=/tmp/dotfiles/console.log
+
 dfout1()
 {
-    printf "\e[1;37m\e[44m%s\e[0m\n" "$*"
+    # front white, back blue
+    printf "\e[1;37m\e[44m%s\e[0m\n" "$*" | tee -a "$dflog"
 }
 export -f dfout1
 
 dfout2()
 {
-    printf "\e[34m%s\e[0m\n" "$*"
+    # front blue
+    printf "\e[34m%s\e[0m\n" "$*" | tee -a "$dflog"
 }
 export -f dfout2 
 
 dfout3()
 {
-    printf "\e[32m%s\e[0m\n" "$*"
+    # front green
+    printf "\e[32m%s\e[0m\n" "$*" | tee -a "$dflog"
 }
 export -f dfout3
 
 dfwarn()
 {
-    printf "\e[33m%s\e[0m\n" "$*"
+    # front yellow
+    printf "\e[33m%s\e[0m\n" "$*" | tee -a "$dflog"
 }
 export -f dfwarn
 

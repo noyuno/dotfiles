@@ -28,7 +28,7 @@ p()
 
 while [ $# -gt 0 ]; do
     case $1 in
-        pip) p $1 ;;
+        pip*) p $1 ;;
         *)    i $1 ;;
     esac
     shift

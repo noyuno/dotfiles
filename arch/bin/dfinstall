@@ -12,12 +12,13 @@ Server = http://repo.archlinux.fr/$arch
 EOF
     fi
     dfx sudo pacman -Syu --noconfirm
+    dfx sudo pacman -S --noconfirm base-devel git
     #dfx sudo pacman -S $AURHELPER --noconfirm
     # yay
-    if ! which $AURHELPER ; then
-	git clone https://aur.archlinux.org/yay.git /tmp/yay
-    	pushd /tmp/yay
-            makepkg -is
+    if ! which $AURHELPER >/dev/null 2>&1 ; then
+	git clone https://aur.archlinux.org/yay.git $DFTMP/yay
+    	pushd $DFTMP/yay
+            makepkg -is --noconfirm
         popd
     fi
 }
@@ -70,7 +71,7 @@ igopackages()
 
 ipip()
 {
-    $HOME/dotfiles/arch/bin/yp pip
+    $HOME/dotfiles/arch/bin/yp pip3
     set +e
     # patch
     [ -f "$HOME/.local/lib/python3.5/site-packages/freetype/__init__.py" ] && \
@@ -93,10 +94,20 @@ itrans()
 
 isystem()
 {
-    dfx sudo systemctl stop ntpd
-    dfx sudo ntpdate -v ntp.nict.jp
-    dfx sudo systemctl enable ntpd
-    dfx sudo systemctl start ntpd
+    if [ ! "$NOSYSTEMD" ]; then
+        dfx sudo systemctl stop ntpd
+        dfx sudo ntpdate -v ntp.nict.jp
+        dfx sudo systemctl enable ntpd
+        dfx sudo systemctl start ntpd
+    fi
+}
+
+ipngquant() {
+    dfx git clone --recursive https://github.com/kornelski/pngquant.git $DFTMP/pngquant
+    pushd $DFTMP/pngquant >/dev/null
+        dfx make
+        dfx sudo make install
+    popd >/dev/null
 }
 
 help()

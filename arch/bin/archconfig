@@ -20,10 +20,9 @@ setup()
     echo $hostname > /etc/hostname
     echo "127.0.1.1 $hostname.localdomain $hostname" >> /etc/hosts
     systemctl enable dhcpcd
-    grub-install --target=i386-pc /dev/sda
-    grub-mkconfig -o /boot/grub/grub.cfg
     groupadd sudo
-    useradd -m -G sys,adm,disk,lp,wheel,log,audio,sudo $username
+    groupadd docker
+    useradd -m -G sys,adm,disk,lp,wheel,log,audio,sudo,docker $username
     echo "%sudo ALL=(ALL) ALL" >>/etc/sudoers
     mkinitcpio -p linux
     echo "all ok"
