@@ -33,7 +33,7 @@ setup()
         if [ "$f" ]; then
             d=$(dirname $f)
             mkdir -p $d
-            cp -R $line /home/$f
+            cp -R $line /home/$username/$f
         fi
     done
     chown -R $username.$username /home/$username
