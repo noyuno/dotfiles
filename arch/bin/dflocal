@@ -3,7 +3,12 @@
 . ~/dotfiles/bin/dffunc
 
 if [ $# -eq 0 ]; then
-    dfout3 "require least 1 argument."
+    dfwarn "require least 1 argument."
+    cat << EOF
+preset
+    all: dfinstall dfguiinstall dfdeploy
+    cli: dfinstall dfdeploy dfdein
+EOF
     exit 1
 fi 
 

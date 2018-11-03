@@ -12,8 +12,6 @@ Server = http://repo.archlinux.fr/$arch
 EOF
     fi
     dfx sudo pacman -Syu --noconfirm
-    dfx sudo pacman -S --noconfirm base-devel git
-    #dfx sudo pacman -S $AURHELPER --noconfirm
     # yay
     if ! which $AURHELPER >/dev/null 2>&1 ; then
 	git clone https://aur.archlinux.org/yay.git $DFTMP/yay
