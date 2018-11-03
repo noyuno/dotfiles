@@ -30,7 +30,9 @@ setup()
     sudo -u $username mkdir -p /home/noyuno/
     sudo -u cp -R $key/ssh /home/$username/.ssh
     sudo -u cp -R $key/gpg /home/$username/.gnupg
-    sudo -u $username git clone git@github.com:noyuno/dotfiles.git /home/noyuno/dotfiles
+    if [ ! -d /home/$username/dotfiles ]; then
+        sudo -u $username git clone git@github.com:noyuno/dotfiles.git /home/$username/dotfiles
+    fi
     echo "all ok"
 }
 
