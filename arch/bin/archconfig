@@ -28,7 +28,11 @@ setup()
     mkinitcpio -p linux
     sudo -u $username mkdir -p /home/noyuno/
     sudo -u $username mkdir -p /home/noyuno/
-    cp -R $preset /home/$username
+    find $preset | while read line; do
+        f=$(echo $line | sed "s|$preset||")
+        mkdir -p $(dirname $f)
+        cp -R $line /home/$f
+    done
     chown -R $username.$username /home/$username
     if [ ! -d /home/$username/dotfiles ]; then
         sudo -u $username git clone git@github.com:noyuno/dotfiles.git /home/$username/dotfiles
