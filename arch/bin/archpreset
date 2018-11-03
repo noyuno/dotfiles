@@ -2,10 +2,10 @@
 
 exp() {
     target=$1
-    base=$target/key
-    sudo mkdir -p /target/key
-    sudo cp -R ~/.ssh $base/ssh
-    sudo cp -R ~/.gnupg $base/gpg
+    base=$target/preset
+    sudo mkdir -p $base
+    sudo cp -R ~/.ssh $base
+    sudo cp -R ~/.gnupg $base
 }
 
 if [ $# -eq 1 ]; then
