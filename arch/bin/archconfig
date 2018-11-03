@@ -22,7 +22,7 @@ setup()
     systemctl enable dhcpcd
     groupadd sudo
     groupadd docker
-    useradd -m -G sys,adm,disk,lp,wheel,log,audio,sudo,docker $username
+    useradd -m -G sys,adm,lp,wheel,log,audio,sudo,docker $username
     echo "%sudo ALL=(ALL) ALL" >>/etc/sudoers
     mkinitcpio -p linux
     echo "all ok"

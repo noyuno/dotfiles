@@ -1,13 +1,12 @@
 #!/bin/bash -e
 
 cli=(atool bc boost clang cmake colordiff cronie ctags                       \
-    docker docker-compose dmidecode docx2txt                                 \
-    ethtool exa exfat-utils expect findutils fzf gettext git git-lfs         \
-    git-secrets go                                                           \
+    docker docker-compose dmidecode docx2txt ethtool exa exfat-utils expect  \
+    findutils fzf gettext git git-lfs git-secrets go                         \
     gvfs-smb highlight htop hub imagemagick imlib2 intel-ucode jq keychain   \
-    linux-headers mercurial mlocate moreutils multitail neomutt neovim npm   \
-    ntfs-3g ntp num-utils numlockx nodejs-lts-carbon openssh otf-ipaexfont   \
-    pacman-contrib pandoc pass pdftk-bin pv python python-pip                \
+    linux-headers mercurial mlocate moreutils multitail neomutt              \
+    neovim npm ntfs-3g ntp num-utils numlockx nodejs-lts-carbon openssh      \
+    otf-ipaexfont pacman-contrib pandoc pass pdftk-bin pv python python-pip  \
     python2-pip ranger rbenv                                                 \
     rsync ruby sc screenfetch shellcheck sqlite tcpdump the_silver_searcher  \
     tig tmux trash-cli ufw unarchiver w3m wget whois xorg-xrandr zsh)
