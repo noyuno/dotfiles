@@ -30,8 +30,11 @@ setup()
     sudo -u $username mkdir -p /home/noyuno/
     find $preset | while read line; do
         f=$(echo $line | sed "s|$preset||")
-        mkdir -p $(dirname $f)
-        cp -R $line /home/$f
+        d=$(dirname $f)
+        if [ "$d" ]; then
+            mkdir -p $d
+            cp -R $line /home/$f
+        fi
     done
     chown -R $username.$username /home/$username
     if [ ! -d /home/$username/dotfiles ]; then
