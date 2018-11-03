@@ -94,7 +94,7 @@ isystem()
 {
     if [ ! "$NOSYSTEMD" ]; then
         dfx sudo systemctl stop ntpd
-        dfx sudo ntpdate -v ntp.nict.jp
+        dfx sudo ntpdate -v ntp.nict.jp &&:
         dfx sudo systemctl enable ntpd
         dfx sudo systemctl start ntpd
     fi
