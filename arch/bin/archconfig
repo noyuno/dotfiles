@@ -30,8 +30,8 @@ setup()
     sudo -u $username mkdir -p /home/noyuno/
     find $preset | while read line; do
         f=$(echo $line | sed "s|$preset||")
-        d=$(dirname $f)
-        if [ "$d" ]; then
+        if [ "$f" ]; then
+            d=$(dirname $f)
             mkdir -p $d
             cp -R $line /home/$f
         fi
