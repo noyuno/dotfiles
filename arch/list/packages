@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-cli=(atool bc boost clang cmake colordiff cronie ctags                       \
+cli=(arch-install-scripts atool bc boost clang cmake colordiff cronie ctags  \
     docker docker-compose dmidecode docx2txt ethtool exa exfat-utils expect  \
     findutils fzf gettext git git-lfs git-secrets go                         \
     gvfs-smb highlight htop hub imagemagick imlib2 intel-ucode jq keychain   \
@@ -13,7 +13,8 @@ cli=(atool bc boost clang cmake colordiff cronie ctags                       \
 gui=(alsa-utils avahi cups cups-pdf gnome-keyring google-chrome              \
     gparted graphviz gtk3-print-backends gufw libdvdcss                      \
     libreoffice-fresh libreoffice-fresh-ja lightdm lightdm-gtk-greeter maim  \
-    mate mate-extra mesa nss-mdns                                            \
+    mate mate-extra mesa noto-fonts noto-fonts-cjk noto-fonts-emoji          \
+    noto-fonts-extra nss-mdns                                                \
     otf-ipafont pavucontrol pulseaudio pulseaudio-alsa sane                  \
     system-config-printer thunderbird thunderbird-i18n-ja ttf-inconsolata    \
     vlc xbindkeys xdg-utils                                                  \
