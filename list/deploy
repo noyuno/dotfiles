@@ -82,4 +82,5 @@ cerebro/config.json .config/Cerebro/config.json
 cerebro/package.json .config/Cerebro/plugins/package.json
 # coreos
 .toolbox
+mimeapps.list .config/mimeapps.list
 
