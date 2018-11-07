@@ -31,12 +31,6 @@
 
 - [Arch Linux (English)](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
 
-### Ubuntu
-
-- [Ubuntu (English)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
-
-It is outdated. I recommend the Arch Linux.
-
 ### Windows 10 1803
 
 - Chocolatey

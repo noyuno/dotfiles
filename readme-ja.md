@@ -31,12 +31,6 @@
 
 - [Arch Linux (English)](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
 
-### Ubuntu
-
-- [Ubuntu (English)](https://github.com/noyuno/dotfiles/blob/master/readme-ubuntu.md)
-
-古くなっています．Arch Linuxを推奨します．
-
 ### Windows 10 1803
 
 - Chocolatey

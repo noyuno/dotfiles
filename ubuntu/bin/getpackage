@@ -1,4 +1,0 @@
-#!/bin/sh
-
-dpkg-query -W -f '${binary:Package}\n'
-
