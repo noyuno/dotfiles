@@ -129,12 +129,7 @@ if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
 [ -f "$HOME/.zsh_aliases" ] && . $HOME/.zsh_aliases
 
 function cd() {
-    builtin cd $@ && \
-        dirc && \
-        [ $(ls -U1 | wc -l) -lt 50 ] && \
-        ls && \
-        [ "$TMUX" ] && \
-        tmux refresh-client -S
+    builtin cd $@ && dirc && cdls
 }
 
 zstyle ':completion:*' auto-description 'specify: %d'

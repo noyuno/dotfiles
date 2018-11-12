@@ -201,4 +201,5 @@ on_ft='coffee'
 
 [[plugins]]
 repo = 'elixir-editors/vim-elixir'
+on_ft='elixir'
 

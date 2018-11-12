@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+if [ $(ls -U1 | wc -l) -lt 50 ]; then
+    if which exa >/dev/null 2>&1; then
+        exa --color=always
+    else
+        case $OSTYPE in
+            linux*) ls --color=always ;;
+            darwin*) ls -G ;;
+        esac
+    fi
+fi
+if [ "$TMUX" ]; then
+    tmux refresh-client -S
+fi
+
