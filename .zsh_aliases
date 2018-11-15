@@ -25,7 +25,7 @@ alias less='less -asRix8'
 # find/grep/ag
 alias grep='grep --color=always'
 alias grepc='find . -type f | xargs grep --color'
-alias grepn='find . -type f | grep --color'
+alias ff='find . -type f | grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
 
 alias ag='ag -S'

@@ -203,3 +203,6 @@ on_ft='coffee'
 repo = 'elixir-editors/vim-elixir'
 on_ft='elixir'
 
+[[plugins]]
+repo = 'editorconfig/editorconfig-vim'
+

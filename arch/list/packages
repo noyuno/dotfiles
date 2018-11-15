@@ -10,7 +10,7 @@ cli=(arch-install-scripts atool bc boost clang cmake colordiff cronie ctags  \
     python2-pip ranger rbenv                                                 \
     rsync ruby sc screenfetch shellcheck sqlite tcpdump the_silver_searcher  \
     tig tmux trash-cli ufw unarchiver w3m wget whois xorg-xrandr zsh)
-gui=(alsa-utils avahi cups cups-pdf gnome-keyring google-chrome              \
+gui=(alsa-utils avahi cups cups-pdf gimp gnome-keyring google-chrome         \
     gparted graphviz gtk3-print-backends gufw libdvdcss                      \
     libreoffice-fresh libreoffice-fresh-ja lightdm lightdm-gtk-greeter maim  \
     mate mate-extra mesa noto-fonts noto-fonts-cjk noto-fonts-emoji          \
