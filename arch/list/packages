@@ -1,7 +1,15 @@
 #!/bin/bash -e
 
+declare -A commands=(
+["default"]="$AURHELPER -S --noconfirm --needed"
+["pip3"]="sudo pip3 install"
+["npm"]="npm install -g"
+["gem"]="gem install --user-install --no-document"
+)
+
 cli=(arch-install-scripts atool bc boost clang cmake colordiff cronie ctags  \
-    docker docker-compose dmidecode docx2txt ethtool exa exfat-utils expect  \
+    docker docker-compose dmidecode docx2txt editorconfig-core-c             \
+    ethtool exa exfat-utils expect  \
     findutils fzf gettext git git-lfs git-secrets go                         \
     gvfs-smb highlight htop hub imagemagick imlib2 intel-ucode jq keychain   \
     linux-headers mercurial mlocate moreutils multitail neomutt              \
@@ -28,4 +36,6 @@ java=(jdk intellij-idea-community-edition)
 laptop=(network-manager-applet networkmanager)
 paint=(krita xf86-input-wacom)
 pip3=(icalendar arrow progressbar2 feedparser neovim virtualenv websocket-client)
+npm=(neovim)
+gem=(neovim github-pages tmuxinator)
 

@@ -655,8 +655,8 @@ which drill >/dev/null 2>&1 && alias dig='drill'
 
 which compdef 1>/dev/null 2>&1 && which pacman 1>/dev/null 2>&1 && compdef $AURHELPER=pacman
 alias a="$AURHELPER"
-alias ai="$AURHELPER --needed -S"
-alias aid="$AURHELPER --asdeps --needed -S"
+alias ai="$AURHELPER --needed --noconfirm -S"
+alias aid="$AURHELPER --asdeps --noconfirm --needed -S"
 alias ar="$AURHELPER -Rs"
 au()
 {
@@ -664,8 +664,8 @@ au()
     $AURHELPER -Qu
     echo -n "last full upgrade: "
     grep "full system upgrade" </var/log/pacman.log|tail -n 1|awk -F] '{gsub("\\[","",$1);print $1}'
-    echo -n "type enter to upgrade: "
-    read
+    #echo -n "type enter to upgrade: "
+    #read
     $AURHELPER --needed -Su --noconfirm
 }
 alias ac="$AURHELPER -Sc"

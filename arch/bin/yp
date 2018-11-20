@@ -1,9 +1,13 @@
 #!/bin/bash -e
 
 . $HOME/dotfiles/bin/dffunc
+. $HOME/dotfiles/arch/list/packages
 
 if [ $# -eq 0 ] ; then
-    echo "require argument" >&2
+    echo -en "require least one argument\nsupported: " >&2
+    grep --color=never '=(' < arch/list/packages | \
+        grep -v declare | awk -F= '{print $1}' | tr '\n' ' '
+    echo
     exit 1
 fi
 
@@ -12,25 +16,13 @@ if [ ! "$AURHELPER" ]; then
     exit 1
 fi
 
-i()
-{
-    name=$1
-    . $HOME/dotfiles/arch/list/packages
-    dfx $AURHELPER -S --noconfirm --needed $(eval echo '${'$name'[@]}')
-}
-
-p()
-{
-    name=$1
-    . $HOME/dotfiles/arch/list/packages
-    dfx sudo pip3 install $(eval echo '${'$name'[@]}')
-}
-
 while [ $# -gt 0 ]; do
-    case $1 in
-        pip*) p $1 ;;
-        *)    i $1 ;;
-    esac
+    c=$1
+    if [ "${commands[$c]}" ]; then
+        dfx ${commands[$c]} $(eval echo '${'$c'[@]}')
+    else
+        dfx ${commands[default]} $(eval echo '${'$c'[@]}')
+    fi
     shift
 done
 

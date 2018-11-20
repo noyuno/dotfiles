@@ -80,7 +80,12 @@ ipip()
 
 igem()
 {
-    dfx gem install --user-install --no-document neovim github-pages tmuxinator
+    $HOME/dotfiles/arch/bin/yp gem
+}
+
+inpm()
+{
+    $HOME/dotfiles/arch/bin/yp npm
 }
 
 itrans()
