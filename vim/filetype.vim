@@ -30,5 +30,8 @@ augroup filetypedetect
   
   autocmd BufRead,BufNewFile *.coffee setf coffee
   autocmd BufRead,BufNewFile *.csv setf csv
+
+  " Elm
+  autocmd BufRead,BufNewFile *.elm setf elm
 augroup END
 
