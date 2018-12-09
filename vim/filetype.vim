@@ -33,5 +33,8 @@ augroup filetypedetect
 
   " Elm
   autocmd BufRead,BufNewFile *.elm setf elm
+
+  " Slime
+  autocmd BufRead,BufNewFile *.slime,*.slim setf slim
 augroup END
 

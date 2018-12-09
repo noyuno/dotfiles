@@ -210,3 +210,7 @@ repo = 'editorconfig/editorconfig-vim'
 repo = 'ElmCast/elm-vim'
 on_ft = 'elm'
 
+[[plugins]]
+repo = 'slim-template/vim-slim'
+on_ft = 'slim'
+
