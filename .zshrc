@@ -34,8 +34,6 @@ setopt interactivecomments
 #setopt no_rm_star_silent # silent rm *
 
 ### Complement ###
-fpath=(~/dotfiles/zsh-completions $fpath)
-autoload -U compinit; compinit -u
 setopt auto_list
 setopt auto_menu
 setopt list_packed
@@ -173,6 +171,10 @@ linux*)
     ;;
 esac
 
+fpath=(~/dotfiles/zsh-completions $fpath)
+plugins=(_ zsh-completions)
+autoload -U compinit; compinit -u
+
 if [ ~/dotfiles/.zshrc -nt ~/.zshrc.zwc ]; then
     zcompile ~/.zshrc 
 fi 
@@ -181,12 +183,6 @@ fi
 
 # C-s
 stty stop undef &&:
-
-PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 
 #ruby
 which rbenv 1>/dev/null 2>&1 && eval "$(rbenv init -)"
