@@ -5,7 +5,7 @@
 
 if [ $# -eq 0 ] ; then
     echo -en "require least one argument\nsupported: " >&2
-    grep --color=never '=(' < arch/list/packages | \
+    grep --color=never '=(' < $HOME/dotfiles/arch/list/packages | \
         grep -v declare | awk -F= '{print $1}' | tr '\n' ' '
     echo
     exit 1

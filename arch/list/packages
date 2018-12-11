@@ -27,7 +27,9 @@ gui=(alsa-utils avahi cups cups-pdf gimp gnome-keyring google-chrome         \
     system-config-printer thunderbird thunderbird-i18n-ja ttf-inconsolata    \
     vlc xbindkeys xdg-utils                                                  \
     xf86-video-intel xorg-server xorg-xset xsane xsel xterm xvkbd)
-vmware=(fuse2 gksu gtkmm linux-headers  ncurses5-compat-libs libcanberra)
+vmware=(fuse2 gksu gtkmm linux-headers  ncurses5-compat-libs libcanberra vagrant)
+virtualbox=(virtualbox virtualbox-host-modules-arch vagrant nfs-utils)
+kvm=(qemu virt-manager ebtables dnsmasq firewalld docker-machine-driver-kvm2 minikube-bin kubectl-bin)
 tex=(texlive-langjapanese texlive-core texlive-latexextra texlive-science texlive-pictures)
 steam_nvidia=(steam nvidia lib32-nvidia-libgl nvidia-settings \
     lib32-libxtst lib32-gtk2 lib32-libpulse lib32-gdk-pixbuf2 lib32-libva \

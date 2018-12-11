@@ -4,7 +4,7 @@
 
 ipackage()
 {
-    $HOME/dotfiles/arch/bin/yp gui tex java vmware
+    $HOME/dotfiles/arch/bin/yp gui tex java
     dfx sudo archlinux-java set java-11-jdk
 }
 

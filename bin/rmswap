@@ -1,7 +1,11 @@
 #!/bin/bash -e
 
-while [ $# -gt 0 ]; do
-    command rm "$HOME/.local/share/nvim/swap/$1"
-    shift
-done
+if [ "$1" = "-a" ]; then
+    find "$HOME/.local/share/nvim/swap" -name "*.swp" | xargs rm
+else
+    while [ $# -gt 0 ]; do
+        command rm "$HOME/.local/share/nvim/swap/$1"
+        shift
+    done
+fi
 
