@@ -142,7 +142,7 @@ alias tmux='tmux -2'
 tm()
 {
     case "$(hostname)" in
-        l*)   tmuxinator start laptop ;;
+        lap*)   tmuxinator start laptop ;;
         *)    tmuxinator start main
     esac
 }
@@ -701,4 +701,10 @@ alias port='sudo netstat -luntp'
 which unar 1>/dev/null 2>&1 && alias unzip='unar'
 alias sy='sudo systemctl'
 alias dc='docker-compose'
+
+# get docker-compose container ip
+dip () {
+    docker inspect $(docker ps | grep $2 | awk '{print $1}') | \
+        jq -r '.[].NetworkSettings.Networks.'$1'_default.IPAddress'
+}
 

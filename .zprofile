@@ -16,61 +16,58 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-insertpath()
+insert()
 {
-    if [ -d "$1" ]; then
-        PATH="$1:$PATH"
-    fi
-}
-
-insertldlib()
-{
-    if [ -d "$1" ]; then
-        LD_LIBRARY_PATH="$1:$PATH"
+    n=$1
+    np=$(echo $n)
+    p=$2
+    if [ -d "$p" ]; then
+        eval $n=$p:$(eval echo '$'$np) 
     fi
 }
 
 # set PATH so it includes user's private bin if it exists
-insertpath "$HOME/bin"
-insertpath "$HOME/local/bin"
-insertpath "$HOME/.local/bin"
-insertpath "$HOME/dotfiles/bin"
+insert PATH "$HOME/bin"
+insert PATH "$HOME/local/bin"
+insert PATH "$HOME/.local/bin"
+insert PATH "$HOME/dotfiles/bin"
 if which lsb_release 1>/dev/null 2>&1; then
     case "$(lsb_release -is)" in
-        Ubuntu|Raspbian|Debian) insertpath "$HOME/dotfiles/ubuntu/bin" ;;
-        Arch*) insertpath "$HOME/dotfiles/arch/bin" ;;
+        Ubuntu|Raspbian|Debian) insert PATH "$HOME/dotfiles/ubuntu/bin" ;;
+        Arch*) insert PATH "$HOME/dotfiles/arch/bin" ;;
     esac
 else
-    insertpath "$HOME/dotfiles/arch/bin"
+    insert PATH "$HOME/dotfiles/arch/bin"
 fi
 case ${OSTYPE} in
     darwin*)
-        insertpath "$HOME/mac/bin"
-        insertpath "$HOME/nvim-osx64/bin" ;;
+        insert PATH "$HOME/mac/bin"
+        insert PATH "$HOME/nvim-osx64/bin" ;;
 esac
-insertpath "/usr/local/texlive/2015/bin/x86_64-linux"
-insertpath "$HOME/.gem/ruby/2.5.0/bin"
-insertpath "$HOME/.password-store/bin"
-insertpath "$HOME/.cargo/bin"
-insertpath "$HOME/.rbenv/bin"
-insertpath "$HOME/.fzf/bin"
-insertpath "$HOME/.npm/bin"
-insertpath "$HOME/.local/redpen/bin"
-insertpath "$HOME/.local/share/miniconda3/bin"
-insertpath "$HOME/Applications/VSCode-linux-x64/bin"
+insert PATH "/usr/local/texlive/2015/bin/x86_64-linux"
+insert PATH "$HOME/.gem/ruby/2.5.0/bin"
+insert PATH "$HOME/.gem/ruby/2.6.0/bin"
+insert PATH "$HOME/.password-store/bin"
+insert PATH "$HOME/.cargo/bin"
+insert PATH "$HOME/.rbenv/bin"
+insert PATH "$HOME/.fzf/bin"
+insert PATH "$HOME/.npm/bin"
+insert PATH "$HOME/.local/redpen/bin"
+insert PATH "$HOME/.local/share/miniconda3/bin"
+insert PATH "$HOME/Applications/VSCode-linux-x64/bin"
 if [ -d "$HOME/go" ]; then
     export GOPATH="$HOME/go"
-    insertpath "$GOPATH/bin"
+    insert PATH "$GOPATH/bin"
 fi
-insertpath "/usr/local/go/bin"
+insert PATH "/usr/local/go/bin"
 
 export MAILDIR="$HOME/Mail"
 if [ -d "$HOME/.npm" ]; then
     export NPM_PACKAGES="$HOME/.npm"
-    insertpath "$NPM_PACKAGES/bin"
+    insert PATH "$NPM_PACKAGES/bin"
 fi
 
-insertldlib "$HOME/local/lib64"
+insert LD_LIBRARY_PATH "$HOME/local/lib64"
 
 #git
 if [[ "`git --version`" =~ ^git\ version\ 2.*$ ]]; then
@@ -99,9 +96,6 @@ if [ -e "$HOME/.keychain/$(hostname)-sh" ]; then
     rm $HOME/.keychain/$(hostname)-sh
 fi
 ) 1>/dev/null 2>&1
-
-# showterm
-export SHOWTERM_SERVER='http://record.noyuno.mydns.jp'
 
 which nvim 1>/dev/null 2>&1 && export EDITOR=nvim
 export KCODE=u

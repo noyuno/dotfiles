@@ -2,4 +2,4 @@
 #*/30 * * * * bash ~/dotfiles/bin/start-offlineimap -q
 19 */6 * * * ~/dotfiles/bin/background
 1 12 * * 0 ~/dotfiles/bin/backup
-
+7 * * * * ~/dotfiles/bin/netusage

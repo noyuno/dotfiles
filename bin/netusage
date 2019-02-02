@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+d=$(uptime -p| awk -F, '{print$1}' | awk '{print$2}')
+h=$(uptime -p| awk -F, '{print$2}' | awk '{print$1}')
+up=$((d*24+h))
+
+(
+date +%Y-%m-%d\ %H:%M | tr -d '\n'
+echo -n ,$up,
+
+cat /proc/net/dev | grep enp5s0 | sed -e 's/:/ /' | awk '{printf("%.2f,%.2f\n", $2/1024/1024/1024,$10/1024/1024/1024)}'
+) >> ~/netusage
+

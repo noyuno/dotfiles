@@ -25,7 +25,7 @@ gui=(alsa-utils avahi cups cups-pdf gimp gnome-keyring google-chrome         \
     noto-fonts-extra nss-mdns                                                \
     otf-ipafont pavucontrol pulseaudio pulseaudio-alsa sane                  \
     system-config-printer thunderbird thunderbird-i18n-ja ttf-inconsolata    \
-    vlc xbindkeys xdg-utils                                                  \
+    vlc xbindkeys xdg-utils xdotool                                          \
     xf86-video-intel xorg-server xorg-xset xsane xsel xterm xvkbd)
 vmware=(fuse2 gksu gtkmm linux-headers  ncurses5-compat-libs libcanberra vagrant)
 virtualbox=(virtualbox virtualbox-host-modules-arch vagrant nfs-utils)
