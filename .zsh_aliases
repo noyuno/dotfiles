@@ -704,7 +704,8 @@ alias dc='docker-compose'
 
 # get docker-compose container ip
 dip () {
-    docker inspect $(docker ps | grep $2 | awk '{print $1}') | \
-        jq -r '.[].NetworkSettings.Networks.'$1'_default.IPAddress'
+    i=$(docker inspect $(docker ps | grep $1 | awk '{print $1}'))
+    echo "$i" | jq -r '.[].NetworkSettings.Networks.'$(basename $(pwd))'_default.IPAddress' | tr '\n' ','
+    echo "$i" | jq -cr '.[].NetworkSettings.Ports|keys[0]' | tr '\n' ' '
 }
 
