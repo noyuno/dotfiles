@@ -5,14 +5,12 @@ src=$HOME/Pictures/$srcname
 dmsrcname=dm-background.png
 dmsrc=/usr/share/pixmaps/$dmsrcname
 dest=pi:/var/www/html/data/
-pull=pi.noyuno.space/data/
+pull=s3.noyuno.space/static
 
 if [ $# -eq 0 ]; then
     wget -qO $src $pull/$srcname
 else
     case "$1" in
-    push)   scp $src $dest/$srcname ;;
-    pushdm) scp $dmsrc $dest/$dmsrcname ;;
     pulldm) sudo wget -qO $dmsrc $pull/$dmsrcname ;;
     *) echo "$1 Didn't match anything"
     esac
