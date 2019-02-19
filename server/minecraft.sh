@@ -70,11 +70,11 @@ sudo -u noyuno tar cf server.tar.gz server.bak
 sudo -u noyuno tar cf optout.tar.gz server/world server/world_nether server/world_the_end
 #opt="-p 4022 -i ~/.ssh/mcbackup"
 sudo -u noyuno scp -P 4022 -i ~/.ssh/mcbackup server.tar.gz \
-    mcbackup@pi.noyuno.space:/mnt/karen/share/backup/k/minecraft/\$d.tar.gz
+    mcbackup@pi.noyuno.jp:/mnt/karen/share/backup/k/minecraft/\$d.tar.gz
 sudo -u noyuno mv optout.tar.gz /var/www/html/minecraft/data/optout.tar.gz
 #sudo -u noyuno rsync -a -A -z -C --delay-updates --info=progress2 -h --info=name0 \
 #    -e "ssh \$opt" \
-#    $mcdir/server.bak/ mcbackup@pi.noyuno.space:/mnt/karen/share/backup/k/minecraft/\$d/
+#    $mcdir/server.bak/ mcbackup@pi.noyuno.jp:/mnt/karen/share/backup/k/minecraft/\$d/
 
 EOF
 

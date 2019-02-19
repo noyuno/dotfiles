@@ -2,7 +2,7 @@
 
 . $HOME/dotfiles/bin/dffunc
 
-declare rootdomain=noyuno.space
+declare rootdomain=noyuno.jp
 case "$(hostname -f)" in
     k.*)
         declare host=$(hostname -f | awk -F. '{print $1}')
@@ -43,7 +43,7 @@ case "$(hostname -f)" in
 esac
 
 declare user=noyuno
-declare domain=$host.noyuno.space
+declare domain=$host.noyuno.jp
 declare rootdomain_endpoint=1
 declare gitdomain=git.$rootdomain
 declare mail=noyuno@$domain

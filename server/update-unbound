@@ -13,9 +13,9 @@ register () {
 
 logger -i -t update-unbound "updating ip address $ip to name server"
 
-register pi.noyuno.space.
-register git2.noyuno.space.
-register s.noyuno.space.
-register status.noyuno.space.
-register dir.noyuno.space.
+register pi.noyuno.jp.
+register git2.noyuno.jp.
+register s.noyuno.jp.
+register status.noyuno.jp.
+register dir.noyuno.jp.
 

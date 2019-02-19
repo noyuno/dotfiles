@@ -39,7 +39,7 @@ $CONFIG = array (
   'trusted_domains' =>-
   array (↲
     0 => 'dir.noyuno.mydns.jp',
-    1 => 'dir.noyuno.space',
+    1 => 'dir.noyuno.jp',
   ),↲
   'datadirectory' => '/mnt/karen/owncloud',
   'overwrite.cli.url' => 'http://dir.noyuno.mydns.jp',

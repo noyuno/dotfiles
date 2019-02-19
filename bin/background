@@ -5,7 +5,7 @@ src=$HOME/Pictures/$srcname
 dmsrcname=dm-background.png
 dmsrc=/usr/share/pixmaps/$dmsrcname
 dest=pi:/var/www/html/data/
-pull=s3.noyuno.space/static
+pull=s3.noyuno.jp/static
 
 if [ $# -eq 0 ]; then
     wget -qO $src $pull/$srcname

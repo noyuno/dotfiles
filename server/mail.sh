@@ -49,8 +49,8 @@ smtpd_recipient_restrictions = permit_mynetworks,permit_auth_destination,permit_
 # information on enabling SSL in the smtp client.
 
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
-myhostname = pi.noyuno.space
-mydomain=noyuno.space
+myhostname = pi.noyuno.jp
+mydomain=noyuno.jp
 myorigin = $mydomain
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases

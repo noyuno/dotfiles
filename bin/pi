@@ -4,8 +4,8 @@
 
 declare user=noyuno
 declare host=pi
-declare domain=$host.noyuno.space
-declare rootdomain=noyuno.space
+declare domain=$host.noyuno.jp
+declare rootdomain=noyuno.jp
 declare gitdomain=pigit.$rootdomain
 declare netdatadomain=pistatus.$rootdomain
 declare domain2=noyuno.mydns.jp

@@ -23,6 +23,7 @@ alias fs='ls -lah --time-style=long-iso $(find . -type f) | sort -h -k5 | grep -
 # less
 alias less='less -asRix8'
 # find/grep/ag
+function find { command find "$@" -not -iwholename '*/.git/*' ; }
 alias grep='grep --color=always'
 alias grepc='find . -type f | xargs grep --color'
 alias ff='find . -type f | grep --color'
