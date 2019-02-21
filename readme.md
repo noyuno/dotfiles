@@ -9,21 +9,17 @@
 
 ## Requirements
 
-- Arch Linux or Ubuntu 17.10 based distribution
+- Arch Linux
 - `sudo`
 - `bash`
 - `git`
-- This repo (Please change owner by `dfchuri` (hosting URI, user name and so on))
 
 ## Using this repository
 
 1. Fork
 2. `git clone https://github.com/user/dotfiles.git ~/dotfiles`
 3. `git remote set-url origin <your-url>`
-4. `dfchuri`
-5. `git add . && git commit -m Update && git push origin master`
-6. [run install/deploy commands](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md#commands)
-7. As you like
+4. [run install/deploy commands](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md#commands)
 
 ## Distributions
 
@@ -93,24 +89,21 @@
 - `note`: Take a note.
 - `now` : Show current time.
 - `panview`: View as HTML using Pandoc.
-- [`pi`](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md): Raspberry Pi 3 command.
 - [`printout`](https://noyuno.github.io/2017-05-15-printout): Print out plain text from file or stdin.
 - `pull`: Pull under all $HOME repository.
 - [`repo`](https://noyuno.github.io/2017-06-25-repo): Synchronize my repositories.
 - [`rinit`](https://noyuno.github.io/2018-05-24-latex): Initialize report directory.
-- [`rmdocker`](https://noyuno.github.io/2017-10-29-docker): Remove unnamed containers and images.
 - `rmswap`: Remove Vim/Neovim swap file using zsh completion candidates.
 - `start-offlineimap`: Start `offlineimap` daemon.
 - `today`: Today's word and its meaning.
 - `unicode`: Show unicode name.
-- `upgrade`: Upgrade installed apt packages.
 - `weather`: Show weather forecast.
 
 ## Screenshot
 
 ![fig](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)
 
-    tmain (tmuxinator)
+    tm (tmuxinator)
 
 upper row: `anime`，middle row: `ical`，lower row left: `jma`, lower row right: `weather`
 

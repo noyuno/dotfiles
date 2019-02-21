@@ -4,7 +4,6 @@
 
 - [Home (English)](https://github.com/noyuno/dotfiles/blob/master/readme.md)
 - [Home (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
-- [Arch Linux (日本語)](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md)
 
 ## Commands
 
@@ -43,12 +42,8 @@ Depending items have to put before install item.
 
 ## Extra configuration tool
 
-- `dfchuri`: Change dotfiles' owner (hosting URI, user name and so on).
-- `dfdocker`: dotfiles docker tool.
 - `dfdoctor`: Packages and deployments checker.
-- `dffunc`: Base function.
 - `dfpassword`: Set up RSA and GPG keys.
-- `dfreadme-bin`: Print not discribed command in `readme.md`.
 
 ## Figures
 

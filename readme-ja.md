@@ -8,22 +8,18 @@
 
 ## 要件
 
-- Arch Linux または Ubuntuベースのディストリビューション
+- Arch Linux
 - `apt`
 - `sudo`
 - `bash`
 - `git`または `curl`，`wget`
-- このリポジトリ（`dfchuri`で所有者（ホスティングURI，ユーザ名など）を変更してから使ってください）
 
 ## 使う
 
 1. フォーク
 2. `git clone https://github.com/user/dotfiles.git ~/dotfiles`
 3. `git remote set-url origin <your-url>`
-4. `dfchuri`
-5. `git add . && git commit -m Update && git push origin master`
-6. [インストール/展開コマンドを実行する](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md#コマンド)
-7. お好きに
+4. [インストール/展開コマンドを実行する](https://github.com/noyuno/dotfiles/blob/master/readme-arch-ja.md#コマンド)
 
 ## ディストリビューション
 
@@ -92,17 +88,14 @@
 - `note`: メモを取る.
 - `now` : 現在時刻を表示する.
 - `panview`: Pandocを用いてHTMLとして閲覧する.
-- `pi`: Raspberry Pi 3用の設定および環境構築コマンド.
 - [`printout`](https://noyuno.github.io/blog/2017-05-15-printout): ファイルまたは標準入力からの平文テキストを印刷する.
 - `pull`: ホームディレクトリ下のリポジトリをpullする.
 - [`repo`](https://noyuno.github.io/blog/2017-06-25-repo): 自分のリポジトリを更新する.
 - `rinit`: レポート作成用ディレクトリを作成する.
-- `rmdocker`: 名前がつけられていないdockerイメージおよびコンテナを削除する.
 - `rmswap`: Vim/Neovim スワップファイルをZsh補完候補から選択して削除する.
 - `start-offlineimap`: `offlineimap`デーモンを開始する.
 - `today`: 今日の単語とその意味.
 - `unicode`: ユニコード名を表示する.
-- `upgrade`: インストールされたAPTパッケージを更新する.
 - `weather`: 天気予報を表示する.
 
 ## スクリーンショット

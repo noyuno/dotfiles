@@ -41,6 +41,11 @@ This document describes my common Zsh aliases, functions.
 - `lock`: Lock screen.
 - `susp`: Suspend system.
 
+## Docker
+
+- `dc`: docker-compose
+- `rmdocker`: Remove unlabeled docker images
+
 ## Figure
 
 ![tmain](https://raw.githubusercontent.com/noyuno/dotfiles/master/fig/fig.png)
