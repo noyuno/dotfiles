@@ -25,8 +25,10 @@ EOF
 
 init() {
     git clone git@github.com:noyuno/blog.git $HOME/blog
-    git clone git@github.com:noyuno/noyuno.github.io.git $HOME/blog/_site
     pushd $HOME/blog >/dev/null
+        git submodule init
+        git submodule update
+        git submodule foreach git pull origin master
         if which bundle >/dev/null 2>&1 ; then
             gem install bundle
         fi
@@ -59,16 +61,11 @@ new() {
 
 push() {
     pushd $HOME/blog >/dev/null
-        echo -n "blog: "
-        git add .
-        git commit -q -m 'Update article' &&:
-        git push -q origin master &&:
-        echo "ok"
         echo -n "noyuno.github.io: "
         pushd _site >/dev/null
             git clean -fdxq
             git checkout .
-            git pull -q
+            git pull -q origin master
         popd >/dev/null
         bundle exec jekyll build -q
         pushd _site >/dev/null
@@ -76,8 +73,13 @@ push() {
             git commit -q -m 'Update article'
             git push -q origin master
         popd >/dev/null
+        echo "ok"
+        echo -n "blog: "
+        git add .
+        git commit -q -m 'Update article' &&:
+        git push -q origin master &&:
+        echo ok
     popd >/dev/null
-    echo ok
 }
 
 compress () {

@@ -164,7 +164,7 @@ fi
 
 gpush()
 {
-    [ -z "$@" ] && text="Update" || text="$@"
+    [ -z "$*" ] && text="Update" || text="$*"
     branchname=$(git branch | grep --color=no '*.*' | sed -e 's/\*\ //')
     git add . && \
     git commit -m "$text" && \
