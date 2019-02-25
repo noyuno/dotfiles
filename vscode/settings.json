@@ -14,5 +14,12 @@
     "editor.wordWrap": "on",
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
     "files.autoGuessEncoding": true,
-    "terminal.integrated.fontSize": 17
+    "terminal.integrated.fontSize": 17,
+    "python.jediEnabled": false,
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.lineHeight": 1.05,
+    "terminal.integrated.commandToSkipShell": [],
+    "editor.cursorWidth": 2,
+    "editor.formatOnType": true,
+    "vsicons.dontShowNewVersionMessage": true
 }
