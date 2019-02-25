@@ -1,6 +1,6 @@
 {
     "editor.fontFamily": "Inconsolata, 'Noto Sans Mono CJK JP'",
-    "editor.fontSize": 16,
+    "editor.fontSize": 17,
     "workbench.iconTheme": "eq-material-theme-icons-ocean",
     "gitlens.advanced.messages": {
         "suppressShowKeyBindingsNotice": true
@@ -13,5 +13,6 @@
     "window.title": "${activeEditorLong}",
     "editor.wordWrap": "on",
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-    "files.autoGuessEncoding":true
+    "files.autoGuessEncoding": true,
+    "terminal.integrated.fontSize": 17
 }

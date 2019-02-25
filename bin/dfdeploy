@@ -25,7 +25,7 @@ cdf()
         if [ ! "$2" ]; then
             dest="$HOME/$1"
         else
-            dest="$HOME/$2"
+            dest="$HOME/${@:2}"
         fi
         if [ ! -d "$(dirname $dest)" ]; then
             dfx mkdir -p "$(dirname $dest)"
@@ -41,25 +41,27 @@ cdf()
 
 xmv()
 {
-    if [ "$1" = "" -o "$2" = "" ]; then
+    src="$1"
+    dest="${@:2}"
+    if [ "$src" = "" -o "$dest" = "" ]; then
         dfout2 'xmv: arguments missing'
     fi
-    if [ ! -d "$2" ] ; then
-        dfx mkdir -p "$HOME/$2"
+    if [ ! -d "$dest" ] ; then
+        dfx mkdir -p "$HOME/$dest"
     fi
-    if [ "$1" -a "$2" -a -d "$HOME/$1" ]; then
-        if [ -d "$2" ]; then
+    if [ "$src" -a "$dest" -a -d "$HOME/$src" ]; then
+        if [ -d "$dest" ]; then
             : #dfx cp -Rvn "$HOME/$1" "$HOME/$2_$DFTIME" '&&:'
         else
-            dfx cp -Rvn "$HOME/$1" "$HOME/$2" '&&:'
+            dfx cp -Rvn "$HOME/$src" "$HOME/$dest" '&&:'
         fi
-        dfx rm -rf "$HOME/$1" '&&:'
+        dfx rm -rf "$HOME/$src" '&&:'
     fi
 }
 
 grep "$HOME/dotfiles/list/deploy" -v -e '^#' -e '^$' > "$DFTMP/data"
 while read i; do
-    cdf "$(echo $i | awk '{print $1}')" "$(echo $i | awk '{print $2}')"
+    cdf "$(echo $i | awk '{print $1}')" "$(echo $i | cut -d ' ' -f 2-)"
 done < "$DFTMP/data"
 
 vboxln()

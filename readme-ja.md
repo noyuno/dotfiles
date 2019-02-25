@@ -46,14 +46,11 @@
 | アプリケーション | カラースキーム | ステータスライン | 実行 | 入力メソッド | 推奨 |
 |:-------------:|:-----------:|:----------:|:----:|:----------:|:-----------:|
 | MATE-terminal | hybrid      |            | tmux | Fcitx-Mozc | v           |
-| rxvt-unicode  | hybrid      |            | tmux | Fcitx-Mozc |             |
-| UXTerm        | hybrid      |            | tmux | -          |             |
-| Vim           | hybrid      | lightline  |      |            |             |
 | Neovim        | hybrid      | lightline  |      |            | v           |
 | tmux          | Solarized   |            | Zsh  |            | v           |
 | Zsh           |             |            |      |            | v           |
-| Bash          |             |            |      |            |             |
 | Emacs (spacemacs) |             |            |      |            | v           |
+| VSCode        |             |            |      |            | v           |
 
 ## 有用なコマンド
 

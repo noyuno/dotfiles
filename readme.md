@@ -5,7 +5,6 @@
 
 - [aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
 - [日本語](https://github.com/noyuno/dotfiles/blob/master/readme-ja.md)
-- [Raspberry Pi](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md)
 
 ## Requirements
 
@@ -41,20 +40,17 @@
     - Window border:Equilux
     - Icon:MATE-Faenza-Dark
     - Pointer:MATE
-- Font: Inconsolata/Noto Sans CJK JP DemiLight
-- Typesetting: TeX Live 2017, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
+- Font: Inconsolata/Noto Sans CJK JP
+- Typesetting: TeX Live 2018, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
 | applications  | colorscheme | statusline | run  | IM         | recommended |
 |:-------------:|:-----------:|:----------:|:----:|:----------:|:-----------:|
 | MATE-terminal | hybrid      |            | tmux | Fcitx-Mozc | v           |
-| rxvt-unicode  | hybrid      |            | tmux | Fcitx-Mozc |             |
-| UXTerm        | hybrid      |            | tmux | -          |             |
-| Vim           | hybrid      | lightline  |      |            |             |
 | Neovim        | hybrid      | lightline  |      |            | v           |
 | tmux          | Solarized   |            | Zsh  |            | v           |
 | Zsh           |             |            |      |            | v           |
-| Bash          |             |            |      |            |             |
 | Emacs (spacemacs) |             |            |      |            | v           |
+| VSCode        |             |            |      |            | v           |
 
 ## Useful commands
 
