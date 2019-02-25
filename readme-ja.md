@@ -4,7 +4,6 @@
 
 - [aliases](https://github.com/noyuno/dotfiles/blob/master/readme-aliases.md)
 - [English](https://github.com/noyuno/dotfiles/blob/master/readme.md)
-- [Raspberry Pi](https://github.com/noyuno/dotfiles/blob/master/raspberry-pi/readme.md)
 
 ## 要件
 
@@ -41,7 +40,7 @@
     - アイコン:MATE-Faenza-Dark
     - ポインタ:MATE
 - フォント: Inconsolata/Noto Sans CJK JP DemiLight
-- 組版: TeX Live 2015, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
+- 組版: TeX Live 2018, upLaTeX: Latexmk(pdfdvi), Markdown: Pandoc
 
 | アプリケーション | カラースキーム | ステータスライン | 実行 | 入力メソッド | 推奨 |
 |:-------------:|:-----------:|:----------:|:----:|:----------:|:-----------:|
