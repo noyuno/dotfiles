@@ -85,8 +85,3 @@ fi
 # C-s
 stty stop undef &&:
 
-PATH=/home/noyuno/go/bin:$PATH
-GOPATH=/home/noyuno/go
-
-# added by travis gem
-[ -f /home/noyuno/.travis/travis.sh ] && source /home/noyuno/.travis/travis.sh

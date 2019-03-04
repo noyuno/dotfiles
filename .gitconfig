@@ -42,6 +42,7 @@
     i = init 
     l = log -p
     r = remote
+    m = submodule
 [github]
 	user = noyuno
 [diff "pandoc"]

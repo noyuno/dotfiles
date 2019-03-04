@@ -1,21 +1,3 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
-
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
-
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
-
 insert()
 {
     n=$1
@@ -44,6 +26,7 @@ case ${OSTYPE} in
         insert PATH "$HOME/mac/bin"
         insert PATH "$HOME/nvim-osx64/bin" ;;
 esac
+insert PATH "/opt/bin"
 insert PATH "/usr/local/texlive/2015/bin/x86_64-linux"
 insert PATH "$HOME/.gem/ruby/2.5.0/bin"
 insert PATH "$HOME/.gem/ruby/2.6.0/bin"
@@ -117,4 +100,12 @@ export QT_QPA_PLATFORMTHEME='gtk2'
 
 # AUR helper command
 export AURHELPER=yay
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
 

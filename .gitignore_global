@@ -41,4 +41,5 @@ reportc.tex
 tags
 ~$*
 package-lock.json
+.vscode
 
