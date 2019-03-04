@@ -3,6 +3,7 @@
 .zsh_aliases
 .zprofile
 # bash
+.zprofile .bash_profile
 .bashrc
 .zsh_aliases .bash_aliases
 .zprofile .profile
