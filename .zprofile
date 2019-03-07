@@ -26,6 +26,7 @@ case ${OSTYPE} in
         insert PATH "$HOME/mac/bin"
         insert PATH "$HOME/nvim-osx64/bin" ;;
 esac
+insert PATH "$HOME/$(hostname)/bin"
 insert PATH "/opt/bin"
 insert PATH "/usr/local/texlive/2015/bin/x86_64-linux"
 insert PATH "$HOME/.gem/ruby/2.5.0/bin"
