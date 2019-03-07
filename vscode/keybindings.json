@@ -1,3 +1,31 @@
 // Place your key bindings in this file to overwrite the defaults
 [
+    {
+        "key": "ctrl+[Quote]",
+        "command": "workbench.action.terminal.focus"
+    },
+    {
+        "key": "ctrl+[Semicolon]",
+        "command": "workbench.action.focusFirstEditorGroup"
+    },
+    {
+        "key": "ctrl+1",
+        "command": "-workbench.action.focusFirstEditorGroup"
+    },
+    {
+        "key": "ctrl+capslock ctrl+t",
+        "command": "workbench.action.terminal.newInActiveWorkspace"
+    },
+    {
+        "key": "ctrl+capslock ctrl+w",
+        "command": "workbench.action.terminal.kill"
+    },
+    {
+        "key": "ctrl+capslock ctrl+tab",
+        "command": "workbench.action.terminal.focusNext"
+    },
+    {
+        "key": "ctrl+shift+capslock ctrl+shift+tab",
+        "command": "workbench.action.terminal.focusPrevious"
+    }
 ]
