@@ -75,9 +75,6 @@ autostart .config/autostart
 # vscode
 vscode .config/Code/User
 vscode .config/Code - OSS/User
-# cerebro
-cerebro/config.json .config/Cerebro/config.json
-cerebro/package.json .config/Cerebro/plugins/package.json
 # coreos
 .toolbox
 mimeapps.list .config/mimeapps.list
