@@ -25,5 +25,8 @@
     "editor.renderControlCharacters": true,
     "editor.renderWhitespace": "none",
     "breadcrumbs.enabled": false,
-    "keyboard.dispatch": "keyCode"
+    "keyboard.dispatch": "keyCode",
+    "terminal.integrated.shell.linux": "/usr/bin/tmux",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
 }

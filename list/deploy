@@ -20,10 +20,6 @@ vim/vimrc .vimrc
 .Xmodmap
 .Xresources
 .xprofile
-# mutt
-mutt/mutt.rc .muttrc
-# offlineimap
-mutt/.offlineimaprc .offlineimaprc  
 # emacs 
 .spacemacs
 # sc

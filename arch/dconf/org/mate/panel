@@ -1,6 +1,6 @@
 [general]
 toplevel-id-list=['top']
-history-mate-run=['pluma', 'firefox', 'vlc']
+history-mate-run=['code', 'pluma', 'firefox', 'caja', 'vlc']
 object-id-list=['menu-bar', 'notification-area', 'clock', 'object-0', 'object-2', 'object-3', 'object-1', 'object-4', 'object-5', 'object-6', 'object-7']
 
 [toplevels/top]
@@ -34,9 +34,9 @@ panel-right-stick=false
 applet-iid='ClockAppletFactory::ClockApplet'
 locked=false
 toplevel-id='top'
-position=1773
+position=163
 object-type='applet'
-panel-right-stick=false
+panel-right-stick=true
 
 [objects/clock/prefs]
 expand-locations=false
@@ -46,7 +46,7 @@ custom-format=''
 [objects/object-7]
 applet-iid='NetspeedAppletFactory::NetspeedApplet'
 toplevel-id='top'
-position=1529
+position=1570
 object-type='applet'
 panel-right-stick=false
 
@@ -70,9 +70,9 @@ object-type='menu-bar'
 applet-iid='NotificationAreaAppletFactory::NotificationArea'
 locked=false
 toplevel-id='top'
-position=1699
+position=10
 object-type='applet'
-panel-right-stick=false
+panel-right-stick=true
 
 [objects/object-0]
 applet-iid='WnckletFactory::WindowListApplet'
@@ -103,6 +103,6 @@ command='keystate'
 [objects/object-3]
 toplevel-id='top'
 action-type='shutdown'
-position=1
+position=24
 object-type='action'
 panel-right-stick=true

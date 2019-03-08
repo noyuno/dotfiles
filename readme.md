@@ -26,7 +26,7 @@
 
 - [Arch Linux (English)](https://github.com/noyuno/dotfiles/blob/master/readme-arch.md)
 
-### Windows 10 1803
+### [Deprecated] Windows 10 1803
 
 - Chocolatey
 - `windows/dfinstall.ps1`: Install applications in `windows/packages.config`

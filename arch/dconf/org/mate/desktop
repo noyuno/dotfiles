@@ -1,10 +1,11 @@
 [interface]
 font-name='Noto Sans CJK JP 10'
+monospace-font-name='Noto Sans Mono CJK JP 10'
 document-font-name='Noto Sans CJK JP 10'
-menus-have-icons=true
+gtk-color-scheme='link_color:#b6b6ff\nvisited_link_color:#8888af'
 icon-theme='matefaenzadark'
 gtk-theme='Equilux'
-monospace-font-name='Noto Sans Mono CJK JP 10'
+menus-have-icons=true
 
 [keybindings/custom0]
 action='google-chrome-stable'
@@ -18,7 +19,7 @@ name='krita'
 
 [keybindings/custom2]
 action='screenshot -d'
-binding='Print'
+binding='disabled'
 name='take an screenshot'
 
 [keybindings/custom3]
@@ -28,13 +29,18 @@ name='take an region screenshot'
 
 [keybindings/custom4]
 action='screenshot -a'
-binding='<Primary>Print'
+binding='Print'
 name='take an window screenshot'
 
 [keybindings/custom5]
 action='caja .'
 binding='<Mod4>e'
 name='caja'
+
+[keybindings/custom10]
+action='code'
+binding='<Mod4>v'
+name='vscode'
 
 [keybindings/custom6]
 action='emacs'
@@ -61,7 +67,7 @@ exec='mate-terminal'
 
 [session]
 idle-delay=120
-session-start=1528952751
+session-start=1551830552
 
 [peripherals/touchpad]
 natural-scroll=true
@@ -117,11 +123,12 @@ slowkeys-enable=false
 [background]
 color-shading-type='vertical-gradient'
 primary-color='rgb(88,145,188)'
-picture-options='wallpaper'
+picture-options='zoom'
 picture-filename='/home/noyuno/Pictures/background.png'
 secondary-color='rgb(60,143,37)'
 
 [font-rendering]
+rgba-order='rgb'
 antialiasing='rgba'
 dpi=96.0
 hinting='medium'

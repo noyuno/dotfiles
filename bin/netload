@@ -90,7 +90,7 @@ while [ $# -gt 0 ]; do
     shift
 done
 dev=`echo $* | sed "s/'//g"`
-[ ! "$dev" ] && dev=$(route | awk '/^default/ { print $8 }')
+[ ! "$dev" ] && dev=$(ip route | awk '/^default/ { print $5 }')
 [ ! "$dev" ] && \
     echo "dev is not specified, and unable to find default routing interface." 1>&2 && \
     exit 1

@@ -1,9 +1,0 @@
-#!/bin/bash -e
-
-
-args="-a -A -z -C --delay-updates --info=progress2 -h --delete --info=name0"
-pushd /mnt/linuxdata/owncloud >/dev/null
-    rsync $args pi:/var/www/owncloud/{config,data} config
-    rsync $args pi:/mnt/karen/owncloud/ data
-popd >/dev/null
-

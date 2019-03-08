@@ -1,8 +1,0 @@
-#!/bin/bash -e
-
-base=/mnt/karen/share/backup/psql
-pg_dump gitbucket     >$base/gitbucket
-pg_dump pleroma_dev   >$base/pleroma_dev
-pg_dump owncloud      >$base/owncloud
-pg_dump postgres      >$base/postgres
-
