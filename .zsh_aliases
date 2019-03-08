@@ -710,3 +710,4 @@ dip () {
     echo "$i" | jq -cr '.[].NetworkSettings.Ports|keys[0]' | tr '\n' ' '
 }
 
+alias dprune='docker system prune -fa --volumes'
