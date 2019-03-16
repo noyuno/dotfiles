@@ -91,24 +91,10 @@ if [ $gitv -ge 2 ]; then
     zstyle ':vcs_info:git:*' check-for-changes true
 fi
 
-preexec(){
-    case ${OSTYPE} in
-    linux*)
-        [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ] && bash $HOME/dotfiles/tmux/window-status.sh normal colour76
-        ;;
-    esac
-}
 precmd(){
     ret="$?"
     [ "$ret" -eq 0 ] && ret=
     vcs_info
-    case ${OSTYPE} in
-    linux*)
-        if [ "$TMUX" -a ! "$NOTMUXTABCOLOR" ]; then
-            bash $HOME/dotfiles/tmux/window-status.sh normal prompt
-            tmux refresh-client -S
-        fi
-    esac
 }
 PROMPT="[%F{green}${USER}@${HOST%%.*} %F{blue}%~%f] %(!.#.$) "
 PROMPT2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
