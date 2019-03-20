@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-base=$HOME/pass
+base=$HOME/.password-store
 
 pushd $base >/dev/null
     for i in $(find . -type d \( \
