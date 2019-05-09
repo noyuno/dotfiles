@@ -38,8 +38,7 @@ setup()
     done
     chown -R $username.$username /home/$username
     if [ ! -d /home/$username/dotfiles ]; then
-        sudo -u $username git clone git@github.com:noyuno/dotfiles.git /home/$username/dotfiles
-        echo "$username ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers
+        sudo -u $username git clone https://github.com/noyuno/dotfiles.git /home/$username/dotfiles
     fi
     echo "all ok"
 }
