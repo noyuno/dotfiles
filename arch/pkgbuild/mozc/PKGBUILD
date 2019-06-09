@@ -21,7 +21,7 @@ pkgrel=2
 arch=('x86_64')
 url="https://github.com/google/mozc"
 license=('custom')
-depends=('qt5-base' 'fcitx' 'zinnia' 'fcitx-gtk2' 'fcitx-gtk3' 'fcitx-qt4' 'fcitx-qt5')
+depends=('qt5-base' 'fcitx' 'zinnia' 'fcitx-gtk2' 'fcitx-gtk3' 'fcitx-qt5')
 optdepends=('fcitx-configtool')
 makedepends=('pkg-config' 'python2' 'curl' 'gtk2' 'mesa' 'subversion' 'ninja' 'git' 'clang')
 replaces=('mozc-fcitx')
@@ -30,13 +30,9 @@ source=(git+https://github.com/google/mozc.git#commit=${_mozc_rev}
         japanese_usage_dictionary::git+https://github.com/hiroyuki-komatsu/japanese-usage-dictionary.git#commit=${_japanese_usage_dictionary_rev}
         mozc-gyp::git+https://chromium.googlesource.com/external/gyp#commit=${_gyp_rev}
         git+https://github.com/google/protobuf.git#commit=${_protobuf_rev}
-        https://downloads.sourceforge.net/pnsft-aur/x-ken-all-${_zipcode_rel}.zip
-        https://downloads.sourceforge.net/pnsft-aur/jigyosyo-${_zipcode_rel}.zip
         https://download.fcitx-im.org/fcitx-mozc/fcitx-mozc-${_fcitx_patchver}.patch
         https://download.fcitx-im.org/fcitx-mozc/fcitx-mozc-icon.tar.gz)
 sha512sums=('SKIP'
-            'SKIP'
-            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -90,11 +86,6 @@ EOF
   # Adjust to use python2
   find . -name  \*.py        -type f -exec sed -i -e "1s|python.*$|python2|"  {} +
   find . -regex '.*\.gypi?$' -type f -exec sed -i -e "s|'python'|'python2'|g" {} +
-
-  # Generate zip code seed
-  msg "Generating zip code seed..."
-  PYTHONPATH="$PWD:$PYTHONPATH" python2 dictionary/gen_zip_code_seed.py --zip_code="${srcdir}/x-ken-all.csv" --jigyosyo="${srcdir}/JIGYOSYO.CSV" >> data/dictionary_oss/dictionary09.txt
-  msg "Done."
 
   # Copy third party deps
   cd "$srcdir"
