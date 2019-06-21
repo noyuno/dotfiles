@@ -148,7 +148,11 @@ sshstr 'bitbucket.org'
 sshstr 'git.noyuno.jp'
 
 if [ ! -d "$HOME/.emacs.d" ]; then
-    git clone --depth 1 -b master https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
+    dfx git clone --depth 1 -b master https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
+fi
+
+if [ ! -d "$HOME/.themes/Equilux" ]; then
+    dfx curl -sL s3.noyuno.jp/static/Equilux.tar.xz | tar xJf - -C "$HOME/.themes"
 fi
 
 dfout2 "Deployed dotfiles. Restart applications."
