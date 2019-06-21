@@ -1,11 +1,50 @@
+[accessibility/keyboard]
+bouncekeys-beep-reject=true
+bouncekeys-delay=300
+bouncekeys-enable=false
+enable=false
+feature-state-change-beep=false
+mousekeys-accel-time=1200
+mousekeys-enable=false
+mousekeys-init-delay=160
+mousekeys-max-speed=750
+slowkeys-beep-accept=true
+slowkeys-beep-press=true
+slowkeys-beep-reject=false
+slowkeys-delay=300
+slowkeys-enable=false
+stickykeys-enable=false
+stickykeys-latch-to-lock=true
+stickykeys-modifier-beep=true
+stickykeys-two-key-off=true
+timeout=120
+timeout-enable=false
+togglekeys-enable=false
+
+[applications/terminal]
+exec='mate-terminal'
+
+[background]
+color-shading-type='vertical-gradient'
+picture-filename=''
+picture-options='zoom'
+primary-color='rgb(88,145,188)'
+secondary-color='rgb(60,143,37)'
+
+[font-rendering]
+antialiasing='rgba'
+dpi=96.0
+hinting='medium'
+rgba-order='rgb'
+
 [interface]
-font-name='Noto Sans CJK JP 10'
-monospace-font-name='Noto Sans Mono CJK JP 10'
-document-font-name='Noto Sans CJK JP 10'
+document-font-name='Noto Sans CJK JP 11'
+font-name='Noto Sans CJK JP 11'
 gtk-color-scheme='link_color:#b6b6ff\nvisited_link_color:#8888af'
-icon-theme='matefaenzadark'
 gtk-theme='Equilux'
+icon-theme='matefaenzadark'
 menus-have-icons=true
+monospace-font-name='Noto Sans Mono CJK JP 11'
 
 [keybindings/custom0]
 action='google-chrome-stable'
@@ -16,6 +55,11 @@ name='browser'
 action='krita'
 binding='<Mod4>k'
 name='krita'
+
+[keybindings/custom10]
+action='code'
+binding='<Mod4>v'
+name='vscode'
 
 [keybindings/custom2]
 action='screenshot -d'
@@ -37,11 +81,6 @@ action='caja .'
 binding='<Mod4>e'
 name='caja'
 
-[keybindings/custom10]
-action='code'
-binding='<Mod4>v'
-name='vscode'
-
 [keybindings/custom6]
 action='emacs'
 binding='<Mod4>m'
@@ -62,73 +101,35 @@ action='mate-terminal'
 binding='<Mod4>t'
 name='mate-terminal'
 
-[applications/terminal]
-exec='mate-terminal'
-
-[session]
-idle-delay=120
-session-start=1551830552
-
-[peripherals/touchpad]
-natural-scroll=true
-disable-while-typing=true
-horizontal-two-finger-scrolling=true
-three-finger-click=0
-two-finger-click=0
-
-[peripherals/keyboard/preview]
-width=924
-height=599
-x=170
-y=107
+[peripherals/keyboard]
+numlock-state='on'
 
 [peripherals/keyboard/kbd]
 layouts=['jp']
 model='dell'
-options=['ctrl\tctrl:swapcaps', 'caps\tcaps:ctrl_modifier', 'terminate\tterminate:ctrl_alt_bksp']
+options=['caps\tcaps:ctrl_modifier', 'terminate\tterminate:ctrl_alt_bksp']
 
-[peripherals/keyboard]
-numlock-state='on'
+[peripherals/keyboard/preview]
+height=599
+width=924
+x=170
+y=107
 
 [peripherals/mouse]
 cursor-size=24
 cursor-theme='mate'
 
+[peripherals/touchpad]
+disable-while-typing=true
+horizontal-two-finger-scrolling=true
+natural-scroll=true
+three-finger-click=0
+two-finger-click=0
+
+[session]
+idle-delay=120
+session-start=1551830552
+
 [sound]
-theme-name='__no_sounds'
 event-sounds=false
-
-[accessibility/keyboard]
-slowkeys-beep-press=true
-mousekeys-accel-time=1200
-bouncekeys-beep-reject=true
-slowkeys-beep-reject=false
-togglekeys-enable=false
-enable=false
-bouncekeys-enable=false
-stickykeys-enable=false
-feature-state-change-beep=false
-slowkeys-beep-accept=true
-bouncekeys-delay=300
-mousekeys-max-speed=750
-mousekeys-enable=false
-timeout-enable=false
-slowkeys-delay=300
-stickykeys-modifier-beep=true
-stickykeys-two-key-off=true
-mousekeys-init-delay=160
-timeout=120
-slowkeys-enable=false
-
-[background]
-color-shading-type='vertical-gradient'
-primary-color='rgb(88,145,188)'
-picture-options='zoom'
-picture-filename='/home/noyuno/Pictures/background.png'
-secondary-color='rgb(60,143,37)'
-
-[font-rendering]
-rgba-order='rgb'
-antialiasing='rgba'
-dpi=96.0
-hinting='medium'
+theme-name='__no_sounds'

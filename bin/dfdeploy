@@ -157,6 +157,13 @@ if [ ! -d "$HOME/.themes/Equilux" ]; then
     curl -sL s3.noyuno.jp/static/Equilux.tar.xz | tar xJf - -C "$HOME/.themes"
 fi
 
+if [ -e "$HOME/.config/dconf" -a "$DIST" ]; then
+    find ~/dotfiles/arch/dconf -type f | while read line ; do
+        dfout3 "dconf load \$(echo $line/ | sed \"s|$HOME/dotfiles/$DIST/dconf||\") < $line"
+        dconf load $(echo $line/ | sed "s|$HOME/dotfiles/$DIST/dconf||") < $line
+    done
+fi
+
 dfout2 "Deployed dotfiles. Restart applications."
 
 finalize dfdeploy
