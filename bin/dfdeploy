@@ -153,7 +153,8 @@ fi
 
 if [ ! -d "$HOME/.themes/Equilux" ]; then
     dfx mkdir -p "$HOME/.themes"
-    dfx curl -sL s3.noyuno.jp/static/Equilux.tar.xz | tar xJf - -C "$HOME/.themes"
+    dfout3 "curl -sL s3.noyuno.jp/static/Equilux.tar.xz | tar xJf - -C \"$HOME/.themes\""
+    curl -sL s3.noyuno.jp/static/Equilux.tar.xz | tar xJf - -C "$HOME/.themes"
 fi
 
 dfout2 "Deployed dotfiles. Restart applications."
