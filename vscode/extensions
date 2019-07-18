@@ -14,12 +14,12 @@ esbenp.prettier-vscode
 goessner.mdmath
 James-Yu.latex-workshop
 mattn.Lisp
+ms-azuretools.vscode-docker
+MS-CEINTL.vscode-language-pack-ja
 ms-python.python
 ms-vscode.cpptools
 ms-vscode.Go
-ms-vscode.PowerShell
+ms-vscode.powershell
 msjsdiag.debugger-for-chrome
 octref.vetur
-PeterJausovec.vscode-docker
-robertohuertasm.vscode-icons
 Zignd.html-css-class-completion
