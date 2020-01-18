@@ -6,7 +6,6 @@ if [ "$TERM" = linux ]; then
     export LANG=C
 else
     [ "$TMUX" ] && export TERM=screen-256color
-    export LANG=ja_JP.UTF-8
 fi 
 
 bindkey -e
